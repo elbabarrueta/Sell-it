@@ -6,4 +6,5 @@
  *
  */
 module Sell_it {
+	requires java.desktop;
 }
