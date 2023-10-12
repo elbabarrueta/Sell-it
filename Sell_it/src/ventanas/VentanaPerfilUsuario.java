@@ -1,6 +1,7 @@
 package ventanas;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -9,8 +10,11 @@ public class VentanaPerfilUsuario extends JFrame{
 
 	private JPanel panelBotones;
 	private JPanel panelPrincipal;
+	private JPanel panelInformacion;
 	
-	public VentanaPerfilUsuario() {
+	private Usuario usuario;
+	
+	public VentanaPerfilUsuario(Usuario usuario) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
@@ -18,24 +22,37 @@ public class VentanaPerfilUsuario extends JFrame{
 		
 		panelPrincipal = new JPanel();
 		add(panelPrincipal, BorderLayout.CENTER);
-		panelPrincipal.setLayout(new GridLayout(4,1) );
+		
+		panelInformacion = new JPanel();
+		add(panelInformacion, BorderLayout.NORTH);
+		panelInformacion.setLayout(new BorderLayout() );
+		
+		JLabel labelDescrip = new JLabel("Descripcion:");
+		JTextField textoDescrip = new JTextField(50);
+		
+		JPanel panelInf = new JPanel();
+		JPanel panelInfC = new JPanel();
+		panelInfC.setLayout(new GridLayout(2,1));
 		
 		panelBotones = new JPanel();
 		add(panelBotones, BorderLayout.SOUTH);
 		
-		JTextField textoNombre = new JTextField(20);
-		JLabel labelNombre = new JLabel("Nombre:");
-		JTextField textoApellido = new JTextField(20);
-		JLabel labelApellido = new JLabel("Apellidos:");
-		JTextField textoMail = new JTextField(20);
-		JLabel labelMail = new JLabel("Direccion de correo electronico:");
+		JButton botonInformacion = new JButton("+ Informacion");
+		JButton botonValoraciones = new JButton("Valoraciones");
+		JButton botonEnVenta = new JButton("En venta"); 
 		
-		panelPrincipal.add(labelNombre);
-		panelPrincipal.add(textoNombre);
-		panelPrincipal.add(labelApellido);
-		panelPrincipal.add(textoApellido);
-		panelPrincipal.add(labelMail);
-		panelPrincipal.add(textoMail);
+		JLabel labelNombre = new JLabel(usuario.getNombreUsuario());
+		JLabel labelMail = new JLabel("Email: " + usuario.getCorreoUsuario());
+		
+		panelPrincipal.add(labelDescrip);
+		panelPrincipal.add(textoDescrip);
+		panelInformacion.add(panelInfC, BorderLayout.CENTER);
+		panelInfC.add(labelNombre);
+		panelInfC.add(labelMail);
+		panelInformacion.add(panelInf, BorderLayout.SOUTH);
+		panelInf.add(botonEnVenta);
+		panelInf.add(botonValoraciones);
+		panelInf.add(botonInformacion);
 		
 		JButton botonGuardar = new JButton("Guardar");
 		panelBotones.add(botonGuardar);
@@ -44,7 +61,9 @@ public class VentanaPerfilUsuario extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		VentanaPerfilUsuario vent = new VentanaPerfilUsuario();
+		Usuario usuarioNormal = new Usuario("Lucas Gomez Lopez", "lucas.gomez@gmail.com", "Usuario Corriente");
+		
+		VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal);
 		
 	}
 
