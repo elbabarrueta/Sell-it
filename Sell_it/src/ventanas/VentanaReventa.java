@@ -3,18 +3,18 @@ package ventanas;
 import java.awt.*;
 import javax.swing.*;
 
-public class VentanaVentaEntidad extends JFrame{
-	
-	private JTextField tfDesc = new JTextField();
-	private JTextField tfFecha = new JTextField();
+
+public class VentanaReventa extends JFrame{
+
+	private JList listEntrada = new JList();   //Lista con entradas disponibles para vender
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
-	public VentanaVentaEntidad() {
+	public VentanaReventa() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
-		setTitle("Venta Entidad");
+		setTitle("Reventa");
 		
 		//Creamos los paneles
 		JPanel pSuperior = new JPanel(new BorderLayout());
@@ -31,19 +31,15 @@ public class VentanaVentaEntidad extends JFrame{
 		pSuperior.add(bMiperfil, BorderLayout.EAST);
 		
 		//Panel Cental
-		JLabel lDesc = new JLabel("Descripción del evento");
-		pCentral.add(lDesc);
-		pCentral.add(tfDesc);
+		JLabel lEntrada = new JLabel("Seleccionar entrada");
+		pCentral.add(lEntrada);
+		pCentral.add(listEntrada);
 		
-		JLabel lFecha = new JLabel("Fecha del evento");
-		pCentral.add(lFecha);
-		pCentral.add(tfFecha);
-		
-		JLabel lCant = new JLabel("Cantidad de entradas disponibles");
+		JLabel lCant = new JLabel("Cantidad");
 		pCentral.add(lCant);
 		pCentral.add(tfCant);
 		
-		JLabel lPrecio = new JLabel("Precio por entrada");
+		JLabel lPrecio = new JLabel("Precio");
 		pCentral.add(lPrecio);
 		pCentral.add(tfPrecio);
 		
@@ -56,7 +52,8 @@ public class VentanaVentaEntidad extends JFrame{
 		
 	}
 	public static void main(String[] args) {
-		VentanaVentaEntidad v = new VentanaVentaEntidad();
+		VentanaReventa v = new VentanaReventa();
 		v.setVisible(true);
 	}
+
 }
