@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class VentanaReventa extends JFrame{
 
-	private JList listEntrada = new JList();   //Lista con entradas disponibles para vender
+	private JComboBox cbEntradas = new JComboBox();   //Lista con entradas disponibles para vender
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
@@ -30,10 +30,10 @@ public class VentanaReventa extends JFrame{
 		JButton bMiperfil = new JButton("MI PERFIL");
 		pSuperior.add(bMiperfil, BorderLayout.EAST);
 		
-		//Panel Cental
+		//Panel Central
 		JLabel lEntrada = new JLabel("Seleccionar entrada");
 		pCentral.add(lEntrada);
-		pCentral.add(listEntrada);
+		pCentral.add(cbEntradas);
 		
 		JLabel lCant = new JLabel("Cantidad");
 		pCentral.add(lCant);
