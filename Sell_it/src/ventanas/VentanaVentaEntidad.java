@@ -5,6 +5,7 @@ import javax.swing.*;
 
 public class VentanaVentaEntidad extends JFrame{
 	
+	private JTextField tfNombre = new JTextField();
 	private JTextField tfDesc = new JTextField();
 	private JTextField tfFecha = new JTextField();
 	private JTextField tfCant = new JTextField();
@@ -20,7 +21,7 @@ public class VentanaVentaEntidad extends JFrame{
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
 		
-		JPanel pCentral = new JPanel(new GridLayout(4,2));
+		JPanel pCentral = new JPanel(new GridLayout(5,2));
 		this.add(pCentral, BorderLayout.CENTER);
 		
 		JPanel pInferior = new JPanel(new BorderLayout());
@@ -31,6 +32,10 @@ public class VentanaVentaEntidad extends JFrame{
 		pSuperior.add(bMiperfil, BorderLayout.EAST);
 		
 		//Panel Cental
+		JLabel lNombre = new JLabel("Nombre del evento");
+		pCentral.add(lNombre);
+		pCentral.add(tfNombre);
+		
 		JLabel lDesc = new JLabel("Descripción del evento");
 		pCentral.add(lDesc);
 		pCentral.add(tfDesc);
