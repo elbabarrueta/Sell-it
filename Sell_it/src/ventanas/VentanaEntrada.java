@@ -3,6 +3,8 @@ package ventanas;
 import java.awt.*;
 import javax.swing.*;
 
+import clases.Entrada;
+
 public class VentanaEntrada extends JFrame{
 	
 	private JTextField tfCantidad = new JTextField(); //Se puede cambiar por un JComboBox 
