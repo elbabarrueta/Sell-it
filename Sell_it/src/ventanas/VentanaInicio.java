@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -20,11 +23,14 @@ public class VentanaInicio extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public VentanaInicio() {
+		super();
+		
+		//Características de la ventana principal
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(500,300, 400, 400);
 		this.setTitle("Sell-It");
 		
-		
+		//Ceracion de paneles 
 		JPanel panelVentanaInicio = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
@@ -43,7 +49,7 @@ public class VentanaInicio extends JFrame {
 		
 		
 		
-		
+		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
 		
 		JTextField txtUsuario = new JTextField();
 		JPasswordField txtContrasenia = new JPasswordField();
@@ -56,13 +62,17 @@ public class VentanaInicio extends JFrame {
 		
 		
 		
-		JButton botonRegistro = new JButton("Registrarse");
+		JButton botonRegistroEntidad = new JButton("Registro Entidad");
+		JButton botonRegistroUsuario = new JButton("Registro Usuario");
 		JButton botonIniciarSesion = new JButton("Iniciar Sesion");
 		
 		JLabel etiquetaBienvenido = new JLabel("Bienvenido a Sell-It");
 		
+		//Añadimos los elementos previamente creados a los paneles
+		
 		panelNorte.add(etiquetaBienvenido,BorderLayout.NORTH);
-		panelSur.add(botonRegistro);
+		panelSur.add(botonRegistroEntidad);
+		panelSur.add(botonRegistroUsuario);
 		panelSur.add(botonIniciarSesion);
 		
 		panelCentro.add(etiquetaUsuario);
@@ -70,9 +80,56 @@ public class VentanaInicio extends JFrame {
 		panelCentro.add(etiquetaContrasenia);
 		panelCentro.add(txtContrasenia);
 		
-		Dimension tamanioJTxt = new Dimension(100,20);
-		txtUsuario.setPreferredSize(tamanioJTxt);
-		txtContrasenia.setPreferredSize(tamanioJTxt);
+		//Eventos
+		
+		
+		botonRegistroUsuario.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VEntanaRegistroUsuario vEntanaRegistroUsuario = new VEntanaRegistroUsuario();
+				vEntanaRegistroUsuario.setVisible(true);
+				
+			}
+			
+		});
+		
+		botonRegistroEntidad.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				VentanaRegistroEntidad ventanaRegistroEntidad = new VentanaRegistroEntidad();
+				ventanaRegistroEntidad.setVisible(true);
+				
+			}
+			
+		});
+		
+		
+		botonIniciarSesion.addActionListener((e)->{
+			String iD = txtUsuario.getText();
+			String contrasenia = txtContrasenia.getText();
+			
+			Cliente c = Datos.buscarCliente(iD);
+			if(c == null) {
+				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+			}
+			else if(c.getContrasenia().equals(contrasenia)) {
+				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ c.get(Nombre));
+				ventanaPrincipal.setVisible(true);
+				
+				
+			}
+			
+			if()
+			
+		});
+		
+		
+		
+		
+		
 		
 	
 		
