@@ -1,7 +1,7 @@
 package clases;
 
 public class Usuario {
-
+	//Hay que cambiar los atributos
 	private String nombreUsuario;
 	private String correoUsuario;
 	private String tipoUsuario;
@@ -44,6 +44,7 @@ public class Usuario {
 		return "Usuario [nombreUsuario=" + nombreUsuario + ", correoUsuario="
 				+ correoUsuario + ", tipoUsuario=" + tipoUsuario + "]";
 	}
+	
 	
 	
 }
