@@ -16,7 +16,7 @@ public class VentanaEntrada extends JFrame{
 		setTitle("Entrada");
 		this.setLayout(new GridLayout(4,1));
 		
-		JLabel lNombre = new JLabel(e.getNombre());
+		JLabel lNombre = new JLabel(e.getCod());
 		this.add(lNombre);
 		JLabel lFecha = new JLabel(e.getFecha());
 		this.add(lFecha);
