@@ -1,4 +1,4 @@
-package ventanas;
+package clases;
 
 public class Usuario {
 
