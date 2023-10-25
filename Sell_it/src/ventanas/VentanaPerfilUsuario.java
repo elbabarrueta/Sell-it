@@ -2,6 +2,8 @@ package ventanas;
 
 import javax.swing.*;
 
+import clases.Usuario;
+
 import java.awt.*;
 import java.awt.event.*;
 
