@@ -122,7 +122,7 @@ public class VentanaInicio extends JFrame {
 				
 			}
 			
-			if()
+			
 			
 		});
 		
