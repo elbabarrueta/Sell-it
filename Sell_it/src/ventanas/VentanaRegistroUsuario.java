@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class VEntanaRegistroUsuario extends JFrame {
+public class VentanaRegistroUsuario extends JFrame {
 
 	
 	
@@ -27,7 +27,7 @@ public class VEntanaRegistroUsuario extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public  VEntanaRegistroUsuario() {
+	public  VentanaRegistroUsuario() {
 		
 		
 		this.setBounds(300,300, 400, 400);
@@ -81,9 +81,7 @@ public class VEntanaRegistroUsuario extends JFrame {
 		
 		panelCentro.add(lblContrasenia);
 		panelCentro.add(txtContrasenia);
-		
-		
-		
+	
 		//Eventos
 		
 		
@@ -118,22 +116,8 @@ public class VEntanaRegistroUsuario extends JFrame {
 			txtApellido.setText("");
 			txtContrasenia.setText("");
 		}
-		
-		
-		
-		
-		
-		
-		
-	
+
 		
 	}
-	
-	
-	
-
-	
-	
-	
 
 }

@@ -6,7 +6,7 @@ public class Entrada {
 	private String desc;
 	private String fecha;
 	private double precio;
-	private Evento evento;
+	
 	
 	//Getters y Setters
 	public String getCod() {

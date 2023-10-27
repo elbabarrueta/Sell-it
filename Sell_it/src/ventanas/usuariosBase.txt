@@ -1,0 +1,3 @@
+1	Laura Lopez	laura.lopez@gmail.com	Usuario corriente	abcABC33
+2	Miguel Diaz	mdiaz@gmail.com	Usuario corriente	mMiaz45#g
+3	Kepa Galindo	k10galindo@gmail.com	Usuario corriente	GK842aeiou

@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import clases.Usuario;
+
 public class VentanaInicio extends JFrame {
 	
 	/**
@@ -40,27 +42,17 @@ public class VentanaInicio extends JFrame {
 		panelVentanaInicio.add(panelCentro,BorderLayout.CENTER);
 		panelNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 		panelSur.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
-		
-		
+
 		
 		this.getContentPane().add(panelVentanaInicio);
-		
-		
-		
-		
+
 		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
 		
 		JTextField txtUsuario = new JTextField();
 		JPasswordField txtContrasenia = new JPasswordField();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		JLabel etiquetaContrasenia = new JLabel("Contrasenia:");
-		
-		
-		
-		
-		
-		
+
 		
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
 		JButton botonRegistroUsuario = new JButton("Registro Usuario");
@@ -87,7 +79,7 @@ public class VentanaInicio extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VEntanaRegistroUsuario vEntanaRegistroUsuario = new VEntanaRegistroUsuario();
+				VentanaRegistroUsuario vEntanaRegistroUsuario = new VentanaRegistroUsuario();
 				vEntanaRegistroUsuario.setVisible(true);
 				
 			}
@@ -105,25 +97,21 @@ public class VentanaInicio extends JFrame {
 			}
 			
 		});
-		
+
 		
 		botonIniciarSesion.addActionListener((e)->{
 			String iD = txtUsuario.getText();
 			String contrasenia = txtContrasenia.getText();
 			
-			Cliente c = Datos.buscarCliente(iD);
+			Usuario c = Datos.buscarCliente(iD);
 			if(c == null) {
 				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
 			}
-			else if(c.getContrasenia().equals(contrasenia)) {
-				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ c.get(Nombre));
-				ventanaPrincipal.setVisible(true);
-				
-				
+			else if(c.getContrasena().equals(contrasenia)) {
+				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ c.getNombreUsuario());
+				VentanaInicio.setVisible(true);
 			}
-			
-			
-			
+	
 		});
 		
 		

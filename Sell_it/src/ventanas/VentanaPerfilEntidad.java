@@ -7,7 +7,7 @@ import java.awt.event.*;
 public class VentanaPerfilEntidad {
 	
 	public VentanaPerfilEntidad() {
-        JFrame frame = new JFrame("Mi Perfil");
+        JFrame frame = new JFrame("Perfil entidad");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 

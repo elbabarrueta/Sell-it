@@ -14,12 +14,6 @@ import javax.swing.JTextField;
 
 public class VentanaRegistroEntidad extends JFrame{
 	
-
-	
-	
-	
-	
-	
 	/**
 	 * 
 	 */
@@ -113,16 +107,10 @@ public class VentanaRegistroEntidad extends JFrame{
 			
 			
 			
+		
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-	
+
 		
 	}
 		
