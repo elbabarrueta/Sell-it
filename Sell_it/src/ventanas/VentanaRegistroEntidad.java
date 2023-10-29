@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import clases.Datos;
+import clases.Ussuario;
+
 public class VentanaRegistroEntidad extends JFrame{
 	
 	/**
@@ -28,7 +31,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
-		JPanel panelCentro = new JPanel(new GridLayout(1,12));
+		JPanel panelCentro = new JPanel(new GridLayout(1,10));
 		
 		this.add(panelRegistroEntidad);
 		
@@ -62,6 +65,8 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		panelCentro.add(lblID);
 		panelCentro.add(txtID);
+		panelCentro.add(lblContrasenia);
+		panelCentro.add(txtContrasenia);
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
 		panelCentro.add(lblDireccion);
@@ -69,35 +74,35 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelCentro.add(lblCP);
 		panelCentro.add(txtCP);
 		
-		panelCentro.add(lblContrasenia);
-		panelCentro.add(txtContrasenia);
+		
 		
 		
 		//Eventos
 		
 		
-		/*btnRegistrarse.addActionListener((e)->{
+		btnRegistrarse.addActionListener((e)->{
 			
 			String iD = txtID.getText();
+			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
 			String direccion = txtDireccion.getText();
 			String codigoPostal = txtCP.getText();
-			String contrasenia = txtContrasenia.getText();
 			
-			Cliente c = new Cliente(iD,nombre,direccion,codigoPostal,contrasenia);
-			if( Datos.buscarCliente(ID)== null) {
-				Datos.aniadirCliente(c);
+			
+			Ussuario u = new Ussuario(iD,nombre,direccion,codigoPostal,contrasenia);
+			if( Datos.buscarUsuario(iD)== null) {
+				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
 				
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Usuario existente");
 			}
-			limpiarCampos();
+			//limpiarCampos();
 		});
 		
 		
-		private void limpiarCampos() {
+		/*private void limpiarCampos() {
 			
 			txtID.setText("");
 			txtNombre.setText("");

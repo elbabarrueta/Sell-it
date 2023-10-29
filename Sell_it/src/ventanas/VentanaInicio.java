@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -15,7 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import clases.Usuario;
+import clases.Datos;
+import clases.Ussuario;
 
 public class VentanaInicio extends JFrame {
 	
@@ -79,8 +81,8 @@ public class VentanaInicio extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaRegistroUsuario vEntanaRegistroUsuario = new VentanaRegistroUsuario();
-				vEntanaRegistroUsuario.setVisible(true);
+				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
+				VEntanaRegistroUsuario.setVisible(true);
 				
 			}
 			
@@ -103,13 +105,13 @@ public class VentanaInicio extends JFrame {
 			String iD = txtUsuario.getText();
 			String contrasenia = txtContrasenia.getText();
 			
-			Usuario c = Datos.buscarCliente(iD);
-			if(c == null) {
+			Ussuario u = Datos.buscarUsuario(iD);
+			if(u == null) {
 				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
 			}
-			else if(c.getContrasena().equals(contrasenia)) {
-				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ c.getNombreUsuario());
-				VentanaInicio.setVisible(true);
+			else if(u.getContrasenia().equals(contrasenia)) {
+				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ u.getNombre());
+				//VentaPrincipal.setVisible(true);
 			}
 	
 		});

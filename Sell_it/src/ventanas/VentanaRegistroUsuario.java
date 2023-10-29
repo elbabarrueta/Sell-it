@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import clases.Datos;
+import clases.Ussuario;
+
 public class VentanaRegistroUsuario extends JFrame {
 
 	
@@ -39,7 +42,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		JPanel panelRegistroUsuario = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
-		JPanel panelCentro = new JPanel(new GridLayout(1,8));
+		JPanel panelCentro = new JPanel(new GridLayout(1,10));
 		panelRegistroUsuario.add(panelCentro,BorderLayout.CENTER);
 		panelRegistroUsuario.add(panelNorte,BorderLayout.NORTH);
 		panelRegistroUsuario.add(panelSur,BorderLayout.SOUTH);
@@ -59,58 +62,67 @@ public class VentanaRegistroUsuario extends JFrame {
 		
 		JTextField txtNombre = new JTextField();
 		JTextField txtID = new JTextField();
-		JTextField txtApellido = new JTextField();
+		JTextField txtDireccion = new JTextField();
+		JTextField txtCodigoPostal = new JTextField();
 		
 		
 		
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		JLabel lblApellido = new JLabel("Apellidos:");
 		JLabel lblID = new JLabel("DNI:");
+		JLabel lblDireccion = new JLabel("Direccion:");
+		JLabel lblCodigoPostal = new JLabel("CodigoPostal:");
 		JLabel lblContrasenia = new JLabel("Contrasenia");
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
 		
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
-		panelCentro.add(lblNombre);
-		panelCentro.add(txtNombre);
-		panelCentro.add(lblApellido);
-		panelCentro.add(txtApellido);
+		
 		panelCentro.add(lblID);
 		panelCentro.add(txtID);
-		
 		panelCentro.add(lblContrasenia);
 		panelCentro.add(txtContrasenia);
+		panelCentro.add(lblNombre);
+		panelCentro.add(txtNombre);
+		panelCentro.add(lblDireccion);
+		panelCentro.add(txtDireccion);
+		panelCentro.add(lblCodigoPostal);
+		panelCentro.add(txtCodigoPostal);
+		
+		
+	
 	
 		//Eventos
 		
 		
-		/*btnRegistro.addActionListener((e)->{
+		btnRegistro.addActionListener((e)->{
 			
-			String nombre = txtNombre.getText();
-			String apellido = txtApellido.getText();
+			
 			String iD = txtID.getText();
 			String contrasenia = txtContrasenia.getText();
+			String nombre = txtNombre.getText();
+			String direccion =txtDireccion.getText();
+			String codigoPostal = txtCodigoPostal.getText();
 			
 			
 			
-			Cliente c = new Cliente(nombre,apellido,iD,contrasenia);
+			Ussuario u = new Ussuario(iD,contrasenia,nombre,direccion, codigoPostal);
 			
-			if(Datos.buscarCliente()== null) {
-				Datos.aniadirCliente(c);
+			if(Datos.buscarUsuario(iD)== null) {
+				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Usuario existente");
 			}
 			
-			limpiarCampos();
+			//limpiarCampos();
 			
 			
 		});
 		
 		
-		private void limpiarCampos() {
+		/*private void limpiarCampos() {
 			txtID.setText("");
 			txtNombre.setText("");
 			txtApellido.setText("");
