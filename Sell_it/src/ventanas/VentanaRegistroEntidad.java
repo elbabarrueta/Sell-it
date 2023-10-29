@@ -7,17 +7,15 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class VentanaRegistroEntidad extends JFrame{
-	
+import clases.Datos;
+import clases.Ussuario;
 
-	
-	
-	
-	
+public class VentanaRegistroEntidad extends JFrame{
 	
 	/**
 	 * 
@@ -37,19 +35,21 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		this.add(panelRegistroEntidad);
 		
-		JLabel lblMail = new JLabel("Correo electronico:");
+		
 		JLabel lblNombre = new JLabel("Nombre de la Empresa:");
 		JLabel lblContrasenia = new JLabel("Contrasenia:");
 		JLabel lblDireccion = new JLabel("Direccion de la sede:");
 		JLabel lblCP = new JLabel("Codigo Postal:");
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
+		JLabel lblID = new JLabel("ID de la Empresa:");
 		
-		JTextField txtMail = new JTextField();
+		JTextField txtID = new JTextField();
+	
 		JTextField txtNombre = new JTextField();
 		JTextField txtDireccion = new JTextField();
 		JTextField txtCP = new JTextField();
 		
-		JPasswordField txtPassword = new JPasswordField();
+		JPasswordField txtContrasenia = new JPasswordField();
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		
@@ -63,19 +63,59 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelNorte.add(lblPanelNorte);
 		panelSur.add(btnRegistrarse);
 		
+		panelCentro.add(lblID);
+		panelCentro.add(txtID);
+		panelCentro.add(lblContrasenia);
+		panelCentro.add(txtContrasenia);
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
 		panelCentro.add(lblDireccion);
 		panelCentro.add(txtDireccion);
 		panelCentro.add(lblCP);
 		panelCentro.add(txtCP);
-		panelCentro.add(lblMail);
-		panelCentro.add(txtMail);
-		panelCentro.add(lblContrasenia);
-		panelCentro.add(txtPassword);
 		
 		
-	
+		
+		
+		//Eventos
+		
+		
+		btnRegistrarse.addActionListener((e)->{
+			
+			String iD = txtID.getText();
+			String contrasenia = txtContrasenia.getText();
+			String nombre = txtNombre.getText();
+			String direccion = txtDireccion.getText();
+			String codigoPostal = txtCP.getText();
+			
+			
+			Ussuario u = new Ussuario(iD,nombre,direccion,codigoPostal,contrasenia);
+			if( Datos.buscarUsuario(iD)== null) {
+				Datos.aniadirUsuario(u);
+				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
+				
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Usuario existente");
+			}
+			//limpiarCampos();
+		});
+		
+		
+		/*private void limpiarCampos() {
+			
+			txtID.setText("");
+			txtNombre.setText("");
+			txtDireccion.setText("");
+			txtCP.setText("");
+			txtContrasenia.setText("");
+			
+			
+			
+		
+		}*/
+		
+
 		
 	}
 		

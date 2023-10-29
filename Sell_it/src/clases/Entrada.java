@@ -1,18 +1,19 @@
-package ventanas;
+package clases;
 
 public class Entrada {
 	//Atributos
-	private String nombre;
+	private String cod;
 	private String desc;
 	private String fecha;
 	private double precio;
 	
+	
 	//Getters y Setters
-	public String getNombre() {
-		return nombre;
+	public String getCod() {
+		return cod;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCod(String cod) {
+		this.cod = cod;
 	}
 	public String getDesc() {
 		return desc;
@@ -34,9 +35,9 @@ public class Entrada {
 	}
 	
 	//Constructores
-	public Entrada(String nombre, String desc, String fecha, double precio) {
+	public Entrada(String cod, String desc, String fecha, double precio) {
 		super();
-		this.nombre = nombre;
+		this.cod = cod;
 		this.desc = desc;
 		this.fecha = fecha;
 		this.precio = precio;
@@ -44,7 +45,7 @@ public class Entrada {
 	
 	@Override
 	public String toString() {
-		return "Entrada [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", precio=" + precio + "]";
+		return "Entrada [nombre=" + cod + ", desc=" + desc + ", fecha=" + fecha + ", precio=" + precio + "]";
 	}
 	
 }

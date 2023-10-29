@@ -20,7 +20,7 @@ public class VentanaCompra extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
-		setTitle("Compra");
+		setTitle("Compra de entrada");
 		
 		//Creamos los paneles principales
 		JPanel pCentral = new JPanel(new GridLayout(2,1));
