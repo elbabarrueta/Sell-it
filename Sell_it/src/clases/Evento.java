@@ -1,15 +1,21 @@
 package clases;
 
+import java.util.ArrayList;
+
 public class Evento {
 	//Atributos
-	private String prueba;
+	public static int codigo = 0;
 	private String nombre;
 	private String desc;
 	private String fecha;
+	private ArrayList<Entrada> entradasDisponibles;
 	private double precio;
 	private String ubicacion;
 	
 	//Getters y Setters
+	public int getCodigo() {
+		return codigo;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -21,6 +27,12 @@ public class Evento {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public ArrayList<Entrada> getEntradasDisponibles() {
+		return entradasDisponibles;
+	}
+	public void setEntradasDisponibles(ArrayList<Entrada> entradasDisponibles) {
+		this.entradasDisponibles = entradasDisponibles;
 	}
 	public String getFecha() {
 		return fecha;
@@ -42,20 +54,20 @@ public class Evento {
 	}
 	
 	//Constructores
-	public Evento(String nombre, String desc, String fecha, double precio, String ubicacion) {
+	public Evento(String nombre, String desc, String fecha, ArrayList<Entrada> entradasDisponibles, double precio, String ubicacion) {
 		super();
+		this.codigo = codigo++;
 		this.nombre = nombre;
 		this.desc = desc;
 		this.fecha = fecha;
+		this.entradasDisponibles = entradasDisponibles;
 		this.precio = precio;
 		this.ubicacion = ubicacion;
 	}
 	
 	@Override
 	public String toString() {
-		return "Evento [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", precio=" + precio
-				+ ", ubicacion=" + ubicacion + "]";
+		return "Evento [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", entradasDisponibles="
+				+ entradasDisponibles + ", precio=" + precio + ", ubicacion=" + ubicacion + "]";
 	}
-	
-	
 }
