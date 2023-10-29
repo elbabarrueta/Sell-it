@@ -76,7 +76,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		//Eventos
 		
 		
-		btnRegistrarse.addActionListener((e)->{
+		/*btnRegistrarse.addActionListener((e)->{
 			
 			String iD = txtID.getText();
 			String nombre = txtNombre.getText();
@@ -108,7 +108,7 @@ public class VentanaRegistroEntidad extends JFrame{
 			
 			
 		
-		}
+		}*/
 		
 
 		

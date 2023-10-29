@@ -85,7 +85,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		//Eventos
 		
 		
-		btnRegistro.addActionListener((e)->{
+		/*btnRegistro.addActionListener((e)->{
 			
 			String nombre = txtNombre.getText();
 			String apellido = txtApellido.getText();
@@ -118,6 +118,6 @@ public class VentanaRegistroUsuario extends JFrame {
 		}
 
 		
-	}
+	*/
 
-}
+}}
