@@ -90,7 +90,7 @@ public class VentanaInicio extends JFrame {
 		
 		//Eventos
 		
-/**		
+	
 		botonRegistroUsuario.addActionListener(new ActionListener(){
 
 			@Override
@@ -99,7 +99,7 @@ public class VentanaInicio extends JFrame {
 				VEntanaRegistroUsuario.setVisible(true);	
 			}
 		});
-**/		
+	
 		botonRegistroEntidad.addActionListener(new ActionListener() {
 
 			@Override

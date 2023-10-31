@@ -4,7 +4,7 @@ public class Entrada {
 	//Atributos
 	private String cod;
 	private String desc;
-	private String fecha;
+	private String fecha;  //
 	private double precio;
 	
 	
