@@ -90,16 +90,16 @@ public class VentanaInicio extends JFrame {
 		
 		//Eventos
 		
-/**		
+		
 		botonRegistroUsuario.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
-				VEntanaRegistroUsuario.setVisible(true);	
+				VentanaRegistroUsuario VentanaRegistroUsuario = new VentanaRegistroUsuario();
+				VentanaRegistroUsuario.setVisible(true);	
 			}
 		});
-**/		
+		
 		botonRegistroEntidad.addActionListener(new ActionListener() {
 
 			@Override
