@@ -30,7 +30,6 @@ public class VentanaInicio extends JFrame {
 
 	public VentanaInicio() {
 		super();
-		
 		//Características de la ventana principal
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(500,300, 400, 400);
@@ -91,7 +90,7 @@ public class VentanaInicio extends JFrame {
 		
 		//Eventos
 		
-		
+/**		
 		botonRegistroUsuario.addActionListener(new ActionListener(){
 
 			@Override
@@ -100,7 +99,7 @@ public class VentanaInicio extends JFrame {
 				VEntanaRegistroUsuario.setVisible(true);	
 			}
 		});
-		
+**/		
 		botonRegistroEntidad.addActionListener(new ActionListener() {
 
 			@Override
@@ -159,5 +158,10 @@ public class VentanaInicio extends JFrame {
 	    }
 	    return "Nombre de usuario no encontrado";
 	}
-
+	
+	public void cargarUsuariosInicio(DataSetUsuario dataset) {
+		this.dataSetUsuario = dataset;
+	}
+	
+	
 }

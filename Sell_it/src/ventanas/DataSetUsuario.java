@@ -24,7 +24,7 @@ public class DataSetUsuario {
 		while (lecturaFic.hasNextLine()) {
 			numLinea++;
 			String linea = lecturaFic.nextLine();
-			String[] partes = linea.split( "\t" );
+			String[] partes = linea.split( "," );
 			try {
 				String nombre = partes[0];
 				String correo = partes[1];
