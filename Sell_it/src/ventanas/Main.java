@@ -9,12 +9,13 @@ import clases.Usuario;
 public class Main {
 	
 	private static DataSetUsuario dataset;
-	
+	private static VentanaInicio ventana1;
 	public static void main(String[] args) {
-		VentanaInicio ventana1 = new VentanaInicio();
+		ventana1 = new VentanaInicio();
 		ventana1.setVisible(true);
 		cargaUsuarios();
 		ventana1.cargarUsuariosInicio(dataset);
+		
 		
 	}
 	private static void cargaUsuarios() {
@@ -34,5 +35,9 @@ public class Main {
 			System.err.println( "Error en carga de usuarios" );
 		}
 	}
+	
+	public static VentanaInicio getVentanaInicio() {
+        return ventana1;
+    }
 }
 	

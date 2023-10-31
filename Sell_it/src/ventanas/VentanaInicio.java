@@ -25,6 +25,7 @@ public class VentanaInicio extends JFrame {
 	 * 
 	 */
 	private DataSetUsuario dataSetUsuario;
+	private Usuario usuarioActual;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -110,32 +111,30 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 	
-		botonIniciarSesion.addActionListener((e)->{
-			String iD = txtUsuario.getText();
-			String contrasenia = txtContrasenia.getText();
+		botonIniciarSesion.addActionListener(new ActionListener() {
 			
-	/**		Usuario u = 
-			if(u == null) {
-				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String iD = txtUsuario.getText();
+				String contrasenia = txtContrasenia.getText();
+				
+				Usuario usuari = obtenerNombreUsuario(iD, contrasenia);
+				 if (verificarCredenciales(iD, contrasenia)) {
+				       JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + iD);
+				       		// ahora se cierra esta ventana y se abre la principal
+				       usuarioActual = usuari;
+				       dispose();
+				       VentanaPrincipal principV = new VentanaPrincipal();
+				       principV.setVisible(true);
+				        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
+				 } else {
+				       JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+				 }
 			}
-			else if(u.getContrasena().equals(contrasenia)) {
-				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ u.getNombre());
-				//VentaPrincipal.setVisible(true);
-			}
-	**/
-			
-
-// Hay una exception porq: DataSetUsuario.getUsuariosGuardados()" because "this.dataSetUsuario" is null
-			//NO ESTA TERMINADO
-			 if (verificarCredenciales(iD, contrasenia)) {
-			        JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(iD));
-			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
-			 } else {
-			        JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-			 }
 		});
-		
+	
 	}
+	
 	private boolean verificarCredenciales(String iD, String contrasenia) {
 		 List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtén la lista de usuarios cargados desde el archivo
 
@@ -147,16 +146,19 @@ public class VentanaInicio extends JFrame {
 		 return false;
 	    
 	}
+	public Usuario getUsuarioActual() {
+		return usuarioActual;
+	}
 	
-	private String obtenerNombreUsuario(String iD) {
+	public Usuario obtenerNombreUsuario(String iD, String contrasena) {
 		List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtiene la lista de usuarios
 
 	    for (Usuario usuario : usuarios) {
 	        if (usuario.getNombreUsuario().equals(iD)) {
-	            return usuario.getNombreUsuario();
+	            return usuario;
 	        }
 	    }
-	    return "Nombre de usuario no encontrado";
+	    return null;
 	}
 	
 	public void cargarUsuariosInicio(DataSetUsuario dataset) {
