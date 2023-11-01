@@ -2,9 +2,9 @@ package clases;
 
 public class Entrada {
 	//Atributos
-	private String cod;
+	private String cod; //codigo unico
 	private String desc;
-	private String fecha;  //
+	private String fecha;  
 	private double precio;
 	
 	
