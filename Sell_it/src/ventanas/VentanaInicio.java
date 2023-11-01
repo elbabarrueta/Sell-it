@@ -184,4 +184,9 @@ public class VentanaInicio extends JFrame {
 	    }
 	}
 
+	public void cargarUsuariosInicio(DataSetUsuario dataset) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
