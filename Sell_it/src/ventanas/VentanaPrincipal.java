@@ -1,13 +1,21 @@
 package ventanas;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import clases.Usuario;
 //import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends JFrame{
 
 		private JTable tablaEventos;
+		private DataSetUsuario dataSetUsuario;
+		private VentanaInicio vent;
 		
 		public VentanaPrincipal(){
 			
@@ -38,12 +46,46 @@ public class VentanaPrincipal extends JFrame{
 			
 			//this.add(lblMessi, BorderLayout.WEST);
 			
+			bPerfil.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					VentanaInicio ventanaI = Main.getVentanaInicio();
+					Usuario usuActual = ventanaI.getUsuarioActual();
+					String tipoUsu = usuActual.getTipoUsuario();
+					if("Usuario corriente".equals(tipoUsu)) {
+						dispose();
+						VentanaPerfilUsuario ventanaPerfilUsuario = new VentanaPerfilUsuario(usuActual, null);
+			            ventanaPerfilUsuario.setVisible(true);
+					}else {
+						dispose();
+			//			VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);
+			//           ventanaPerfilEntidad.setVisible(true);
+					}
+				}
+			});
+			
 			this.setBounds(400, 150, 600, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setTitle("Menu Principal");
 			this.setVisible(true);
 			
 		}
+		
+		private String obtenerTipoUsuario(String nom) {
+			List<Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
+			for(Usuario usu: usuarioT) {
+				if(usu.getNombreUsuario().equals(nom)) {
+					return usu.getTipoUsuario();
+				}
+			}
+			return JOptionPane.showInputDialog("Usuario no encontrado");	// si no esta en la lista
+		}
+		public void cargarUsuariosInicio(DataSetUsuario dataset) {
+			this.dataSetUsuario = dataset;
+		}
+		
+		
 		/*
 		private void mostrarTabla() {
 			DefaultTableModel modelo = new DefaultTableModel();

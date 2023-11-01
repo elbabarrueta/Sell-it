@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import clases.Ussuario;
 import clases.Usuario;
 
 
@@ -35,7 +36,7 @@ public class DataSetUsuario {
 		while (lecturaFic.hasNextLine()) {
 			numLinea++;
 			String linea = lecturaFic.nextLine();
-			String[] partes = linea.split( "\t" );
+			String[] partes = linea.split( "," );
 			try {
 				String nombre = partes[0];
 				String correo = partes[1];
@@ -64,5 +65,9 @@ public class DataSetUsuario {
 	
 	public final void setUsuariosGuardados(HashMap<String, Usuario> mapaUsu) { //-----nuevo
 		this.mapaUsu = mapaUsu;
+	}
+	
+	public void anyadirUsuario(Usuario u) {
+		mapaUsu.put(u.getContrasena(), u);
 	}
 }

@@ -25,14 +25,14 @@ public class VentanaRegistroEntidad extends JFrame{
 
 	public VentanaRegistroEntidad() {
 		
-		this.setBounds(600,600,300,300);
+		this.setBounds(200,400,300,300);
 		this.setTitle("Registro Entidad");
 		
 		
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
-		JPanel panelCentro = new JPanel(new GridLayout(1,10));
+		JPanel panelCentro = new JPanel(new GridLayout(5,2));
 		
 		this.add(panelRegistroEntidad);
 		
@@ -42,7 +42,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		JLabel lblDireccion = new JLabel("Direccion de la sede:");
 		JLabel lblCP = new JLabel("Codigo Postal:");
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
-		JLabel lblID = new JLabel("ID de la Empresa:");
+		JLabel lblID = new JLabel("NIF de la Empresa:");
 		
 		JTextField txtID = new JTextField();
 	
