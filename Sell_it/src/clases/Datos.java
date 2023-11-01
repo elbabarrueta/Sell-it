@@ -64,28 +64,25 @@ public class Datos {
 				if (buscarUsuario(id)==null) {
 					usuarios.add(u);
 				}
-				sc.close();
-			}}  catch (FileNotFoundException e) {
+				
+			}sc.close();}  catch (FileNotFoundException e) {
 				e.printStackTrace();
 				
 			}
 			
 		}
 	public static void guardarListaUsuariosEnLista(String nomfich) {
-		try {
-			PrintWriter pw = new PrintWriter(nomfich);
-			for(Ussuario u: usuarios) {
-				pw.println(u.getId()+";"+u.getContrasenia()+";"+u.getNombre()+";"+u.getDireccion()+";"+u.getCodigoPostal());
-			}
-			pw.flush();
-			pw.close();
-			
-		
-	}catch (FileNotFoundException e) {
-		e.printStackTrace();}
-	
-
-}}
+	    try  {
+	    	PrintWriter pw = new PrintWriter(nomfich);
+	        for (Ussuario u : usuarios) {
+	            pw.println(u.getId() + ";" + u.getContrasenia() + ";" + u.getNombre() + ";" + u.getDireccion() + ";" + u.getCodigoPostal());
+	            pw.flush();
+	            pw.close();}
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	}
+}
 	
 	
 
