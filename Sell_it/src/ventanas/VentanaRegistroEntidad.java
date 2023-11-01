@@ -41,7 +41,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		JLabel lblDireccion = new JLabel("Direccion de la sede:");
 		JLabel lblCP = new JLabel("Codigo Postal:");
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
-		JLabel lblID = new JLabel("ID de la Empresa:");
+		JLabel lblID = new JLabel("NIF de la Empresa:");
 		
 		JTextField txtID = new JTextField();
 	

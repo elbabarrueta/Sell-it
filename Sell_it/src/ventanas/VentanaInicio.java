@@ -25,6 +25,7 @@ public class VentanaInicio extends JFrame {
 	 * 
 	 */
 	private DataSetUsuario dataSetUsuario;
+	private Usuario usuarioActual;
 	
 	private Usuario usuarioActual;
 	

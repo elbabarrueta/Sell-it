@@ -16,18 +16,19 @@ public class Datos {
 	private static List<Ussuario> usuarios = new ArrayList<>();
 	
 	
-	public static Ussuario buscarUsuario(String iD) {
+	public static Ussuario buscarUsuario(String id) {
 		boolean enc = false;
 		int pos = 0;
 		Ussuario u = null;
-		while(!enc&&pos<usuarios.size()) {
+		while(!enc && pos<usuarios.size()) {
 			u = usuarios.get(pos);
-			if (u.getId().equals(iD)) {
+			if(u.getId().equals(id)) {
 				enc = true;
 			}else {
 				pos++;
 			}
-		}  if (enc) {
+		}
+		if(enc) {
 			return u;
 		}else {
 			return null;
@@ -39,11 +40,9 @@ public class Datos {
 	
 	
 	public static void aniadirUsuario(Ussuario u) {
-		if (buscarUsuario(u.getId()== null)) {
-			
-			usuarios.add(u);
-		}
-		
+	    if (buscarUsuario(u.getId()) == null) {
+	        usuarios.add(u);
+	    }
 	}
 	
 	
@@ -65,28 +64,25 @@ public class Datos {
 				if (buscarUsuario(id)==null) {
 					usuarios.add(u);
 				}
-				sc.close();
-			}}  catch (FileNotFoundException e) {
+				
+			}sc.close();}  catch (FileNotFoundException e) {
 				e.printStackTrace();
 				
 			}
 			
 		}
 	public static void guardarListaUsuariosEnLista(String nomfich) {
-		try {
-			PrintWriter pw = new PrintWriter(nomfich);
-			for(Ussuario u: usuarios) {
-				pw.println(u.getId()+";"+u.getContrasenia()+";"+u.getNombre()+";"+u.getDireccion()+";"+u.getCodigoPostal());
-			}
-			pw.flush();
-			pw.close();
-			
-		
-	}catch (FileNotFoundException e) {
-		e.printStackTrace();}
-	
-
-}}
+	    try  {
+	    	PrintWriter pw = new PrintWriter(nomfich);
+	        for (Ussuario u : usuarios) {
+	            pw.println(u.getId() + ";" + u.getContrasenia() + ";" + u.getNombre() + ";" + u.getDireccion() + ";" + u.getCodigoPostal());
+	            pw.flush();
+	            pw.close();}
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	}
+}
 	
 	
 

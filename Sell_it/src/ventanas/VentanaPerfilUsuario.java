@@ -40,9 +40,9 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JPanel topPanel = new JPanel(new FlowLayout());
 	    
 	    lblFotoPerfil = new JLabel();
-        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
+        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil1.png")); // Ruta de la imagen de perfil
         lblFotoPerfil.setIcon(imagenPerfil);
-        lblFotoPerfil.setPreferredSize(new Dimension(100, 100));       
+   //     lblFotoPerfil.setPreferredSize(new Dimension(100, 100));       
 	    
 	    JLabel nameLabel = new JLabel("Nombre:");
 	    nameField = new JTextField(20);
@@ -131,42 +131,34 @@ public class VentanaPerfilUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
 	            emailField.setEditable(true);
-	            descriptionArea.setEditable(true);
-	            
-	            nameField.addFocusListener(new FocusAdapter() {
-	    	        @Override
-	    	        public void focusLost(FocusEvent e) {
-	    	            nameField.setEditable(false);
-	    	        }
-	    	    });
-
-	    	    emailField.addFocusListener(new FocusAdapter() {
-	    	        @Override
-	    	        public void focusLost(FocusEvent e) {
-	    	            emailField.setEditable(false);
-	    	        }
-	    	    });
-
-	    	    descriptionArea.addFocusListener(new FocusAdapter() {
-	    	        @Override
-	    	        public void focusLost(FocusEvent e) {
-	    	            descriptionArea.setEditable(false);
-	    	        }
-	    	    });
+	          
 			}
 		});
+	    nameField.addFocusListener(new FocusAdapter() {
+	        @Override
+	        public void focusLost(FocusEvent e) {
+	            nameField.setEditable(false);
+	        }
+	    });
+
+	    emailField.addFocusListener(new FocusAdapter() {
+	        @Override
+	        public void focusLost(FocusEvent e) {
+	            emailField.setEditable(false);
+	        }
+	    });
 	    
 	    buttonProductosCompados.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 String entrada = JOptionPane.showInputDialog(frame, "Introduce el nombre de la entrada comprada:");
-			        if (entrada != null && !entrada.isEmpty()) {
-			            entradasCompradas.add(entrada);
+		//		 String entrada = JOptionPane.showInputDialog(frame, "Introduce el nombre de la entrada comprada:");
+		//	        if (entrada != null && !entrada.isEmpty()) {
+		//	            entradasCompradas.add(entrada);
 			            // Actualizar la lista de entradas compradas antes de mostrar la nueva ventana
 			            VentanaEntradasCompradas entradasC = new VentanaEntradasCompradas(entradasCompradas);
 			            entradasC.setVisible(true);
-			        }
+		//	        }
 			}
 		});
 	    
