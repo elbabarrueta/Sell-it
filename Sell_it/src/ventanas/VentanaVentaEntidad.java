@@ -1,13 +1,21 @@
 package ventanas;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+import clases.Entrada;
+import clases.Evento;
 
 public class VentanaVentaEntidad extends JFrame{
 	
 	private JTextField tfNombre = new JTextField();
 	private JTextField tfDesc = new JTextField();
 	private JTextField tfFecha = new JTextField();
+	private JTextField tfUbicacion = new JTextField();
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
@@ -21,7 +29,7 @@ public class VentanaVentaEntidad extends JFrame{
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
 		
-		JPanel pCentral = new JPanel(new GridLayout(5,2));
+		JPanel pCentral = new JPanel(new GridLayout(6,2));
 		this.add(pCentral, BorderLayout.CENTER);
 		
 		JPanel pInferior = new JPanel(new BorderLayout());
@@ -44,6 +52,10 @@ public class VentanaVentaEntidad extends JFrame{
 		pCentral.add(lFecha);
 		pCentral.add(tfFecha);
 		
+		JLabel lUbicacion = new JLabel("Ubicación");
+		pCentral.add(lUbicacion);
+		pCentral.add(tfUbicacion);
+		
 		JLabel lCant = new JLabel("Cantidad de entradas disponibles");
 		pCentral.add(lCant);
 		pCentral.add(tfCant);
@@ -57,6 +69,39 @@ public class VentanaVentaEntidad extends JFrame{
 		pInferior.add(bSubir, BorderLayout.EAST);
 		JButton bVprincipal = new JButton("Ventana Principal");
 		pInferior.add(bVprincipal, BorderLayout.WEST);
+		
+		bMiperfil.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaPerfilEntidad vPerfilEntidad = new VentanaPerfilEntidad();
+			}
+		});
+		
+		bVprincipal.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaPrincipal vPrincipal = new VentanaPrincipal();
+			}
+		});
+		
+		bSubir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nombre = tfNombre.getText();
+				String desc = tfDesc.getText();
+				String fecha = tfFecha.getText();
+				String ubicacion = tfUbicacion.getText();
+				ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+				int cantidad = Integer.parseInt(tfCant.getText());
+				double precio = Double.parseDouble(tfPrecio.getText());
+				Evento evento = new Evento(nombre, desc, fecha, ubicacion, entradas, precio);
+
+				//System.out.println(evento);
+			}
+		});
 		
 		
 	}

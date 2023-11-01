@@ -27,7 +27,6 @@ public class VentanaInicio extends JFrame {
 	private DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	
-	private Usuario usuarioActual;
 	
 	private static final long serialVersionUID = 1L;
 

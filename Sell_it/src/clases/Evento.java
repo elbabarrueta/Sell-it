@@ -8,9 +8,10 @@ public class Evento {
 	private String nombre;
 	private String desc;
 	private String fecha;
+	private String ubicacion;
 	private ArrayList<Entrada> entradasDisponibles;
 	private double precio;
-	private String ubicacion;
+	
 	
 	//Getters y Setters
 	public int getCodigo() {
@@ -40,34 +41,35 @@ public class Evento {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public double getPrecio() {
-		return precio;
-	}
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
 	public String getUbicacion() {
 		return ubicacion;
 	}
 	public void setUbicacion(String ubicacion) {
 		this.ubicacion = ubicacion;
 	}
+	public double getPrecio() {
+		return precio;
+	}
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+	
 	
 	//Constructores
-	public Evento(String nombre, String desc, String fecha, ArrayList<Entrada> entradasDisponibles, double precio, String ubicacion) {
+	public Evento(String nombre, String desc, String fecha, String ubicacion, ArrayList<Entrada> entradasDisponibles, double precio) {
 		super();
 		this.codigo = codigo++;
 		this.nombre = nombre;
 		this.desc = desc;
 		this.fecha = fecha;
+		this.ubicacion = ubicacion;
 		this.entradasDisponibles = entradasDisponibles;
 		this.precio = precio;
-		this.ubicacion = ubicacion;
 	}
 	
 	@Override
 	public String toString() {
-		return "Evento [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", entradasDisponibles="
-				+ entradasDisponibles + ", precio=" + precio + ", ubicacion=" + ubicacion + "]";
+		return "Evento [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", ubicacion=" + ubicacion
+				+ ", entradasDisponibles=" + entradasDisponibles + ", precio=" + precio + "]";
 	}
 }
