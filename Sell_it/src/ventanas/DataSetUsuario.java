@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import clases.Ussuario;
 import clases.Usuario;
 
 public class DataSetUsuario {
@@ -44,5 +45,9 @@ public class DataSetUsuario {
 
 	public final void setUsuariosGuardados(List<Usuario> usuariosGuardados) {
 		this.usuariosGuardados = usuariosGuardados;
+	}
+	
+	public void anyadirUsuario(Usuario u) {
+		usuariosGuardados.add(u);
 	}
 }

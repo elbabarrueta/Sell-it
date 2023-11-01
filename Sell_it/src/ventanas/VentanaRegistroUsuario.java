@@ -21,7 +21,8 @@ public class VentanaRegistroUsuario extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private DataSetUsuario dataSetUsuario;
+
 	
 	public VentanaRegistroUsuario() {
 		this.setBounds(900,300,400,400);
@@ -89,6 +90,7 @@ public class VentanaRegistroUsuario extends JFrame {
 			if (Datos.buscarUsuario(id)==null) {
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
+				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
 			}else {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
 				
