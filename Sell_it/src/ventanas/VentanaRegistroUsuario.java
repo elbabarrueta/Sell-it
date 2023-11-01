@@ -52,7 +52,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		JTextField txtCodigoPostal = new JTextField();
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		JLabel lblID = new JLabel("ID:");
+		JLabel lblID = new JLabel("DNI:");
 		JLabel lblContrasenia = new JLabel("Contrasenia");
 		JLabel lblCodigoPostal = new JLabel("Codigo Postal:");
 		JLabel lblDireccion = new JLabel("Direccion:");
