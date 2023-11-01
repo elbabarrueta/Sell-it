@@ -26,8 +26,6 @@ public class VentanaPrincipal extends JFrame{
 			tablaEventos = new JTable();
 			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
 			//JTable tbl_buscar = new JTable();
-			//ImageIcon imgMessi = new ImageIcon("\"C:\\Users\\diego\\Downloads\\fotomessi.jpg\"");
-			//JLabel lblMessi = new JLabel(imgMessi);
 			
 			this.add(pnlNorte, BorderLayout.NORTH);
 			this.add(pnlSur, BorderLayout.SOUTH);

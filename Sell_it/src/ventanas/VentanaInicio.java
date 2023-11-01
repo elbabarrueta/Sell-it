@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -57,7 +58,7 @@ public class VentanaInicio extends JFrame {
 		JTextField txtUsuario = new JTextField();
 		JPasswordField txtContrasenia = new JPasswordField();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
-		JLabel etiquetaContrasenia = new JLabel("Contrasenia:");
+		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
 		
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
@@ -112,7 +113,7 @@ public class VentanaInicio extends JFrame {
 		});
 	
 		botonIniciarSesion.addActionListener((e)->{
-			String iD = txtUsuario.getText();
+			String correo = txtUsuario.getText();
 			String contrasenia = txtContrasenia.getText();
 			
 	/**		Usuario u = 
@@ -128,36 +129,59 @@ public class VentanaInicio extends JFrame {
 
 // Hay una exception porq: DataSetUsuario.getUsuariosGuardados()" because "this.dataSetUsuario" is null
 			//NO ESTA TERMINADO
-			 if (verificarCredenciales(iD, contrasenia)) {
-			        JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(iD));
+			 if (verificarCredenciales(correo, contrasenia)) {
+			        JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 			 } else {
-			        JOptionPane.showMessageDialog(null, "Usuario incorrecto");
+			        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 			 }
 		});
 		
 	}
-	private boolean verificarCredenciales(String iD, String contrasenia) {
-		 List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtén la lista de usuarios cargados desde el archivo
-
-		 for (Usuario usuario : usuarios) {
-			 if (usuario.getNombreUsuario().equals(iD) && usuario.getContrasena().equals(contrasenia)) {
-				 return true; // Las credenciales coinciden
-			 }
-		 }
-		 return false;
-	    
+	
+//	private boolean verificarCredenciales(String iD, String contrasenia) {
+//		 List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtén la lista de usuarios cargados desde el archivo
+//
+//		 for (Usuario usuario : usuarios) {
+//			 if (usuario.getNombreUsuario().equals(iD) && usuario.getContrasena().equals(contrasenia)) {
+//				 return true; // Las credenciales coinciden
+//			 }
+//		 }
+//		 return false;
+//	    
+//	}
+	
+	private boolean  verificarCredenciales (String correo, String contrasenia) {
+		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
+	            Usuario u = new Usuario();
+	            if (u.getContrasena().equals(contrasenia)) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        } else {
+	            return false;
+	        }
 	}
 	
-	private String obtenerNombreUsuario(String iD) {
-		List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtiene la lista de usuarios
-
-	    for (Usuario usuario : usuarios) {
-	        if (usuario.getNombreUsuario().equals(iD)) {
-	            return usuario.getNombreUsuario();
-	        }
+//	private String obtenerNombreUsuario(String iD) {
+//		List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtiene la lista de usuarios
+//
+//	    for (Usuario usuario : usuarios) {
+//	        if (usuario.getNombreUsuario().equals(iD)) {
+//	            return usuario.getNombreUsuario();
+//	        }
+//	    }
+//	    return "Nombre de usuario no encontrado";
+//	}
+	
+	public String obtenerNombreUsuario(String correo) {
+	    if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
+	        Usuario usuario = dataSetUsuario.getMapaUsu().get(correo);
+	        return usuario.getNombreUsuario();
+	    } else {
+	        return "Nombre de usuario no encontrado";
 	    }
-	    return "Nombre de usuario no encontrado";
 	}
 
 }
