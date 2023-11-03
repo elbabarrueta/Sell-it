@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import clases.Datos;
 import clases.Ussuario;
+import clases.Usuario;
 
 public class VentanaRegistroUsuario extends JFrame {
 
@@ -85,10 +86,12 @@ public class VentanaRegistroUsuario extends JFrame {
 			String codigoPostal = txtCodigoPostal.getText();
 			
 			Ussuario u = new Ussuario(id,contrasenia,nombre,direccion,codigoPostal);
-			
+		
 			if (Datos.buscarUsuario(id)==null) {
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
+				
+		        dispose();
 			}else {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
 				
@@ -98,19 +101,10 @@ public class VentanaRegistroUsuario extends JFrame {
 		/*Aqui ahora hay qque hacer un metodo que 
 		 * limpie de las casillas los datos al registrase
 		 */
-		
-		
-		
-		
-		
-		
-		
+	
 		
 	}
 	
-	
-	
-	
-	
+
 
 }

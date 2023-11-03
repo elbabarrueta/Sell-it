@@ -1,10 +1,20 @@
 package ventanas;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.swing.*;
+
+import clases.Usuario;
+
 
 
 public class VentanaReventa extends JFrame{
+	private Usuario usuario;
+	private List<String> entradasCompradas;
 
 	private JComboBox cbEntradas = new JComboBox();   //Lista con entradas disponibles para vender
 	private JTextField tfCant = new JTextField();

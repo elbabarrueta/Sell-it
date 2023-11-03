@@ -1,6 +1,9 @@
 package ventanas;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class VentanaVentaEntidad extends JFrame{
@@ -57,8 +60,7 @@ public class VentanaVentaEntidad extends JFrame{
 		pInferior.add(bSubir, BorderLayout.EAST);
 		JButton bVprincipal = new JButton("Ventana Principal");
 		pInferior.add(bVprincipal, BorderLayout.WEST);
-		
-		
+	
 	}
 	public static void main(String[] args) {
 		VentanaVentaEntidad v = new VentanaVentaEntidad();
