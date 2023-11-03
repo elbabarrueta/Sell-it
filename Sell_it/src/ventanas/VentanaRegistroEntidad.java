@@ -95,6 +95,8 @@ public class VentanaRegistroEntidad extends JFrame{
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
 				
+				// Cerrar la ventana actual
+		        dispose();
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Usuario existente");

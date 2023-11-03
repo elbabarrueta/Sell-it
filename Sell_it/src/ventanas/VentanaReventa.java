@@ -3,15 +3,27 @@ package ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import java.time.LocalDate;
+import java.util.List;
+>>>>>>> branch 'master' of https://github.com/elbabarrueta/Sell-it.git
 
 import javax.swing.*;
 
+<<<<<<< HEAD
 import clases.Entrada;
 import clases.Evento;
+=======
+import clases.Usuario;
+
+>>>>>>> branch 'master' of https://github.com/elbabarrueta/Sell-it.git
 
 
 public class VentanaReventa extends JFrame{
+	private Usuario usuario;
+	private List<String> entradasCompradas;
 
 	private JComboBox cbEntradas = new JComboBox();   //Lista con entradas disponibles para vender
 	private JTextField tfCant = new JTextField();

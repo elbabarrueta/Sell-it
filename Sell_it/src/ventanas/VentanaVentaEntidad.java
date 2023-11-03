@@ -3,7 +3,10 @@ package ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+>>>>>>> branch 'master' of https://github.com/elbabarrueta/Sell-it.git
 
 import javax.swing.*;
 
@@ -69,6 +72,7 @@ public class VentanaVentaEntidad extends JFrame{
 		pInferior.add(bSubir, BorderLayout.EAST);
 		JButton bVprincipal = new JButton("Ventana Principal");
 		pInferior.add(bVprincipal, BorderLayout.WEST);
+<<<<<<< HEAD
 		
 		
 		
@@ -120,6 +124,9 @@ public class VentanaVentaEntidad extends JFrame{
 		});
 		
 		
+=======
+	
+>>>>>>> branch 'master' of https://github.com/elbabarrueta/Sell-it.git
 	}
 	public static void main(String[] args) {
 		VentanaVentaEntidad v = new VentanaVentaEntidad();
