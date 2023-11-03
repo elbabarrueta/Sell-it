@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.io.IOException;
+import java.util.Map;
 
 import clases.Usuario;
 
@@ -22,9 +23,10 @@ public class Main {
 		try {
 			dataset = new DataSetUsuario( "usuariosBase.txt" );
 			System.out.println( "Cargados usuarios:" );
-			for (Usuario u : dataset.getUsuariosGuardados() ) {
-				System.out.println( "\t" + u );
-			}
+			for (Map.Entry<String, Usuario> entry : dataset.getMapaUsu().entrySet()) {
+	            Usuario usu = entry.getValue();
+	            System.out.println( "\t" + usu);
+	        }
 	/**		 
 			ventanaDatos = new Ventana( ventana );
 			ventanaDatos.setDatos( dataset );

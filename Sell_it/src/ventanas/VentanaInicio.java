@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -25,13 +26,12 @@ public class VentanaInicio extends JFrame {
 	 * 
 	 */
 	private DataSetUsuario dataSetUsuario;
-	private Usuario usuarioActual;
-	
 	
 	private static final long serialVersionUID = 1L;
 
 	public VentanaInicio() {
 		super();
+		
 		//Características de la ventana principal
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(500,300, 400, 400);
@@ -58,7 +58,7 @@ public class VentanaInicio extends JFrame {
 		JTextField txtUsuario = new JTextField();
 		JPasswordField txtContrasenia = new JPasswordField();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
-		JLabel etiquetaContrasenia = new JLabel("Contrasenia:");
+		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
 		
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
@@ -97,8 +97,8 @@ public class VentanaInicio extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaRegistroUsuario VentanaRegistroUsuario = new VentanaRegistroUsuario();
-				VentanaRegistroUsuario.setVisible(true);	
+				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
+				VEntanaRegistroUsuario.setVisible(true);	
 			}
 		});
 		
@@ -112,59 +112,81 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 	
-		botonIniciarSesion.addActionListener(new ActionListener() {
+		botonIniciarSesion.addActionListener((e)->{
+			String correo = txtUsuario.getText();
+			String contrasenia = txtContrasenia.getText();
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String iD = txtUsuario.getText();
-				String contrasenia = txtContrasenia.getText();
-				
-				Usuario usuari = obtenerNombreUsuario(iD, contrasenia);
-				 if (verificarCredenciales(iD, contrasenia)) {
-				       JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + iD);
-				       		// ahora se cierra esta ventana y se abre la principal
-				       usuarioActual = usuari;
-				       dispose();
-				       VentanaPrincipal principV = new VentanaPrincipal();
-				       principV.setVisible(true);
-				        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
-				 } else {
-				       JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-				 }
+	/**		Usuario u = 
+			if(u == null) {
+				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
 			}
-		});
-	
-	}
-	
-	private boolean verificarCredenciales(String iD, String contrasenia) {
-		 List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtén la lista de usuarios cargados desde el archivo
+			else if(u.getContrasena().equals(contrasenia)) {
+				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ u.getNombre());
+				//VentaPrincipal.setVisible(true);
+			}
+	**/
+			
 
-		 for (Usuario usuario : usuarios) {
-			 if (usuario.getNombreUsuario().equals(iD) && usuario.getContrasena().equals(contrasenia)) {
-				 return true; // Las credenciales coinciden
+// Hay una exception porq: DataSetUsuario.getUsuariosGuardados()" because "this.dataSetUsuario" is null
+			//NO ESTA TERMINADO
+			 if (verificarCredenciales(correo, contrasenia)) {
+			        JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
+			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
+			 } else {
+			        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 			 }
-		 }
-		 return false;
-	    
-	}
-	public Usuario getUsuarioActual() {
-		return usuarioActual;
+		});
+		
 	}
 	
-	public Usuario obtenerNombreUsuario(String iD, String contrasena) {
-		List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtiene la lista de usuarios
-
-	    for (Usuario usuario : usuarios) {
-	        if (usuario.getNombreUsuario().equals(iD)) {
-	            return usuario;
+//	private boolean verificarCredenciales(String iD, String contrasenia) {
+//		 List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtén la lista de usuarios cargados desde el archivo
+//
+//		 for (Usuario usuario : usuarios) {
+//			 if (usuario.getNombreUsuario().equals(iD) && usuario.getContrasena().equals(contrasenia)) {
+//				 return true; // Las credenciales coinciden
+//			 }
+//		 }
+//		 return false;
+//	    
+//	}
+	
+	private boolean  verificarCredenciales (String correo, String contrasenia) {
+		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
+	            Usuario u = new Usuario();
+	            if (u.getContrasena().equals(contrasenia)) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        } else {
+	            return false;
 	        }
+	}
+	
+//	private String obtenerNombreUsuario(String iD) {
+//		List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtiene la lista de usuarios
+//
+//	    for (Usuario usuario : usuarios) {
+//	        if (usuario.getNombreUsuario().equals(iD)) {
+//	            return usuario.getNombreUsuario();
+//	        }
+//	    }
+//	    return "Nombre de usuario no encontrado";
+//	}
+	
+	public String obtenerNombreUsuario(String correo) {
+	    if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
+	        Usuario usuario = dataSetUsuario.getMapaUsu().get(correo);
+	        return usuario.getNombreUsuario();
+	    } else {
+	        return "Nombre de usuario no encontrado";
 	    }
-	    return null;
 	}
-	
+
 	public void cargarUsuariosInicio(DataSetUsuario dataset) {
-		this.dataSetUsuario = dataset;
+		// TODO Auto-generated method stub
+		
 	}
-	
-	
+
 }

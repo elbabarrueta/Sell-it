@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -13,7 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import clases.Datos;
-import clases.Ussuario;
+import clases.Usuario;
 
 public class VentanaRegistroEntidad extends JFrame{
 	
@@ -89,7 +90,7 @@ public class VentanaRegistroEntidad extends JFrame{
 			String codigoPostal = txtCP.getText();
 			
 			
-			Ussuario u = new Ussuario(iD,nombre,direccion,codigoPostal,contrasenia);
+			Usuario u = new Usuario(iD,nombre,direccion,codigoPostal,contrasenia);
 			if( Datos.buscarUsuario(iD)== null) {
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");

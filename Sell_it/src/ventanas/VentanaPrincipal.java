@@ -3,7 +3,9 @@ package ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +36,6 @@ public class VentanaPrincipal extends JFrame{
 			tablaEventos = new JTable();
 			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
 			//JTable tbl_buscar = new JTable();
-			//ImageIcon imgMessi = new ImageIcon("\"C:\\Users\\diego\\Downloads\\fotomessi.jpg\"");
-			//JLabel lblMessi = new JLabel(imgMessi);
 			
 			this.add(pnlNorte, BorderLayout.NORTH);
 			this.add(pnlSur, BorderLayout.SOUTH);
@@ -74,15 +74,31 @@ public class VentanaPrincipal extends JFrame{
 			
 		}
 		
+//		private String obtenerTipoUsuario(String nom) {
+//			HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
+//			for(Usuario usu: usuarioT) {
+//				if(usu.getNombreUsuario().equals(nom)) {
+//					return usu.getTipoUsuario();
+//				}
+//			}
+//			return JOptionPane.showInputDialog("Usuario no encontrado");	// si no esta en la lista
+//		}
+		
 		private String obtenerTipoUsuario(String nom) {
-			List<Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
-			for(Usuario usu: usuarioT) {
-				if(usu.getNombreUsuario().equals(nom)) {
-					return usu.getTipoUsuario();
-				}
-			}
-			return JOptionPane.showInputDialog("Usuario no encontrado");	// si no esta en la lista
+		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
+		    Set<String> nombresUsuarios = usuarioT.keySet();
+
+		    for(String nombreUsuario : nombresUsuarios) {
+		        Usuario usu = usuarioT.get(nombreUsuario);
+		        if(usu.getNombreUsuario().equals(nom)) {
+		            return usu.getTipoUsuario();
+		        }
+		    }
+		    return JOptionPane.showInputDialog("Usuario no encontrado"); // si no esta en la lista
 		}
+
+		
+		
 		public void cargarUsuariosInicio(DataSetUsuario dataset) {
 			this.dataSetUsuario = dataset;
 		}
