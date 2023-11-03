@@ -109,6 +109,8 @@ public class VentanaVentaEntidad extends JFrame{
 					double precio = Double.parseDouble(precioText);			            
 					Evento evento = new Evento(nombre, desc, fecha, ubicacion, new ArrayList<Entrada>(), precio);
 					//Añadir evento
+					
+					//Crear entradas
 					JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
 				}catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Ingresa valores válidos para la cantidad y el precio", "Error", JOptionPane.ERROR_MESSAGE);

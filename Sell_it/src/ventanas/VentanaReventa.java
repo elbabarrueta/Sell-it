@@ -42,7 +42,7 @@ public class VentanaReventa extends JFrame{
 		pCentral.add(lEntrada);
 		pCentral.add(cbEntradas);
 		/**										
-		JLabel lCant = new JLabel("Cantidad");		Si podemos revender mas de una entrada a la vez
+		JLabel lCant = new JLabel("Cantidad");	Si podemos revender mas de una entrada a la vez, si no se borra
 		pCentral.add(lCant);
 		pCentral.add(tfCant);
 		**/
