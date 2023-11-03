@@ -33,7 +33,7 @@ public class VentanaPerfilUsuario extends JFrame{
 		ultimoCambioContrasena = LocalDate.now(); //para provar ahora, que sea la fecha actual
 		
 		JFrame frame = new JFrame("Perfil Usuario");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new BorderLayout());
 
 	    // Parte superior: nombre, correo y botones de información

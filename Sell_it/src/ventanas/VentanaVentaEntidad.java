@@ -70,6 +70,8 @@ public class VentanaVentaEntidad extends JFrame{
 		JButton bVprincipal = new JButton("Ventana Principal");
 		pInferior.add(bVprincipal, BorderLayout.WEST);
 		
+		
+		
 		bMiperfil.addActionListener(new ActionListener() {
 			
 			@Override
@@ -95,11 +97,23 @@ public class VentanaVentaEntidad extends JFrame{
 				String fecha = tfFecha.getText();
 				String ubicacion = tfUbicacion.getText();
 				ArrayList<Entrada> entradas = new ArrayList<Entrada>();
-				int cantidad = Integer.parseInt(tfCant.getText());
-				double precio = Double.parseDouble(tfPrecio.getText());
-				Evento evento = new Evento(nombre, desc, fecha, ubicacion, entradas, precio);
-
-				//System.out.println(evento);
+				String cantText = tfCant.getText();
+		        String precioText = tfPrecio.getText();
+				
+				if (nombre.isEmpty() || desc.isEmpty() || fecha.isEmpty() || ubicacion.isEmpty() || cantText.isEmpty() || precioText.isEmpty()) {
+		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+				try {
+					int cantidad = Integer.parseInt(cantText);
+					double precio = Double.parseDouble(precioText);			            
+					Evento evento = new Evento(nombre, desc, fecha, ubicacion, new ArrayList<Entrada>(), precio);
+					//Añadir evento
+					JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+				}catch(NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Ingresa valores válidos para la cantidad y el precio", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+								
 			}
 		});
 		
