@@ -67,7 +67,7 @@ public class VentanaReventa extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilEntidad vPerfilEntidad = new VentanaPerfilEntidad(usuario);
+				VentanaPerfilUsuario vPerfilEntidad = new VentanaPerfilUsuario(usuario, entradasCompradas);
 			}
 		});
 		

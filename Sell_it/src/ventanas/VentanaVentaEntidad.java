@@ -10,8 +10,10 @@ import javax.swing.*;
 
 import clases.Entrada;
 import clases.Evento;
+import clases.Usuario;
 
 public class VentanaVentaEntidad extends JFrame{
+	private Usuario usuario;
 	
 	private JTextField tfNombre = new JTextField();
 	private JTextField tfDesc = new JTextField();
@@ -77,7 +79,7 @@ public class VentanaVentaEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilEntidad vPerfilEntidad = new VentanaPerfilEntidad(null);
+				VentanaPerfilEntidad vPerfilEntidad = new VentanaPerfilEntidad(usuario);
 			}
 		});
 		
