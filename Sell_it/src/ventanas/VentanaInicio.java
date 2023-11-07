@@ -26,6 +26,7 @@ public class VentanaInicio extends JFrame {
 	 * 
 	 */
 	private DataSetUsuario dataSetUsuario;
+	private Usuario usuarioActual;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -130,13 +131,18 @@ public class VentanaInicio extends JFrame {
 // Hay una exception porq: DataSetUsuario.getUsuariosGuardados()" because "this.dataSetUsuario" is null
 			//NO ESTA TERMINADO
 			 if (verificarCredenciales(correo, contrasenia)) {
-			        JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
+				 usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
+			     JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 			 } else {
-			        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+			     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 			 }
 		});
 		
+	}
+	
+	public Usuario getUsuarioActual() {
+		return usuarioActual;
 	}
 	
 //	private boolean verificarCredenciales(String iD, String contrasenia) {

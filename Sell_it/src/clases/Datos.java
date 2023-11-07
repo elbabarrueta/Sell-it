@@ -13,16 +13,16 @@ import java.util.Scanner;
 public class Datos {
 	
 	
-	private static List<Ussuario> usuarios = new ArrayList<>();
+	private static List<Usuario> usuarios = new ArrayList<>();
 	
 	
-	public static Ussuario buscarUsuario(String id) {
+	public static Usuario buscarUsuario(String correo) {
 		boolean enc = false;
 		int pos = 0;
-		Ussuario u = null;
+		Usuario u = null;
 		while(!enc && pos<usuarios.size()) {
 			u = usuarios.get(pos);
-			if(u.getId().equals(id)) {
+			if(u.getCorreoUsuario().equals(correo)) {
 				enc = true;
 			}else {
 				pos++;
@@ -37,14 +37,11 @@ public class Datos {
 	
 	
 	
-	
-	
-	public static void aniadirUsuario(Ussuario u) {
-	    if (buscarUsuario(u.getId()) == null) {
+	public static void aniadirUsuario(Usuario u) {
+	    if (buscarUsuario(u.getCorreoUsuario()) == null) {
 	        usuarios.add(u);
 	    }
 	}
-	
 	
 	
 	public static void cargarFicherosUsuariosEnLista(String nomfich) {
@@ -55,13 +52,12 @@ public class Datos {
 			while(sc.hasNext()) {
 				linea = sc.nextLine();
 				String [] partes = linea.split(";");
-				String id = partes[0];
-				String contrasenia = partes[1];
-				String nombre = partes[2];
-				String direccion = partes[3];
-				String codigoPostal = partes[4];
-				Ussuario u = new Ussuario(id,contrasenia,nombre,direccion,codigoPostal);
-				if (buscarUsuario(id)==null) {
+				String nombre = partes[0];
+				String correo = partes[1];
+				String tipo = partes[2];
+				String contrasena = partes[3];
+				Usuario u = new Usuario(nombre,correo,tipo,contrasena);
+				if (buscarUsuario(correo)==null) {
 					usuarios.add(u);
 				}
 				
@@ -74,8 +70,8 @@ public class Datos {
 	public static void guardarListaUsuariosEnLista(String nomfich) {
 	    try  {
 	    	PrintWriter pw = new PrintWriter(nomfich);
-	        for (Ussuario u : usuarios) {
-	            pw.println(u.getId() + ";" + u.getContrasenia() + ";" + u.getNombre() + ";" + u.getDireccion() + ";" + u.getCodigoPostal());
+	        for (Usuario u : usuarios) {
+	            pw.println(u.getNombreUsuario() + ";" + u.getCorreoUsuario() + ";" + u.getTipoUsuario() + ";" + u.getContrasena());
 	            pw.flush();
 	            pw.close();}
 	    } catch (FileNotFoundException e) {

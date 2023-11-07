@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ public class VentanaRegistroEntidad extends JFrame{
 
 	public VentanaRegistroEntidad() {
 		
-		this.setBounds(200,400,300,300);
+		this.setBounds(300,400,400,300);
 		this.setTitle("Registro Entidad");
 		
 		
@@ -38,17 +39,20 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		
 		JLabel lblNombre = new JLabel("Nombre de la Empresa:");
-		JLabel lblContrasenia = new JLabel("Contrasenia:");
-		JLabel lblDireccion = new JLabel("Direccion de la sede:");
-		JLabel lblCP = new JLabel("Codigo Postal:");
+		JLabel lblContrasenia = new JLabel("Contraseña:");
+		JLabel lblCorreo = new JLabel("Correo de la empresa:");
+//		JLabel lblCP = new JLabel("Codigo Postal:");
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
-		JLabel lblID = new JLabel("NIF de la Empresa:");
+//		JLabel lblID = new JLabel("NIF de la Empresa:");
+		JLabel lblTipo = new JLabel("Selecciona tu tipo de usuario");
 		
-		JTextField txtID = new JTextField();
-	
+		String[] tipoUsu = {"Entidad", "Normal"};
+		JComboBox<String> comboTipo = new JComboBox<>(tipoUsu);
+		
+//		JTextField txtID = new JTextField();
 		JTextField txtNombre = new JTextField();
-		JTextField txtDireccion = new JTextField();
-		JTextField txtCP = new JTextField();
+		JTextField txtCorreo = new JTextField();
+//		JTextField txtCP = new JTextField();
 		
 		JPasswordField txtContrasenia = new JPasswordField();
 		
@@ -64,16 +68,20 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelNorte.add(lblPanelNorte);
 		panelSur.add(btnRegistrarse);
 		
-		panelCentro.add(lblID);
-		panelCentro.add(txtID);
-		panelCentro.add(lblContrasenia);
-		panelCentro.add(txtContrasenia);
+//		panelCentro.add(lblID);
+//		panelCentro.add(txtID);
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
-		panelCentro.add(lblDireccion);
-		panelCentro.add(txtDireccion);
-		panelCentro.add(lblCP);
-		panelCentro.add(txtCP);
+		panelCentro.add(lblCorreo);
+		panelCentro.add(txtCorreo);
+		panelCentro.add(lblContrasenia);
+		panelCentro.add(txtContrasenia);
+		panelCentro.add(lblTipo);
+		panelCentro.add(comboTipo);
+//		panelCentro.add(lblDireccion);
+//		panelCentro.add(txtDireccion);
+//		panelCentro.add(lblCP);
+//		panelCentro.add(txtCP);
 		
 		
 		
@@ -83,15 +91,15 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		btnRegistrarse.addActionListener((e)->{
 			
-			String iD = txtID.getText();
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
-			String direccion = txtDireccion.getText();
-			String codigoPostal = txtCP.getText();
+			String correo = txtCorreo.getText();
+//			String codigoPostal = txtCP.getText();
+			String tipo = (String) comboTipo.getSelectedItem();
 			
 			
-			Usuario u = new Usuario(iD,nombre,direccion,codigoPostal,contrasenia);
-			if( Datos.buscarUsuario(iD)== null) {
+			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
+			if( Datos.buscarUsuario(correo)== null) {
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
 				
