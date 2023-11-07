@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -97,12 +98,20 @@ public class VentanaRegistroUsuario extends JFrame {
 //			String codigoPostal = txtCodigoPostal.getText();
 			String tipo = (String) comboTipoU.getSelectedItem();
 			
+
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
 			
 			if (Datos.buscarUsuario(correo)==null) {
+
+
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
+
 				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
+
+				
+		        dispose();
+
 			}else {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
 				
@@ -112,19 +121,8 @@ public class VentanaRegistroUsuario extends JFrame {
 		/*Aqui ahora hay qque hacer un metodo que 
 		 * limpie de las casillas los datos al registrase
 		 */
-		
-		
-		
-		
-		
-		
-		
+	
 		
 	}
 	
-	
-	
-	
-	
-
 }

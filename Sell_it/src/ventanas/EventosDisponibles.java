@@ -30,8 +30,13 @@ public class EventosDisponibles {
 				int numEntradas = Integer.parseInt(partes[1]);
 				String localizacionEvento = partes[2];
 				int codigoEvento = Integer.parseInt(partes[3]);
+
 	//			Evento e = new Evento(nombreEvento, numEntradas, localizacionEvento, codigoEvento);
 	//			lEventos.add(e);
+
+				//Evento e = new Evento(nombreEvento, numEntradas, localizacionEvento, codigoEvento);
+				//lEventos.add(e);
+
 			} catch (IndexOutOfBoundsException | NumberFormatException e) {
 				System.err.println( "Error en lectura de línea " + numLinea );
 			}

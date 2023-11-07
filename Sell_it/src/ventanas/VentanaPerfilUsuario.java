@@ -20,7 +20,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	private JPanel panelInformacion;
 	private JLabel lblFotoPerfil;
 	private JTextField nameField;
-	private  JTextField emailField;
+	private JTextField emailField;
 	
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
@@ -33,16 +33,32 @@ public class VentanaPerfilUsuario extends JFrame{
 		ultimoCambioContrasena = LocalDate.now(); //para provar ahora, que sea la fecha actual
 		
 		JFrame frame = new JFrame("Perfil Usuario");
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new BorderLayout());
 
 	    // Parte superior: nombre, correo y botones de información
 	    JPanel topPanel = new JPanel(new FlowLayout());
 	    
 	    lblFotoPerfil = new JLabel();
-        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil1.png")); // Ruta de la imagen de perfil
+        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
+        
+        int maxWidth = 100; // Tamaño máximo de ancho
+        int maxHeight = 100; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = imagenPerfil.getImage();
+        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imagenPerfil = new ImageIcon(newImg);
+        
         lblFotoPerfil.setIcon(imagenPerfil);
-   //     lblFotoPerfil.setPreferredSize(new Dimension(100, 100));       
+            
 	    
 	    JLabel nameLabel = new JLabel("Nombre:");
 	    nameField = new JTextField(20);
@@ -68,7 +84,8 @@ public class VentanaPerfilUsuario extends JFrame{
 	    // Parte central: descripción del usuario
 	    JTextArea descriptionArea = new JTextArea(5, 10);
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
-	    descriptionArea.setEditable(false);
+	    descriptionArea.setEditable(true);
+	//    descriptionArea.setPreferredSize(new Dimension(200, 100));
 	    
 	    // Parte inferior: más botones
 	    JPanel bottomPanel = new JPanel();
@@ -90,7 +107,6 @@ public class VentanaPerfilUsuario extends JFrame{
 	            JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningun articulo en venta");
 	        }
 	    });
-	    
 	    
 	    buttonContrasena.addActionListener(new ActionListener() {
 			
@@ -125,29 +141,48 @@ public class VentanaPerfilUsuario extends JFrame{
 			}
 		});
 	    
+	    JButton botonGuardarCambios = new JButton("Guardar cambios");
+	    botonGuardarCambios.setVisible(false);
+	    botonGuardarCambios.setBackground(Color.gray);
+	    botonGuardarCambios.setForeground(Color.black);
+	    
 	    buttonEditar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
 	            emailField.setEditable(true);
-	          
+	         // Después de editar, habilitamos el botón "Guardar Cambios"
+	            botonGuardarCambios.setVisible(true);
 			}
 		});
-	    nameField.addFocusListener(new FocusAdapter() {
-	        @Override
-	        public void focusLost(FocusEvent e) {
-	            nameField.setEditable(false);
-	        }
-	    });
-
-	    emailField.addFocusListener(new FocusAdapter() {
-	        @Override
-	        public void focusLost(FocusEvent e) {
-	            emailField.setEditable(false);
-	        }
-	    });
 	    
+	    botonGuardarCambios.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String NomNuevo = nameField.getText();
+				String CorreoNuevo = emailField.getText();
+				usuario.setNombreUsuario(NomNuevo);
+				usuario.setCorreoUsuario(CorreoNuevo);	
+/*				
+// hacer algo asi pero con el MAPA de USUARIOS				
+				 // Buscar al usuario en la lista y actualizar sus datos
+                for (Usuario usuarioEnLista : usuariosBase) {
+                    if (usuarioEnLista.getNombreUsuario().equals(usuario.getNombreUsuario())) {
+                        usuarioEnLista.setNombreUsuario(nuevoNombre);
+                        usuarioEnLista.setCorreoUsuario(nuevoCorreo);
+                        break; // Terminar la búsqueda una vez que se haya encontrado el usuario
+                    }
+                }
+*/				
+				nameField.setEditable(false);
+				emailField.setEditable(false);
+				botonGuardarCambios.setVisible(false);
+			}
+		});
+	    bottomPanel.add(botonGuardarCambios);
+   
 	    buttonProductosCompados.addActionListener(new ActionListener() {
 			
 			@Override
