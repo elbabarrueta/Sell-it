@@ -15,6 +15,7 @@ public class Main {
 		ventana1 = new VentanaInicio();
 		ventana1.setVisible(true);
 		cargaUsuarios();
+		VentanaInicio.cargarUsuariosInicio(dataset);
 		ventana1.cargarUsuariosInicio(dataset);
 		
 		

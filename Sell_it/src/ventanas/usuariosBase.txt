@@ -1,8 +1,4 @@
 Laura Lopez,laura.lopez@gmail.com,Usuario corriente,abcABC33
 Miguel Diaz,mdiaz@gmail.com,Usuario corriente,mMiaz45#g
 Kepa Galindo,k10galindo@gmail.com,Usuario corriente,GK842aeiou
-<<<<<<< HEAD
 Discoteca Moma,moma@gmail.com,Usuario entidad,MmMon345627#
-=======
-Moma Discoteca,momaD@gmail.com,Usuario entidad,Moommbil22
->>>>>>> branch 'master' of https://github.com/elbabarrueta/Sell-it.git

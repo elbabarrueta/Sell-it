@@ -44,7 +44,7 @@ public class DataSetUsuario {
 				String contrasena = partes[3];
 				Usuario usu = new Usuario(nombre, correo, tipoUsu, contrasena );
 				//usuariosGuardados.add( usu );
-				mapaUsu.put(usuario.getCorreoUsuario(), usu); //----- aqui uso el correo como clave unica
+				mapaUsu.put(correo, usu); //----- aqui uso el correo como clave unica
 			} catch (IndexOutOfBoundsException | NumberFormatException e) {
 				System.err.println( "Error en lectura de línea " + numLinea );
 			}
@@ -69,5 +69,14 @@ public class DataSetUsuario {
 	
 	public void anyadirUsuario(Usuario u) {
 		mapaUsu.put(u.getContrasena(), u);
+	}
+	
+	public Usuario getUsuarioPorCorreo(String correo) {
+		if(mapaUsu.containsKey(correo)) {
+			return mapaUsu.get(correo);
+		}
+		else {
+			return null;
+		}
 	}
 }

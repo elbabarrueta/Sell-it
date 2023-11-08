@@ -25,7 +25,7 @@ public class VentanaInicio extends JFrame {
 	/**
 	 * 
 	 */
-	private DataSetUsuario dataSetUsuario;
+	private static DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	
 	private static final long serialVersionUID = 1L;
@@ -133,6 +133,8 @@ public class VentanaInicio extends JFrame {
 			 if (verificarCredenciales(correo, contrasenia)) {
 				 usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
 			     JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
+			     VentanaPrincipal v = new VentanaPrincipal();
+
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 			 } else {
 			     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
@@ -159,7 +161,7 @@ public class VentanaInicio extends JFrame {
 	
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
 		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
-	            Usuario u = new Usuario();
+	            Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);
 	            if (u.getContrasena().equals(contrasenia)) {
 	                return true;
 	            } else {
@@ -190,9 +192,8 @@ public class VentanaInicio extends JFrame {
 	    }
 	}
 
-	public void cargarUsuariosInicio(DataSetUsuario dataset) {
-		// TODO Auto-generated method stub
-		
+	public static void cargarUsuariosInicio(DataSetUsuario dataset) {
+		dataSetUsuario = dataset;
 	}
 
 }
