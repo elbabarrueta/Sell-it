@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import clases.Evento;
+
 public class EventosDisponibles {
 	
 	private List<Evento> lEventos = new ArrayList<Evento>();
