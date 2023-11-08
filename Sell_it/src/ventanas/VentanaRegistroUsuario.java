@@ -113,10 +113,9 @@ public class VentanaRegistroUsuario extends JFrame {
 				
 			}
 		});
+		/*mghjklkjhgfdfghjkljhgfdcxcfvgbnmm*/
 		
-		/*Aqui ahora hay qque hacer un metodo que 
-		 * limpie de las casillas los datos al registrase
-		 */
+		
 	
 		
 	}
