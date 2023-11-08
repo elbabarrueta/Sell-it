@@ -19,6 +19,11 @@ import clases.Datos;
 import clases.Usuario;
 
 public class VentanaRegistroUsuario extends JFrame {
+	
+	private JTextField txtNombre,txtCorreo;
+	private JPasswordField txtContrasenia;
+	private JComboBox comboTipoU;
+	
 
 	/**
 	 * 
@@ -48,19 +53,16 @@ public class VentanaRegistroUsuario extends JFrame {
 		JButton btnRegistro = new JButton("Registrarse");
 		panelSur.add(btnRegistro);
 		
-		JPasswordField txtContrasenia = new JPasswordField();
+		txtContrasenia = new JPasswordField();
 		
-		JTextField txtNombre = new JTextField();
-//		JTextField txtID = new JTextField();
-//		JTextField txtDireccion = new JTextField();
-//		JTextField txtCodigoPostal = new JTextField();
-		JTextField txtCorreo = new JTextField();
+		txtNombre = new JTextField();
+
+		txtCorreo = new JTextField();
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-//		JLabel lblID = new JLabel("DNI:");
+
 		JLabel lblContrasenia = new JLabel("Contrasenia");
-//		JLabel lblCodigoPostal = new JLabel("Codigo Postal:");
-//		JLabel lblDireccion = new JLabel("Direccion:");
+		
 		JLabel lblPanelNorte = new JLabel("Rellene las Casillas:");
 		JLabel lblCorreo = new JLabel("Direccion de correo:");
 		JLabel lblTipo = new JLabel("Elige tu tipo de usuario");
@@ -68,10 +70,9 @@ public class VentanaRegistroUsuario extends JFrame {
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
 		String[] tipoU = {"Usuario Normal", "Usuario Entidad"};
-        JComboBox<String> comboTipoU = new JComboBox<>(tipoU);
+        comboTipoU = new JComboBox<>(tipoU);
 		
-//		panelCentro.add(lblID);
-//		panelCentro.add(txtID);
+
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
 		panelCentro.add(lblContrasenia);
@@ -81,11 +82,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		panelCentro.add(lblTipo);
 		panelCentro.add(comboTipoU);
 		
-//		panelCentro.add(lblDireccion);
-//		panelCentro.add(txtDireccion);
-//		panelCentro.add(lblCodigoPostal);
-//		panelCentro.add(txtCodigoPostal);
-		
+
 		
 		//Eventos
 		
@@ -95,7 +92,6 @@ public class VentanaRegistroUsuario extends JFrame {
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
 			String correo = txtCorreo.getText();
-//			String codigoPostal = txtCodigoPostal.getText();
 			String tipo = (String) comboTipoU.getSelectedItem();
 			
 
@@ -123,6 +119,18 @@ public class VentanaRegistroUsuario extends JFrame {
 		 */
 	
 		
+	}
+private void limpiarCampos() {
+		
+		
+		txtNombre.setText("");
+		txtCorreo.setText("");
+		comboTipoU.setSelectedIndex(-1);		
+		txtContrasenia.setText("");
+		
+		
+		
+	
 	}
 	
 }

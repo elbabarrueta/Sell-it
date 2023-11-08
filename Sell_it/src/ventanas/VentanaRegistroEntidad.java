@@ -19,6 +19,10 @@ import clases.Usuario;
 
 public class VentanaRegistroEntidad extends JFrame{
 	
+	private JPasswordField txtContrasenia;
+	private JTextField txtNombre,txtCorreo;
+	private JComboBox comboTipo;
+	
 	/**
 	 * 
 	 */
@@ -41,20 +45,20 @@ public class VentanaRegistroEntidad extends JFrame{
 		JLabel lblNombre = new JLabel("Nombre de la Empresa:");
 		JLabel lblContrasenia = new JLabel("Contraseña:");
 		JLabel lblCorreo = new JLabel("Correo de la empresa:");
-//		JLabel lblCP = new JLabel("Codigo Postal:");
+
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
-//		JLabel lblID = new JLabel("NIF de la Empresa:");
+
 		JLabel lblTipo = new JLabel("Selecciona tu tipo de usuario");
 		
 		String[] tipoUsu = {"Entidad", "Normal"};
-		JComboBox<String> comboTipo = new JComboBox<>(tipoUsu);
+		comboTipo = new JComboBox<>(tipoUsu);
 		
-//		JTextField txtID = new JTextField();
-		JTextField txtNombre = new JTextField();
-		JTextField txtCorreo = new JTextField();
-//		JTextField txtCP = new JTextField();
+
+		txtNombre = new JTextField();
+		txtCorreo = new JTextField();
+
 		
-		JPasswordField txtContrasenia = new JPasswordField();
+		txtContrasenia = new JPasswordField();
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		
@@ -68,8 +72,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelNorte.add(lblPanelNorte);
 		panelSur.add(btnRegistrarse);
 		
-//		panelCentro.add(lblID);
-//		panelCentro.add(txtID);
+
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
 		panelCentro.add(lblCorreo);
@@ -78,10 +81,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelCentro.add(txtContrasenia);
 		panelCentro.add(lblTipo);
 		panelCentro.add(comboTipo);
-//		panelCentro.add(lblDireccion);
-//		panelCentro.add(txtDireccion);
-//		panelCentro.add(lblCP);
-//		panelCentro.add(txtCP);
+
 		
 		
 		
@@ -94,7 +94,6 @@ public class VentanaRegistroEntidad extends JFrame{
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
 			String correo = txtCorreo.getText();
-//			String codigoPostal = txtCP.getText();
 			String tipo = (String) comboTipo.getSelectedItem();
 			
 			
@@ -113,21 +112,22 @@ public class VentanaRegistroEntidad extends JFrame{
 		});
 		
 		
-		/*private void limpiarCampos() {
-			
-			txtID.setText("");
-			txtNombre.setText("");
-			txtDireccion.setText("");
-			txtCP.setText("");
-			txtContrasenia.setText("");
-			
-			
-			
 		
-		}*/
 		
 
 		
+	}
+	private void limpiarCampos() {
+		
+		
+		txtNombre.setText("");
+		txtCorreo.setText("");
+		comboTipo.setSelectedIndex(-1);		
+		txtContrasenia.setText("");
+		
+		
+		
+	
 	}
 		
 
