@@ -162,14 +162,18 @@ public class VentanaInicio extends JFrame {
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
 		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
 	            Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);
-	            if (u.getContrasena().equals(contrasenia)) {
-	                return true;
-	            } else {
-	                return false;
-	            }
-	        } else {
-	            return false;
-	        }
+	            if(u != null) {
+	            	if (u.getContrasena().equals(contrasenia)) {
+		                return true;
+		            } else {
+		                return false;
+		            }
+		        } else {
+		            return false;
+		        }
+	     	}
+		 return false;
+	            
 	}
 	
 //	private String obtenerNombreUsuario(String iD) {
