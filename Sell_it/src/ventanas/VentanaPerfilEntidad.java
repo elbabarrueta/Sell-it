@@ -15,6 +15,7 @@ public class VentanaPerfilEntidad {
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
 	private List<String> entradasCompradas;
+	private JLabel lblFotoPerfil;
 	
 	public VentanaPerfilEntidad(Usuario usuario) {
 		
@@ -36,10 +37,31 @@ public class VentanaPerfilEntidad {
 		emailField.setText(usuario.getCorreoUsuario());
 		nameField.setEditable(false);
 	    emailField.setEditable(false);
+	    
+	    lblFotoPerfil = new JLabel();
+        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfilE.png")); // Ruta de la imagen de perfil
+        
+        int maxWidth = 100; // Tamaño máximo de ancho
+        int maxHeight = 100; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = imagenPerfil.getImage();
+        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imagenPerfil = new ImageIcon(newImg);
+        
+        lblFotoPerfil.setIcon(imagenPerfil);
         
         JButton infoButton1 = new JButton("En venta");
         JButton infoButton2 = new JButton("Valoraciones");
         JButton infoButton3 = new JButton("Notificaciones");
+        topPanel.add(lblFotoPerfil);
         topPanel.add(nameLabel);
         topPanel.add(nameField);
         topPanel.add(emailLabel);
@@ -154,8 +176,10 @@ public class VentanaPerfilEntidad {
 	}
 	
     public static void main(String[] args) {
-    	Usuario usuarioEntidad = new Usuario("Discoteca", "discoteca@gmail.com", "Usuario Entidad", "12345678");
-    	VentanaPerfilEntidad vEntidad = new VentanaPerfilEntidad(usuarioEntidad);
+    	VentanaInicio ventanaI = Main.getVentanaInicio();
+		Usuario usuActual = ventanaI.getUsuarioActual();
+    	Usuario usuarioEntidad = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
+    	VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuarioEntidad);
     }
 }
 

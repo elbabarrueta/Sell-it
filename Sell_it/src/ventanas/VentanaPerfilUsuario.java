@@ -231,10 +231,13 @@ public class VentanaPerfilUsuario extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Usuario usuarioNormal = new Usuario("Lucas Gomez Lopez", "lucas.gomez@gmail.com", "Usuario Corriente", "12345678");
-		List<String> entradasCompradas = new ArrayList<>();
 		
-		VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
+		List<String> entradasCompradas = new ArrayList<>();
+		VentanaInicio ventanaI = Main.getVentanaInicio();
+		Usuario usuActual = ventanaI.getUsuarioActual();
+    	Usuario usuarioNormal = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
+		
+    	VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
 		
 	}
 

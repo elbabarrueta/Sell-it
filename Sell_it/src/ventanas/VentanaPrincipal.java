@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -11,7 +12,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Usuario;
-//import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends JFrame{
 
@@ -56,13 +56,13 @@ public class VentanaPrincipal extends JFrame{
 					Usuario usuActual = ventanaI.getUsuarioActual();
 					String tipoUsu = usuActual.getTipoUsuario();
 					if("Usuario corriente".equals(tipoUsu)) {
-						dispose();
 						VentanaPerfilUsuario ventanaPerfilUsuario = new VentanaPerfilUsuario(usuActual, null);
-			            ventanaPerfilUsuario.setVisible(true);
-					}else {
 						dispose();
-			//			VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);
-			//           ventanaPerfilEntidad.setVisible(true);
+						ventanaPerfilUsuario.setVisible(true);
+					}else {
+						VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);
+						dispose();
+				//		ventanaPerfilEntidad.setVisible(true);
 					}
 				}
 			});

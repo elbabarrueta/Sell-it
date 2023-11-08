@@ -53,7 +53,8 @@ public class VentanaRegistroUsuario extends JFrame {
 		JButton btnRegistro = new JButton("Registrarse");
 		panelSur.add(btnRegistro);
 		
-		txtContrasenia = new JPasswordField();
+		txtContrasenia = new JPasswordField(20);
+		txtContrasenia.setEchoChar('*');
 		
 		txtNombre = new JTextField();
 
@@ -61,7 +62,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 
-		JLabel lblContrasenia = new JLabel("Contrasenia");
+		JLabel lblContrasenia = new JLabel("Contraseña:");
 		
 		JLabel lblPanelNorte = new JLabel("Rellene las Casillas:");
 		JLabel lblCorreo = new JLabel("Direccion de correo:");
@@ -69,7 +70,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
-		String[] tipoU = {"Usuario Normal", "Usuario Entidad"};
+		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
         comboTipoU = new JComboBox<>(tipoU);
 		
 
@@ -102,11 +103,11 @@ public class VentanaRegistroUsuario extends JFrame {
 
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
-
-				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
-
 				
-		        dispose();
+				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
+				VentanaInicio v = new VentanaInicio();
+				dispose();
+		        v.setVisible(true);
 
 			}else {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");

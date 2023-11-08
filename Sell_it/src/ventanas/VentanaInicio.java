@@ -57,7 +57,8 @@ public class VentanaInicio extends JFrame {
 		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
 		
 		JTextField txtUsuario = new JTextField();
-		JPasswordField txtContrasenia = new JPasswordField();
+		JPasswordField txtContrasenia = new JPasswordField(20);
+		txtContrasenia.setEchoChar('*');
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
@@ -99,6 +100,7 @@ public class VentanaInicio extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
+				dispose();
 				VEntanaRegistroUsuario.setVisible(true);	
 			}
 		});
@@ -109,6 +111,7 @@ public class VentanaInicio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				VentanaRegistroEntidad ventanaRegistroEntidad = new VentanaRegistroEntidad();
+				dispose();
 				ventanaRegistroEntidad.setVisible(true);
 			}
 		});
@@ -126,15 +129,13 @@ public class VentanaInicio extends JFrame {
 				//VentaPrincipal.setVisible(true);
 			}
 	**/
-			
 
-// Hay una exception porq: DataSetUsuario.getUsuariosGuardados()" because "this.dataSetUsuario" is null
-			//NO ESTA TERMINADO
 			 if (verificarCredenciales(correo, contrasenia)) {
 				 usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
 			     JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 			     VentanaPrincipal v = new VentanaPrincipal();
-
+			     dispose();
+			     v.setVisible(true);
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 			 } else {
 			     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");

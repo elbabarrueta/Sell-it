@@ -50,7 +50,7 @@ public class VentanaRegistroEntidad extends JFrame{
 
 		JLabel lblTipo = new JLabel("Selecciona tu tipo de usuario");
 		
-		String[] tipoUsu = {"Entidad", "Normal"};
+		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
 		comboTipo = new JComboBox<>(tipoUsu);
 		
 
@@ -103,7 +103,9 @@ public class VentanaRegistroEntidad extends JFrame{
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
 				
 				// Cerrar la ventana actual
-		        dispose();
+				VentanaInicio v = new VentanaInicio();
+				dispose();
+		        v.setVisible(true);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Usuario existente");
