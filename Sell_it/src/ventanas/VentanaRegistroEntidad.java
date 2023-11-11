@@ -21,7 +21,7 @@ public class VentanaRegistroEntidad extends JFrame{
 	
 	private JPasswordField txtContrasenia;
 	private JTextField txtNombre,txtCorreo;
-	private JComboBox comboTipo;
+//	private JComboBox comboTipo;
 	
 	/**
 	 * 
@@ -32,6 +32,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		this.setBounds(300,400,400,300);
 		this.setTitle("Registro Entidad");
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
@@ -48,10 +49,13 @@ public class VentanaRegistroEntidad extends JFrame{
 
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
 
-		JLabel lblTipo = new JLabel("Selecciona tu tipo de usuario");
+		JLabel lblTipo = new JLabel("Tipo de usuario");
 		
-		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
-		comboTipo = new JComboBox<>(tipoUsu);
+		JTextField txtTipo = new JTextField();
+		txtTipo.setText("Usuario Entidad");
+		txtTipo.setEditable(false);
+//		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
+//		comboTipo = new JComboBox<>(tipoUsu);
 		
 
 		txtNombre = new JTextField();
@@ -80,7 +84,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelCentro.add(lblContrasenia);
 		panelCentro.add(txtContrasenia);
 		panelCentro.add(lblTipo);
-		panelCentro.add(comboTipo);
+		panelCentro.add(txtTipo);
 
 		
 		
@@ -94,8 +98,16 @@ public class VentanaRegistroEntidad extends JFrame{
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
 			String correo = txtCorreo.getText();
-			String tipo = (String) comboTipo.getSelectedItem();
+			String tipo = txtTipo.getText();
 			
+			if(nombre.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
+				return;
+			}
+			if (contrasenia.length() <= 5) {
+		        JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 5 caracteres.");
+		        return; 
+		    }
 			
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
 			if( Datos.buscarUsuario(correo)== null) {
@@ -110,26 +122,19 @@ public class VentanaRegistroEntidad extends JFrame{
 			else {
 				JOptionPane.showMessageDialog(null, "Usuario existente");
 			}
-			//limpiarCampos();
+			System.out.println("\t" + u);
+			limpiarCampos();
 		});
 		
-		
-		
-		
-
-		
+	
 	}
 	private void limpiarCampos() {
-		
-		
+
 		txtNombre.setText("");
-		txtCorreo.setText("");
-		comboTipo.setSelectedIndex(-1);		
+		txtCorreo.setText("");	
 		txtContrasenia.setText("");
 		
-		
-		
-	
+
 	}
 		
 

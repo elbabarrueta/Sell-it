@@ -22,7 +22,7 @@ public class VentanaVentaEntidad extends JFrame{
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
-	public VentanaVentaEntidad() {
+	public VentanaVentaEntidad(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
@@ -79,7 +79,8 @@ public class VentanaVentaEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilEntidad vPerfilEntidad = new VentanaPerfilEntidad(usuario);
+				dispose();
+				VentanaPerfilEntidad vPerfilEntidad = new VentanaPerfilEntidad(usu);
 			}
 		});
 		
@@ -88,6 +89,7 @@ public class VentanaVentaEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal vPrincipal = new VentanaPrincipal();
+				dispose();
 			}
 		});
 		
@@ -125,7 +127,8 @@ public class VentanaVentaEntidad extends JFrame{
 			
 	}
 	public static void main(String[] args) {
-		VentanaVentaEntidad v = new VentanaVentaEntidad();
+		Usuario usu = new Usuario();
+		VentanaVentaEntidad v = new VentanaVentaEntidad(usu);
 		v.setVisible(true);
 	}
 }

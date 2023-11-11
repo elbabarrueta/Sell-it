@@ -82,10 +82,11 @@ public class VentanaPerfilUsuario extends JFrame{
 	    topPanel.add(infoButton3);
 
 	    // Parte central: descripción del usuario
-	    JTextArea descriptionArea = new JTextArea(5, 10);
+	    JTextArea descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
+	    descriptionArea.setLineWrap(true);
+	    descriptionArea.setWrapStyleWord(true);
 	    descriptionArea.setEditable(true);
-	//    descriptionArea.setPreferredSize(new Dimension(200, 100));
 	    
 	    // Parte inferior: más botones
 	    JPanel bottomPanel = new JPanel();
@@ -238,7 +239,7 @@ public class VentanaPerfilUsuario extends JFrame{
     	Usuario usuarioNormal = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
 		
     	VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
-		
+
 	}
 
 }

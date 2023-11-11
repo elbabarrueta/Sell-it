@@ -3,6 +3,8 @@ package ventanas;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.swing.JFrame;
+
 import clases.Usuario;
 
 
@@ -12,6 +14,7 @@ public class Main {
 	private static DataSetUsuario dataset;
 	private static VentanaInicio ventana1;
 	public static void main(String[] args) {
+
 		ventana1 = new VentanaInicio();
 		ventana1.setVisible(true);
 		cargaUsuarios();

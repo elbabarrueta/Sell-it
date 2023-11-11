@@ -71,8 +71,11 @@ public class VentanaPerfilEntidad {
         topPanel.add(infoButton3);
 
         // Parte central: descripción del usuario
-        JTextArea descriptionArea = new JTextArea(5, 20);
-        JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
+        JTextArea descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
+	    descriptionArea.setLineWrap(true);
+	    descriptionArea.setWrapStyleWord(true);
+	    descriptionArea.setEditable(true);
 
         // Parte inferior: más botones
         JPanel bottomPanel = new JPanel();

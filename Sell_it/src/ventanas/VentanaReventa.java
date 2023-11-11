@@ -23,7 +23,7 @@ public class VentanaReventa extends JFrame{
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
-	public VentanaReventa() {
+	public VentanaReventa(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
@@ -67,7 +67,8 @@ public class VentanaReventa extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilUsuario vPerfilEntidad = new VentanaPerfilUsuario(usuario, entradasCompradas);
+				dispose();
+				VentanaPerfilUsuario vPerfilEntidad = new VentanaPerfilUsuario(usu, entradasCompradas);
 			}
 		});
 		
@@ -75,6 +76,7 @@ public class VentanaReventa extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 				VentanaPrincipal vPrincipal = new VentanaPrincipal();
 			}
 		});
@@ -101,7 +103,8 @@ public class VentanaReventa extends JFrame{
 		
 	}
 	public static void main(String[] args) {
-		VentanaReventa v = new VentanaReventa();
+		Usuario usu = new Usuario();
+		VentanaReventa v = new VentanaReventa(usu);
 		v.setVisible(true);
 	}
 

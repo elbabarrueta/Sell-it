@@ -56,15 +56,35 @@ public class VentanaPrincipal extends JFrame{
 					Usuario usuActual = ventanaI.getUsuarioActual();
 					String tipoUsu = usuActual.getTipoUsuario();
 					if("Usuario corriente".equals(tipoUsu)) {
-						VentanaPerfilUsuario ventanaPerfilUsuario = new VentanaPerfilUsuario(usuActual, null);
 						dispose();
+						VentanaPerfilUsuario ventanaPerfilUsuario = new VentanaPerfilUsuario(usuActual, null);
 						ventanaPerfilUsuario.setVisible(true);
 					}else {
-						VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);
 						dispose();
-				//		ventanaPerfilEntidad.setVisible(true);
+						VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);	
+						//ventanaPerfilEntidad.setVisible(true);
 					}
 				}
+			});
+			bVenta.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        VentanaInicio ventanaI = Main.getVentanaInicio();
+			        Usuario usuActual = ventanaI.getUsuarioActual();
+			        String tipoUsu = usuActual.getTipoUsuario();
+
+			        if ("Usuario corriente".equals(tipoUsu)) {
+			            
+			            dispose();
+			            VentanaReventa ventanaVentaNormal = new VentanaReventa(usuActual);
+			            ventanaVentaNormal.setVisible(true);
+			        } else {
+			           
+			            dispose();
+			            VentanaVentaEntidad ventanaVentaEntidad = new VentanaVentaEntidad(usuActual);
+			            ventanaVentaEntidad.setVisible(true);
+			        }
+			    }
 			});
 			
 			this.setBounds(400, 150, 600, 600);
@@ -72,18 +92,7 @@ public class VentanaPrincipal extends JFrame{
 			this.setTitle("Menu Principal");
 			this.setVisible(true);
 			
-		}
-		
-//		private String obtenerTipoUsuario(String nom) {
-//			HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
-//			for(Usuario usu: usuarioT) {
-//				if(usu.getNombreUsuario().equals(nom)) {
-//					return usu.getTipoUsuario();
-//				}
-//			}
-//			return JOptionPane.showInputDialog("Usuario no encontrado");	// si no esta en la lista
-//		}
-		
+		}		
 		private String obtenerTipoUsuario(String nom) {
 		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
 		    Set<String> nombresUsuarios = usuarioT.keySet();

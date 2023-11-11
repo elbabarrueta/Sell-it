@@ -22,7 +22,7 @@ public class VentanaRegistroUsuario extends JFrame {
 	
 	private JTextField txtNombre,txtCorreo;
 	private JPasswordField txtContrasenia;
-	private JComboBox comboTipoU;
+//	private JComboBox comboTipoU;
 	
 
 	/**
@@ -66,12 +66,15 @@ public class VentanaRegistroUsuario extends JFrame {
 		
 		JLabel lblPanelNorte = new JLabel("Rellene las Casillas:");
 		JLabel lblCorreo = new JLabel("Direccion de correo:");
-		JLabel lblTipo = new JLabel("Elige tu tipo de usuario");
+		JLabel lblTipo = new JLabel("Tipo de usuario");
 		
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
-		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
-        comboTipoU = new JComboBox<>(tipoU);
+		JTextField txtTipou = new JTextField();
+		txtTipou.setText("Usuario Normal");
+		txtTipou.setEditable(false);
+//		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
+//        comboTipoU = new JComboBox<>(tipoU);
 		
 
 		panelCentro.add(lblNombre);
@@ -81,7 +84,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		panelCentro.add(lblCorreo);
 		panelCentro.add(txtCorreo);
 		panelCentro.add(lblTipo);
-		panelCentro.add(comboTipoU);
+		panelCentro.add(txtTipou);
 		
 
 		
@@ -93,14 +96,20 @@ public class VentanaRegistroUsuario extends JFrame {
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
 			String correo = txtCorreo.getText();
-			String tipo = (String) comboTipoU.getSelectedItem();
+			String tipo = txtTipou.getText();
 			
-
+			if(nombre.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
+				return;
+			}
+			if (contrasenia.length() <= 5) {
+		        JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 5 caracteres.");
+		        return; 
+		    }
+			
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
 			
 			if (Datos.buscarUsuario(correo)==null) {
-
-
 				Datos.aniadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
 				
@@ -124,8 +133,7 @@ private void limpiarCampos() {
 		
 		
 		txtNombre.setText("");
-		txtCorreo.setText("");
-		comboTipoU.setSelectedIndex(-1);		
+		txtCorreo.setText("");		
 		txtContrasenia.setText("");
 		
 		
