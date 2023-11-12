@@ -109,9 +109,10 @@ public class VentanaRegistroUsuario extends JFrame {
 			
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
 			
-			if (Datos.buscarUsuario(correo)==null) {
-				Datos.aniadirUsuario(u);
+			if( DataSetUsuario.buscarUsu(correo)== null) {
+				DataSetUsuario.anyadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
+				System.out.println("\t" + u);
 				
 				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
 				VentanaInicio v = new VentanaInicio();
@@ -122,9 +123,8 @@ public class VentanaRegistroUsuario extends JFrame {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
 				
 			}
+			limpiarCampos();
 		});
-		/*mghjklkjhgfdfghjkljhgfdcxcfvgbnmm*/
-		
 		
 	
 		

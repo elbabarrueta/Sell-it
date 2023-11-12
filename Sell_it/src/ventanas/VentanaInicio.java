@@ -177,17 +177,6 @@ public class VentanaInicio extends JFrame {
 	            
 	}
 	
-//	private String obtenerNombreUsuario(String iD) {
-//		List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtiene la lista de usuarios
-//
-//	    for (Usuario usuario : usuarios) {
-//	        if (usuario.getNombreUsuario().equals(iD)) {
-//	            return usuario.getNombreUsuario();
-//	        }
-//	    }
-//	    return "Nombre de usuario no encontrado";
-//	}
-	
 	public String obtenerNombreUsuario(String correo) {
 	    if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
 	        Usuario usuario = dataSetUsuario.getMapaUsu().get(correo);

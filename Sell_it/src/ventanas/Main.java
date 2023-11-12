@@ -19,7 +19,7 @@ public class Main {
 		ventana1.setVisible(true);
 		cargaUsuarios();
 		VentanaInicio.cargarUsuariosInicio(dataset);
-		ventana1.cargarUsuariosInicio(dataset);
+//		ventana1.cargarUsuariosInicio(dataset);
 		
 		
 	}

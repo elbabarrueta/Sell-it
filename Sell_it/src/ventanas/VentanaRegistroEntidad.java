@@ -110,19 +110,20 @@ public class VentanaRegistroEntidad extends JFrame{
 		    }
 			
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
-			if( Datos.buscarUsuario(correo)== null) {
-				Datos.aniadirUsuario(u);
+		
+			if( DataSetUsuario.buscarUsu(correo)== null) {
+				DataSetUsuario.anyadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
-				
+				System.out.println("\t" + u);
 				// Cerrar la ventana actual
 				VentanaInicio v = new VentanaInicio();
 				dispose();
 		        v.setVisible(true);
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Usuario existente");
+				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
 			}
-			System.out.println("\t" + u);
+		//	System.out.println("\t" + u);
 			limpiarCampos();
 		});
 		

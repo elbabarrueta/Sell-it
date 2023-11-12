@@ -2,20 +2,23 @@ package clases;
 
 
 import java.io.FileNotFoundException;
+
+
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
 
 public class Datos {
 	
-	
+/*	
 	private static List<Usuario> usuarios = new ArrayList<>();
-	
-	
+
 	public static Usuario buscarUsuario(String correo) {
 		boolean enc = false;
 		int pos = 0;
@@ -34,16 +37,13 @@ public class Datos {
 			return null;
 		}
 	}
-	
-	
-	
+
 	public static void aniadirUsuario(Usuario u) {
 	    if (buscarUsuario(u.getCorreoUsuario()) == null) {
 	        usuarios.add(u);
 	    }
 	}
-	
-	
+
 	public static void cargarFicherosUsuariosEnLista(String nomfich) {
 		
 		try {
@@ -78,6 +78,54 @@ public class Datos {
 	        e.printStackTrace();
 	    }
 	}
+	*/
+	
+	/*
+	private static Map<String, Usuario> usuarios = new HashMap<>();
+
+    public static Usuario buscarUsuario(String correo) {
+        return usuarios.get(correo);
+    }
+
+    public static void aniadirUsuario(Usuario u) {
+        if (!usuarios.containsKey(u.getCorreoUsuario())) {
+            usuarios.put(u.getCorreoUsuario(), u);
+        }
+    }
+
+    public static void cargarFicherosUsuariosEnMapa(String nomfich) {
+        try {
+            Scanner sc = new Scanner(new FileReader(nomfich));
+            String linea;
+            while (sc.hasNext()) {
+                linea = sc.nextLine();
+                String[] partes = linea.split(";");
+                String nombre = partes[0];
+                String correo = partes[1];
+                String tipo = partes[2];
+                String contrasena = partes[3];
+                Usuario u = new Usuario(nombre, correo, tipo, contrasena);
+                aniadirUsuario(u);
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void guardarMapaUsuariosEnFichero(String nomfich) {
+        try {
+            PrintWriter pw = new PrintWriter(nomfich);
+            for (Usuario u : usuarios.values()) {
+                pw.println(u.getNombreUsuario() + ";" + u.getCorreoUsuario() + ";" + u.getTipoUsuario() + ";" + u.getContrasena());
+            }
+            pw.flush();
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+	*/
 }
 	
 	
