@@ -71,9 +71,6 @@ public class DataSetUsuario {
 	public static Usuario buscarUsu(String correo) {
 		return mapaUsu.get(correo);
 	}
-//	public static Usuario buscarUsuario(String correo) {
-//		return mapaUsu.get(correo);
-//    }
 	
 	public Usuario getUsuarioPorCorreo(String correo) {
 		if(mapaUsu.containsKey(correo)) {
