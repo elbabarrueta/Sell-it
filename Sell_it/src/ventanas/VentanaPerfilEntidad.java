@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class VentanaPerfilEntidad {
+public class VentanaPerfilEntidad extends JFrame{
 	
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
@@ -82,9 +82,11 @@ public class VentanaPerfilEntidad {
         JButton botonContrasena = new JButton("Cambiar Contraseña");
         JButton botonEditar = new JButton("Editar Perfil");
         JButton botonCompras = new JButton("Compras");
+        JButton botonVentanaP = new JButton("Ventana Principal");
         bottomPanel.add(botonContrasena);
         bottomPanel.add(botonEditar);
         bottomPanel.add(botonCompras);
+        bottomPanel.add(botonVentanaP);
 
         frame.add(topPanel, BorderLayout.NORTH);
         frame.add(descriptionScrollPane, BorderLayout.CENTER);
@@ -97,6 +99,14 @@ public class VentanaPerfilEntidad {
                 JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningún artículo en venta");
             }
         });
+        
+        botonVentanaP.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				VentanaPrincipal v = new VentanaPrincipal();
+			}
+		});
         
         botonContrasena.addActionListener(new ActionListener() {
 			

@@ -59,7 +59,7 @@ public class VentanaPrincipal extends JFrame{
 					if("Usuario corriente".equals(tipoUsu)) {
 						dispose();
 						VentanaPerfilUsuario ventanaPerfilUsuario = new VentanaPerfilUsuario(usuActual, null);
-						ventanaPerfilUsuario.setVisible(true);
+						//ventanaPerfilUsuario.setVisible(true);
 					}else {
 						dispose();
 						VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);	

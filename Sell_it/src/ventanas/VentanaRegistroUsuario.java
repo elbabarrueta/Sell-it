@@ -71,7 +71,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
 		JTextField txtTipou = new JTextField();
-		txtTipou.setText("Usuario Normal");
+		txtTipou.setText("Usuario corriente");
 		txtTipou.setEditable(false);
 //		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
 //        comboTipoU = new JComboBox<>(tipoU);

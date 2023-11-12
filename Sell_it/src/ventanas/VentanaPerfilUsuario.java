@@ -93,10 +93,12 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JButton buttonContrasena = new JButton("Cambiar contraseña");
 	    JButton buttonEditar = new JButton("Editar Perfil");
 	    JButton buttonProductosCompados = new JButton("Mis compras");
+        JButton botonVentanaP = new JButton("Ventana Principal");
 	    bottomPanel.add(buttonContrasena);
 	    bottomPanel.add(buttonEditar);
 	    bottomPanel.add(buttonProductosCompados);
-
+        bottomPanel.add(botonVentanaP);
+	    
 	    frame.add(topPanel, BorderLayout.NORTH);
 	    frame.add(descriptionScrollPane, BorderLayout.CENTER);
 	    frame.add(bottomPanel, BorderLayout.SOUTH);
@@ -108,6 +110,14 @@ public class VentanaPerfilUsuario extends JFrame{
 	            JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningun articulo en venta");
 	        }
 	    });
+	    
+	    botonVentanaP.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				VentanaPrincipal v = new VentanaPrincipal();
+			}
+		});
 	    
 	    buttonContrasena.addActionListener(new ActionListener() {
 			
