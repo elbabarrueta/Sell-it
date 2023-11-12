@@ -52,7 +52,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		JLabel lblTipo = new JLabel("Tipo de usuario");
 		
 		JTextField txtTipo = new JTextField();
-		txtTipo.setText("Usuario Entidad");
+		txtTipo.setText("Usuario entidad");
 		txtTipo.setEditable(false);
 //		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
 //		comboTipo = new JComboBox<>(tipoUsu);
