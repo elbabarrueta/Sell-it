@@ -118,7 +118,8 @@ public class VentanaRegistroUsuario extends JFrame {
 				VentanaInicio v = new VentanaInicio();
 				dispose();
 		        v.setVisible(true);
-
+		        Main.setVentanaInicio(v);
+		        
 			}else {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
 				

@@ -42,8 +42,12 @@ public class Main {
 		}
 	}
 	
+	public static void setVentanaInicio(VentanaInicio v) {
+		ventana1 = v;
+	}
 	public static VentanaInicio getVentanaInicio() {
         return ventana1;
     }
+	
 }
 	

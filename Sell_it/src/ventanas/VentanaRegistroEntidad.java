@@ -119,6 +119,7 @@ public class VentanaRegistroEntidad extends JFrame{
 				VentanaInicio v = new VentanaInicio();
 				dispose();
 		        v.setVisible(true);
+		        Main.setVentanaInicio(v);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
