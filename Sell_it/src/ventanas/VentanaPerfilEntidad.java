@@ -1,11 +1,13 @@
 package ventanas;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import clases.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -145,14 +147,57 @@ public class VentanaPerfilEntidad extends JFrame{
 	    botonGuardarCambios.setBackground(Color.gray);
 	    botonGuardarCambios.setForeground(Color.black);
 	    
+	    JButton botonCambiarFoto = new JButton("Cambiar foto de perfil");
+	    botonCambiarFoto.setVisible(false);
+	    
 	    botonEditar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
 	            emailField.setEditable(true);
+	            botonCambiarFoto.setVisible(true);
+	            // Quitamos botones para que no haya demasiados a la vez
+	            botonVentanaP.setVisible(false);
+	            botonContrasena.setVisible(false);
+	            botonEditar.setVisible(false);
+	            botonCompras.setVisible(false);
 	         // Después de editar, habilitamos el botón "Guardar Cambios"
 	            botonGuardarCambios.setVisible(true);
+			}
+		});
+	    
+	    botonCambiarFoto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+	            JFileChooser chooser = new JFileChooser();
+	            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos imagen (.jpg, .png)", "jpg", "png");
+	            chooser.setFileFilter(filtro);
+	            int result = chooser.showOpenDialog(frame);
+	            if (result == JFileChooser.APPROVE_OPTION) {
+	                File selectedFile = chooser.getSelectedFile();
+	                ImageIcon imagenPerfil = new ImageIcon(selectedFile.getAbsolutePath());
+	                int maxWidth = 100; // Tamaño máximo de ancho
+	                int maxHeight = 100; // Tamaño máximo de alto
+	                int newWidth, newHeight;
+	                Image img = imagenPerfil.getImage();
+	                if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+	                    newWidth = maxWidth;
+	                    newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+	                } else {
+	                    newHeight = maxHeight;
+	                    newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+	                }
+	                // Redimensiona la imagen
+	                Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+	                imagenPerfil = new ImageIcon(newImg);
+	                lblFotoPerfil.setIcon(imagenPerfil);
+	                
+	            }else {
+            		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
+	            }
 			}
 		});
 	    
@@ -178,10 +223,15 @@ public class VentanaPerfilEntidad extends JFrame{
 				nameField.setEditable(false);
 				emailField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
+				// Volvemos a poner los botones
+				botonVentanaP.setVisible(true);
+	            botonContrasena.setVisible(true);
+	            botonEditar.setVisible(true);
+	            botonCompras.setVisible(true);
 			}
 		});
 	    bottomPanel.add(botonGuardarCambios);
-        
+        bottomPanel.add(botonCambiarFoto);
 
         frame.pack();
         frame.setVisible(true);

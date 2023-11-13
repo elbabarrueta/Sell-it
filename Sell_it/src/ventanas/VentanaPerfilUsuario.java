@@ -1,12 +1,13 @@
 package ventanas;
 
 import javax.swing.*;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import clases.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -21,6 +22,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	private JLabel lblFotoPerfil;
 	private JTextField nameField;
 	private JTextField emailField;
+	private ImageIcon imagenPerfil;
 	
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
@@ -40,7 +42,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JPanel topPanel = new JPanel(new FlowLayout());
 	    
 	    lblFotoPerfil = new JLabel();
-        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
+        imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
         
         int maxWidth = 100; // Tamaño máximo de ancho
         int maxHeight = 100; // Tamaño máximo de alto
@@ -157,14 +159,57 @@ public class VentanaPerfilUsuario extends JFrame{
 	    botonGuardarCambios.setBackground(Color.gray);
 	    botonGuardarCambios.setForeground(Color.black);
 	    
+	    JButton botonCambiarFoto = new JButton("Cambiar foto de perfil");
+	    botonCambiarFoto.setVisible(false);
+	    
 	    buttonEditar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
 	            emailField.setEditable(true);
-	         // Después de editar, habilitamos el botón "Guardar Cambios"
+	            botonCambiarFoto.setVisible(true);
+	            // Quitamos botones para que no haya demasiados a la vez
+	            botonVentanaP.setVisible(false);
+	            buttonContrasena.setVisible(false);
+	            buttonEditar.setVisible(false);
+	            buttonProductosCompados.setVisible(false);
+	            // Después de editar, habilitamos el botón "Guardar Cambios"
 	            botonGuardarCambios.setVisible(true);
+			}
+		});
+	    
+	    botonCambiarFoto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+	            JFileChooser chooser = new JFileChooser();
+	            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos imagen (.jpg, .png)", "jpg", "png");
+	            chooser.setFileFilter(filtro);
+	            int result = chooser.showOpenDialog(frame);
+	            if (result == JFileChooser.APPROVE_OPTION) {
+	                File selectedFile = chooser.getSelectedFile();
+	                ImageIcon imagenPerfil = new ImageIcon(selectedFile.getAbsolutePath());
+	                int maxWidth = 100; // Tamaño máximo de ancho
+	                int maxHeight = 100; // Tamaño máximo de alto
+	                int newWidth, newHeight;
+	                Image img = imagenPerfil.getImage();
+	                if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+	                    newWidth = maxWidth;
+	                    newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+	                } else {
+	                    newHeight = maxHeight;
+	                    newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+	                }
+	                // Redimensiona la imagen
+	                Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+	                imagenPerfil = new ImageIcon(newImg);
+	                lblFotoPerfil.setIcon(imagenPerfil);
+	                
+	            }else {
+            		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
+	            }
 			}
 		});
 	    
@@ -190,9 +235,16 @@ public class VentanaPerfilUsuario extends JFrame{
 				nameField.setEditable(false);
 				emailField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
+				botonCambiarFoto.setVisible(false);
+				// Volvemos a poner los botones
+				botonVentanaP.setVisible(true);
+	            buttonContrasena.setVisible(true);
+	            buttonEditar.setVisible(true);
+	            buttonProductosCompados.setVisible(true);
 			}
 		});
 	    bottomPanel.add(botonGuardarCambios);
+	    bottomPanel.add(botonCambiarFoto);
    
 	    buttonProductosCompados.addActionListener(new ActionListener() {
 			
