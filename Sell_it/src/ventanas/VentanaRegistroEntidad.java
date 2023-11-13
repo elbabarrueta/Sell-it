@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +19,10 @@ import clases.Usuario;
 
 public class VentanaRegistroEntidad extends JFrame{
 	
+	private JPasswordField txtContrasenia;
+	private JTextField txtNombre,txtCorreo;
+//	private JComboBox comboTipo;
+	
 	/**
 	 * 
 	 */
@@ -25,8 +30,9 @@ public class VentanaRegistroEntidad extends JFrame{
 
 	public VentanaRegistroEntidad() {
 		
-		this.setBounds(200,400,300,300);
+		this.setBounds(300,400,400,300);
 		this.setTitle("Registro Entidad");
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
@@ -38,19 +44,25 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		
 		JLabel lblNombre = new JLabel("Nombre de la Empresa:");
-		JLabel lblContrasenia = new JLabel("Contrasenia:");
-		JLabel lblDireccion = new JLabel("Direccion de la sede:");
-		JLabel lblCP = new JLabel("Codigo Postal:");
+		JLabel lblContrasenia = new JLabel("Contraseña:");
+		JLabel lblCorreo = new JLabel("Correo de la empresa:");
+
 		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
-		JLabel lblID = new JLabel("NIF de la Empresa:");
+
+		JLabel lblTipo = new JLabel("Tipo de usuario");
 		
-		JTextField txtID = new JTextField();
-	
-		JTextField txtNombre = new JTextField();
-		JTextField txtDireccion = new JTextField();
-		JTextField txtCP = new JTextField();
+		JTextField txtTipo = new JTextField();
+		txtTipo.setText("Usuario entidad");
+		txtTipo.setEditable(false);
+//		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
+//		comboTipo = new JComboBox<>(tipoUsu);
 		
-		JPasswordField txtContrasenia = new JPasswordField();
+
+		txtNombre = new JTextField();
+		txtCorreo = new JTextField();
+
+		
+		txtContrasenia = new JPasswordField();
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		
@@ -64,16 +76,16 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelNorte.add(lblPanelNorte);
 		panelSur.add(btnRegistrarse);
 		
-		panelCentro.add(lblID);
-		panelCentro.add(txtID);
-		panelCentro.add(lblContrasenia);
-		panelCentro.add(txtContrasenia);
+
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
-		panelCentro.add(lblDireccion);
-		panelCentro.add(txtDireccion);
-		panelCentro.add(lblCP);
-		panelCentro.add(txtCP);
+		panelCentro.add(lblCorreo);
+		panelCentro.add(txtCorreo);
+		panelCentro.add(lblContrasenia);
+		panelCentro.add(txtContrasenia);
+		panelCentro.add(lblTipo);
+		panelCentro.add(txtTipo);
+
 		
 		
 		
@@ -83,41 +95,48 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		btnRegistrarse.addActionListener((e)->{
 			
-			String iD = txtID.getText();
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
-			String direccion = txtDireccion.getText();
-			String codigoPostal = txtCP.getText();
+			String correo = txtCorreo.getText();
+			String tipo = txtTipo.getText();
 			
+			if(nombre.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
+				return;
+			}
+			if (contrasenia.length() <= 5) {
+		        JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 5 caracteres.");
+		        return; 
+		    }
 			
-			Usuario u = new Usuario(iD,nombre,direccion,codigoPostal,contrasenia);
-			if( Datos.buscarUsuario(iD)== null) {
-				Datos.aniadirUsuario(u);
+			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
+		
+			if( DataSetUsuario.buscarUsu(correo)== null) {
+				DataSetUsuario.anyadirUsuario(u);
 				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
-				
+				System.out.println("\t" + u);
+				// Cerrar la ventana actual
+				VentanaInicio v = new VentanaInicio();
+				dispose();
+		        v.setVisible(true);
+		        Main.setVentanaInicio(v);
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Usuario existente");
+				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
 			}
-			//limpiarCampos();
+		//	System.out.println("\t" + u);
+			limpiarCampos();
 		});
 		
-		
-		/*private void limpiarCampos() {
-			
-			txtID.setText("");
-			txtNombre.setText("");
-			txtDireccion.setText("");
-			txtCP.setText("");
-			txtContrasenia.setText("");
-			
-			
-			
-		
-		}*/
+	
+	}
+	private void limpiarCampos() {
+
+		txtNombre.setText("");
+		txtCorreo.setText("");	
+		txtContrasenia.setText("");
 		
 
-		
 	}
 		
 

@@ -1,10 +1,13 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,9 +16,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import clases.Datos;
-import clases.Ussuario;
+import clases.Usuario;
 
 public class VentanaRegistroUsuario extends JFrame {
+	
+	private JTextField txtNombre,txtCorreo;
+	private JPasswordField txtContrasenia;
+//	private JComboBox comboTipoU;
+	
 
 	/**
 	 * 
@@ -45,74 +53,92 @@ public class VentanaRegistroUsuario extends JFrame {
 		JButton btnRegistro = new JButton("Registrarse");
 		panelSur.add(btnRegistro);
 		
-		JPasswordField txtContrasenia = new JPasswordField();
+		txtContrasenia = new JPasswordField(20);
+		txtContrasenia.setEchoChar('*');
 		
-		JTextField txtNombre = new JTextField();
-		JTextField txtID = new JTextField();
-		JTextField txtDireccion = new JTextField();
-		JTextField txtCodigoPostal = new JTextField();
+		txtNombre = new JTextField();
+
+		txtCorreo = new JTextField();
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		JLabel lblID = new JLabel("DNI:");
-		JLabel lblContrasenia = new JLabel("Contrasenia");
-		JLabel lblCodigoPostal = new JLabel("Codigo Postal:");
-		JLabel lblDireccion = new JLabel("Direccion:");
-		JLabel lblPanelNorte = new JLabel("Rellene las Casillas:");
+
+		JLabel lblContrasenia = new JLabel("Contraseña:");
 		
+		JLabel lblPanelNorte = new JLabel("Rellene las Casillas:");
+		JLabel lblCorreo = new JLabel("Direccion de correo:");
+		JLabel lblTipo = new JLabel("Tipo de usuario");
 		
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
-		panelCentro.add(lblID);
-		panelCentro.add(txtID);
-		panelCentro.add(lblContrasenia);
-		panelCentro.add(txtContrasenia);
+		JTextField txtTipou = new JTextField();
+		txtTipou.setText("Usuario corriente");
+		txtTipou.setEditable(false);
+//		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
+//        comboTipoU = new JComboBox<>(tipoU);
+		
+
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
-		panelCentro.add(lblDireccion);
-		panelCentro.add(txtDireccion);
-		panelCentro.add(lblCodigoPostal);
-		panelCentro.add(txtCodigoPostal);
+		panelCentro.add(lblContrasenia);
+		panelCentro.add(txtContrasenia);
+		panelCentro.add(lblCorreo);
+		panelCentro.add(txtCorreo);
+		panelCentro.add(lblTipo);
+		panelCentro.add(txtTipou);
 		
+
 		
 		//Eventos
 		
 		
 		btnRegistro.addActionListener((e)->{
 			
-			String id = txtID.getText();
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
-			String direccion = txtDireccion.getText();
-			String codigoPostal = txtCodigoPostal.getText();
+			String correo = txtCorreo.getText();
+			String tipo = txtTipou.getText();
 			
-			Ussuario u = new Ussuario(id,contrasenia,nombre,direccion,codigoPostal);
+			if(nombre.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
+				return;
+			}
+			if (contrasenia.length() <= 5) {
+		        JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 5 caracteres.");
+		        return; 
+		    }
 			
-			if (Datos.buscarUsuario(id)==null) {
-				Datos.aniadirUsuario(u);
+			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
+			
+			if( DataSetUsuario.buscarUsu(correo)== null) {
+				DataSetUsuario.anyadirUsuario(u);
 				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
+				System.out.println("\t" + u);
+				
 				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
+				VentanaInicio v = new VentanaInicio();
+				dispose();
+		        v.setVisible(true);
+		        Main.setVentanaInicio(v);
 			}else {
 				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
 				
 			}
+			limpiarCampos();
 		});
 		
-		/*Aqui ahora hay qque hacer un metodo que 
-		 * limpie de las casillas los datos al registrase
-		 */
-		
-		
-		
-		
-		
-		
-		
+	
 		
 	}
+private void limpiarCampos() {
+		
+		
+		txtNombre.setText("");
+		txtCorreo.setText("");		
+		txtContrasenia.setText("");
+		
+		
+		
 	
+	}
 	
-	
-	
-	
-
 }
