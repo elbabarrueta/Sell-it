@@ -1,6 +1,7 @@
 package ventanas;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import clases.Usuario;
@@ -41,9 +42,10 @@ public class VentanaPerfilUsuario extends JFrame{
 	    // Parte superior: nombre, correo y botones de información
 	    JPanel topPanel = new JPanel(new FlowLayout());
 	    
-	    lblFotoPerfil = new JLabel();
+	    //No se guarda la imagen cuando la cambias. Nuevo atributo rutaImg en clase usuario?
+    	lblFotoPerfil = new JLabel();
         imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
-        
+    
         int maxWidth = 100; // Tamaño máximo de ancho
         int maxHeight = 100; // Tamaño máximo de alto
         int newWidth, newHeight;
