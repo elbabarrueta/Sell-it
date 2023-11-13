@@ -29,7 +29,7 @@ public class Main {
 			System.out.println( "Cargados usuarios:" );
 			for (Map.Entry<String, Usuario> entry : dataset.getMapaUsu().entrySet()) {
 	            Usuario usu = entry.getValue();
-	            System.out.println( "\t" + usu);
+	            System.out.println( " \t" + usu);
 	        }
 	/**		 
 			ventanaDatos = new Ventana( ventana );
