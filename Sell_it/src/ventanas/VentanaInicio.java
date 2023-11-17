@@ -59,7 +59,7 @@ public class VentanaInicio extends JFrame {
 		JTextField txtUsuario = new JTextField();
 		JPasswordField txtContrasenia = new JPasswordField(20);
 		txtContrasenia.setEchoChar('*');
-		JLabel etiquetaUsuario = new JLabel("Usuario:");
+		JLabel etiquetaUsuario = new JLabel("Correo:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
 		

@@ -5,11 +5,11 @@ import javax.swing.*;
 
 import clases.Entrada;
 
-public class VentanaEntrada extends JFrame{
+public class VentanaEvento extends JFrame{
 	
 	private JTextField tfCantidad = new JTextField(); //Se puede cambiar por un JComboBox 
 	
-	public VentanaEntrada(Entrada e) {
+	public VentanaEvento(Entrada e) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
@@ -37,7 +37,7 @@ public class VentanaEntrada extends JFrame{
 	
 	public static void main(String[] args) {
 		Entrada e = new Entrada("Moma Halloween", "Entradas para Moma en Halloween con una consumición. 00:00-05:30", "31 de octubre", 20);
-		VentanaEntrada v = new VentanaEntrada(e);
+		VentanaEvento v = new VentanaEvento(e);
 		v.setVisible(true);
 	}
 
