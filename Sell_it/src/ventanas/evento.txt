@@ -1,0 +1,7 @@
+Concierto Melendi,Concierto del cantante Melendi. Gira de sus canciones mas miticas!,10-11-2023,Bilbao,3000,25
+Concierto Alejandro Sanz,Concierto del cantante Alejandro Sanz. Gira de su nuevo album!,30-12-2022,Logroño,2500,20
+Exposición de Fotografía Urbana,Explora la belleza de la fotografía urbana con esta exposición única.,15-03-2023,Madrid,1000,10
+Festival de Jazz en el Parque,Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.,05-05-2023,Barcelona,1500,15
+Conferencia de Ciencia y Tecnología,Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.,20-06-2023,Valencia,300,30
+Carrera Solidaria por la Naturaleza,Participa en esta carrera para apoyar la conservación del medio ambiente.,08-09-2023,Sevilla,10000,12
+Noche de Comedia con Ricky Gervais,Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!,12-11-2023,Málaga,600,25

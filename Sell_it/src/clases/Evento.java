@@ -9,6 +9,7 @@ public class Evento {
 	private String desc;
 	private String fecha;
 	private String ubicacion;
+	private int nEntradas;
 	private ArrayList<Entrada> entradasDisponibles;
 	private double precio;
 	
