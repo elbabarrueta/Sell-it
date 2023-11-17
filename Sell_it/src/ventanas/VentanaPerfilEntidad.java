@@ -114,31 +114,32 @@ public class VentanaPerfilEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 // Obtener la última fecha de cambio de contraseña (esto es un valor de ejemplo).
-		        LocalDate ultimaCambio = LocalDate.of(2023, 10, 10);
 		        LocalDate hoy = LocalDate.now();
 
-		        long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(ultimaCambio, hoy);
-		        
-		        if (diasDesdeUltimoCambio >= 15) {
-		            int respuesta = JOptionPane.showConfirmDialog(frame, "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
-		                    "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+		        if(usuario.getUltimaCambioContrasena() != null) {
+		        	long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(usuario.getUltimaCambioContrasena(), hoy);
+			        System.out.println(diasDesdeUltimoCambio);
+			        if (diasDesdeUltimoCambio >= 15) {
+			            int respuesta = JOptionPane.showConfirmDialog(frame, "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
+			                    "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
 
-		            if (respuesta == JOptionPane.YES_OPTION) {
-		                // Código para cambiar la contraseña.
-		            	String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
-		            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
-		            		usuario.cambiarContrasena(nuevaContrasena);
-		            		ultimaCambio = LocalDate.now(); // Actualizar la fecha
-		            		JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");   
-		            	}else {
-		            		JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
-		            	}
-		                
-		            }
-		        } else {
-		            JOptionPane.showMessageDialog(frame, "La contraseña solo se puede cambiar una vez cada 15 días.");
+			            if (respuesta == JOptionPane.YES_OPTION) {
+			                // Código para cambiar la contraseña.
+			            	String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
+			            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
+			            		usuario.cambiarContrasena(nuevaContrasena);
+			        //    		ultimaCambio = LocalDate.now(); // Actualizar la fecha
+			            		JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");   
+			            	}else {
+			            		JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
+			            	}
+			                
+			            }
+			        } else {
+			            JOptionPane.showMessageDialog(frame, "La contraseña solo se puede cambiar una vez cada 15 días.");
+			        }
 		        }
+		        
 			}
 		});
         
