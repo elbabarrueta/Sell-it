@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,9 @@ public class DataSetUsuario {
 				String contrasena = partes[3];
 				Usuario usu = new Usuario(nombre, correo, tipoUsu, contrasena );
 				//usuariosGuardados.add( usu );
+				usu.setUltimaCambioContrasena(LocalDate.of(2000, 1, 1));
+			//	usu.cambiarContrasena("contrasenaInicial");
+				
 				mapaUsu.put(correo, usu); //----- aqui uso el correo como clave unica
 			} catch (IndexOutOfBoundsException | NumberFormatException e) {
 				System.err.println( "Error en lectura de línea " + numLinea );

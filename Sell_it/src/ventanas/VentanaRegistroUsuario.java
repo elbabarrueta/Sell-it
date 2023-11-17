@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -108,6 +109,10 @@ public class VentanaRegistroUsuario extends JFrame {
 		    }
 			
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
+			
+			u.setUltimaCambioContrasena(LocalDate.now());
+		//	u.cambiarContrasena("contrasenaInicial");
+		//	u.cambiarContrasena(contrasenia);
 			
 			if( DataSetUsuario.buscarUsu(correo)== null) {
 				DataSetUsuario.anyadirUsuario(u);

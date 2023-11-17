@@ -1,11 +1,17 @@
 package clases;
 
+import java.time.LocalDate;
+
 public class Usuario {
 	//Hay que cambiar los atributos
 	private String nombreUsuario;
 	private String correoUsuario;
 	private String tipoUsuario;
 	private String contrasena;
+	
+	// Fecha de registro
+	private LocalDate fechaRegistro;
+    private LocalDate ultimaCambioContrasena;
 	
 	//
 	public final String getNombreUsuario() {
@@ -33,6 +39,14 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 	//
+	public final LocalDate getUltimaCambioContrasena() {
+		return ultimaCambioContrasena;
+	}
+	public final void setUltimaCambioContrasena(LocalDate ultimaCambioContrasena) {
+		this.ultimaCambioContrasena = ultimaCambioContrasena;
+	}
+	
+	//
 	public Usuario() {
 		super();
 		this.nombreUsuario = " ";
@@ -56,7 +70,9 @@ public class Usuario {
 	
 	//Metodos
 	public void cambiarContrasena(String nuevaContrasena) {
+        // Código para cambiar la contraseña
+        ultimaCambioContrasena = LocalDate.now();
 		this.contrasena = nuevaContrasena;
-	}
+    }
 	
 }
