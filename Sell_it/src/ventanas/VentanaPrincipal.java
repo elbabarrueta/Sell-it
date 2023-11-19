@@ -19,6 +19,8 @@ public class VentanaPrincipal extends JFrame{
 		private JTable tablaEventos;
 		private DataSetUsuario dataSetUsuario;
 		private VentanaInicio vent;
+		private List<VentanaEvento> listaEventos;//telmo
+		private JPanel pnlCentro;//telmo
 		
 		public VentanaPrincipal(){
 			
@@ -29,10 +31,13 @@ public class VentanaPrincipal extends JFrame{
 			JLabel lblBusca = new JLabel("¡Busca el evento que desees!");
 			JPanel pnlNorte = new JPanel();
 			JPanel pnlSur = new JPanel();
+			pnlCentro = new JPanel(new GridLayout(3,2));//Telmo
+			JScrollPane scrollCentro = new JScrollPane();
 			pnlNorte.setLayout(new FlowLayout());
 			DefaultTableModel modelo = new DefaultTableModel();
 			modelo.addColumn("Código");
 			modelo.addColumn("Nombre");
+			
 			
 			tablaEventos = new JTable();
 			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
@@ -40,11 +45,14 @@ public class VentanaPrincipal extends JFrame{
 			
 			this.add(pnlNorte, BorderLayout.NORTH);
 			this.add(pnlSur, BorderLayout.SOUTH);
+			this.add(pnlCentro,BorderLayout.CENTER);//Telmo
 			pnlSur.add(bVenta);
 			pnlSur.add(bPerfil);
 			pnlNorte.add(lblBusca);
 			pnlNorte.add(tfBuscador);
 			pnlNorte.add(bBuscar);
+			pnlCentro.add(scrollCentro);//telmo
+			
 			//this.add(tbl_buscar);
 			
 			//this.add(lblMessi, BorderLayout.WEST);
@@ -130,6 +138,12 @@ public class VentanaPrincipal extends JFrame{
 			String datos[] = new String[2];
 		}
 		*/
+		
+		
+		private void agregarEventoAPanel(VentanaEvento evento) {//Telmo
+	        pnlCentro.add(evento.getNombreEvento());
+		}
+		
 		public static void main(String[] args) {
 			VentanaPrincipal v = new VentanaPrincipal();
 		}

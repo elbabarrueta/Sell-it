@@ -10,6 +10,7 @@ public class VentanaEvento extends JFrame{
 	
 	private JTextField tfCantidad = new JTextField(); //Se puede cambiar por un JComboBox 
 	private JLabel lImagen;
+	private JLabel lNombre;//Telmo(lo he puesto aqui para obtener el no)
 	
 	public VentanaEvento(Evento e) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,7 +33,7 @@ public class VentanaEvento extends JFrame{
         this.add(pImagen);
 		
 		JPanel pEvento = new JPanel(new GridLayout(4,1));
-		JLabel lNombre = new JLabel(e.getNombre());
+		lNombre = new JLabel(e.getNombre());
 		pEvento.add(lNombre);
 		JLabel lFecha = new JLabel(e.getFecha());
 		pEvento.add(lFecha);
@@ -82,6 +83,10 @@ public class VentanaEvento extends JFrame{
         Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
         imagen = new ImageIcon(newImg);
         lImagen.setIcon(imagen);
+	}
+	
+	public JLabel getNombreEvento() { //Telmo
+		return lNombre;
 	}
 	
 	public static void main(String[] args) {
