@@ -12,6 +12,7 @@ public class Evento {
 	private int nEntradas;
 	private ArrayList<Entrada> entradasDisponibles;
 	private double precio;
+	private String rutaImg;
 	
 	
 	//Getters y Setters
@@ -29,6 +30,12 @@ public class Evento {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public int getnEntradas() {
+		return nEntradas;
+	}
+	public void setnEntradas(int nEntradas) {
+		this.nEntradas = nEntradas;
 	}
 	public ArrayList<Entrada> getEntradasDisponibles() {
 		return entradasDisponibles;
@@ -54,6 +61,12 @@ public class Evento {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+	public String getRutaImg() {
+		return rutaImg;
+	}
+	public void setRutaImg(String rutaImg) {
+		this.rutaImg = rutaImg;
+	}
 	
 	
 	//Constructores
@@ -65,6 +78,17 @@ public class Evento {
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
 		this.entradasDisponibles = entradasDisponibles;
+		this.precio = precio;
+	}
+	
+	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas, double precio) {
+		super();
+		this.codigo = codigo++;
+		this.nombre = nombre;
+		this.desc = desc;
+		this.fecha = fecha;
+		this.ubicacion = ubicacion;
+		this.nEntradas = nEntradas;
 		this.precio = precio;
 	}
 	

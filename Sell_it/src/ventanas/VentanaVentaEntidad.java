@@ -3,10 +3,11 @@ package ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import clases.Entrada;
 import clases.Evento;
@@ -21,6 +22,8 @@ public class VentanaVentaEntidad extends JFrame{
 	private JTextField tfUbicacion = new JTextField();
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
+	private JButton bFoto = new JButton("Subir foto");
+	private String rutaImg;
 	
 	public VentanaVentaEntidad(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,7 +35,7 @@ public class VentanaVentaEntidad extends JFrame{
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
 		
-		JPanel pCentral = new JPanel(new GridLayout(6,2));
+		JPanel pCentral = new JPanel(new GridLayout(7,2));
 		this.add(pCentral, BorderLayout.CENTER);
 		
 		JPanel pInferior = new JPanel(new BorderLayout());
@@ -67,6 +70,12 @@ public class VentanaVentaEntidad extends JFrame{
 		pCentral.add(lPrecio);
 		pCentral.add(tfPrecio);
 		
+		JLabel lFoto = new JLabel("Quieres añadir una foto?");
+		pCentral.add(lFoto);
+		pCentral.add(bFoto);
+		rutaImg = null;
+		
+		
 		//Panel Inferior
 		JButton bSubir = new JButton("Subir entrada");
 		pInferior.add(bSubir, BorderLayout.EAST);
@@ -74,6 +83,22 @@ public class VentanaVentaEntidad extends JFrame{
 		pInferior.add(bVprincipal, BorderLayout.WEST);
 		
 		
+		bFoto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+	            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos imagen (.jpg, .png)", "jpg", "png");
+	            chooser.setFileFilter(filtro);
+	            int result = chooser.showOpenDialog(null);
+	            if (result == JFileChooser.APPROVE_OPTION) {
+	                File selectedFile = chooser.getSelectedFile();
+	                rutaImg = selectedFile.getAbsolutePath();
+	            }else {
+            		JOptionPane.showMessageDialog(null, "Error al subir imagen, vuelve a intentarlo.");
+	            }
+			}
+		});
 		
 		bMiperfil.addActionListener(new ActionListener() {
 			
@@ -113,6 +138,9 @@ public class VentanaVentaEntidad extends JFrame{
 					int cantidad = Integer.parseInt(cantText);
 					double precio = Double.parseDouble(precioText);			            
 					Evento evento = new Evento(nombre, desc, fecha, ubicacion, new ArrayList<Entrada>(), precio);
+					if(rutaImg != null) {
+						evento.setRutaImg(rutaImg);
+					}
 					//Añadir evento
 					
 					//Crear entradas
