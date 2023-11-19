@@ -9,6 +9,7 @@ import clases.Usuario;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -42,27 +43,15 @@ public class VentanaPerfilUsuario extends JFrame{
 	    // Parte superior: nombre, correo y botones de información
 	    JPanel topPanel = new JPanel(new FlowLayout());
 	    
-	    //No se guarda la imagen cuando la cambias. Nuevo atributo rutaImg en clase usuario?
-    	lblFotoPerfil = new JLabel();
-        imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
-    
-        int maxWidth = 100; // Tamaño máximo de ancho
-        int maxHeight = 100; // Tamaño máximo de alto
-        int newWidth, newHeight;
-        Image img = imagenPerfil.getImage();
-        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
-            newWidth = maxWidth;
-            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
-        } else {
-            newHeight = maxHeight;
-            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
-        }
-        // Redimensiona la imagen
-        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-        imagenPerfil = new ImageIcon(newImg);
-        
-        lblFotoPerfil.setIcon(imagenPerfil);
-            
+		lblFotoPerfil = new JLabel();
+	    if(usuario.getImgPerfil() == null) {
+	        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
+	    	fotoPerfil(imagenPerfil);
+	    }else {
+	    	String rutaImg = usuario.getImgPerfil();
+            ImageIcon imagenPerfil = new ImageIcon(rutaImg);
+	    	fotoPerfil(imagenPerfil);
+	    }
 	    
 	    JLabel nameLabel = new JLabel("Nombre:");
 	    nameField = new JTextField(20);
@@ -118,7 +107,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				frame.dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
 			}
 		});
@@ -193,23 +182,10 @@ public class VentanaPerfilUsuario extends JFrame{
 	            int result = chooser.showOpenDialog(frame);
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = chooser.getSelectedFile();
-	                ImageIcon imagenPerfil = new ImageIcon(selectedFile.getAbsolutePath());
-	                int maxWidth = 100; // Tamaño máximo de ancho
-	                int maxHeight = 100; // Tamaño máximo de alto
-	                int newWidth, newHeight;
-	                Image img = imagenPerfil.getImage();
-	                if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
-	                    newWidth = maxWidth;
-	                    newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
-	                } else {
-	                    newHeight = maxHeight;
-	                    newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
-	                }
-	                // Redimensiona la imagen
-	                Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-	                imagenPerfil = new ImageIcon(newImg);
-	                lblFotoPerfil.setIcon(imagenPerfil);
-	                
+	                String rutaImg = selectedFile.getAbsolutePath();
+	                usuario.setImgPerfil(rutaImg);
+	                ImageIcon imagenPerfil = new ImageIcon(rutaImg);
+	                fotoPerfil(imagenPerfil);
 	            }else {
             		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
 	            }
@@ -294,6 +270,25 @@ public class VentanaPerfilUsuario extends JFrame{
 	    notificaciones.add("¡Has vendido un artículo!");
 	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
 	    return notificaciones;
+	}
+	
+	private void fotoPerfil(ImageIcon imagenPerfil) {
+        int maxWidth = 100; // Tamaño máximo de ancho
+        int maxHeight = 100; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = imagenPerfil.getImage();
+        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imagenPerfil = new ImageIcon(newImg);
+        
+        lblFotoPerfil.setIcon(imagenPerfil);
 	}
 	
 	public static void main(String[] args) {

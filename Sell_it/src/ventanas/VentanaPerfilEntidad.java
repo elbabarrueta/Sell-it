@@ -41,24 +41,14 @@ public class VentanaPerfilEntidad extends JFrame{
 	    emailField.setEditable(false);
 	    
 	    lblFotoPerfil = new JLabel();
-        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfilE.png")); // Ruta de la imagen de perfil
-        
-        int maxWidth = 100; // Tamaño máximo de ancho
-        int maxHeight = 100; // Tamaño máximo de alto
-        int newWidth, newHeight;
-        Image img = imagenPerfil.getImage();
-        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
-            newWidth = maxWidth;
-            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
-        } else {
-            newHeight = maxHeight;
-            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
-        }
-        // Redimensiona la imagen
-        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-        imagenPerfil = new ImageIcon(newImg);
-        
-        lblFotoPerfil.setIcon(imagenPerfil);
+	    if(usuario.getImgPerfil() == null) {
+	        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfilE.png")); // Ruta de la imagen de perfil
+	    	fotoPerfil(imagenPerfil);
+	    }else {
+	    	String rutaImg = usuario.getImgPerfil();
+            ImageIcon imagenPerfil = new ImageIcon(rutaImg);
+	    	fotoPerfil(imagenPerfil);
+	    }        
         
         JButton infoButton1 = new JButton("En venta");
         JButton infoButton2 = new JButton("Valoraciones");
@@ -105,7 +95,7 @@ public class VentanaPerfilEntidad extends JFrame{
         botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				frame.dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
 			}
 		});
@@ -172,30 +162,16 @@ public class VentanaPerfilEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-	            JFileChooser chooser = new JFileChooser();
+				JFileChooser chooser = new JFileChooser();
 	            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos imagen (.jpg, .png)", "jpg", "png");
 	            chooser.setFileFilter(filtro);
 	            int result = chooser.showOpenDialog(frame);
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = chooser.getSelectedFile();
-	                ImageIcon imagenPerfil = new ImageIcon(selectedFile.getAbsolutePath());
-	                int maxWidth = 100; // Tamaño máximo de ancho
-	                int maxHeight = 100; // Tamaño máximo de alto
-	                int newWidth, newHeight;
-	                Image img = imagenPerfil.getImage();
-	                if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
-	                    newWidth = maxWidth;
-	                    newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
-	                } else {
-	                    newHeight = maxHeight;
-	                    newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
-	                }
-	                // Redimensiona la imagen
-	                Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-	                imagenPerfil = new ImageIcon(newImg);
-	                lblFotoPerfil.setIcon(imagenPerfil);
-	                
+	                String rutaImg = selectedFile.getAbsolutePath();
+	                usuario.setImgPerfil(rutaImg);
+	                ImageIcon imagenPerfil = new ImageIcon(rutaImg);
+	                fotoPerfil(imagenPerfil);
 	            }else {
             		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
 	            }
@@ -224,6 +200,7 @@ public class VentanaPerfilEntidad extends JFrame{
 				nameField.setEditable(false);
 				emailField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
+				botonCambiarFoto.setVisible(false);
 				// Volvemos a poner los botones
 				botonVentanaP.setVisible(true);
 	            botonContrasena.setVisible(true);
@@ -237,6 +214,25 @@ public class VentanaPerfilEntidad extends JFrame{
         frame.pack();
         frame.setVisible(true);
         
+	}
+	
+	private void fotoPerfil(ImageIcon imagenPerfil) {
+        int maxWidth = 100; // Tamaño máximo de ancho
+        int maxHeight = 100; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = imagenPerfil.getImage();
+        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imagenPerfil = new ImageIcon(newImg);
+        
+        lblFotoPerfil.setIcon(imagenPerfil);
 	}
 	
     public static void main(String[] args) {
