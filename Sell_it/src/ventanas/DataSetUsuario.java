@@ -12,9 +12,6 @@ import java.util.Scanner;
 
 import clases.Usuario;
 
-
-
-
 public class DataSetUsuario {
 	
 	private Usuario usuario; //-----nuevo
@@ -102,7 +99,7 @@ public class DataSetUsuario {
         try {
             PrintWriter pw = new PrintWriter(nomfich);
             for (Usuario u: mapaUsu.values() ) {
-                pw.println(u.getNombreUsuario() + ";" + u.getCorreoUsuario() + ";" + u.getTipoUsuario() + ";" + u.getContrasena());
+                pw.println(u.getNombreUsuario() + "," + u.getCorreoUsuario() + "," + u.getTipoUsuario() + "," + u.getContrasena());
             }
             pw.flush();
             pw.close();
