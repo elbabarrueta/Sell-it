@@ -8,6 +8,7 @@ public class Usuario {
 	private String correoUsuario;
 	private String tipoUsuario;
 	private String contrasena;
+	private String imgPerfil;
 	
 	// Fecha de registro
 	private LocalDate fechaRegistro;
@@ -32,6 +33,12 @@ public class Usuario {
 	public final void setTipoUsuario(String tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+	public final String getImgPerfil() {
+		return imgPerfil;
+	}
+	public final void setImgPerfil(String imgPerfil) {
+		this.imgPerfil = imgPerfil;
+	}
 	public final String getContrasena() {
 		return contrasena;
 	}
@@ -53,6 +60,7 @@ public class Usuario {
 		this.correoUsuario = " ";
 		this.tipoUsuario = " ";
 		this.contrasena = " ";
+		this.imgPerfil = null;
 	}
 	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena) {
 		super();
@@ -60,6 +68,7 @@ public class Usuario {
 		this.correoUsuario = correoUsuario;
 		this.tipoUsuario = tipoUsuario;
 		this.contrasena = contrasena;
+		this.imgPerfil = null;
 	}
 	//
 	@Override
