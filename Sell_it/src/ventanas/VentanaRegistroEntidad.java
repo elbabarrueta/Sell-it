@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
@@ -66,7 +68,17 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		txtContrasenia = new JPasswordField();
 		
-		JButton btnRegistrarse = new JButton("Registrarse");
+		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
+		mostrarContra.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                mostrarOcultarContraseña();
+	            }
+	    });
+		
+		JButton btnRegistro = new JButton("Registrarse");
+		panelSur.add(btnRegistro);
+		panelSur.add(mostrarContra);
 		
 		panelRegistroEntidad.add(panelCentro,BorderLayout.CENTER);
 		panelRegistroEntidad.add(panelSur,BorderLayout.SOUTH);
@@ -76,9 +88,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelSur.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
 		panelNorte.add(lblPanelNorte);
-		panelSur.add(btnRegistrarse);
-		
-
+	
 		panelCentro.add(lblNombre);
 		panelCentro.add(txtNombre);
 		panelCentro.add(lblCorreo);
@@ -89,13 +99,10 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelCentro.add(txtTipo);
 
 		
-		
-		
-		
 		//Eventos
 		
 		
-		btnRegistrarse.addActionListener((e)->{
+		btnRegistro.addActionListener((e)->{
 			
 			String contrasenia = txtContrasenia.getText();
 			String nombre = txtNombre.getText();
@@ -109,6 +116,10 @@ public class VentanaRegistroEntidad extends JFrame{
 			if (contrasenia.length() <= 5) {
 		        JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 5 caracteres.");
 		        return; 
+		    }
+			if (!correo.contains("@")) {
+		        JOptionPane.showMessageDialog(null, "La dirección de correo no es válida. Debe contener el carácter '@'.");
+		        return;
 		    }
 			
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
@@ -131,8 +142,20 @@ public class VentanaRegistroEntidad extends JFrame{
 			limpiarCampos();
 		});
 		
-	
 	}
+	
+	public void mostrarOcultarContraseña() {
+        // Obtener la contraseña actual
+        char[] contraseña = txtContrasenia.getPassword();
+
+        // Cambiar el estado de visualización de la contraseña
+        if (txtContrasenia.getEchoChar() == 0) {
+        	txtContrasenia.setEchoChar('*');
+        } else {
+        	txtContrasenia.setEchoChar((char) 0);
+        }
+        txtContrasenia.setText(new String(contraseña));
+    }
 	private void limpiarCampos() {
 
 		txtNombre.setText("");

@@ -18,9 +18,9 @@ import java.util.List;
 
 public class VentanaPerfilUsuario extends JFrame{
 
-	private JPanel panelBotones;
-	private JPanel panelPrincipal;
-	private JPanel panelInformacion;
+//	private JPanel panelBotones;
+//	private JPanel panelPrincipal;
+//	private JPanel panelInformacion;
 	private JLabel lblFotoPerfil;
 	private JTextField nameField;
 	private JTextField emailField;
@@ -45,11 +45,11 @@ public class VentanaPerfilUsuario extends JFrame{
 	    
 		lblFotoPerfil = new JLabel();
 	    if(usuario.getImgPerfil() == null) {
-	        ImageIcon imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
+	        imagenPerfil = new ImageIcon(VentanaPerfilUsuario.class.getResource("perfil.png")); // Ruta de la imagen de perfil
 	    	fotoPerfil(imagenPerfil);
 	    }else {
 	    	String rutaImg = usuario.getImgPerfil();
-            ImageIcon imagenPerfil = new ImageIcon(rutaImg);
+            imagenPerfil = new ImageIcon(rutaImg);
 	    	fotoPerfil(imagenPerfil);
 	    }
 	    
@@ -76,6 +76,7 @@ public class VentanaPerfilUsuario extends JFrame{
 
 	    // Parte central: descripción del usuario
 	    JTextArea descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+	    descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
 	    descriptionArea.setLineWrap(true);
 	    descriptionArea.setWrapStyleWord(true);
@@ -87,6 +88,12 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JButton buttonEditar = new JButton("Editar Perfil");
 	    JButton buttonProductosCompados = new JButton("Mis compras");
         JButton botonVentanaP = new JButton("Ventana Principal");
+        
+        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
+        //Personalizar la letra del boton
+        Font font = new Font("Montserrat", Font.BOLD, 14);
+        botonVentanaP.setFont(font);
+        
 	    bottomPanel.add(buttonContrasena);
 	    bottomPanel.add(buttonEditar);
 	    bottomPanel.add(buttonProductosCompados);
@@ -184,7 +191,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	                File selectedFile = chooser.getSelectedFile();
 	                String rutaImg = selectedFile.getAbsolutePath();
 	                usuario.setImgPerfil(rutaImg);
-	                ImageIcon imagenPerfil = new ImageIcon(rutaImg);
+	                imagenPerfil = new ImageIcon(rutaImg);
 	                fotoPerfil(imagenPerfil);
 	            }else {
             		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
