@@ -67,7 +67,7 @@ public class DataSetEvento {
 		return mapaEvento.get(nombre);
 	}
 	
-	public Evento getUsuarioPorCorreo(String desc) {
+	public Evento getEventoPorDescripcion(String desc) {
 		if(mapaEvento.containsKey(desc)) {
 			return mapaEvento.get(desc);
 		}
