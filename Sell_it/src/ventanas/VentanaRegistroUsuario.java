@@ -98,9 +98,7 @@ public class VentanaRegistroUsuario extends JFrame {
 		panelCentro.add(txtTipou);
 		
 
-		
 		//Eventos
-		
 		
 		btnRegistro.addActionListener((e)->{
 			

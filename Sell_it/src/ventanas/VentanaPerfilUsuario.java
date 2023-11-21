@@ -107,7 +107,9 @@ public class VentanaPerfilUsuario extends JFrame{
 	    infoButton1.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	            JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningun articulo en venta");
+	    //        JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningun articulo en venta");
+	        	VentanaTablaInformacion infV = new VentanaTablaInformacion();
+	        	infV.setVisible(true);
 	        }
 	    });
 	    
