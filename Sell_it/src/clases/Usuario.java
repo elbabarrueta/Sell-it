@@ -4,11 +4,11 @@ import java.time.LocalDate;
 
 public class Usuario {
 	//Hay que cambiar los atributos
-	private String nombreUsuario;
-	private String correoUsuario;
-	private String tipoUsuario;
-	private String contrasena;
-	private String imgPerfil;
+	public String nombreUsuario;
+	public String correoUsuario;
+	public String tipoUsuario;
+	public String contrasena;
+	public String imgPerfil;
 	
 	// Fecha de registro
 	private LocalDate fechaRegistro;
