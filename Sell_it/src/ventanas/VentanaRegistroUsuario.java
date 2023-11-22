@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import clases.Datos;
 import clases.Usuario;
+import datos.DataSetUsuario;
 
 public class VentanaRegistroUsuario extends JFrame {
 	

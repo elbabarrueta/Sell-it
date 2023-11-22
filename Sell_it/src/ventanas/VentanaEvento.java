@@ -22,7 +22,7 @@ public class VentanaEvento extends JFrame{
 		JPanel pImagen = new JPanel();
 		lImagen = new JLabel();
 		if(e.getRutaImg() == null) {
-	        ImageIcon imagen = new ImageIcon(VentanaPerfilUsuario.class.getResource("default.png")); // Ruta de la imagen de perfil
+	        ImageIcon imagen = new ImageIcon("Sell_it/src/imagenes/default.png"); // Ruta de la imagen de perfil
 	    	setImagen(imagen);
 	    }else {
 	    	String rutaImg = e.getRutaImg();

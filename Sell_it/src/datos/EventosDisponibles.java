@@ -1,4 +1,4 @@
-package ventanas;
+package datos;
 
 import java.io.File;
 import java.io.IOException;
