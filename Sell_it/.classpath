@@ -6,10 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/diego/Downloads/sqlite-jdbc-3.44.0.0.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/diego/Downloads/sqlite-jdbc-3.44.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/diego/Downloads/slf4j-api-2.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
