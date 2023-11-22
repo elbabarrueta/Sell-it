@@ -64,7 +64,8 @@ public class VentanaPerfilEntidad extends JFrame{
 
         // Parte central: descripción del usuario
         JTextArea descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
-	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
+        descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
 	    descriptionArea.setLineWrap(true);
 	    descriptionArea.setWrapStyleWord(true);
 	    descriptionArea.setEditable(true);
@@ -75,6 +76,11 @@ public class VentanaPerfilEntidad extends JFrame{
         JButton botonEditar = new JButton("Editar Perfil");
         JButton botonCompras = new JButton("Compras");
         JButton botonVentanaP = new JButton("Ventana Principal");
+        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
+        //Personalizar la letra del boton
+        Font font = new Font("Montserrat", Font.BOLD, 14);
+        botonVentanaP.setFont(font);
+        
         bottomPanel.add(botonContrasena);
         bottomPanel.add(botonEditar);
         bottomPanel.add(botonCompras);

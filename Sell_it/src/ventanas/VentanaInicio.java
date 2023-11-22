@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,8 @@ public class VentanaInicio extends JFrame {
 	private static DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	
+	private JPasswordField txtContrasenia;
+	
 	private static final long serialVersionUID = 1L;
 
 	public VentanaInicio() {
@@ -35,7 +39,7 @@ public class VentanaInicio extends JFrame {
 		
 		//Características de la ventana principal
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setBounds(500,300, 400, 400);
+		this.setBounds(500,300, 500, 500);
 		this.setTitle("Sell-It");
 		
 		//Ceracion de paneles 
@@ -57,11 +61,18 @@ public class VentanaInicio extends JFrame {
 		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
 		
 		JTextField txtUsuario = new JTextField();
-		JPasswordField txtContrasenia = new JPasswordField(20);
+		txtContrasenia = new JPasswordField(20);
 		txtContrasenia.setEchoChar('*');
 		JLabel etiquetaUsuario = new JLabel("Correo:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
+		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
+		mostrarContra.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                mostrarOcultarContraseña();
+	            }
+	    });
 		
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
 		JButton botonRegistroUsuario = new JButton("Registro Usuario");
@@ -83,18 +94,15 @@ public class VentanaInicio extends JFrame {
 		panelCentro.add(etiquetaUsuario);
 		panelCentro.add(txtUsuario);
 		panelCentro.add(etiquetaContrasenia);
-		panelCentro.add(txtContrasenia);
+		panelCentro.add(txtContrasenia);	
 		
 		JPanel panel = new JPanel();
 		panelCentro.add(panel);
 		panel.add(botonIniciarSesion);
-	
-		
-	
-		
+		panel.add(mostrarContra);		
+
 		//Eventos
-		
-		
+	
 		botonRegistroUsuario.addActionListener(new ActionListener(){
 
 			@Override
@@ -147,6 +155,19 @@ public class VentanaInicio extends JFrame {
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
+	
+	private void mostrarOcultarContraseña() {
+        // Obtener la contraseña actual
+        char[] contraseña = txtContrasenia.getPassword();
+
+        // Cambiar el estado de visualización de la contraseña
+        if (txtContrasenia.getEchoChar() == 0) {
+        	txtContrasenia.setEchoChar('*');
+        } else {
+        	txtContrasenia.setEchoChar((char) 0);
+        }
+        txtContrasenia.setText(new String(contraseña));
+    }
 	
 //	private boolean verificarCredenciales(String iD, String contrasenia) {
 //		 List<Usuario> usuarios = dataSetUsuario.getUsuariosGuardados(); // Obtén la lista de usuarios cargados desde el archivo
