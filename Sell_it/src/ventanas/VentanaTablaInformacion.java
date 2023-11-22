@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.BorderLayout;
 
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -45,7 +46,7 @@ public class VentanaTablaInformacion extends JFrame{
 
 		@Override
 		public int getColumnCount() {
-			return 10;
+			return 5;
 		}
 
 		private final String[] cabeceras = { "A", "B", "C", "D", "E" };

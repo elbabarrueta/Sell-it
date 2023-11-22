@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Usuario;
+import datos.DataSetUsuario;
 
 public class VentanaPrincipal extends JFrame{
 

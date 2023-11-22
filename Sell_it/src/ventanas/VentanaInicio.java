@@ -1,10 +1,11 @@
 package ventanas;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import clases.Usuario;
+import datos.DataSetUsuario;
 
 public class VentanaInicio extends JFrame {
 	
@@ -30,7 +33,7 @@ public class VentanaInicio extends JFrame {
 	private static DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	
-	private JPasswordField txtContrasenia;
+	private static CustomPasswordField txtContrasenia;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -61,7 +64,10 @@ public class VentanaInicio extends JFrame {
 		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
 		
 		JTextField txtUsuario = new JTextField();
-		txtContrasenia = new JPasswordField(20);
+		txtContrasenia = new CustomPasswordField(20);
+		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
+		txtContrasenia.getButton().setBackground(Color.WHITE);
 		txtContrasenia.setEchoChar('*');
 		JLabel etiquetaUsuario = new JLabel("Correo:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
@@ -210,5 +216,56 @@ public class VentanaInicio extends JFrame {
 	public static void cargarUsuariosInicio(DataSetUsuario dataset) {
 		dataSetUsuario = dataset;
 	}
+	
+	private static ImageIcon fotoBoton(ImageIcon imagenOjo) {
+        int maxWidth = 20; // Tamaño máximo de ancho
+        int maxHeight = 20; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = imagenOjo.getImage();
+        if (imagenOjo.getIconWidth() > imagenOjo.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * imagenOjo.getIconHeight()) / imagenOjo.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * imagenOjo.getIconWidth()) / imagenOjo.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imagenOjo = new ImageIcon(newImg);
+        return imagenOjo;
+	}
+	
+	
+	private static class CustomPasswordField extends JPasswordField {
+        private JButton button;
+
+        public CustomPasswordField(int columns) {
+            super(columns);
+            button = new JButton();
+            setLayout(new BorderLayout());
+            add(button, BorderLayout.EAST);
+            button.setPreferredSize(new Dimension(30, 10));
+
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    char echoChar = getEchoChar();
+                    if (echoChar == 0) {
+                        setEchoChar('\u2022'); // Ocultar contraseña (punto negro)
+                		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+                		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
+                    } else {
+                		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_opened_icon.png");
+                		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
+                        setEchoChar((char) 0); // Mostrar contraseña
+                    }
+                }
+            });
+        }
+
+        public JButton getButton() {
+            return button;
+        }
+    }
 
 }
