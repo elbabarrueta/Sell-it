@@ -126,7 +126,7 @@ public class VentanaVentaEntidad extends JFrame{
 				String desc = tfDesc.getText();
 				String fecha = tfFecha.getText();
 				String ubicacion = tfUbicacion.getText();
-				ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+				//ArrayList<Entrada> entradas = new ArrayList<Entrada>();
 				String cantText = tfCant.getText();
 		        String precioText = tfPrecio.getText();
 				
@@ -136,8 +136,8 @@ public class VentanaVentaEntidad extends JFrame{
 		        }
 				try {
 					int cantidad = Integer.parseInt(cantText);
-					double precio = Double.parseDouble(precioText);			            
-					Evento evento = new Evento(nombre, desc, fecha, ubicacion, new ArrayList<Entrada>(), precio);
+					double precio = Double.parseDouble(precioText);			
+					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad, precio);
 					if(rutaImg != null) {
 						evento.setRutaImg(rutaImg);
 					}
