@@ -23,6 +23,9 @@ public class BaseDeDatos {
 			
 			//s.executeUpdate("create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)");
 			s.executeUpdate("insert into usuario values(Laura Lopez,laura.lopez@gmail.com,Usuario corriente,abcABC33)");
+			s.executeUpdate("insert into usuario values(Miguel Diaz,mdiaz@gmail.com,Usuario corriente,mMiaz45#g)");
+			s.executeUpdate("insert into usuario values(Kepa Galindo,k10galindo@gmail.com,Usuario corriente,GK842aeiou)");
+			s.executeUpdate("insert into usuario values(Discoteca Moma,moma@gmail.com,Usuario entidad,MmMon345627#)");
 			
 			connection.close();
 		} catch (SQLException e) {
