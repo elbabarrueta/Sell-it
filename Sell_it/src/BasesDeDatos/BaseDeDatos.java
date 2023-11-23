@@ -35,10 +35,8 @@ public class BaseDeDatos {
 			s.executeUpdate("insert into usuario values(Miguel Diaz,mdiaz@gmail.com,Usuario corriente,mMiaz45#g)"); //terminar de poner comillas simples
 			s.executeUpdate("insert into usuario values(Kepa Galindo,k10galindo@gmail.com,Usuario corriente,GK842aeiou)");
 			s.executeUpdate("insert into usuario values(Discoteca Moma,moma@gmail.com,Usuario entidad,MmMon345627#)");
-			
-			
-			
 			connection.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Error en gestion de base de datos");
