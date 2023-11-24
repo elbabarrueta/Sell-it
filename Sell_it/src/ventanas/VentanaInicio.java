@@ -151,6 +151,8 @@ public class VentanaInicio extends JFrame {
 			     dispose();
 			     v.setVisible(true);
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
+			 }  else if (correo.isEmpty() || contrasenia.isEmpty()){
+				 JOptionPane.showMessageDialog(null, "Alguno de los campos está vacío "); 
 			 } else {
 			     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 			 }
