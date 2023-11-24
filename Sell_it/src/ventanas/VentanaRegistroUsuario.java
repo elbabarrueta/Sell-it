@@ -39,9 +39,7 @@ import datos.DataSetUsuario;
 public class VentanaRegistroUsuario extends JFrame {
 	
 	private JTextField txtNombre,txtCorreo;
-	private static CustomPasswordField txtContrasenia, txtConfirmar;
-//	private JComboBox comboTipoU;
-	
+	private static CustomPasswordField txtContrasenia, txtConfirmar;	
 
 	/**
 	 * 
@@ -127,12 +125,20 @@ public class VentanaRegistroUsuario extends JFrame {
 		
 		JButton btnRegistro = new JButton("Registrarse");
 		panelSur.add(btnRegistro);
-
-		
-		
+		JButton btnVolver = new JButton("Volver");
+        panelSur.add(btnVolver);
 
 		//Eventos
-		
+        btnVolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	VentanaInicio ventanaInicio = new VentanaInicio();
+                dispose();  // Cierra la ventana actual
+                ventanaInicio.setVisible(true);
+                Main.setVentanaInicio(ventanaInicio);
+            }
+        });
+      
 		btnRegistro.addActionListener((e)->{
 			Pattern patronContrasenia = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
             char[] contrasenia = txtContrasenia.getPassword();

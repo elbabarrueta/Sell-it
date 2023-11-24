@@ -1,28 +1,26 @@
 package ventanas;
 
-import java.awt.BorderLayout;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+//import java.awt.Dimension;
+//import java.awt.FlowLayout;
+//import java.awt.GridLayout;
+//import java.awt.Image;
+import java.awt.event.*;
+//import java.awt.event.ActionListener;
+//import java.awt.event.MouseAdapter;
+//import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
+//import javax.swing.JButton;
+//import javax.swing.JFrame;
+//import javax.swing.JLabel;
+//import javax.swing.JOptionPane;
+//import javax.swing.JPanel;
+//import javax.swing.JPasswordField;
+//import javax.swing.JTextField;
 import clases.Usuario;
 import datos.DataSetUsuario;
 
@@ -40,7 +38,13 @@ public class VentanaInicio extends JFrame {
 
 	public VentanaInicio() {
 		super();
-		
+//		
+		try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+//		
 		//Características de la ventana principal
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setBounds(500,300, 500, 250);
@@ -84,7 +88,7 @@ public class VentanaInicio extends JFrame {
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
 		JButton botonRegistroUsuario = new JButton("Registro Usuario");
 		JButton botonIniciarSesion = new JButton("Iniciar Sesion");
-		
+	
 		JLabel etiquetaBienvenido = new JLabel("Bienvenido a Sell-It");
 		
 		JLabel etiquetaPregunta = new JLabel("¿No tienes cuenta?");
@@ -131,34 +135,62 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 	
-		botonIniciarSesion.addActionListener((e)->{
+		botonIniciarSesion.addActionListener((e)->{			
 			String correo = txtUsuario.getText();
 			String contrasenia = txtContrasenia.getText();
-			
-	/**		Usuario u = 
-			if(u == null) {
-				JOptionPane.showMessageDialog(null, "Usuario incorrecto");
-			}
-			else if(u.getContrasena().equals(contrasenia)) {
-				JOptionPane.showMessageDialog(null, "Bienvenido de nuevo "+ u.getNombre());
-				//VentaPrincipal.setVisible(true);
-			}
-	**/
 
 			 if (verificarCredenciales(correo, contrasenia)) {
-				 usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
-			     JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
-			     VentanaPrincipal v = new VentanaPrincipal();
-			     dispose();
-			     v.setVisible(true);
-			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
+				 if (mostrarCondicionesDeUso()) {
+	                    usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
+	   			     	JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
+	   			     	VentanaPrincipal v = new VentanaPrincipal();
+	   			     	dispose();
+	   			     	v.setVisible(true);
+	             }
+			        
 			 } else {
 			     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 			 }
+			 
+			 
 		});
 		
 	}
 	
+	// Condiciones de uso al iniciar sesion
+	private boolean mostrarCondicionesDeUso() {
+        JTextArea textArea = new JTextArea(
+                "¡Bienvenido a Ticket App!\n\n" +
+                        "Por favor, lea y acepte los siguientes términos y condiciones antes de continuar:\n\n" +
+                        "1. Al utilizar esta aplicación, usted acepta cumplir con los términos y condiciones establecidos.\n" +
+                        "2. Ticket App no se hace responsable por pérdidas o daños derivados del uso de la aplicación.\n" +
+                        "3. Los usuarios deben proporcionar información precisa durante el registro.\n" +
+                        "4. La venta de entradas está sujeta a disponibilidad y términos específicos de los eventos.\n" +
+                        "5. La información del usuario se utilizará de acuerdo con nuestra política de privacidad.\n\n" +
+                        "Al hacer clic en Aceptar, confirma que ha leído y acepta estos términos y condiciones."
+        );
+        textArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+
+        JPanel messagePanel = new JPanel(new BorderLayout());
+        messagePanel.add(scrollPane, BorderLayout.CENTER);
+
+        int option = JOptionPane.showOptionDialog(
+                this,
+                messagePanel,
+                "Condiciones de Uso",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new Object[]{"Aceptar", "Cancelar"},
+                "Aceptar"
+        );
+
+        return option == 0; // Devuelve true si el usuario hizo clic en "Aceptar"
+    }
+
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
