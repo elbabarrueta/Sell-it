@@ -42,7 +42,7 @@ public class VentanaInicio extends JFrame {
 		
 		//Características de la ventana principal
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setBounds(500,300, 500, 500);
+		this.setBounds(500,300, 500, 250);
 		this.setTitle("Sell-It");
 		
 		//Ceracion de paneles 
