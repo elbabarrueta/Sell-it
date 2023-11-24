@@ -1,14 +1,23 @@
 package ventanas;
 
 import java.awt.BorderLayout;
-
-
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,6 +26,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.AbstractBorder;
+import javax.swing.text.JTextComponent;
 
 import clases.Datos;
 import clases.Usuario;
@@ -24,7 +35,7 @@ import datos.DataSetUsuario;
 
 public class VentanaRegistroEntidad extends JFrame{
 	
-	private JPasswordField txtContrasenia;
+	private JPasswordField txtContrasenia, txtConfirmar;
 	private JTextField txtNombre,txtCorreo;
 //	private JComboBox comboTipo;
 	
@@ -43,61 +54,72 @@ public class VentanaRegistroEntidad extends JFrame{
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
-		JPanel panelCentro = new JPanel(new GridLayout(5,2));
-		
-		this.add(panelRegistroEntidad);
-		
-		
-		JLabel lblNombre = new JLabel("Nombre de la Empresa:");
-		JLabel lblContrasenia = new JLabel("Contraseña:");
-		JLabel lblCorreo = new JLabel("Correo de la empresa:");
-
-		JLabel lblPanelNorte = new JLabel("Rellene las casillas");
-
-		JLabel lblTipo = new JLabel("Tipo de usuario");
-		
-		JTextField txtTipo = new JTextField();
-		txtTipo.setText("Usuario entidad");
-		txtTipo.setEditable(false);
-//		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
-//		comboTipo = new JComboBox<>(tipoUsu);
-		
-
-		txtNombre = new JTextField();
-		txtCorreo = new JTextField();
-
-		
-		txtContrasenia = new JPasswordField();
-		
-		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
-		mostrarContra.addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent e) {
-	                mostrarOcultarContraseña();
-	            }
-	    });
-		
-		JButton btnRegistro = new JButton("Registrarse");
-		panelSur.add(btnRegistro);
-		panelSur.add(mostrarContra);
-		
+		JPanel panelCentro = new JPanel(new GridLayout(6,2));
 		panelRegistroEntidad.add(panelCentro,BorderLayout.CENTER);
 		panelRegistroEntidad.add(panelSur,BorderLayout.SOUTH);
 		panelRegistroEntidad.add(panelNorte,BorderLayout.NORTH);
-		
 		panelNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 		panelSur.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		panelNorte.add(lblPanelNorte);
+		this.add(panelRegistroEntidad);
+		
+		JLabel lblPanelNorte = new JLabel("Rellene las siguientes casillas:");
+		panelNorte.add(lblPanelNorte, BorderLayout.NORTH);
+
+		//JLabel lblNombre = new JLabel("Nombre de la Empresa:");
+        JPanel pNom = new JPanel();
+		txtNombre = new JTextField();
+		aplicarEstiloCampo(txtNombre, "Nombre de la empresa");
+        pNom.add(txtNombre);
+
+		//JLabel lblCorreo = new JLabel("Direccion de correo:");
+        JPanel pCorreo = new JPanel();
+        txtCorreo = new JTextField();
+        aplicarEstiloCampo(txtCorreo, "Correo de empresa");
+        pCorreo.add(txtCorreo);
+
+		//JLabel lblContrasenia = new JLabel("Contraseña:");
+        JPanel pContr = new JPanel();
+        txtContrasenia = new CustomPasswordField();
+        aplicarEstiloCampo(txtContrasenia, "Contraseña");
+        txtContrasenia.setEchoChar((char) 0);
+        pContr.add(txtContrasenia);
+
+        JPanel pConf = new JPanel();
+        txtConfirmar = new CustomPasswordField();
+        aplicarEstiloCampo(txtConfirmar, "Confirmar contraseña");
+        txtConfirmar.setEchoChar((char) 0);
+        pConf.add(txtConfirmar);
+		
+        JPanel pTipo = new JPanel();
+		JLabel lblTipo = new JLabel("Tipo de usuario");		
+		JTextField txtTipo = new JTextField();
+		txtTipo.setText("Usuario entidad");
+		txtTipo.setEditable(false);
+		pTipo.add(lblTipo);
+		pTipo.add(txtTipo);
+//		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
+//		comboTipo = new JComboBox<>(tipoUsu);
+//		
+//		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
+//		mostrarContra.addMouseListener(new MouseAdapter() {
+//	            @Override
+//	            public void mouseClicked(MouseEvent e) {
+//	                mostrarOcultarContraseña();
+//	            }
+//	    });
+//		
+		panelCentro.add(pNom);
+		panelCentro.add(pCorreo);
+		panelCentro.add(pContr);
+		panelCentro.add(pConf);
+		panelCentro.add(pTipo);
+		
+		JButton btnRegistro = new JButton("Registrarse");
+		panelSur.add(btnRegistro);
+		
 	
-		panelCentro.add(lblNombre);
-		panelCentro.add(txtNombre);
-		panelCentro.add(lblCorreo);
-		panelCentro.add(txtCorreo);
-		panelCentro.add(lblContrasenia);
-		panelCentro.add(txtContrasenia);
-		panelCentro.add(lblTipo);
-		panelCentro.add(txtTipo);
+		
 
 		
 		//Eventos
@@ -158,14 +180,111 @@ public class VentanaRegistroEntidad extends JFrame{
         txtContrasenia.setText(new String(contraseña));
     }
 	private void limpiarCampos() {
-
 		txtNombre.setText("");
 		txtCorreo.setText("");	
 		txtContrasenia.setText("");
-		
-
+		txtConfirmar.setText("");
 	}
 		
+	private void aplicarEstiloCampo(JTextComponent textField, String texto) {
+        textField.setForeground(new Color(169, 169, 169));
+        textField.setPreferredSize(new Dimension(350, 30));
+        textField.setText(texto);
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(texto)) {
+                    textField.setText("");
+                    if(textField instanceof JPasswordField) {
+                    	 ((JPasswordField) textField).setEchoChar('*');
+                    }
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setText(texto);
+                    if(textField instanceof JPasswordField) {
+                    	((JPasswordField) textField).setEchoChar((char) 0); 
+                    }
+                    textField.setForeground(new Color(169, 169, 169));
+                }
+            }
+        });
+        textField.setBorder(new RoundBorder(new Color(51, 255, 233), 20));
+    }
+	private static ImageIcon ajustarIcon(ImageIcon icon) {
+        int maxWidth = 20; // Tamaño máximo de ancho
+        int maxHeight = 20; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = icon.getImage();
+        if (icon.getIconWidth() > icon.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * icon.getIconHeight()) / icon.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * icon.getIconWidth()) / icon.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(newImg);
+        return icon;
+    }
+	
+	private static class RoundBorder extends AbstractBorder {
+        private final Color borderColor;
+        private final int roundRadius;
+
+        public RoundBorder(Color borderColor, int roundRadius) {
+            this.borderColor = borderColor;
+            this.roundRadius = roundRadius;
+        }
+
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setColor(borderColor);
+            g2.drawRoundRect(x, y, width - 1, height - 1, roundRadius, roundRadius);
+            g2.dispose();
+        }
+ }
+ 
+ private static class CustomPasswordField extends JPasswordField {
+    private JButton button;
+
+    public CustomPasswordField() {
+        super();
+        button = new JButton();
+        setLayout(new BorderLayout());
+        add(button, BorderLayout.EAST);
+        button.setPreferredSize(new Dimension(30, 10));
+        ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+		button.setIcon((ajustarIcon(imagenOjo)));
+		button.setBackground(Color.WHITE);
+		
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                char echoChar = getEchoChar();
+                if (echoChar == 0) {
+                    setEchoChar('\u2022'); // Ocultar contraseña (punto negro)
+            		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+            		button.setIcon((ajustarIcon(imagenOjo)));
+                } else {
+            		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_opened_icon.png");
+            		button.setIcon((ajustarIcon(imagenOjo)));
+                    setEchoChar((char) 0); // Mostrar contraseña
+                }
+            }
+        });
+    }
+
+    public JButton getButton() {
+        return button;
+    }
+}
 
 
 }

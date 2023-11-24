@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -64,7 +65,7 @@ public class VentanaInicio extends JFrame {
 		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
 		
 		JTextField txtUsuario = new JTextField();
-		txtContrasenia = new CustomPasswordField(20);
+		txtContrasenia = new CustomPasswordField();
 		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
 		txtContrasenia.getButton().setBackground(Color.WHITE);
@@ -105,7 +106,7 @@ public class VentanaInicio extends JFrame {
 		JPanel panel = new JPanel();
 		panelCentro.add(panel);
 		panel.add(botonIniciarSesion);
-		panel.add(mostrarContra);		
+		//panel.add(mostrarContra);		
 
 		//Eventos
 	
@@ -241,8 +242,8 @@ public class VentanaInicio extends JFrame {
 	private static class CustomPasswordField extends JPasswordField {
         private JButton button;
 
-        public CustomPasswordField(int columns) {
-            super(columns);
+        public CustomPasswordField() {
+            super();
             button = new JButton();
             setLayout(new BorderLayout());
             add(button, BorderLayout.EAST);
