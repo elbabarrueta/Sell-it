@@ -110,8 +110,18 @@ public class VentanaInicio extends JFrame {
 		JPanel panel = new JPanel();
 		panelCentro.add(panel);
 		panel.add(botonIniciarSesion);
-		//panel.add(mostrarContra);		
-
+		//panel.add(mostrarContra);	
+//		
+		JLabel politicaEnlace = new JLabel("Política de Privacidad");
+        politicaEnlace.setForeground(Color.BLUE); // Color azul para indicar un enlace
+        politicaEnlace.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        politicaEnlace.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mostrarPoliticaPrivacidad();
+            }
+        });
+        panel.add(politicaEnlace, BorderLayout.SOUTH);
+//
 		//Eventos
 	
 		botonRegistroUsuario.addActionListener(new ActionListener(){
@@ -160,10 +170,10 @@ public class VentanaInicio extends JFrame {
 	// Condiciones de uso al iniciar sesion
 	private boolean mostrarCondicionesDeUso() {
         JTextArea textArea = new JTextArea(
-                "¡Bienvenido a Ticket App!\n\n" +
+                "¡Bienvenido a Sell-it!\n\n" +
                         "Por favor, lea y acepte los siguientes términos y condiciones antes de continuar:\n\n" +
                         "1. Al utilizar esta aplicación, usted acepta cumplir con los términos y condiciones establecidos.\n" +
-                        "2. Ticket App no se hace responsable por pérdidas o daños derivados del uso de la aplicación.\n" +
+                        "2. Sell-it no se hace responsable por pérdidas o daños derivados del uso de la aplicación.\n" +
                         "3. Los usuarios deben proporcionar información precisa durante el registro.\n" +
                         "4. La venta de entradas está sujeta a disponibilidad y términos específicos de los eventos.\n" +
                         "5. La información del usuario se utilizará de acuerdo con nuestra política de privacidad.\n\n" +
@@ -190,6 +200,40 @@ public class VentanaInicio extends JFrame {
 
         return option == 0; // Devuelve true si el usuario hizo clic en "Aceptar"
     }
+//	
+	private void mostrarPoliticaPrivacidad() {
+        JTextArea textArea = new JTextArea(
+
+                "Política de Privacidad para la Aplicación Sell-it!\n\n"+
+                	"Fecha de entrada en vigencia: [Fecha]\n\n"+
+                	"¡Bienvenido a Sell-it! Agradecemos tu interés y confianza en nuestra aplicación. Esta Política de Privacidad tiene como objetivo explicar cómo recopilamos, utilizamos y protegemos la información personal que puedas proporcionar durante el uso de nuestra aplicación.\n\n"+
+                		
+                		"1. Información que Recopilamos:\n\n"+
+                		"Al utilizar nuestra aplicación, podemos recopilar la siguiente información:\n"+
+                		"1.1 Información del Usuario:\n"+
+
+                        "\n\nAl hacer clic en Aceptar, confirmas que has leído y aceptas estos términos."
+        );
+        textArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+
+        JPanel messagePanel = new JPanel(new BorderLayout());
+        messagePanel.add(scrollPane, BorderLayout.CENTER);
+
+        int option = JOptionPane.showOptionDialog(
+                this,
+                messagePanel,
+                "Política de Privacidad",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new Object[]{"Aceptar"},
+                "Aceptar"
+        );
+    }
+//
 
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
