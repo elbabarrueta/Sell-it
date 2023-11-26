@@ -117,13 +117,19 @@ public class VentanaRegistroEntidad extends JFrame{
 		
 		JButton btnRegistro = new JButton("Registrarse");
 		panelSur.add(btnRegistro);
-		
-	
-		
-
-		
+		JButton btnVolver = new JButton("Volver");
+        panelSur.add(btnVolver);
+//
 		//Eventos
-		
+        btnVolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	VentanaInicio ventanaInicio = new VentanaInicio();
+                dispose();  // Cierra la ventana actual
+                ventanaInicio.setVisible(true);
+                Main.setVentanaInicio(ventanaInicio);
+            }
+        });
 		
 		btnRegistro.addActionListener((e)->{
 			
