@@ -145,6 +145,12 @@ public class VentanaInicio extends JFrame {
 			}
 	**/
 
+            if (!validarCorreo(correo)) {
+                // El correo es válido, puedes realizar acciones adicionales aquí
+                JOptionPane.showMessageDialog(null, "Correo con formato invalido válido");
+                return;
+            }
+            
 			 if (verificarCredenciales(correo, contrasenia)) {
 				 usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
 			     JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
@@ -160,6 +166,17 @@ public class VentanaInicio extends JFrame {
 		});
 		
 	}
+	
+	public static boolean validarCorreo(String correo) {
+        if (correo == null || correo.isEmpty()) {
+            return false; // Correo nulo o vacío es inválido
+        }
+
+        // Expresión regular para validar un correo electrónico
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        return correo.matches(regex);
+    }
 	
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
