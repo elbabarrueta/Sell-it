@@ -1,15 +1,23 @@
 package ventanas;
 
 import java.io.IOException;
+
 import java.util.Map;
 
 import javax.swing.JFrame;
-
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Handler;
+import java.util.logging.FileHandler;
+import java.util.logging.StreamHandler;
+import java.util.logging.SimpleFormatter;
 import clases.Usuario;
 import datos.DataSetUsuario;
 
 public class Main {
 	
+    private static Logger logger = Logger.getLogger(Main.class.getName());
+
 	private static DataSetUsuario dataset;
 	private static VentanaInicio ventana1;
 	public static void main(String[] args) {
@@ -18,8 +26,20 @@ public class Main {
 		ventana1.setVisible(true);
 		cargaUsuarios();
 		VentanaInicio.cargarUsuariosInicio(dataset);
-//		ventana1.cargarUsuariosInicio(dataset);
 		
+		logger.setLevel(Level.ALL);
+		try {
+		    Handler consoleHandler = new StreamHandler(System.out, new SimpleFormatter());
+		    consoleHandler.setLevel(Level.FINEST);
+
+		    Handler fileHandler = new FileHandler("Main.log.xml");
+		    fileHandler.setLevel(Level.ALL);
+
+		    logger.addHandler(consoleHandler);
+		    logger.addHandler(fileHandler);
+		} catch (Exception e) {
+		    logger.log(Level.SEVERE, e.toString(), e);
+		}
 		
 	}
 	private static void cargaUsuarios() {
@@ -29,12 +49,7 @@ public class Main {
 			for (Map.Entry<String, Usuario> entry : dataset.getMapaUsu().entrySet()) {
 	            Usuario usu = entry.getValue();
 	            System.out.println( " \t" + usu);
-	        }
-	/**		 
-			ventanaDatos = new Ventana( ventana );
-			ventanaDatos.setDatos( dataset );
-			ventanaDatos.setVisible( true );
-	**/		
+	        }	
 			
 		} catch (IOException e) {
 			System.err.println( "Error en carga de usuarios" );
