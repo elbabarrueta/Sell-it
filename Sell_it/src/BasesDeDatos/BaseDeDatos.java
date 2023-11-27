@@ -68,7 +68,7 @@ public class BaseDeDatos {
 			// Se lanza si la tabla ya existe - no hay problema
 			}
 		// Ver si existe admin
-			com = "select * from Usuario where correo = 'admin'";
+			com = "select * from Usuario where correoUsuario = 'admin'";
 			logger.log(Level.INFO, "BD: " + com);
 			rs = s.executeQuery(com);
 			if (!rs.next()) {
