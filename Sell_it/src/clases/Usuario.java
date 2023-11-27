@@ -1,7 +1,7 @@
 package clases;
 
 import java.time.LocalDate;
-
+//Vamos a añadir un usuario admin
 public class Usuario {
 	//Hay que cambiar los atributos
 	public String nombreUsuario;
