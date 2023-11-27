@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -29,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 import javax.swing.text.JTextComponent;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Datos;
 import clases.Usuario;
 import datos.DataSetUsuario;
@@ -154,21 +156,31 @@ public class VentanaRegistroEntidad extends JFrame{
 			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
 			u.setUltimaCambioContrasena(LocalDate.now());
 			
-			if( DataSetUsuario.buscarUsu(correo)== null) {
-				DataSetUsuario.anyadirUsuario(u);
-				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
-				System.out.println("\t" + u);
-				// Cerrar la ventana actual
-				VentanaInicio v = new VentanaInicio();
-				dispose();
-		        v.setVisible(true);
-		        Main.setVentanaInicio(v);
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
-			}
-		//	System.out.println("\t" + u);
-			limpiarCampos();
+			BaseDeDatos.main(null);
+			BaseDeDatos usuari = new BaseDeDatos();
+            usuari.anadirUsuarioNuevo(u);
+            JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
+            limpiarCampos();
+            VentanaInicio v = new VentanaInicio();
+			dispose();
+	        v.setVisible(true);
+	        Main.setVentanaInicio(v);
+	        
+//			if( DataSetUsuario.buscarUsu(correo)== null) {
+//				DataSetUsuario.anyadirUsuario(u);
+//				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
+//				System.out.println("\t" + u);
+//				// Cerrar la ventana actual
+//				VentanaInicio v = new VentanaInicio();
+//				dispose();
+//		        v.setVisible(true);
+//		        Main.setVentanaInicio(v);
+//			}
+//			else {
+//				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
+//			}
+//		//	System.out.println("\t" + u);
+//			limpiarCampos();
 		});
 		
 	}

@@ -144,6 +144,7 @@ public class VentanaInicio extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+//				registrarUsuario();
 				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
 				dispose();
 				VEntanaRegistroUsuario.setVisible(true);	

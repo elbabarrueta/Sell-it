@@ -2,9 +2,13 @@ package ventanas;
 
 import java.io.IOException;
 
+
 import java.util.Map;
 
 import javax.swing.JFrame;
+
+import BasesDeDatos.BaseDeDatos;
+
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.logging.Handler;
@@ -26,6 +30,12 @@ public class Main {
 		ventana1.setVisible(true);
 		cargaUsuarios();
 		VentanaInicio.cargarUsuariosInicio(dataset);
+		
+// visualizar usuarios dentro de la base de datos		
+		BaseDeDatos.main(null);
+		BaseDeDatos base = new BaseDeDatos();
+		base.verUsuarios();
+//	
 		
 		logger.setLevel(Level.ALL);
 		try {

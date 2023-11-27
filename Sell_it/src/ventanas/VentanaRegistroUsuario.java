@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -32,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 import javax.swing.text.JTextComponent;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Datos;
 import clases.Usuario;
 import datos.DataSetUsuario;
@@ -181,24 +183,33 @@ public class VentanaRegistroUsuario extends JFrame {
             	Usuario u = new Usuario(nombre,correo,tipo,cont);
     			
     			u.setUltimaCambioContrasena(LocalDate.now());
-    		//	u.cambiarContrasena("contrasenaInicial");
-    		//	u.cambiarContrasena(contrasenia);
+
+    			BaseDeDatos.main(null);
+    			BaseDeDatos usuari = new BaseDeDatos();
+                usuari.anadirUsuarioNuevo(u);
+                JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
+                limpiarCampos();
+                VentanaInicio ventanaInicio = new VentanaInicio();
+                dispose();  // Cierra la ventana actual
+                usuari.cerrarConexiones();
+                ventanaInicio.setVisible(true);
+                Main.setVentanaInicio(ventanaInicio);
     			
-    			if( DataSetUsuario.buscarUsu(correo)== null) {
-    				DataSetUsuario.anyadirUsuario(u);
-    				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
-    				System.out.println("\t" + u);
-    				
-    				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
-    				VentanaInicio v = new VentanaInicio();
-    				dispose();
-    		        v.setVisible(true);
-    		        Main.setVentanaInicio(v);
-    			}else {
-    				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
-    				
-    			}
-    			limpiarCampos();
+//    			if( DataSetUsuario.buscarUsu(correo)== null) {
+//    				DataSetUsuario.anyadirUsuario(u);
+//    				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
+//    				System.out.println("\t" + u);
+//    				
+//    				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
+//    				VentanaInicio v = new VentanaInicio();
+//    				dispose();
+//    		        v.setVisible(true);
+//    		        Main.setVentanaInicio(v);
+//    			}else {
+//    				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
+//    				
+//    			}
+//    			limpiarCampos();
             }
 		});
 	
