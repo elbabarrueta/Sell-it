@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Usuario;
 
 import java.awt.*;
@@ -124,8 +125,12 @@ public class VentanaPerfilEntidad extends JFrame{
 			            	String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
 			            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
 			            		usuario.cambiarContrasena(nuevaContrasena);
-			        //    		ultimaCambio = LocalDate.now(); // Actualizar la fecha
-			            		JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");   
+			            		
+			            		 // Actualizar la contraseña en la base de datos
+			                    BaseDeDatos base = new BaseDeDatos();
+			                    base.modificarUsuarioYaRegistradoContrasena(usuario);
+
+			                    JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");			            		
 			            	}else {
 			            		JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
 			            	}
@@ -152,14 +157,14 @@ public class VentanaPerfilEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
-	            emailField.setEditable(true);
+//	            emailField.setEditable(true);
 	            botonCambiarFoto.setVisible(true);
 	            // Quitamos botones para que no haya demasiados a la vez
 	            botonVentanaP.setVisible(false);
 	            botonContrasena.setVisible(false);
 	            botonEditar.setVisible(false);
 	            botonCompras.setVisible(false);
-	         // Después de editar, habilitamos el botón "Guardar Cambios"
+	            // Después de editar, habilitamos el botón "Guardar Cambios"
 	            botonGuardarCambios.setVisible(true);
 			}
 		});
@@ -189,9 +194,13 @@ public class VentanaPerfilEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String NomNuevo = nameField.getText();
-				String CorreoNuevo = emailField.getText();
-				usuario.setNombreUsuario(NomNuevo);
-				usuario.setCorreoUsuario(CorreoNuevo);	
+//				String CorreoNuevo = emailField.getText();
+				// Crea un objeto Usuario con los datos actualizados
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena());
+
+//			    // Llama al método para modificar el usuario en la base de datos
+				BaseDeDatos base = new BaseDeDatos();
+				base.modificarUsuarioYaRegistrado(usuarioActualizado);
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
 				 // Buscar al usuario en la lista y actualizar sus datos
@@ -204,7 +213,6 @@ public class VentanaPerfilEntidad extends JFrame{
                 }
 */				
 				nameField.setEditable(false);
-				emailField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
 				botonCambiarFoto.setVisible(false);
 				// Volvemos a poner los botones

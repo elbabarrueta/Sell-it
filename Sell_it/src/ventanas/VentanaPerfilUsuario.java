@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Usuario;
 
 import java.awt.*;
@@ -135,19 +136,47 @@ public class VentanaPerfilUsuario extends JFrame{
 			            int respuesta = JOptionPane.showConfirmDialog(frame, "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
 			                    "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
 
+			            
+			            if (respuesta == JOptionPane.YES_OPTION) {
+			                // Código para cambiar la contraseña.
+			                String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
+			                if (nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
+			                    usuario.cambiarContrasena(nuevaContrasena);
+
+			                    // Actualizar la contraseña en la base de datos
+			                    BaseDeDatos base = new BaseDeDatos();
+			                    base.modificarUsuarioYaRegistradoContrasena(usuario);
+
+			                    JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");
+			                			                    
+			                } else {
+			                    JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
+			                }
+			            }
+/*
 			            if (respuesta == JOptionPane.YES_OPTION) {
 			                // Código para cambiar la contraseña.
 			            	String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
 			            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
 			            		usuario.cambiarContrasena(nuevaContrasena);
 			           // 		ultimaCambio = LocalDate.now(); // Actualizar la fecha
+			            		
+//			            		String nuevoNombre = nameField.getText();
+//			     		        String nuevoCorreo = emailField.getText();
+//			    		        Usuario usuarioActualizado = new Usuario(nuevoNombre, nuevoCorreo, "tipoUsuario", nuevaContrasena);
+//			    		        
+//			    		        BaseDeDatos.main(null);
+//			    				BaseDeDatos base = new BaseDeDatos();
+//			    				base.modificarUsuarioYaRegistrado(usuarioActualizado);
+		            		
 			            		JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");   
 			            	}else {
 			            		JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
 			            	}
 			                
 			            }
-			        } else {
+			            
+	*/		        } else {
 			            JOptionPane.showMessageDialog(frame, "La contraseña solo se puede cambiar una vez cada 15 días.");
 			        }
 		        }
@@ -167,8 +196,9 @@ public class VentanaPerfilUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+		        // Restablece la edición de los campos
 				nameField.setEditable(true);
-	            emailField.setEditable(true);
+//	            emailField.setEditable(true);
 	            botonCambiarFoto.setVisible(true);
 	            // Quitamos botones para que no haya demasiados a la vez
 	            botonVentanaP.setVisible(false);
@@ -206,9 +236,14 @@ public class VentanaPerfilUsuario extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String NomNuevo = nameField.getText();
-				String CorreoNuevo = emailField.getText();
-				usuario.setNombreUsuario(NomNuevo);
-				usuario.setCorreoUsuario(CorreoNuevo);	
+//				String correoNuevo = emailField.getText();
+
+				// Crea un objeto Usuario con los datos actualizados
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena());
+
+//			    // Llama al método para modificar el usuario en la base de datos
+				BaseDeDatos base = new BaseDeDatos();
+				base.modificarUsuarioYaRegistrado(usuarioActualizado);
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
 				 // Buscar al usuario en la lista y actualizar sus datos
@@ -221,7 +256,6 @@ public class VentanaPerfilUsuario extends JFrame{
                 }
 */				
 				nameField.setEditable(false);
-				emailField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
 				botonCambiarFoto.setVisible(false);
 				// Volvemos a poner los botones

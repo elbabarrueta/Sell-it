@@ -61,6 +61,8 @@ public class BaseDeDatos {
 			con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 			s = con.createStatement();
 			try {
+				
+				// DA IGUAL QUE SEA MAYUSCULA O NO????
 				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
@@ -111,7 +113,7 @@ public class BaseDeDatos {
 		}
 }
 
-public void modificarUsuarioYaRegistrado(Usuario usu) {
+public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 	//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
 	String sent = "update Usuario set contrasena = '" + secu(usu.getContrasena()) + "' where correoUsuario = '" + secu(usu.getCorreoUsuario()) + "'";
 	logger.log(Level.INFO, "BD: " + sent);
@@ -119,6 +121,22 @@ public void modificarUsuarioYaRegistrado(Usuario usu) {
 		s.executeUpdate(sent);
 	} catch (SQLException e1) {
 		logger.log(Level.WARNING, sent, e1);
+		e1.printStackTrace();
+	}
+}
+public void modificarUsuarioYaRegistrado(Usuario usu) {		// EL CORREO IGUAL MEJOR NO MODIFICARLO
+	String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+//	String sentCorreo = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+	logger.log(Level.INFO, "BD: " + sent);
+//	logger.log(Level.INFO, "BD: " + sentCorreo);
+
+	try {
+		s.executeUpdate(sent);
+//		s.executeUpdate(sentCorreo);
+	} catch (SQLException e1) {
+		logger.log(Level.WARNING, sent, e1);
+//		logger.log(Level.WARNING, sentCorreo, e1);
+
 		e1.printStackTrace();
 	}
 }
