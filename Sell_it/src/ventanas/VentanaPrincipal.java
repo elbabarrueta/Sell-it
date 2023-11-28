@@ -15,6 +15,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import clases.Evento;
+import clases.JLabelGrafico;
 import clases.Usuario;
 import datos.DataSetUsuario;
 
@@ -154,34 +155,38 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.removeAll(); 
 		}
 		
-		public void aniadirEvento( Evento evento ) {
-			numCol++;  // Incremento la columna en la que se añade
-			if (numCol==numColFila) {  // Si está llena la fila (última columna) se empieza fila nueva
-				numCol = 0;
-				pnlActual = new JPanel();
-				pnlActual.setLayout(new BoxLayout(pnlActual,BoxLayout.X_AXIS));
-				pnlCentro.add( pnlActual );
-			}
-		//	pnlActual.add( new panel( /*titulo evento*/, /*Descripcion evento*/ ) ); 
-		}
+		 public void aniadirEvento(Evento evento) {
+		        numCol++;
+		        if (numCol == numColFila) {
+		            numCol = 0;
+		            pnlActual = new JPanel();
+		            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+		            pnlCentro.add(pnlActual);
+		        }
+		        String tituloEvento = evento.getNombre();
+		        String descripcionEvento = evento.getDesc();
+
+		        pnlActual.add(new panel(tituloEvento, descripcionEvento));
+		    }
 		public void acabarPanel() {
 			pnlCentro.revalidate(); 
 		}
 		
-		private static String[] fotos = new String[] { /*fotos*/ };
+		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
+
 		
-		//private static class panel extends JPanel {
-		//	public panel( String titulo, String descripcion ) {
-		//		setLayout( new BorderLayout() );
-		//		JLabel lblTitulo = new JLabel( titulo, JLabel.CENTER );
-		//		add( lblTitulo, BorderLayout.NORTH );
-		//		JTextArea taDescripcion = new JTextArea( descripcion, 2, 3);  // Atención - este marca el tamaño visual que va a "pedir" la textarea, 5 filas y 10 columnas
-		//		add( new JScrollPane( taDescripcion ), BorderLayout.CENTER );
-				//Aqui hay que decidir que fotos poner para cada evento
-			//	JLabelGrafico fotos = new JLabelGrafico( fotos, 50, 80 ); copio la case JLabelGrafico de Andoni??
-			//	add( fotos, BosrderLayout.EAST );
-		//	}
-		//}
+		private static class panel extends JPanel {
+			public panel( String titulo, String descripcion ) {
+				setLayout( new BorderLayout() );
+				JLabel lblTitulo = new JLabel( titulo, JLabel.CENTER );
+				add( lblTitulo, BorderLayout.NORTH );
+				JTextArea taDescripcion = new JTextArea( descripcion, 2, 3); 
+				add( new JScrollPane( taDescripcion ), BorderLayout.CENTER );
+				String foto = fotos[(new Random()).nextInt(fotos.length)];
+				//JLabelGrafico grafico = new JLabelGrafico(foto, 50, 80 ); No se porque me da error
+			//	add( grafico, BorderLayout.EAST );
+			}
+		}
 
 
 		
@@ -190,11 +195,21 @@ public class VentanaPrincipal extends JFrame{
 		
 		public static void main(String[] args) {
 			VentanaPrincipal v = new VentanaPrincipal();
-		//	v.empezarPanel();
-		//	for (int i=0; i<7; i++) {
-		//		Evento evento = new Evento( "Evento " + /*Titulo del evento*/, "Decripcion " + /*Descripcion del Evento*/  );
-		//		v.aniadirEvento( evento );
-		//	}
-		//	v.acabarPanel();
+		    v.empezarPanel();
+
+		    for (int i = 0; i < 7; i++) {
+		        
+		        String nombreEvento = "Evento " + (i + 1);
+		        String descripcionEvento = "Descripción del evento " + (i + 1);
+
+		        
+		        Evento evento = new Evento(nombreEvento, descripcionEvento, "Fecha", "Ubicación", 100, 50.0);
+
+		       
+		        v.aniadirEvento(evento);
+		    }
+
+		    v.acabarPanel();
 		}
+
 	}
