@@ -299,14 +299,22 @@ public class VentanaInicio extends JFrame {
 		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
             Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);
 	        String hashAlmacenado = u.getContrasena();
-	        if (BCrypt.checkpw(contrasenia, hashAlmacenado)) {
-	            return true; // La contraseña es correcta
-	        } else {
-	            return false; // La contraseña es incorrecta
+	        if(hashAlmacenado.startsWith("$2a$")) {
+		        if (BCrypt.checkpw(contrasenia, hashAlmacenado)) {
+		            return true; // La contraseña es correcta
+		        } else {
+		            return false; // La contraseña es incorrecta
+		        }
+	        }else {			//Esta parte es paara comprobar con los usuarios de prueba
+	        	if (contrasenia.equals(hashAlmacenado)) {
+	                return true; // La contraseña sin encriptar es correcta
+	            } else {
+	                return false; // La contraseña sin encriptar es incorrecta
+	            }
 	        }
-		 }else {
+		 } else {
 			 return false;// El correo no está registrado, la autenticación falla
-		 }            
+		 }
 	}
 	
 	public String obtenerNombreUsuario(String correo) {
