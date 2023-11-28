@@ -3,6 +3,7 @@ package ventanas;
 import java.awt.*;
 
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -16,9 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import clases.Evento;
 import clases.Usuario;
 import datos.DataSetUsuario;
-import es.deusto.prog3.cap06.EjemploMuchosPanelesConScroll.Dato;
-import es.deusto.prog3.cap06.EjemploMuchosPanelesConScroll.MiPanel;
-import es.deusto.prog3.utils.JLabelGrafico;
+
 
 public class VentanaPrincipal extends JFrame{
 
@@ -26,7 +25,7 @@ public class VentanaPrincipal extends JFrame{
 		private DataSetUsuario dataSetUsuario;
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
-		private JPanel pnlCentro;
+		private JPanel pnlCentro = new JPanel();
 		
 		public VentanaPrincipal(){
 			
