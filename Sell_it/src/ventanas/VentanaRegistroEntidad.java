@@ -17,6 +17,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +32,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 import javax.swing.text.JTextComponent;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import BasesDeDatos.BaseDeDatos;
 import clases.Datos;
@@ -134,56 +139,85 @@ public class VentanaRegistroEntidad extends JFrame{
         });
 		
 		btnRegistro.addActionListener((e)->{
-			
-			String contrasenia = txtContrasenia.getText();
-			String nombre = txtNombre.getText();
-			String correo = txtCorreo.getText();
-			String tipo = txtTipo.getText();
-			
-			if(nombre.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
-				return;
-			}
-			if (contrasenia.length() <= 5) {
-		        JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 5 caracteres.");
-		        return; 
-		    }
-			if (!correo.contains("@")) {
+			Pattern patronContrasenia = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
+            char[] contrasenia = txtContrasenia.getPassword();
+            char[] confirmada = txtConfirmar.getPassword();
+            String nombre = txtNombre.getText();
+            String correo = txtCorreo.getText();
+            String tipo = txtTipo.getText();
+            if (nombre.equals("Nombre") || correo.equals("Correo") || contrasenia.length == 0 || confirmada.length == 0) {
+                JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
+                return;
+            }
+            char[] confirmarContrasenia = txtConfirmar.getPassword();
+            if (!Arrays.equals(contrasenia, confirmarContrasenia)) {
+                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!correo.contains("@")) {
 		        JOptionPane.showMessageDialog(null, "La dirección de correo no es válida. Debe contener el carácter '@'.");
 		        return;
 		    }
-			
-			Usuario u = new Usuario(nombre,correo,tipo,contrasenia);
-			u.setUltimaCambioContrasena(LocalDate.now());
-			
-			BaseDeDatos.main(null);
-			BaseDeDatos usuari = new BaseDeDatos();
-            usuari.anadirUsuarioNuevo(u);
-            JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
-            limpiarCampos();
-            VentanaInicio v = new VentanaInicio();
-			dispose();
-	        v.setVisible(true);
-	        Main.setVentanaInicio(v);
-	        
-//			if( DataSetUsuario.buscarUsu(correo)== null) {
-//				DataSetUsuario.anyadirUsuario(u);
-//				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
-//				System.out.println("\t" + u);
-//				// Cerrar la ventana actual
-//				VentanaInicio v = new VentanaInicio();
-//				dispose();
-//		        v.setVisible(true);
-//		        Main.setVentanaInicio(v);
-//			}
-//			else {
-//				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
-//			}
-//		//	System.out.println("\t" + u);
-//			limpiarCampos();
+            String cont = new String(contrasenia);
+            Matcher matcher = patronContrasenia.matcher(cont);
+            if (!matcher.matches()) {
+                StringBuilder mensajeError = new StringBuilder("La contraseña no cumple con los requisitos:\n");
+                if (!matcher.matches()) {
+                    if (!contraseniaCumpleRequisito("[A-Z]", cont)) {
+                        mensajeError.append("- Debe contener al menos una letra mayúscula.\n");
+                    }
+                    if (!contraseniaCumpleRequisito("[a-z]", cont)) {
+                        mensajeError.append("- Debe contener al menos una letra minúscula.\n");
+                    }
+                    if (!contraseniaCumpleRequisito("\\d", cont)) {
+                        mensajeError.append("- Debe contener al menos un dígito.\n");
+                    }
+                    if (!contraseniaCumpleRequisito("[@$!%*?&]", cont)) {
+                        mensajeError.append("- Debe contener al menos un carácter especial (@$!%*?&).\n");
+                    }
+                    mensajeError.append("- Debe tener al menos 6 caracteres.\n");
+
+                    JOptionPane.showMessageDialog(null, mensajeError.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }else {
+            	String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
+            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia);
+    			u.setUltimaCambioContrasena(LocalDate.now());
+    			
+    			BaseDeDatos.main(null);
+    			BaseDeDatos usuari = new BaseDeDatos();
+                usuari.anadirUsuarioNuevo(u);
+                JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
+                limpiarCampos();
+                VentanaInicio v = new VentanaInicio();
+    			dispose();
+    	        v.setVisible(true);
+    	        Main.setVentanaInicio(v);
+    	        
+//    			if( DataSetUsuario.buscarUsu(correo)== null) {
+//    				DataSetUsuario.anyadirUsuario(u);
+//    				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
+//    				System.out.println("\t" + u);
+//    				// Cerrar la ventana actual
+//    				VentanaInicio v = new VentanaInicio();
+//    				dispose();
+//    		        v.setVisible(true);
+//    		        Main.setVentanaInicio(v);
+//    			}
+//    			else {
+//    				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
+//    			}
+//    		//	System.out.println("\t" + u);
+//    			limpiarCampos();
+            }
 		});
 		
 	}
+	
+	private boolean contraseniaCumpleRequisito(String regex, String contrasenia) {
+        return Pattern.compile(regex).matcher(contrasenia).find();
+    }
 	
 	public void mostrarOcultarContraseña() {
         // Obtener la contraseña actual
@@ -191,7 +225,7 @@ public class VentanaRegistroEntidad extends JFrame{
 
         // Cambiar el estado de visualización de la contraseña
         if (txtContrasenia.getEchoChar() == 0) {
-        	txtContrasenia.setEchoChar('*');
+        	txtContrasenia.setEchoChar('\u2022');
         } else {
         	txtContrasenia.setEchoChar((char) 0);
         }
@@ -214,7 +248,7 @@ public class VentanaRegistroEntidad extends JFrame{
                 if (textField.getText().equals(texto)) {
                     textField.setText("");
                     if(textField instanceof JPasswordField) {
-                    	 ((JPasswordField) textField).setEchoChar('*');
+                    	 ((JPasswordField) textField).setEchoChar('\u2022');
                     }
                     textField.setForeground(Color.BLACK);
                 }

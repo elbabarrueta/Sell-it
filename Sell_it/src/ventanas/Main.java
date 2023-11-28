@@ -1,7 +1,5 @@
 package ventanas;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 
@@ -33,19 +31,10 @@ public class Main {
 		cargaUsuarios();
 		VentanaInicio.cargarUsuariosInicio(dataset);
 		
-// visualizar usuarios dentro de la base de datos y cerrar la conexion	
+// visualizar usuarios dentro de la base de datos		
 		BaseDeDatos.main(null);
 		BaseDeDatos base = new BaseDeDatos();
 		base.verUsuarios();
-		
-		ventana1.addWindowListener(new WindowAdapter() {
-		    @Override
-		    public void windowClosing(WindowEvent e) {
-		        base.cerrarConexiones();
-		        System.exit(0);
-		    }
-		});
-		
 //	
 		
 		logger.setLevel(Level.ALL);

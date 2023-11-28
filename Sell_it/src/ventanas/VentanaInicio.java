@@ -31,6 +31,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import clases.Usuario;
 import datos.DataSetUsuario;
 //import pruebasSelit.VentanaInicio;
@@ -89,17 +91,17 @@ public class VentanaInicio extends JFrame {
 		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
 		txtContrasenia.getButton().setBackground(Color.WHITE);
-		txtContrasenia.setEchoChar('*');
+		txtContrasenia.setEchoChar('\u2022');
 		JLabel etiquetaUsuario = new JLabel("Correo:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
-		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
-		mostrarContra.addMouseListener(new MouseAdapter() {
-	            @Override
-	            public void mouseClicked(MouseEvent e) {
-	                mostrarOcultarContraseña();
-	            }
-	    });
+//		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
+//		mostrarContra.addMouseListener(new MouseAdapter() {
+//	            @Override
+//	            public void mouseClicked(MouseEvent e) {
+//	                mostrarOcultarContraseña();
+//	            }
+//	    });
 		
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
 		JButton botonRegistroUsuario = new JButton("Registro Usuario");
@@ -163,8 +165,9 @@ public class VentanaInicio extends JFrame {
 		});
 	
 		botonIniciarSesion.addActionListener((e)->{
+			char[] contraseniaChar = txtContrasenia.getPassword();
+	        String contrasenia = new String(contraseniaChar);
 			String correo = txtUsuario.getText();
-			String contrasenia = txtContrasenia.getText();
 
             if (!validarCorreo(correo)) {
                 // El correo es válido, puedes realizar acciones adicionales aquí
@@ -294,19 +297,16 @@ public class VentanaInicio extends JFrame {
 	
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
 		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
-	            Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);
-	            if(u != null) {
-	            	if (u.getContrasena().equals(contrasenia)) {
-		                return true;
-		            } else {
-		                return false;
-		            }
-		        } else {
-		            return false;
-		        }
-	     	}
-		 return false;
-	            
+            Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);
+	        String hashAlmacenado = u.getContrasena();
+	        if (BCrypt.checkpw(contrasenia, hashAlmacenado)) {
+	            return true; // La contraseña es correcta
+	        } else {
+	            return false; // La contraseña es incorrecta
+	        }
+		 }else {
+			 return false;// El correo no está registrado, la autenticación falla
+		 }            
 	}
 	
 	public String obtenerNombreUsuario(String correo) {

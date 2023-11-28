@@ -33,6 +33,8 @@ import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 import javax.swing.text.JTextComponent;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import BasesDeDatos.BaseDeDatos;
 import clases.Datos;
 import clases.Usuario;
@@ -106,13 +108,13 @@ public class VentanaRegistroUsuario extends JFrame {
         
 		JPanel pTipo = new JPanel();
 		JLabel lblTipo = new JLabel("Tipo de usuario: ");
-		JTextField txtTipou = new JTextField();
-		txtTipou.setText("Usuario corriente");
-		txtTipou.setEditable(false);
+		JTextField txtTipo = new JTextField();
+		txtTipo.setText("Usuario corriente");
+		txtTipo.setEditable(false);
 //		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
 //        comboTipoU = new JComboBox<>(tipoU);
 		pTipo.add(lblTipo);
-		pTipo.add(txtTipou);
+		pTipo.add(txtTipo);
 		
 		
 		//panelCentro.add(lblNombre);
@@ -147,7 +149,7 @@ public class VentanaRegistroUsuario extends JFrame {
             char[] confirmada = txtConfirmar.getPassword();
             String nombre = txtNombre.getText();
             String correo = txtCorreo.getText();
-            String tipo = txtTipou.getText();
+            String tipo = txtTipo.getText();
             if (nombre.equals("Nombre") || correo.equals("Correo") || contrasenia.length == 0 || confirmada.length == 0) {
                 JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
                 return;
@@ -180,8 +182,8 @@ public class VentanaRegistroUsuario extends JFrame {
                     return;
                 }
             } else {
-            	Usuario u = new Usuario(nombre,correo,tipo,cont);
-    			
+            	String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
+            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia);
     			u.setUltimaCambioContrasena(LocalDate.now());
 
     			BaseDeDatos.main(null);
@@ -226,7 +228,7 @@ public class VentanaRegistroUsuario extends JFrame {
 
         // Cambiar el estado de visualización de la contraseña
         if (txtContrasenia.getEchoChar() == 0) {
-        	txtContrasenia.setEchoChar('*');
+        	txtContrasenia.setEchoChar('\u2022');
         } else {
         	txtContrasenia.setEchoChar((char) 0);
         }
@@ -249,7 +251,7 @@ public class VentanaRegistroUsuario extends JFrame {
                 if (textField.getText().equals(texto)) {
                     textField.setText("");
                     if(textField instanceof JPasswordField) {
-                    	 ((JPasswordField) textField).setEchoChar('*');
+                    	 ((JPasswordField) textField).setEchoChar('\u2022');
                     }
                     textField.setForeground(Color.BLACK);
                 }
