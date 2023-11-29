@@ -19,7 +19,7 @@ public class DataSetEvento {
 
 	private static HashMap <String, Evento> mapaEvento = new HashMap<>(); //-----nuevo
 	
-	public HashMap<String, Evento> getMapaEvento() {
+	public static HashMap<String, Evento> getMapaEvento() {
 		return mapaEvento;
 	}
 

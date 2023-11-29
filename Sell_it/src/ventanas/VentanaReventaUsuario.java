@@ -16,7 +16,7 @@ import clases.Usuario;
 
 
 
-public class VentanaReventa extends JFrame{
+public class VentanaReventaUsuario extends JFrame{
 	private Usuario usuario;
 	private List<String> entradasCompradas;
 
@@ -24,7 +24,7 @@ public class VentanaReventa extends JFrame{
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
-	public VentanaReventa(Usuario usu) {
+	public VentanaReventaUsuario(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
@@ -105,7 +105,7 @@ public class VentanaReventa extends JFrame{
 	}
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();
-		VentanaReventa v = new VentanaReventa(usu);
+		VentanaReventaUsuario v = new VentanaReventaUsuario(usu);
 		v.setVisible(true);
 	}
 

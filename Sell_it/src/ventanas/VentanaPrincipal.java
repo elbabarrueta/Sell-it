@@ -6,6 +6,7 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import clases.Evento;
 import clases.JLabelGrafico;
 import clases.Usuario;
+import datos.DataSetEvento;
 import datos.DataSetUsuario;
 
 
@@ -93,7 +95,7 @@ public class VentanaPrincipal extends JFrame{
 			        if ("Usuario corriente".equals(tipoUsu)) {
 			            
 			            dispose();
-			            VentanaReventa ventanaVentaNormal = new VentanaReventa(usuActual);
+			            VentanaReventaUsuario ventanaVentaNormal = new VentanaReventaUsuario(usuActual);
 			            ventanaVentaNormal.setVisible(true);
 			        } else {
 			           
@@ -159,10 +161,13 @@ public class VentanaPrincipal extends JFrame{
 		        numCol++;
 		        if (numCol == numColFila) {
 		            numCol = 0;
-		            pnlActual = new JPanel();
-		            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-		            pnlCentro.add(pnlActual);
+//		            pnlActual = new JPanel();
+//		            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+//		            pnlCentro.add(pnlActual);
 		        }
+		        pnlActual = new JPanel();
+	            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+	            pnlCentro.add(pnlActual);
 		        String tituloEvento = evento.getNombre();
 		        String descripcionEvento = evento.getDesc();
 
@@ -182,7 +187,7 @@ public class VentanaPrincipal extends JFrame{
 				add( lblTitulo, BorderLayout.NORTH );
 				JTextArea taDescripcion = new JTextArea( descripcion, 2, 3); 
 				add( new JScrollPane( taDescripcion ), BorderLayout.CENTER );
-				String foto = fotos[(new Random()).nextInt(fotos.length)];
+//				String foto = fotos[(new Random()).nextInt(fotos.length)];
 				//JLabelGrafico grafico = new JLabelGrafico(foto, 50, 80 ); No se porque me da error
 			//	add( grafico, BorderLayout.EAST );
 			}
@@ -193,21 +198,27 @@ public class VentanaPrincipal extends JFrame{
 		
 		
 		
-		public static void main(String[] args) {
+		public static void main(String[] args) throws IOException {
 			VentanaPrincipal v = new VentanaPrincipal();
 		    v.empezarPanel();
-
-		    for (int i = 0; i < 7; i++) {
-		        
-		        String nombreEvento = "Evento " + (i + 1);
-		        String descripcionEvento = "Descripción del evento " + (i + 1);
-
-		        
-		        Evento evento = new Evento(nombreEvento, descripcionEvento, "Fecha", "Ubicación", 100, 50.0);
-
-		       
-		        v.aniadirEvento(evento);
+		    
+		    DataSetEvento dataset = new DataSetEvento("evento.txt");
+		    HashMap<String, Evento> mapa = DataSetEvento.getMapaEvento();
+		    for(Evento e: mapa.values()) {
+		    	v.aniadirEvento(e);
 		    }
+
+//		    for (int i = 0; i < 7; i++) {
+//		        
+//		        String nombreEvento = "Evento " + (i + 1);
+//		        String descripcionEvento = "Descripción del evento " + (i + 1);
+//
+//		        
+//		        Evento evento = new Evento(nombreEvento, descripcionEvento, "Fecha", "Ubicación", 100, 50.0);
+//
+//		       
+//		        v.aniadirEvento(evento);
+//		    }
 
 		    v.acabarPanel();
 		}

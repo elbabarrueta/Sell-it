@@ -185,7 +185,7 @@ public class VentanaRegistroEntidad extends JFrame{
             	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia);
     			u.setUltimaCambioContrasena(LocalDate.now());
     			
-    			BaseDeDatos.main(null);
+//    			BaseDeDatos.main(null);
     			BaseDeDatos usuari = new BaseDeDatos();
                 usuari.anadirUsuarioNuevo(u);
                 JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
