@@ -10,6 +10,11 @@ import java.text.DecimalFormat;
 
 import javax.swing.*;
 
+import org.jdesktop.swingx.JXBusyLabel;
+import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.JXHyperlink;
+import org.jdesktop.swingx.JXLabel;
+
 import clases.Usuario;
 
 public class VentanaCompra extends JFrame{
@@ -27,12 +32,13 @@ public class VentanaCompra extends JFrame{
 
 	private Timer timer;
     private int tiempoRestante;
-
+    private JXBusyLabel busyLabel;
+    private JXErrorPane errorPane;
 	
 	public VentanaCompra(Usuario usuario) {
 		this.usuario = usuario;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(600, 500);
+		setSize(700, 500);
 		setLocationRelativeTo(null);
 		setTitle("Compra de entrada");
 		
@@ -47,14 +53,15 @@ public class VentanaCompra extends JFrame{
 		//Dentro del panel central creamos 2 paneles
 		JPanel pDatos = new JPanel(new GridLayout(4,1));
 		pCentral.add(pDatos);
-		JPanel pPago = new JPanel(new GridLayout(3,1));
+		JPanel pPago = new JPanel(new GridLayout(5,1));
 		pCentral.add(pPago);
 		
 		
 		//Panel Datos
 		JPanel pTitulo = new JPanel();
-		JLabel lDatos = new JLabel("Tus Datos");
-		pTitulo.add(lDatos, BorderLayout.CENTER);
+		JXLabel lTitulo = new JXLabel();
+        lTitulo.setText("<html><h2>Tus Datos</h2></html>");
+		pTitulo.add(lTitulo, BorderLayout.CENTER);
 		pDatos.add(pTitulo);
 		
 		JPanel pNombre = new JPanel();
@@ -86,8 +93,9 @@ public class VentanaCompra extends JFrame{
 		
 		//Panel Método de Pago
 		JPanel pMetodoPago = new JPanel();
-		JLabel lPago = new JLabel("Método de pago");
-		pMetodoPago.add(lPago);
+		JXLabel lMetodoPago = new JXLabel();
+        lMetodoPago.setText("<html><h2>Método de Pago</h2></html>");
+        pMetodoPago.add(lMetodoPago);
 		pPago.add(pMetodoPago);
 		
 		JPanel pNTarjeta = new JPanel();
@@ -97,10 +105,20 @@ public class VentanaCompra extends JFrame{
 		pNTarjeta.add(lNtarjeta);
 		pNTarjeta.add(tfNtarjeta);
 		pPago.add(pNTarjeta);
-		
+				
 		JPanel pFCad = new JPanel();
 		JLabel lFechaCad = new JLabel("Fecha de caducidad");
 		pFCad.add(lFechaCad);
+		pPago.add(pFCad);
+		
+		//Componente para el CCV
+		JPanel pCCV = new JPanel();
+		JLabel lCCV = new JLabel("CCV");
+		JTextField tfCCV = new JTextField();
+		tfCCV.setPreferredSize(new Dimension(80,20));
+		pCCV.add(lCCV);
+		pCCV.add(tfCCV);
+		pPago.add(pCCV);
 		
 		JPanel pFC = new JPanel(new GridLayout(1,1));
 		String[] meses = {"MES", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
@@ -112,8 +130,6 @@ public class VentanaCompra extends JFrame{
 		pFC.add(cbAnyo);
 		pFCad.add(pFC);
 		
-		pPago.add(pFCad);
-		
 		
 		//Panel Lateral
 		//Creamos 2 paneles
@@ -122,7 +138,18 @@ public class VentanaCompra extends JFrame{
 		pDer.add(pTiempo, BorderLayout.NORTH);
 		JPanel pConfirmar = new JPanel();
 		pDer.add(pConfirmar, BorderLayout.SOUTH);
-		
+
+		// Añadir enlace a terminus y condiciones usando JXHyperlink
+        JXHyperlink hyperlinkTerminos = new JXHyperlink();
+        hyperlinkTerminos.setText("Términos y Condiciones");
+        hyperlinkTerminos.addActionListener(e -> mostrarTerminos());
+        pCentral.add(hyperlinkTerminos);
+
+        // Añadir indicador de actividad con JXBusyLabel;
+        busyLabel = new JXBusyLabel();
+        busyLabel.setBusy(true);
+        busyLabel.setPreferredSize(new Dimension(25, 25));
+        pConfirmar.add(busyLabel);
 		
 		//Panel Tiempo restante y Total
 		lTiempo = new JLabel("Tiempo restante: 10:00");
@@ -144,8 +171,9 @@ public class VentanaCompra extends JFrame{
 			}
 		});
 		
-		JLabel lTotal = new JLabel("TOTAL: €");
-		pTiempo.add(lTotal);
+		JXLabel lTotal = new JXLabel();
+        lTotal.setText("<html><h2>TOTAL: €</h2></html>");
+        pTiempo.add(lTotal);
 		
 		
 		//Panel Confirmar
@@ -158,6 +186,33 @@ public class VentanaCompra extends JFrame{
 				confirmarCompra();
 			}
 		});
+	}
+	private void mostrarTerminos() {
+	    // Crear un JTextArea para mostrar los términos y condiciones
+	    JTextArea textArea = new JTextArea(
+	            "Términos y Condiciones:\n\n" +
+	                    "1. Al utilizar esta aplicación, aceptas cumplir con estos términos y condiciones.\n" +
+	                    "2. Utiliza esta aplicación de acuerdo con las leyes y regulaciones locales.\n" +
+	                    "3. La información proporcionada en esta aplicación es solo para fines informativos.\n" +
+	                    "4. Nos reservamos el derecho de modificar, suspender o descontinuar la aplicación en cualquier momento.\n" +
+	                    "5. Protege tu información de inicio de sesión y no compartas tus credenciales con otros usuarios.\n" +
+	                    "6. No realices acciones que puedan dañar la integridad o el rendimiento de la aplicación.\n" +
+	                    "7. El incumplimiento de estos términos puede resultar en la suspensión o eliminación de tu cuenta.\n" +
+	                    "8. Estos términos y condiciones están sujetos a cambios sin previo aviso.\n" +
+	                    "9. Para obtener más información, contacta con nuestro servicio de soporte."
+	    );
+
+	    // Configurar el JTextArea
+	    textArea.setEditable(false);
+	    textArea.setLineWrap(true);
+	    textArea.setWrapStyleWord(true);
+
+	    // Colocar el JTextArea en un JScrollPane para permitir el desplazamiento
+	    JScrollPane scrollPane = new JScrollPane(textArea);
+	    scrollPane.setPreferredSize(new Dimension(400, 300));
+
+	    // Mostrar el cuadro de diálogo con los términos y condiciones
+	    JOptionPane.showMessageDialog(this, scrollPane, "Términos y Condiciones", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void actualizarTiempo() {
@@ -175,15 +230,32 @@ public class VentanaCompra extends JFrame{
 	}
 	
 	private void confirmarCompra() {
-		if(tfNombre.getText().equals("")|| tfCorreo.getText().equals("") || tfTfno.getText().equals("") || tfNtarjeta.getText().equals("") || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(null, "Para confirmar la comra debe introducir todos los datos.");
-            return;
-		}else {
-			JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-			dispose();
-		}
+//		if(tfNombre.getText().equals("")|| tfCorreo.getText().equals("") || tfTfno.getText().equals("") || tfNtarjeta.getText().equals("") || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
+//            JOptionPane.showMessageDialog(null, "Para confirmar la comra debe introducir todos los datos.");
+//            return;
+//		}else {
+//			JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+//			dispose();
+//		}
+		if (tfNombre.getText().isEmpty() || tfCorreo.getText().isEmpty() || tfTfno.getText().isEmpty() ||
+	            tfNtarjeta.getText().isEmpty() || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
+	        JOptionPane.showMessageDialog(null, "Para confirmar la compra debe introducir todos los datos.");
+	        return;
+	    }
+
+	    // Lógica de confirmación aquí
+	    boolean errorEnConfirmacion = true; // Simulación de error, reemplaza con tu lógica real
+
+	    if (errorEnConfirmacion) {
+	        mostrarError(errorPane, "Error al confirmar la compra. Inténtalo de nuevo.");
+	    } else {
+	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+	        dispose();
+	    }
 	}
-	
+	private void mostrarError(Component parent, String mensaje) {
+	    JOptionPane.showMessageDialog(parent, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+	}
 	
 	public static void main(String[] args) {
 		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33");
