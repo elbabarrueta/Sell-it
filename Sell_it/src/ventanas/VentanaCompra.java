@@ -132,22 +132,16 @@ public class VentanaCompra extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (verificarCampoCCV()) {
-		            // Cambiar el fondo a verde si la validación es exitosa
-//		            tfCCV.setBackground(Color.GREEN);
+				if (verificarCampoCCV() && verificarCampoTarjeta()) {
 		            agregarCheck(tfCCV);
-		        }
-				if(verificarCampoTarjeta()) {
-//					tfNtarjeta.setBackground(Color.GREEN);
 					agregarCheck(tfNtarjeta);
-				}
+		        }
 				if(tfCCV.getBackground() == Color.RED || tfNtarjeta.getBackground() == Color.RED) {
 			        mostrarError(errorPane, "El número de TARJETA debe tener 16 dígitos y en CCV 3 dígitos.\n Además solo debe contener números.");
 				}else {
 					// Símbolo de check (✔)
 				    String checkSymbol = "\u2713";
 				    JOptionPane.showMessageDialog(null, "Campos Correctos" + " " + checkSymbol, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
 				}
 			}
 		});
@@ -307,34 +301,34 @@ public class VentanaCompra extends JFrame{
 	    boolean esNumeroTarjetaValido = numeroTarjeta.length() == 16;
 	    boolean esCCVValido = ccv.length() == 3;
 
-	 
-
 	    if (!esNumeroTarjetaValido || !esCCVValido) {
 	        mostrarError(errorPane, "Error al confirmar la compra.\nInténtalo de nuevo.\nRecuerda que el número de TARJETA debe tener 16 dígitos y el CCV debe tener 3 dígitos.");
-	    } else {
+	    }
+	    if(verificarCampoTelefono() == true) {
+	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        dispose();
+	    }else {
+	        JOptionPane.showMessageDialog(null, "Comprueba que el telefono introducido tiene 9 digitos", "Error", JOptionPane.INFORMATION_MESSAGE);
 	    }
-		
-		
+
 	}
-	
+	private boolean verificarCampoTelefono() {
+	    String telefono = tfTfno.getText();
+	    if (telefono.length() != 9 || !esNumero(telefono)) {
+	        tfTfno.setBackground(Color.RED);
+	        return false;
+	    }
+	    return true;
+	}
 	private void agregarCheck(JTextField textField) {
 		String textoCampo = textField.getText();
 	   
 //		textField.setText(textoCampo + " " + checkSymbol);
 		textField.setText(textoCampo);
 	    textField.setEditable(false);
-	    textField.setBackground(new Color(240, 255, 240)); // Cambiar el fondo a verde claro si se cumple la condición
-//	    } else {
-//	        textField.setText(textoCampo + " " + xSymbol);
-//	        textField.setText(textoCampo);
-//
-//	        textField.setEditable(true);
-//	        textField.setBackground(new Color(255, 240, 240)); // Cambiar el fondo a rojo claro si no se cumple la condición
-	    
-		
+	    textField.setBackground(new Color(240, 255, 240)); // Cambiar el fondo a verde claro si se cumple la condición   
 	}
 	
 	private void mostrarError(Component parent, String mensaje) {
