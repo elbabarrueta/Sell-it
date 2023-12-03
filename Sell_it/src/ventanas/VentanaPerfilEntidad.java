@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VentanaPerfilEntidad extends JFrame{
@@ -19,6 +20,7 @@ public class VentanaPerfilEntidad extends JFrame{
 	private LocalDate ultimoCambioContrasena;
 	private List<String> entradasCompradas;
 	private JLabel lblFotoPerfil;
+	private JTextArea descriptionArea;
 	
 	public VentanaPerfilEntidad(Usuario usuario) {
 		
@@ -64,7 +66,7 @@ public class VentanaPerfilEntidad extends JFrame{
         topPanel.add(infoButton3);
 
         // Parte central: descripción del usuario
-        JTextArea descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+        descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
         descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
         JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
 	    descriptionArea.setLineWrap(true);
@@ -157,7 +159,7 @@ public class VentanaPerfilEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
-//	            emailField.setEditable(true);
+	            setEditableDescripcion(true);
 	            botonCambiarFoto.setVisible(true);
 	            // Quitamos botones para que no haya demasiados a la vez
 	            botonVentanaP.setVisible(false);
@@ -198,6 +200,10 @@ public class VentanaPerfilEntidad extends JFrame{
 				// Crea un objeto Usuario con los datos actualizados
 				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena());
 
+				String nuevaDescripcion = descriptionArea.getText();
+		        descriptionArea.setText(nuevaDescripcion);
+		        setEditableDescripcion(false);
+				
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
@@ -228,6 +234,17 @@ public class VentanaPerfilEntidad extends JFrame{
         frame.pack();
         frame.setVisible(true);
         
+	}
+	private void setEditableDescripcion(boolean editable) {
+		descriptionArea.setEditable(editable);
+	}
+	private List<String> obtenerNotificaciones() {
+		   
+	    List<String> notificaciones = new ArrayList<>();
+	    notificaciones.add("Nueva oferta para tu producto.");
+	    notificaciones.add("¡Has vendido un artículo!");
+	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
+	    return notificaciones;
 	}
 	
 	private void fotoPerfil(ImageIcon imagenPerfil) {

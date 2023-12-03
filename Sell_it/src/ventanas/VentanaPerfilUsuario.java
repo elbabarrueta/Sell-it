@@ -26,6 +26,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	private JTextField nameField;
 	private JTextField emailField;
 	private ImageIcon imagenPerfil;
+	private JTextArea descriptionArea;
 	
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
@@ -76,12 +77,12 @@ public class VentanaPerfilUsuario extends JFrame{
 	    topPanel.add(infoButton3);
 
 	    // Parte central: descripción del usuario
-	    JTextArea descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+	    descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
 	    descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
 	    descriptionArea.setLineWrap(true);
 	    descriptionArea.setWrapStyleWord(true);
-	    descriptionArea.setEditable(true);
+	    descriptionArea.setEditable(false);
 	    
 	    // Parte inferior: más botones
 	    JPanel bottomPanel = new JPanel();
@@ -198,7 +199,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 		        // Restablece la edición de los campos
 				nameField.setEditable(true);
-//	            emailField.setEditable(true);
+		        setEditableDescripcion(true);
 	            botonCambiarFoto.setVisible(true);
 	            // Quitamos botones para que no haya demasiados a la vez
 	            botonVentanaP.setVisible(false);
@@ -241,6 +242,11 @@ public class VentanaPerfilUsuario extends JFrame{
 				// Crea un objeto Usuario con los datos actualizados
 				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena());
 
+				String nuevaDescripcion = descriptionArea.getText();
+		        descriptionArea.setText(nuevaDescripcion);
+		        setEditableDescripcion(false);
+
+				
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
@@ -305,6 +311,9 @@ public class VentanaPerfilUsuario extends JFrame{
 	    frame.pack();
 	    frame.setVisible(true);
 	}	
+	private void setEditableDescripcion(boolean editable) {
+		descriptionArea.setEditable(editable);
+	}
 	
 	private List<String> obtenerNotificaciones() {
 	   
