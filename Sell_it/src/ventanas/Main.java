@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import BasesDeDatos.BaseDeDatos;
 
@@ -26,11 +27,15 @@ public class Main {
 	private static VentanaInicio ventana1;
 	public static void main(String[] args) {
 
+		try {
 		ventana1 = new VentanaInicio();
 		ventana1.setVisible(true);
 		cargaUsuarios();
 		VentanaInicio.cargarUsuariosInicio(dataset);
-		
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Error en el main", e);
+			JOptionPane.showMessageDialog(ventana1, "Error grave: contacta con los informáticos", "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
 // visualizar usuarios dentro de la base de datos		
 		BaseDeDatos.main(null);
 		BaseDeDatos base = new BaseDeDatos();

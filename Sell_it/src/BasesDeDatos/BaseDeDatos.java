@@ -1,5 +1,6 @@
 package BasesDeDatos;
 
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +18,7 @@ import java.sql.Statement;
 
 public class BaseDeDatos {
 	private Usuario usu;
-	private static Logger logger = Logger.getLogger("BaseDeDatos");
+	private static Logger logger;
 	private static Connection con;
 	private static Statement s;
 	private static ResultSet rs;
@@ -55,6 +56,12 @@ public class BaseDeDatos {
 //	}
 	
 	public static void main(String[] args) {
+		
+		try {
+			logger = Logger.getLogger("BaseDeDatos");
+			logger.addHandler(new FileHandler("BasesDeDatos.xml"));
+		}catch (Exception e){}
+		
 		String com = "";
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -68,7 +75,7 @@ public class BaseDeDatos {
 				s.executeUpdate(com);
 			} catch (SQLException e) {
 			// Se lanza si la tabla ya existe - no hay problema
-				System.out.println("la tabla ya está creada");
+				logger.log(Level.INFO, "La tabla ya está creada");
 			}
 		// Ver si existe admin
 			com = "select * from Usuario where correoUsuario = 'admin'";
