@@ -33,6 +33,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Usuario;
 import datos.DataSetUsuario;
 //import pruebasSelit.VentanaInicio;
@@ -42,6 +43,7 @@ public class VentanaInicio extends JFrame {
 	/**
 	 * 
 	 */
+	protected BaseDeDatos bd;
 	private static DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	private static CustomPasswordField txtContrasenia;
@@ -58,6 +60,7 @@ public class VentanaInicio extends JFrame {
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 // logger de prueba
         	logger.log(Level.SEVERE, "Error al configurar el look and feel", e);
+        	JOptionPane.showMessageDialog(null, "Error al cargar la ventana: contacta con los informaticos.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
 // logger de prueba
@@ -295,6 +298,10 @@ public class VentanaInicio extends JFrame {
         txtContrasenia.setText(new String(contraseña));
     }
 	
+//	private boolean verificarUsuarioEsCorrecto(String correo, String contrasenia) {
+//		if(bd)
+//	}
+//	
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
 		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
             Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);

@@ -33,8 +33,8 @@ public class Main {
 		cargaUsuarios();
 		VentanaInicio.cargarUsuariosInicio(dataset);
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Error en el main", e);
-			JOptionPane.showMessageDialog(ventana1, "Error grave: contacta con los informáticos", "ERROR", JOptionPane.ERROR_MESSAGE);
+			logger.log(Level.SEVERE, "Error en el main.", e);
+			JOptionPane.showMessageDialog(ventana1, "Error grave: contacta con los informáticos.", "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 // visualizar usuarios dentro de la base de datos		
 		BaseDeDatos.main(null);
