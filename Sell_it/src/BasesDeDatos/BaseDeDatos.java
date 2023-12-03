@@ -62,12 +62,13 @@ public class BaseDeDatos {
 			s = con.createStatement();
 			try {
 				
-				// DA IGUAL QUE SEA MAYUSCULA O NO????
+				// DA IGUAL QUE SEA MAYUSCULA O NO???? (SI)
 				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
 			// Se lanza si la tabla ya existe - no hay problema
+				System.out.println("la tabla ya está creada");
 			}
 		// Ver si existe admin
 			com = "select * from Usuario where correoUsuario = 'admin'";
