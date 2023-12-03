@@ -29,6 +29,9 @@ public class VentanaCompra extends JFrame{
 	private JComboBox cbMes;
 	private JComboBox cbAnyo;
 	private JLabel lTiempo;
+	private JTextField tfCCV;
+
+	private JPanel pNTarjeta;
 
 	private Timer timer;
     private int tiempoRestante;
@@ -98,7 +101,7 @@ public class VentanaCompra extends JFrame{
         pMetodoPago.add(lMetodoPago);
 		pPago.add(pMetodoPago);
 		
-		JPanel pNTarjeta = new JPanel();
+		pNTarjeta = new JPanel();
 		JLabel lNtarjeta = new JLabel("Nº tarjeta");
 		tfNtarjeta = new JTextField();
 		tfNtarjeta.setPreferredSize(new Dimension(200, 20));
@@ -114,12 +117,41 @@ public class VentanaCompra extends JFrame{
 		//Componente para el CCV
 		JPanel pCCV = new JPanel();
 		JLabel lCCV = new JLabel("CCV");
-		JTextField tfCCV = new JTextField();
+		tfCCV = new JTextField();
 		tfCCV.setPreferredSize(new Dimension(80,20));
 		pCCV.add(lCCV);
 		pCCV.add(tfCCV);
 		pPago.add(pCCV);
+//		
+		JPanel pBotonD = new JPanel();
+		JButton botonVerificar = new JButton("Verificar Tarjeta");
+		pBotonD.add(botonVerificar);
+		pPago.add(pBotonD);
 		
+		botonVerificar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (verificarCampoCCV()) {
+		            // Cambiar el fondo a verde si la validación es exitosa
+//		            tfCCV.setBackground(Color.GREEN);
+		            agregarCheck(tfCCV);
+		        }
+				if(verificarCampoTarjeta()) {
+//					tfNtarjeta.setBackground(Color.GREEN);
+					agregarCheck(tfNtarjeta);
+				}
+				if(tfCCV.getBackground() == Color.RED || tfNtarjeta.getBackground() == Color.RED) {
+			        mostrarError(errorPane, "El número de TARJETA debe tener 16 dígitos y en CCV 3 dígitos.\n Además solo debe contener números.");
+				}else {
+					// Símbolo de check (✔)
+				    String checkSymbol = "\u2713";
+				    JOptionPane.showMessageDialog(null, "Campos Correctos" + " " + checkSymbol, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			}
+		});
+//		
 		JPanel pFC = new JPanel(new GridLayout(1,1));
 		String[] meses = {"MES", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 		cbMes = new JComboBox<>(meses);
@@ -187,6 +219,32 @@ public class VentanaCompra extends JFrame{
 			}
 		});
 	}
+	private boolean verificarCampoTarjeta() {
+	    // Verificar longitud y si son solo números
+	    String numeroTarjeta = tfNtarjeta.getText();
+	    String ccv = tfCCV.getText();
+
+	    if (numeroTarjeta.length() != 16 || !esNumero(numeroTarjeta)) {
+	        tfNtarjeta.setBackground(Color.RED);
+	        return false;
+	    }
+	    return true;
+	}
+	private boolean verificarCampoCCV() {
+		// Verificar longitud y si son solo números
+	    String numeroTarjeta = tfNtarjeta.getText();
+	    String ccv = tfCCV.getText();
+		if (ccv.length() != 3 || !esNumero(ccv)) {
+	        tfCCV.setBackground(Color.RED);
+	        return false;
+	    }
+	    return true;
+	}
+	private boolean esNumero(String str) {
+	    // Verificar si una cadena contiene solo números
+	    return str.matches("\\d+");
+	}
+
 	private void mostrarTerminos() {
 	    // Crear un JTextArea para mostrar los términos y condiciones
 	    JTextArea textArea = new JTextArea(
@@ -237,22 +295,48 @@ public class VentanaCompra extends JFrame{
 //			JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 //			dispose();
 //		}
+	
 		if (tfNombre.getText().isEmpty() || tfCorreo.getText().isEmpty() || tfTfno.getText().isEmpty() ||
 	            tfNtarjeta.getText().isEmpty() || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
 	        JOptionPane.showMessageDialog(null, "Para confirmar la compra debe introducir todos los datos.");
 	        return;
 	    }
+		
+		String numeroTarjeta = tfNtarjeta.getText();
+		String ccv = tfCCV.getText();
+	    boolean esNumeroTarjetaValido = numeroTarjeta.length() == 16;
+	    boolean esCCVValido = ccv.length() == 3;
 
-	    // Lógica de confirmación aquí
-	    boolean errorEnConfirmacion = true; // Simulación de error, reemplaza con tu lógica real
+	 
 
-	    if (errorEnConfirmacion) {
-	        mostrarError(errorPane, "Error al confirmar la compra. Inténtalo de nuevo.");
+	    if (!esNumeroTarjetaValido || !esCCVValido) {
+	        mostrarError(errorPane, "Error al confirmar la compra.\nInténtalo de nuevo.\nRecuerda que el número de TARJETA debe tener 16 dígitos y el CCV debe tener 3 dígitos.");
 	    } else {
+	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        dispose();
 	    }
+		
+		
 	}
+	
+	private void agregarCheck(JTextField textField) {
+		String textoCampo = textField.getText();
+	   
+//		textField.setText(textoCampo + " " + checkSymbol);
+		textField.setText(textoCampo);
+	    textField.setEditable(false);
+	    textField.setBackground(new Color(240, 255, 240)); // Cambiar el fondo a verde claro si se cumple la condición
+//	    } else {
+//	        textField.setText(textoCampo + " " + xSymbol);
+//	        textField.setText(textoCampo);
+//
+//	        textField.setEditable(true);
+//	        textField.setBackground(new Color(255, 240, 240)); // Cambiar el fondo a rojo claro si no se cumple la condición
+	    
+		
+	}
+	
 	private void mostrarError(Component parent, String mensaje) {
 	    JOptionPane.showMessageDialog(parent, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
