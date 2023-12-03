@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-12-03T12:38:25.875347700Z</date>
+  <millis>1701607105875</millis>
+  <nanos>347700</nanos>
+  <sequence>1</sequence>
+  <logger>BaseDeDatos</logger>
+  <level>INFO</level>
+  <class>BasesDeDatos.BaseDeDatos</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>BD: create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)</message>
+</record>
+<record>
+  <date>2023-12-03T12:38:25.881598700Z</date>
+  <millis>1701607105881</millis>
+  <nanos>598700</nanos>
+  <sequence>2</sequence>
+  <logger>BaseDeDatos</logger>
+  <level>INFO</level>
+  <class>BasesDeDatos.BaseDeDatos</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>La tabla ya está creada</message>
+</record>
+<record>
+  <date>2023-12-03T12:38:25.882604300Z</date>
+  <millis>1701607105882</millis>
+  <nanos>604300</nanos>
+  <sequence>3</sequence>
+  <logger>BaseDeDatos</logger>
+  <level>INFO</level>
+  <class>BasesDeDatos.BaseDeDatos</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>BD: select * from Usuario where correoUsuario = 'admin'</message>
+</record>
+<record>
+  <date>2023-12-03T12:38:25.884607Z</date>
+  <millis>1701607105884</millis>
+  <nanos>607000</nanos>
+  <sequence>4</sequence>
+  <logger>BaseDeDatos</logger>
+  <level>INFO</level>
+  <class>BasesDeDatos.BaseDeDatos</class>
+  <method>verUsuarios</method>
+  <thread>1</thread>
+  <message>BD: select * from Usuario</message>
+</record>
+</log>
