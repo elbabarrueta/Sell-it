@@ -10,6 +10,10 @@ import java.util.List;
 
 import javax.swing.*;
 
+import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.painter.MattePainter;
+
 import clases.Entrada;
 import clases.Evento;
 import clases.Usuario;
@@ -21,12 +25,12 @@ public class VentanaReventaUsuario extends JFrame{
 	private List<String> entradasCompradas;
 
 	private JComboBox cbEntradas = new JComboBox();   //Lista con entradas disponibles para vender
-	private JTextField tfCant = new JTextField();
+//	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
 	
 	public VentanaReventaUsuario(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(600, 500);
+		setSize(450, 400);
 		setLocationRelativeTo(null);
 		setTitle("Reventa");
 		
@@ -34,14 +38,24 @@ public class VentanaReventaUsuario extends JFrame{
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
 		
-		JPanel pCentral = new JPanel(new GridLayout(2,2));
+		JLabel fillerLabel = new JLabel("Bienvenido a la Ventana de Reventa");
+        fillerLabel.setFont(new Font("Segoe Script", Font.BOLD, 15));
+        fillerLabel.setHorizontalAlignment(JLabel.CENTER);
+        fillerLabel.setVerticalAlignment(JLabel.CENTER);
+        pSuperior.add(fillerLabel, BorderLayout.CENTER);
+		
+		JPanel pCentral = new JPanel(new GridLayout(2, 2, 10, 10));
+        pCentral.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add(pCentral, BorderLayout.CENTER);
 		
-		JPanel pInferior = new JPanel(new BorderLayout());
+		JPanel pInferior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pInferior.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
 		this.add(pInferior, BorderLayout.SOUTH);
 		
 		//Panel Superior
 		JButton bMiperfil = new JButton("MI PERFIL");
+		bMiperfil.setForeground(new Color(70, 70, 70)); // Gris oscuro
+        bMiperfil.setBackground(new Color(176, 224, 230)); // Turquesa pálido
 		pSuperior.add(bMiperfil, BorderLayout.EAST);
 		
 		//Panel Central
@@ -59,10 +73,17 @@ public class VentanaReventaUsuario extends JFrame{
 		
 		//Panel Inferior
 		JButton bSubir = new JButton("Subir entrada");
-		pInferior.add(bSubir, BorderLayout.EAST);
+		bSubir.setBackground(new Color(230, 230, 250)); // Lavanda
+        pInferior.add(bSubir);
+//		pInferior.add(bSubir, BorderLayout.EAST);
 		JButton bVprincipal = new JButton("Ventana Principal");
-		pInferior.add(bVprincipal, BorderLayout.WEST);
-		
+//		pInferior.add(bVprincipal, BorderLayout.WEST);
+		bVprincipal.setForeground(new Color(255, 69, 0)); // Rojo anaranjado
+        bVprincipal.setBackground(new Color(255, 228, 181)); // Melocotón claro
+        pInferior.add(bVprincipal);
+
+        // Configuración adicional
+        AutoCompleteDecorator.decorate(cbEntradas); // Añadir funcionalidad de autocompletado
 		
 		bMiperfil.addActionListener(new ActionListener() {
 			
@@ -99,8 +120,7 @@ public class VentanaReventaUsuario extends JFrame{
 		        }
 								
 			}
-		});
-		
+		});	
 		
 	}
 	public static void main(String[] args) {
@@ -108,5 +128,5 @@ public class VentanaReventaUsuario extends JFrame{
 		VentanaReventaUsuario v = new VentanaReventaUsuario(usu);
 		v.setVisible(true);
 	}
-
+	
 }
