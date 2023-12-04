@@ -73,14 +73,14 @@ public class DataSetUsuario {
 		return mapaUsu.get(correo);
 	}
 	
-	public Usuario getUsuarioPorCorreo(String correo) {
-		if(mapaUsu.containsKey(correo)) {
-			return mapaUsu.get(correo);
-		}
-		else {
-			return null;
-		}
-	}
+//	public Usuario getUsuarioPorCorreo(String correo) {
+//		if(mapaUsu.containsKey(correo)) {
+//			return mapaUsu.get(correo);
+//		}
+//		else {
+//			return null;
+//		}
+//	}
 	public boolean existeUsuario(String nombre, String correo) {
 		for (Usuario usuario : mapaUsu.values()) {
 	        if (usuario.getNombreUsuario().equals(nombre) || usuario.getCorreoUsuario().equals(correo)) {

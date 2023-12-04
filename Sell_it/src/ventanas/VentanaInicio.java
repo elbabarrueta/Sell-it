@@ -43,11 +43,13 @@ public class VentanaInicio extends JFrame {
 	/**
 	 * 
 	 */
-	protected BaseDeDatos bd;
 	private static DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	private static CustomPasswordField txtContrasenia;
 	private static final long serialVersionUID = 1L;
+	static BaseDeDatos base;
+	static HashMap<String, Usuario> mapaUsu;
+
 
 	//logger de prueba
     private static Logger logger = Logger.getLogger(VentanaInicio.class.getName());
@@ -180,7 +182,7 @@ public class VentanaInicio extends JFrame {
             
 			if (verificarCredenciales(correo, contrasenia)) {
 				if (mostrarCondicionesDeUso()) {
-					usuarioActual = dataSetUsuario.getMapaUsu().get(correo);
+					usuarioActual = mapaUsu.get(correo);
 					JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 					VentanaPrincipal v = new VentanaPrincipal();
 					dispose();
@@ -193,6 +195,11 @@ public class VentanaInicio extends JFrame {
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
 			}
 		});
+		
+		BaseDeDatos.main(null);
+		base = new BaseDeDatos();
+		base.verUsuarios();
+		mapaUsu = base.crearMapa();
 		
 	}
 	
@@ -303,8 +310,8 @@ public class VentanaInicio extends JFrame {
 //	}
 //	
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
-		 if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
-            Usuario u = dataSetUsuario.getUsuarioPorCorreo(correo);
+		 if (mapaUsu.containsKey(correo)) {
+            Usuario u = base.getUsuarioPorCorreo(correo);
 	        String hashAlmacenado = u.getContrasena();
 	        if(hashAlmacenado.startsWith("$2a$")) {
 		        if (BCrypt.checkpw(contrasenia, hashAlmacenado)) {
@@ -325,16 +332,28 @@ public class VentanaInicio extends JFrame {
 	}
 	
 	public String obtenerNombreUsuario(String correo) {
-	    if (dataSetUsuario.getMapaUsu().containsKey(correo)) {
-	        Usuario usuario = dataSetUsuario.getMapaUsu().get(correo);
+		if (mapaUsu.containsKey(correo)) {
+	        Usuario usuario = mapaUsu.get(correo);
 	        return usuario.getNombreUsuario();
 	    } else {
 	        return "Nombre de usuario no encontrado";
 	    }
 	}
 
-	public static void cargarUsuariosInicio(DataSetUsuario dataset) {
-		dataSetUsuario = dataset;
+	public static void cargarUsuariosInicio() {		
+		
+//		try { 
+//			// Cargar usuarios directamente desde la base de datos 
+//			List<Usuario> usuarios = bd.verUsuarios(); 
+//			// Convertir la lista de usuarios a un DataSetUsuario si es necesario 
+//			DataSetUsuario dataset = new DataSetUsuario(); 
+//			dataset.setUsuarios(usuarios); 
+//			// Actualizar la referencia en VentanaInicio si es necesario 
+//			VentanaInicio.cargarUsuariosInicio(dataset); 
+//		} catch (Exception e) { 
+//			logger.log(Level.SEVERE, "Error al cargar usuarios desde la base de datos", e); 
+//			JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos", "ERROR", JOptionPane.ERROR_MESSAGE); 
+//		} 
 	}
 	
 	private static ImageIcon fotoBoton(ImageIcon imagenOjo) {

@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import clases.Usuario;
 import java.sql.Statement;
@@ -22,6 +24,7 @@ public class BaseDeDatos {
 	private static Connection con;
 	private static Statement s;
 	private static ResultSet rs;
+	private static HashMap<String, Usuario> mapaUsuarios;
 	
 //	public static void main(String args[]) {
 //		//Decidimos el driver
@@ -86,13 +89,23 @@ public class BaseDeDatos {
 				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena ) values ('admin', 'admin', 'admin', 'admin')";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
+				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#");
+				anadirUsuarioNuevo(moma);
+				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou");
+				anadirUsuarioNuevo(kepa);
+				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g");
+				anadirUsuarioNuevo(miguel);
+				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33");
+				anadirUsuarioNuevo(laura);
 			}
+			
+			
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("Último comando: " + com);
 			e.printStackTrace();
 			}
 		}
-	public void anadirUsuarioNuevo(Usuario usu) {
+	public static void anadirUsuarioNuevo(Usuario usu) {
 		String com = "";
 		try {
 			// Ver si existe usuario
@@ -199,6 +212,7 @@ public void cerrarConexiones() {
             String correoUsuario = rs.getString("correoUsuario");
             String tipoUsuario = rs.getString("tipoUsuario");
             String contrasena = rs.getString("contrasena");
+            Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena);
 
             System.out.println("Nombre: " + nombreUsuario +
                     ", Correo: " + correoUsuario +
@@ -211,26 +225,41 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
-	
-//	private static ArrayList<Usuario> visualizar( Statement s) throws SQLException{
-//		ArrayList<Usuario> u = new ArrayList<>();
-//		String sent = "select * from usuario";
-//		System.out.println(sent);
-//		ResultSet rs = s.executeQuery(sent);
-//		while(rs.next()) {
-//			String nombreUsuario = rs.getString("nombreUsuario");
-//			String correoUsuario = rs.getString("correoUsuario");
-//			String tipoUsuario = rs.getString("tipoUsuario");
-//			String contrasena = rs.getString("contrasena");
-//			System.out.println("nombreUsuario = " + nombreUsuario + ", correo = " + correoUsuario + ", tipoUsuario = " + tipoUsuario + " y contrasena = " + contrasena + ".");
-//			Usuario usu = new Usuario();
-//			usu.nombreUsuario = nombreUsuario;
-//			usu.correoUsuario = correoUsuario;
-//			usu.tipoUsuario = tipoUsuario;
-//			usu.contrasena = contrasena;
-//			u.add(usu);
-//		}
-//		rs.close();
-//		return u;
-//	}
+
+	public HashMap<String, Usuario> crearMapa() {
+        mapaUsuarios = new HashMap<>();
+
+        String com = "select * from Usuario";
+        logger.log(Level.INFO, "BD: " + com);
+
+        try {
+            rs = s.executeQuery(com);
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombreUsuario");
+                String correoUsuario = rs.getString("correoUsuario");
+                String tipoUsuario = rs.getString("tipoUsuario");
+                String contrasena = rs.getString("contrasena");
+
+                Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena);
+                mapaUsuarios.put(correoUsuario, usuario);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Último comando: " + com);
+            e.printStackTrace();
+        }
+
+        return mapaUsuarios;
+    }
+	public Usuario getUsuarioPorCorreo(String correo) {
+		if(mapaUsuarios.containsKey(correo)) {
+			return mapaUsuarios.get(correo);
+		}
+		else {
+			return null;
+		}
+	}
+
+
 }

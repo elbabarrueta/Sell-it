@@ -39,7 +39,7 @@ public class VentanaReventaUsuario extends JFrame{
 		this.add(pSuperior, BorderLayout.NORTH);
 		
 		JLabel fillerLabel = new JLabel("Bienvenido a la Ventana de Reventa");
-        fillerLabel.setFont(new Font("Segoe Script", Font.BOLD, 15));
+        fillerLabel.setFont(new Font("Sans Serif", Font.BOLD, 15));
         fillerLabel.setHorizontalAlignment(JLabel.CENTER);
         fillerLabel.setVerticalAlignment(JLabel.CENTER);
         pSuperior.add(fillerLabel, BorderLayout.CENTER);
