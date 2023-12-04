@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +34,7 @@ public class VentanaPrincipal extends JFrame{
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
+		private ConexionBD conexionBD;
 		
 		public VentanaPrincipal(){
 			
@@ -60,6 +66,7 @@ public class VentanaPrincipal extends JFrame{
 			pnlNorte.add(bBuscar);
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
+			this.conexionBD = new ConexionBD();
 			
 			
 			
@@ -191,6 +198,32 @@ public class VentanaPrincipal extends JFrame{
 				//JLabelGrafico grafico = new JLabelGrafico(foto, 50, 80 ); No se porque me da error
 			//	add( grafico, BorderLayout.EAST );
 			}
+		}
+		public static List<Evento> obtenerListaEvento(Connection con){
+			String sql = "SELECT * FROM Evento";
+			List<Evento> l = new ArrayList<>();
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				while(rs.next()) {
+					String codigo = rs.getString("codigo");
+					String nombre = rs.getString("nombre");
+					String desc = rs.getString("desc");
+					String fecha = rs.getString("fecha");
+					String ubicacion = rs.getString("ubicacion");
+					int nEntradas = rs.getInt("nEntradas");
+					double precio = rs.getDouble("precio");
+					String rutaImg = rs.getString("rutaImg");
+					Evento e = new Evento(dni, nom,desc,fecha,ubicacion,nEntradas,precio,rutaImg);
+					l.add(e);
+				}
+				rs.close();
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return l;
 		}
 
 
