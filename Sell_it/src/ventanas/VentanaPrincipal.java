@@ -214,7 +214,7 @@ public class VentanaPrincipal extends JFrame{
 					int nEntradas = rs.getInt("nEntradas");
 					double precio = rs.getDouble("precio");
 					String rutaImg = rs.getString("rutaImg");
-					Evento e = new Evento(dni, nom,desc,fecha,ubicacion,nEntradas,precio,rutaImg);
+					Evento e = new Evento(codigo, nombre,desc,fecha,ubicacion,nEntradas,precio,rutaImg);
 					l.add(e);
 				}
 				rs.close();
