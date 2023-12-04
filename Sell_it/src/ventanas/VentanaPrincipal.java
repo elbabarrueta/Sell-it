@@ -199,7 +199,7 @@ public class VentanaPrincipal extends JFrame{
 			//	add( grafico, BorderLayout.EAST );
 			}
 		}
-		public static List<Evento> obtenerListaEvento(Connection con){
+		/*public static List<Evento> obtenerListaEvento(Connection con){
 			String sql = "SELECT * FROM Evento";
 			List<Evento> l = new ArrayList<>();
 			try {
@@ -224,7 +224,7 @@ public class VentanaPrincipal extends JFrame{
 				e.printStackTrace();
 			}
 			return l;
-		}
+		}*/
 
 
 		
