@@ -20,7 +20,7 @@ public class VentanaLogoPrincipal extends JFrame{
         JLabel imagen = new JLabel(icono);
 //        JPanel pnlImagen = new JPanel();
 //        JPanel pnlCarga = new JPanel();
-		JLabel cargando = new JLabel("Cargando Sell It...");
+		//JLabel cargando = new JLabel("Cargando Sell It...");
 //		public void hilo{
 //        for(int i = 0; i<5; i++) {
 //		   cont.inc(1);
@@ -30,7 +30,7 @@ public class VentanaLogoPrincipal extends JFrame{
 //		pnlImagen.add(imagen);
 //		pnlCarga.add(cargando);
         ventana.getContentPane().add(imagen, BorderLayout.CENTER);
-        ventana.add(cargando, BorderLayout.SOUTH);
+      //  ventana.add(cargando, BorderLayout.SOUTH);
         ventana.setSize(400, 300);
         ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ventana.setVisible(true);
