@@ -27,17 +27,18 @@ public class Main {
 	private static VentanaInicio ventana1;
 	static BaseDeDatos base; 
 	private static VentanaLogoPrincipal ventanaLogo;
+
 	public static void main(String[] args) {
 
 		try {
-		ventanaLogo = new VentanaLogoPrincipal();
-		ventanaLogo.setVisible(true);
-		ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		Thread.sleep(5000);
-		ventana1 = new VentanaInicio();
-		ventana1.setVisible(true);
-		ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		ventana1.toFront();
+			ventanaLogo = new VentanaLogoPrincipal();
+			ventanaLogo.setVisible(true);
+			ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			Thread.sleep(5000);
+			ventana1 = new VentanaInicio();
+			ventana1.setVisible(true);
+			ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			ventana1.toFront();
 //		cargaUsuarios();
 		//VentanaInicio.cargarUsuariosInicio(dataset);
 		} catch (Exception e) {
