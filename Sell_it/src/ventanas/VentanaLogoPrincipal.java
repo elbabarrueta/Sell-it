@@ -57,7 +57,7 @@ public class VentanaLogoPrincipal extends JFrame {
                 mensaje.setText("Cargando Sell It... " + segundos + " segundos");
             }
 
-            mensaje.setText("Cargando Sell It... ¡Completo!");
+            mensaje.setText("Cargando Sell It... ¡Disfruta de tu estancia!");
         });
 
         hiloCuentaRegresiva.start();
