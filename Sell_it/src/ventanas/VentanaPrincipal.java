@@ -34,7 +34,7 @@ public class VentanaPrincipal extends JFrame{
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
-		private ConexionBD conexionBD;
+		
 		
 		public VentanaPrincipal(){
 			
@@ -66,7 +66,7 @@ public class VentanaPrincipal extends JFrame{
 			pnlNorte.add(bBuscar);
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
-			this.conexionBD = new ConexionBD();
+			
 			
 			
 			

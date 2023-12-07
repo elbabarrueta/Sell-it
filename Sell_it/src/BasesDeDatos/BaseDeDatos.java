@@ -13,13 +13,17 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import clases.Entrada;
+import clases.Evento;
 import clases.Usuario;
 import java.sql.Statement;
 
 public class BaseDeDatos {
 	private Usuario usu;
+	private Evento even;
 	private static Logger logger;
 	private static Connection con;
 	private static Statement s;
@@ -133,6 +137,71 @@ public class BaseDeDatos {
 			e2.printStackTrace();
 		}
 }
+	public static void crearTablas(Connection con) {
+		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
+		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
+		
+		try {
+			Statement st = con.createStatement();
+			st.executeUpdate(sql);
+			st.executeUpdate(sql2);
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Devuelve una lista con los eventos de la tabla Eventos
+	public static List<Evento> obtenerListaEventos(Connection con){
+		String sql = "SELECT * FROM Evento";
+		List<Evento> listaEventos = new ArrayList<>();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				String codigo = rs.getString("codigo");
+				String nombre = rs.getString("nombre");
+				String dni = rs.getString("dni");
+				String desc = rs.getString("desc");
+				String fecha = rs.getString("fecha");
+				String ubicacion = rs.getString("ubicacion");
+				int nEntradas = rs.getInt("nEntradas");
+				double precio = rs.getDouble("precio");
+				String rutaImg = rs.getString("rutaImg");
+				
+				Evento even = new Evento(codigo, nombre,desc,fecha,nEntradas,precio);
+				listaEventos.add(even);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listaEventos;
+	}
+	//Devuelve una lista con las entradas de la tabla Entrada
+		public static List<Entrada> obtenerListaEntradas(Connection con){
+			String sql = "SELECT * FROM Entrada";
+			List<Entrada> listaEntrada = new ArrayList<>();
+			try {
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql);
+				while(rs.next()) {
+					String codigo = rs.getString("codigo");
+					String desc = rs.getString("desc");
+					String fecha = rs.getString("fecha");
+					double precio = rs.getDouble("precio");
+					Entrada e = new Entrada(codigo, desc,fecha,precio);
+					listaEntrada.add(e);
+				}
+				rs.close();
+				st.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return listaEntrada;
+		}
 
 public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 	//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
