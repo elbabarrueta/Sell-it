@@ -43,7 +43,7 @@ public class DataSetEvento {
 				String ubicacion = partes[3];
 				int nEntradas = Integer.parseInt(partes[4]);
 				double precio = Double.parseDouble(partes[5]);
-				Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas, precio );
+				Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas );
 				mapaEvento.put(desc, evento); //----- aqui uso a descripcion como clave unica
 			} catch (IndexOutOfBoundsException | NumberFormatException e) {
 				System.err.println( "Error en lectura de línea " + numLinea );
@@ -88,7 +88,7 @@ public class DataSetEvento {
         try {
             PrintWriter pw = new PrintWriter(nomfich);
             for (Evento e: mapaEvento.values() ) {
-                pw.println(e.getNombre() + "," + e.getDesc() + "," + e.getFecha() + "," + e.getUbicacion() + "," + e.getnEntradas() + "," + e.getPrecio());
+//                pw.println(e.getNombre() + "," + e.getDesc() + "," + e.getFecha() + "," + e.getUbicacion() + "," + e.getnEntradas() + "," + e.getPrecio());
             }
             pw.flush();
             pw.close();

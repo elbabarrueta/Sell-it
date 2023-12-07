@@ -41,7 +41,7 @@ public class DataSetEntrada {
 				String desc = partes[1];
 				String fecha = partes[2];
 				double precio = Double.parseDouble(partes[3]);
-				Entrada entrada = new Entrada(cod, desc, fecha, precio);
+//				Entrada entrada = new Entrada(cod, desc, fecha, precio);
 				mapaEntrada.put(cod, entrada); //----- aqui uso a descripcion como clave unica
 			} catch (IndexOutOfBoundsException | NumberFormatException e) {
 				System.err.println( "Error en lectura de línea " + numLinea );
@@ -59,7 +59,7 @@ public class DataSetEntrada {
 	}
 	
 	public static void anyadirEntrada(Entrada e) {
-		mapaEntrada.put(e.getCod(), e);
+//		mapaEntrada.put(e.getCod(), e);
 	}
 	public static Entrada buscarEntrada(String cod) {
 		return mapaEntrada.get(cod);
@@ -73,9 +73,9 @@ public class DataSetEntrada {
 			return null;
 		}
 	}
-	public boolean existeEvento(String cod) {
+	public boolean existeEvento(int cod) {
 		for (Entrada entrada : mapaEntrada.values()) {
-	        if (entrada.getCod().equals(cod)) {	            
+	        if (entrada.getCod() == cod) {	            
 	                System.out.println("La entrada coincide con otra entrada (" + entrada.getCod() +").");
 	        }
 	            return true;
@@ -86,7 +86,7 @@ public class DataSetEntrada {
         try {
             PrintWriter pw = new PrintWriter(nomfich);
             for (Entrada e: mapaEntrada.values() ) {
-                pw.println(e.getCod() + "," + e.getDesc() + "," + e.getFecha() + "," + e.getPrecio());
+//                pw.println(e.getCod() + "," + e.getDesc() + "," + e.getFecha() + "," + e.getPrecio());
             }
             pw.flush();
             pw.close();

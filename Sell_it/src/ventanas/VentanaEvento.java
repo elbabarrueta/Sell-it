@@ -90,7 +90,7 @@ public class VentanaEvento extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Evento e = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",3000,25);
+		Evento e = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",3000);
 		VentanaEvento v = new VentanaEvento(e);
 		v.setVisible(true);
 	}

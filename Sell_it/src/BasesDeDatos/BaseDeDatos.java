@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -101,9 +102,8 @@ public class BaseDeDatos {
 				anadirUsuarioNuevo(miguel);
 				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33");
 				anadirUsuarioNuevo(laura);
-			}
-			
-			
+			}			
+			crearTablas(con);
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("Último comando: " + com);
 			e.printStackTrace();
@@ -136,11 +136,13 @@ public class BaseDeDatos {
 			System.out.println( "Último comando: " + com );
 			e2.printStackTrace();
 		}
-}
+	}
 	public static void crearTablas(Connection con) {
-		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
-		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
-		
+//		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
+//		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
+		String sql = "CREATE TABLE IF NOT EXISTS Evento (nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String)";
+		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String, evento_cod String, propietario_correo String, precio Double)";
+
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
@@ -150,6 +152,59 @@ public class BaseDeDatos {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void anadirEventoNuevo(Evento evento) {
+		String com = "";
+		try {
+			com = "select * from Evento where codigo = '" + evento.getCodigo() + "'";
+			logger.log( Level.INFO, "BD: " + com );
+			rs = s.executeQuery( com );
+			if (!rs.next()) {
+				com = "insert into Evento (codigo, nombre, desc, fecha, ubicacion, nEntradas, rutaImg) values ('"+ 
+						evento.getCodigo() +"', '" + evento.getNombre() +"', '" + evento.getDesc() +"', '" + evento.getFecha() + "', '" + evento.getUbicacion() + "', '" + evento.getnEntradas() + "', '" + evento.getRutaImg() +"')";
+				logger.log( Level.INFO, "BD: " + com );
+				int val = s.executeUpdate( com );
+				if (val!=1) {
+					JOptionPane.showMessageDialog( null, "Error en inserción" );
+				}
+			} else {
+				JOptionPane.showMessageDialog( null, "Evento " + evento.getCodigo() + " ya existe" );
+			}
+		} catch (SQLException e2) {
+			System.out.println( "Último comando: " + com );
+			e2.printStackTrace();
+		}
+	}
+	
+	public static void anadirEntradaNueva(Entrada entrada) {
+		String com = "";
+		try {
+			com = "select * from Evento where codigo = '" + entrada.getCod() + "'";
+			logger.log( Level.INFO, "BD: " + com );
+			rs = s.executeQuery( com );
+			if (!rs.next()) {
+				String propietario_correo;
+				if(entrada.getPropietario() == null) {
+					propietario_correo = "null";
+				}else {
+					propietario_correo = entrada.getPropietario().getCorreoUsuario();
+				}
+				com = "insert into Entrada (codigo, evento_cod, propietario_correo, precio) values ('"+ 
+						entrada.getCod() +"', '" + entrada.getEventoAsociado().getCodigo() +"', '" + propietario_correo +"', '" + entrada.getPrecio() +"')";
+				logger.log( Level.INFO, "BD: " + com );
+				int val = s.executeUpdate( com );
+				if (val!=1) {
+					JOptionPane.showMessageDialog( null, "Error en inserción" );
+				}
+			} else {
+				JOptionPane.showMessageDialog( null, "Entrada " + entrada.getCod() + " ya existe" );
+			}
+		} catch (SQLException e2) {
+			System.out.println( "Último comando: " + com );
+			e2.printStackTrace();
+		}
+	}
+	
 	//Devuelve una lista con los eventos de la tabla Eventos
 	public static List<Evento> obtenerListaEventos(Connection con){
 		String sql = "SELECT * FROM Evento";
@@ -160,15 +215,15 @@ public class BaseDeDatos {
 			while(rs.next()) {
 				String codigo = rs.getString("codigo");
 				String nombre = rs.getString("nombre");
-				String dni = rs.getString("dni");
+				//String dni = rs.getString("dni");
 				String desc = rs.getString("desc");
 				String fecha = rs.getString("fecha");
 				String ubicacion = rs.getString("ubicacion");
 				int nEntradas = rs.getInt("nEntradas");
-				double precio = rs.getDouble("precio");
+				//double precio = rs.getDouble("precio");
 				String rutaImg = rs.getString("rutaImg");
 				
-				Evento even = new Evento(codigo, nombre,desc,fecha,nEntradas,precio);
+				Evento even = new Evento(codigo, nombre,desc,fecha,nEntradas);
 				listaEventos.add(even);
 			}
 			rs.close();
@@ -188,11 +243,23 @@ public class BaseDeDatos {
 				ResultSet rs = st.executeQuery(sql);
 				while(rs.next()) {
 					String codigo = rs.getString("codigo");
-					String desc = rs.getString("desc");
-					String fecha = rs.getString("fecha");
+					//String desc = rs.getString("desc");
+					//String fecha = rs.getString("fecha");
+					String evento_cod = rs.getString("evento_cod");
+					String propietario_correo = rs.getString("propietario_correo");
 					double precio = rs.getDouble("precio");
-					Entrada e = new Entrada(codigo, desc,fecha,precio);
-					listaEntrada.add(e);
+					
+					Evento evento = obtenerEventoPorCodigo(evento_cod);
+					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+					if (evento != null ) {
+					    Entrada entrada = new Entrada(evento, propietario, precio);
+						listaEntrada.add(entrada);
+					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
+					} else {
+					    // Manejar el caso en que no se encuentre el evento
+					    System.out.println("No se encontró el evento con el código: " + evento_cod);
+					}
+					//Entrada e = new Entrada(codigo, desc, fecha,precio);
 				}
 				rs.close();
 				st.close();
@@ -321,7 +388,7 @@ public void cerrarConexiones() {
 
         return mapaUsuarios;
     }
-	public Usuario getUsuarioPorCorreo(String correo) {
+	public static Usuario getUsuarioPorCorreo(String correo) {
 		if(mapaUsuarios.containsKey(correo)) {
 			return mapaUsuarios.get(correo);
 		}
@@ -330,5 +397,29 @@ public void cerrarConexiones() {
 		}
 	}
 
+	public static Evento obtenerEventoPorCodigo(String codigo) {
+	    String com = "SELECT * FROM Evento WHERE codigo = ?";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setString(1, codigo);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            String nombre = rs.getString("nombre");
+	            String desc = rs.getString("desc");
+	            String fecha = rs.getString("fecha");
+	            String ubicacion = rs.getString("ubicacion");
+	            int nEntradas = rs.getInt("nEntradas");
+	            String rutaImg = rs.getString("rutaImg");
+	            Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas);
+	            return evento;
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	    return null;  // Devuelve null si no se encuentra el evento
+	}
 
 }

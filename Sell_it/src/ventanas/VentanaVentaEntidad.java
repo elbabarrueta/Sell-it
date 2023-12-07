@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
 import clases.Usuario;
@@ -137,14 +138,20 @@ public class VentanaVentaEntidad extends JFrame{
 				try {
 					int cantidad = Integer.parseInt(cantText);
 					double precio = Double.parseDouble(precioText);			
-					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad, precio);
+					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad);
 					if(rutaImg != null) {
 						evento.setRutaImg(rutaImg);
 					}
 					//Añadir evento
 					
+					BaseDeDatos.anadirEventoNuevo(evento);
 					//Crear entradas
-					JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+	                for(int i=0; i<cantidad; i++) {
+	                	Entrada entrada = new Entrada(evento, null, precio);
+	                	BaseDeDatos.anadirEntradaNueva(entrada);
+	                }
+	                
+					JOptionPane.showMessageDialog(null, "Evento subido exitosamente");
 				}catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Ingresa valores válidos para la cantidad y el precio", "Error", JOptionPane.ERROR_MESSAGE);
 				}

@@ -91,7 +91,7 @@ public class BDEventos {
 			if (!rs.next()) {
 				// "insert into Usuario ( nick, pass ) values ('admin', 'admin')";
 				com = "INSERT INTO EVENTO (codigo, nombre, desc, fecha,ubicacion,nEntradas,precio,rutaImg) values ('"+ 
-						even.getCodigo() +"', '" + even.getNombre() +"', '" + even.getDesc()+"', '" + even.getFecha()+"', '" + even.getUbicacion() +"', '" + even.getnEntradas()+"', '" + even.getPrecio()+ even.getRutaImg()+"')";
+						even.getCodigo() +"', '" + even.getNombre() +"', '" + even.getDesc()+"', '" + even.getFecha()+"', '" + even.getUbicacion() +"', '" + even.getnEntradas()+"', '" + even.getRutaImg()+"')";
 				logger.log( Level.INFO, "BD: " + com );
 				int val = s.executeUpdate( com );
 				if (val!=1) {
