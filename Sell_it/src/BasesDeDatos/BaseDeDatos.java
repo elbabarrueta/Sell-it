@@ -30,38 +30,7 @@ public class BaseDeDatos {
 	private static Statement s;
 	private static ResultSet rs;
 	private static HashMap<String, Usuario> mapaUsuarios;
-	
-//	public static void main(String args[]) {
-//		//Decidimos el driver
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//		} catch (ClassNotFoundException e) {
-//			System.out.println("No esta conectada la libreria");
-//			return;
-//		}
-//		//Creamos la conexion
-//		try {
-//			Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-//			//Crear tantas statements como necesitemos
-//			Statement s = connection.createStatement();
-//			
-//			//Creamos tabla usuario
-////			if() {
-////				s.executeUpdate("create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)");
-////			}
-//			
-//			//Rellenamos la tabla usuario con datos
-//			s.executeUpdate("insert into usuario values('Laura Lopez','laura.lopez@gmail.com','Usuario corriente','abcABC33')");
-//			s.executeUpdate("insert into usuario values('Miguel Diaz','mdiaz@gmail.com','Usuario corriente','mMiaz45#g')"); //terminar de poner comillas simples
-//			s.executeUpdate("insert into usuario values('Kepa Galindo','k10galindo@gmail.com','Usuario corriente','GK842aeiou')");
-//			s.executeUpdate("insert into usuario values('Discoteca Moma','moma@gmail.com','Usuario entidad','MmMon345627#')");
-//			connection.close();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.out.println("Error en gestion de base de datos");
-//		}
-//	}
+
 	
 	public static void main(String[] args) {
 		
@@ -361,6 +330,8 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
+	
+	
 
 	public HashMap<String, Usuario> crearMapa() {
         mapaUsuarios = new HashMap<>();
