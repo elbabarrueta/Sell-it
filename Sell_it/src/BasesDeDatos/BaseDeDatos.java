@@ -331,7 +331,31 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
+	
+	public void verEvento() {
+	    String com = "select * from Evento ";
+	    logger.log(Level.INFO, "BD: " + com);
 
+	    try {
+	    	rs = s.executeQuery(com);
+	    	System.out.println(" Eventos en la base de datos: ");
+	    	while(rs.next()) {
+	    		 int codigo = rs.getInt("codigo");
+	    		 String nombre = rs.getString("nombre");
+		         String desc = rs.getString("desc");
+		         String fecha = rs.getString("fecha");
+		         String ubicacion = rs.getString("ubicacion");
+		         int nEntradas = rs.getInt("nEntradas");
+		         String rutaImg = rs.getString("rutaImg");
+		         
+		         Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas);
+		         System.out.println("Nombre: " + nombre + ", Descripcion: " + desc + ", Fecha: " + fecha + ", Ubicacion: " + ubicacion + "; Numero de entradas: "+ nEntradas);
+	    	}
+	    } catch (SQLException e) {
+	    	System.out.println("Ultimo comando: " + com);
+	    	e.printStackTrace();
+	    }
+	}
 	
 
 	public HashMap<String, Usuario> crearMapa() {
