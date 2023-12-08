@@ -110,7 +110,7 @@ public class BaseDeDatos {
 //		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
 //		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
 		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo Integer, nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String)";
-		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String, evento_cod String, propietario_correo String, precio Double)";
+		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo Integer, evento_cod Integer, propietario_correo String, precio Double)";
 
 		try {
 			Statement st = con.createStatement();
@@ -182,7 +182,7 @@ public class BaseDeDatos {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()) {
-				String codigo = rs.getString("codigo");
+				int codigo = rs.getInt("codigo");
 				String nombre = rs.getString("nombre");
 				//String dni = rs.getString("dni");
 				String desc = rs.getString("desc");
@@ -192,7 +192,7 @@ public class BaseDeDatos {
 				//double precio = rs.getDouble("precio");
 				String rutaImg = rs.getString("rutaImg");
 				
-				Evento even = new Evento(codigo, nombre,desc,fecha,nEntradas);
+				Evento even = new Evento(nombre, desc, fecha, ubicacion, nEntradas);
 				listaEventos.add(even);
 			}
 			rs.close();
@@ -214,7 +214,7 @@ public class BaseDeDatos {
 					int codigo = rs.getInt("codigo");
 					//String desc = rs.getString("desc");
 					//String fecha = rs.getString("fecha");
-					String evento_cod = rs.getString("evento_cod");
+					int evento_cod = rs.getInt("evento_cod");
 					String propietario_correo = rs.getString("propietario_correo");
 					double precio = rs.getDouble("precio");
 					
@@ -238,6 +238,7 @@ public class BaseDeDatos {
 			}
 			return listaEntrada;
 		}
+		
 
 public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 	//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
@@ -368,12 +369,12 @@ public void cerrarConexiones() {
 		}
 	}
 
-	public static Evento obtenerEventoPorCodigo(String codigo) {
+	public static Evento obtenerEventoPorCodigo(int evento_cod) {
 	    String com = "SELECT * FROM Evento WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
-	        preparedStatement.setString(1, codigo);
+	        preparedStatement.setInt(1, evento_cod);
 	        ResultSet rs = preparedStatement.executeQuery();
 
 	        if (rs.next()) {
