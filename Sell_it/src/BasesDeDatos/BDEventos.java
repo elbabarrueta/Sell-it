@@ -209,6 +209,7 @@ public void cerrarConexiones() {
     }
 }
 	
+	
 //	private static ArrayList<Usuario> visualizar( Statement s) throws SQLException{
 //		ArrayList<Usuario> u = new ArrayList<>();
 //		String sent = "select * from usuario";

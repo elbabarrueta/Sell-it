@@ -25,6 +25,7 @@ import java.sql.Statement;
 public class BaseDeDatos {
 	private Usuario usu;
 	private Evento even;
+	private Entrada ent;
 	private static Logger logger;
 	private static Connection con;
 	private static Statement s;
@@ -421,5 +422,33 @@ public void cerrarConexiones() {
 	    }
 	    return null;  // Devuelve null si no se encuentra el evento
 	}
+
+	public void marcarEntradaComoComprada(String codigoEntrada, String correoComprador) {
+	    String com = "UPDATE Entrada SET propietario_correo = ? WHERE codigo = ?";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setString(1, correoComprador);
+	        preparedStatement.setString(2, codigoEntrada);
+
+	        int rowsAffected = preparedStatement.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Entrada marcada como comprada exitosamente.");
+	        } else {
+	            System.out.println("No se pudo marcar la entrada como comprada.");
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	}
+	
+// Esto seria para marcar la entrada como comprada
+//	String codigoEntrada = "tu_codigo_de_entrada";
+//	String correoComprador = "correo_del_comprador";
+//
+//	baseDatos.marcarEntradaComoComprada(codigoEntrada, correoComprador);
 
 }
