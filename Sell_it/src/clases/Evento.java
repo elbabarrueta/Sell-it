@@ -69,7 +69,7 @@ public class Evento {
 	//Constructores
 	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas) {
 		super();
-		this.codigo = codigo++;
+		this.codigo = obtenerCod();
 		this.nombre = nombre;
 		this.desc = desc;
 		this.fecha = fecha;

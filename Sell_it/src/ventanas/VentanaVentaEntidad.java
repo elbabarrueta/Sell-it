@@ -4,6 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -145,9 +150,10 @@ public class VentanaVentaEntidad extends JFrame{
 					//Añadir evento
 					
 					BaseDeDatos.anadirEventoNuevo(evento);
+					int cod = obtenerCod();
 					//Crear entradas
 	                for(int i=0; i<cantidad; i++) {
-	                	Entrada entrada = new Entrada(evento, null, precio);
+	                	Entrada entrada = new Entrada(cod+i, evento, null, precio);
 	                	BaseDeDatos.anadirEntradaNueva(entrada);
 	                }
 	                
@@ -161,6 +167,26 @@ public class VentanaVentaEntidad extends JFrame{
 		
 			
 	}
+	private static int obtenerCod() {
+		int ultimoCodigo = 0;
+
+        String url = "jdbc:sqlite:usuarios.db";
+
+        try (Connection connection = DriverManager.getConnection(url);
+             Statement statement = connection.createStatement()) {
+
+            String query = "SELECT MAX(codigo) AS ultimoCodigo FROM Entrada";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                ultimoCodigo = resultSet.getInt("ultimoCodigo");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ultimoCodigo + 1;
+    }
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();
 		VentanaVentaEntidad v = new VentanaVentaEntidad(usu);

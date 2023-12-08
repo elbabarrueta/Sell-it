@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Entrada {
 	//Atributos
-	private static int cod = obtenerCod(); //codigo unico
+	private static int cod; //codigo unico
 //	private String desc;
 //	private String fecha; 
 	private Evento eventoAsociado;
@@ -55,9 +55,9 @@ public class Entrada {
 	}
 	
 	//Constructores
-	public Entrada(Evento eventoAsociado, Usuario propietario, double precio) {
+	public Entrada(int cod, Evento eventoAsociado, Usuario propietario, double precio) {
 		super();
-		this.cod = cod++;
+		this.cod = cod;
 //		this.desc = desc;
 //		this.fecha = fecha;
 		this.eventoAsociado = eventoAsociado;
@@ -67,26 +67,6 @@ public class Entrada {
 	
 	@Override
 	public String toString() {
-		return "Entrada [nombre=" + cod + ",eventoAsociado= "+ eventoAsociado + ",propietario= "+ propietario + ",precio=" + precio + "]";
+		return "Entrada [codigo=" + cod + ",eventoAsociado= "+ eventoAsociado + ",propietario= "+ propietario + ",precio=" + precio + "]";
 	}
-	private static int obtenerCod() {
-		int ultimoCodigo = 0;
-
-        String url = "jdbc:sqlite:usuarios.db";
-
-        try (Connection connection = DriverManager.getConnection(url);
-             Statement statement = connection.createStatement()) {
-
-            String query = "SELECT MAX(codigo) AS ultimoCodigo FROM Evento";
-            ResultSet resultSet = statement.executeQuery(query);
-
-            if (resultSet.next()) {
-                ultimoCodigo = resultSet.getInt("ultimoCodigo");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return ultimoCodigo + 1;
-    }
 }

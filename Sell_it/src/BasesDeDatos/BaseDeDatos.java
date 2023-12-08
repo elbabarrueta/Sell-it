@@ -109,7 +109,7 @@ public class BaseDeDatos {
 	public static void crearTablas(Connection con) {
 //		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
 //		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
-		String sql = "CREATE TABLE IF NOT EXISTS Evento (nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String)";
+		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo Integer, nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String)";
 		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String, evento_cod String, propietario_correo String, precio Double)";
 
 		try {
@@ -211,7 +211,7 @@ public class BaseDeDatos {
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sql);
 				while(rs.next()) {
-					String codigo = rs.getString("codigo");
+					int codigo = rs.getInt("codigo");
 					//String desc = rs.getString("desc");
 					//String fecha = rs.getString("fecha");
 					String evento_cod = rs.getString("evento_cod");
@@ -221,7 +221,7 @@ public class BaseDeDatos {
 					Evento evento = obtenerEventoPorCodigo(evento_cod);
 					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
 					if (evento != null ) {
-					    Entrada entrada = new Entrada(evento, propietario, precio);
+					    Entrada entrada = new Entrada(codigo, evento, propietario, precio);
 						listaEntrada.add(entrada);
 					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
 					} else {
