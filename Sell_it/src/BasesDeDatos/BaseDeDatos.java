@@ -31,38 +31,7 @@ public class BaseDeDatos {
 	private static Statement s;
 	private static ResultSet rs;
 	private static HashMap<String, Usuario> mapaUsuarios;
-	
-//	public static void main(String args[]) {
-//		//Decidimos el driver
-//		try {
-//			Class.forName("org.sqlite.JDBC");
-//		} catch (ClassNotFoundException e) {
-//			System.out.println("No esta conectada la libreria");
-//			return;
-//		}
-//		//Creamos la conexion
-//		try {
-//			Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-//			//Crear tantas statements como necesitemos
-//			Statement s = connection.createStatement();
-//			
-//			//Creamos tabla usuario
-////			if() {
-////				s.executeUpdate("create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)");
-////			}
-//			
-//			//Rellenamos la tabla usuario con datos
-//			s.executeUpdate("insert into usuario values('Laura Lopez','laura.lopez@gmail.com','Usuario corriente','abcABC33')");
-//			s.executeUpdate("insert into usuario values('Miguel Diaz','mdiaz@gmail.com','Usuario corriente','mMiaz45#g')"); //terminar de poner comillas simples
-//			s.executeUpdate("insert into usuario values('Kepa Galindo','k10galindo@gmail.com','Usuario corriente','GK842aeiou')");
-//			s.executeUpdate("insert into usuario values('Discoteca Moma','moma@gmail.com','Usuario entidad','MmMon345627#')");
-//			connection.close();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.out.println("Error en gestion de base de datos");
-//		}
-//	}
+
 	
 	public static void main(String[] args) {
 		
@@ -76,17 +45,17 @@ public class BaseDeDatos {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 			s = con.createStatement();
-			try {
-				
-				// DA IGUAL QUE SEA MAYUSCULA O NO???? (SI)
+			
+			//crear tabla Usuario
+			try {				
 				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
-			// Se lanza si la tabla ya existe - no hay problema
+				// se lanza si la tabla ya existe - no hay problema
 				logger.log(Level.INFO, "La tabla ya está creada");
 			}
-		// Ver si existe admin
+			// Ver si existe admin
 			com = "select * from Usuario where correoUsuario = 'admin'";
 			logger.log(Level.INFO, "BD: " + com);
 			rs = s.executeQuery(com);
@@ -142,7 +111,7 @@ public class BaseDeDatos {
 //		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
 //		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
 		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo Integer, nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String)";
-		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String, evento_cod String, propietario_correo String, precio Double)";
+		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo Integer, evento_cod Integer, propietario_correo String, precio Double)";
 
 		try {
 			Statement st = con.createStatement();
@@ -214,7 +183,7 @@ public class BaseDeDatos {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()) {
-				String codigo = rs.getString("codigo");
+				int codigo = rs.getInt("codigo");
 				String nombre = rs.getString("nombre");
 				//String dni = rs.getString("dni");
 				String desc = rs.getString("desc");
@@ -224,7 +193,7 @@ public class BaseDeDatos {
 				//double precio = rs.getDouble("precio");
 				String rutaImg = rs.getString("rutaImg");
 				
-				Evento even = new Evento(codigo, nombre,desc,fecha,nEntradas);
+				Evento even = new Evento(nombre, desc, fecha, ubicacion, nEntradas);
 				listaEventos.add(even);
 			}
 			rs.close();
@@ -246,7 +215,7 @@ public class BaseDeDatos {
 					int codigo = rs.getInt("codigo");
 					//String desc = rs.getString("desc");
 					//String fecha = rs.getString("fecha");
-					String evento_cod = rs.getString("evento_cod");
+					int evento_cod = rs.getInt("evento_cod");
 					String propietario_correo = rs.getString("propietario_correo");
 					double precio = rs.getDouble("precio");
 					
@@ -270,6 +239,7 @@ public class BaseDeDatos {
 			}
 			return listaEntrada;
 		}
+		
 
 public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 	//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
@@ -362,6 +332,32 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
+	
+	public void verEvento() {
+	    String com = "select * from Evento ";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try {
+	    	rs = s.executeQuery(com);
+	    	System.out.println(" Eventos en la base de datos: ");
+	    	while(rs.next()) {
+	    		 int codigo = rs.getInt("codigo");
+	    		 String nombre = rs.getString("nombre");
+		         String desc = rs.getString("desc");
+		         String fecha = rs.getString("fecha");
+		         String ubicacion = rs.getString("ubicacion");
+		         int nEntradas = rs.getInt("nEntradas");
+		         String rutaImg = rs.getString("rutaImg");
+		         
+		         Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas);
+		         System.out.println("Nombre: " + nombre + ", Descripcion: " + desc + ", Fecha: " + fecha + ", Ubicacion: " + ubicacion + "; Numero de entradas: "+ nEntradas);
+	    	}
+	    } catch (SQLException e) {
+	    	System.out.println("Ultimo comando: " + com);
+	    	e.printStackTrace();
+	    }
+	}
+	
 
 	public HashMap<String, Usuario> crearMapa() {
         mapaUsuarios = new HashMap<>();
@@ -398,12 +394,12 @@ public void cerrarConexiones() {
 		}
 	}
 
-	public static Evento obtenerEventoPorCodigo(String codigo) {
+	public static Evento obtenerEventoPorCodigo(int evento_cod) {
 	    String com = "SELECT * FROM Evento WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
-	        preparedStatement.setString(1, codigo);
+	        preparedStatement.setInt(1, evento_cod);
 	        ResultSet rs = preparedStatement.executeQuery();
 
 	        if (rs.next()) {

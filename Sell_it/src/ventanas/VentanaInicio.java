@@ -199,6 +199,7 @@ public class VentanaInicio extends JFrame {
 		BaseDeDatos.main(null);
 		base = new BaseDeDatos();
 		base.verUsuarios();
+		base.verEvento();
 		mapaUsu = base.crearMapa();
 		
 	}
