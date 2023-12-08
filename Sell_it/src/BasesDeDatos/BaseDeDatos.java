@@ -44,17 +44,17 @@ public class BaseDeDatos {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 			s = con.createStatement();
-			try {
-				
-				// DA IGUAL QUE SEA MAYUSCULA O NO???? (SI)
+			
+			//crear tabla Usuario
+			try {				
 				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
-			// Se lanza si la tabla ya existe - no hay problema
+				// se lanza si la tabla ya existe - no hay problema
 				logger.log(Level.INFO, "La tabla ya está creada");
 			}
-		// Ver si existe admin
+			// Ver si existe admin
 			com = "select * from Usuario where correoUsuario = 'admin'";
 			logger.log(Level.INFO, "BD: " + com);
 			rs = s.executeQuery(com);
@@ -330,7 +330,7 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
-	
+
 	
 
 	public HashMap<String, Usuario> crearMapa() {

@@ -45,12 +45,7 @@ public class Main {
 			logger.log(Level.SEVERE, "Error en el main.", e);
 			JOptionPane.showMessageDialog(ventana1, "Error grave: contacta con los informáticos.", "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
-// visualizar usuarios dentro de la base de datos		
-//		BaseDeDatos.main(null);
-//		base = new BaseDeDatos();
-//		base.verUsuarios();
-//		mapaUsu = base.crearMapa();
-//	
+
 		
 		logger.setLevel(Level.ALL);
 		try {
