@@ -10,11 +10,23 @@ public class Usuario {
 	public String contrasena;
 	public String imgPerfil;
 	
+//	private String rutaImagenPerfil;
+	
 	// Fecha de registro
 	private LocalDate fechaRegistro;
     private LocalDate ultimaCambioContrasena;
 	
 	//
+    
+//    public String getRutaImagenPerfil() {
+//        return rutaImagenPerfil;
+//    }
+//
+//    public void setRutaImagenPerfil(String rutaImagenPerfil) {
+//        this.rutaImagenPerfil = rutaImagenPerfil;
+//    }
+    
+    
 	public final String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -60,15 +72,15 @@ public class Usuario {
 		this.correoUsuario = " ";
 		this.tipoUsuario = " ";
 		this.contrasena = " ";
-		this.imgPerfil = null;
+		this.imgPerfil = " ";
 	}
-	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena) {
+	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena, String imgPerfil) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correoUsuario = correoUsuario;
 		this.tipoUsuario = tipoUsuario;
 		this.contrasena = contrasena;
-		this.imgPerfil = null;
+		this.imgPerfil = imgPerfil;
 	}
 	//
 	@Override

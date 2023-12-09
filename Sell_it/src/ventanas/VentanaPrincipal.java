@@ -20,6 +20,7 @@ import java.util.Set;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Evento;
 import clases.JLabelGrafico;
 import clases.Usuario;
@@ -30,14 +31,17 @@ import datos.DataSetUsuario;
 public class VentanaPrincipal extends JFrame{
 
 		private JTable tablaEventos;
-		private DataSetUsuario dataSetUsuario;
+//		private DataSetUsuario dataSetUsuario;
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
 		
+	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 		
-		public VentanaPrincipal(){
+	    public VentanaPrincipal(){
 			
+	    	this.baseDeDatos = baseDeDatos;
+	    	
 			JButton bVenta = new JButton("Venta");
 			JButton bBuscar = new JButton("Buscar");
 			JButton bPerfil = new JButton("Perfil");
@@ -66,9 +70,7 @@ public class VentanaPrincipal extends JFrame{
 			pnlNorte.add(bBuscar);
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
-			
-			
-			
+		
 			
 			//this.add(tbl_buscar);
 			
@@ -119,24 +121,30 @@ public class VentanaPrincipal extends JFrame{
 			this.setVisible(true);
 			
 		}		
+	    
 		private String obtenerTipoUsuario(String nom) {
-		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
-		    Set<String> nombresUsuarios = usuarioT.keySet();
-
-		    for(String nombreUsuario : nombresUsuarios) {
-		        Usuario usu = usuarioT.get(nombreUsuario);
-		        if(usu.getNombreUsuario().equals(nom)) {
-		            return usu.getTipoUsuario();
-		        }
-		    }
-		    return JOptionPane.showInputDialog("Usuario no encontrado"); // si no esta en la lista
+//		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
+//		    Set<String> nombresUsuarios = usuarioT.keySet();
+//
+//		    for(String nombreUsuario : nombresUsuarios) {
+//		        Usuario usu = usuarioT.get(nombreUsuario);
+//		        if(usu.getNombreUsuario().equals(nom)) {
+//		            return usu.getTipoUsuario();
+//		        }
+//		    }
+//		    return JOptionPane.showInputDialog("Usuario no encontrado"); // si no esta en la lista
+//		
+			Usuario usuario = baseDeDatos.getUsuarioPorCorreo(nom);
+			if(usuario != null) {
+				return usuario.getTipoUsuario();
+			}else {
+	           return JOptionPane.showInputDialog("Usuario no encontrado");
+			}
 		}
 
-		
-		
-		public void cargarUsuariosInicio(DataSetUsuario dataset) {
-			this.dataSetUsuario = dataset;
-		}
+//		public void cargarUsuariosInicio(DataSetUsuario dataset) {
+//			this.dataSetUsuario = dataset;
+//		}
 		
 		
 		/*
@@ -226,11 +234,6 @@ public class VentanaPrincipal extends JFrame{
 			return l;
 		}*/
 
-
-		
-		
-		
-		
 		public static void main(String[] args) throws IOException {
 			VentanaPrincipal v = new VentanaPrincipal();
 		    v.empezarPanel();

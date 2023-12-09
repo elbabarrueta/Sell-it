@@ -184,7 +184,7 @@ public class VentanaRegistroUsuario extends JFrame {
                 }
             } else {
             	String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
-            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia);
+            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia, null);
     			u.setUltimaCambioContrasena(LocalDate.now());
 
     			BaseDeDatos.main(null);

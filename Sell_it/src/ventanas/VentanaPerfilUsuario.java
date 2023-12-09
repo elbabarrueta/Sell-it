@@ -38,6 +38,8 @@ public class VentanaPerfilUsuario extends JFrame{
 		this.usuario = usuario;
 		ultimoCambioContrasena = LocalDate.now(); //para provar ahora, que sea la fecha actual
 		
+		BaseDeDatos base = new BaseDeDatos();
+
 		JFrame frame = new JFrame("Perfil Usuario");
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new BorderLayout());
@@ -47,12 +49,13 @@ public class VentanaPerfilUsuario extends JFrame{
 	    
 		lblFotoPerfil = new JLabel();
 	    if(usuario.getImgPerfil() == null) {
-	        imagenPerfil = new ImageIcon("Sell_it/src/imagenes/perfil.png"); // Ruta de la imagen de perfil
+	    	imagenPerfil = new ImageIcon("Sell_it/src/imagenes/perfil.png"); // Ruta de la imagen de perfil
 	    	fotoPerfil(imagenPerfil);
 	    }else {
 	    	String rutaImg = usuario.getImgPerfil();
-            imagenPerfil = new ImageIcon(rutaImg);
-	    	fotoPerfil(imagenPerfil);
+	    	imagenPerfil = new ImageIcon(rutaImg);
+			usuario.setImgPerfil(rutaImg);
+			fotoPerfil(imagenPerfil);
 	    }
 	    
 	    JLabel nameLabel = new JLabel("Nombre:");
@@ -223,9 +226,16 @@ public class VentanaPerfilUsuario extends JFrame{
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = chooser.getSelectedFile();
 	                String rutaImg = selectedFile.getAbsolutePath();
+	                
+	                // Imprimir la ruta de la imagen para verificar
+	                System.out.println("Ruta de la imagen seleccionada: " + rutaImg);
+	          	                
 	                usuario.setImgPerfil(rutaImg);
 	                imagenPerfil = new ImageIcon(rutaImg);
 	                fotoPerfil(imagenPerfil);
+	             // Actualizar la ruta de la imagen en la base de datos
+	                BaseDeDatos base = new BaseDeDatos();
+	                base.modificarUsuarioImagenPerfil(usuario);
 	            }else {
             		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
 	            }
@@ -237,10 +247,10 @@ public class VentanaPerfilUsuario extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String NomNuevo = nameField.getText();
-//				String correoNuevo = emailField.getText();
+				String imagen = usuario.getImgPerfil();
 
 				// Crea un objeto Usuario con los datos actualizados
-				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena());
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen);
 
 				String nuevaDescripcion = descriptionArea.getText();
 		        descriptionArea.setText(nuevaDescripcion);
@@ -345,12 +355,12 @@ public class VentanaPerfilUsuario extends JFrame{
 	
 	public static void main(String[] args) {
 		
-		List<String> entradasCompradas = new ArrayList<>();
-		VentanaInicio ventanaI = Main.getVentanaInicio();
-		Usuario usuActual = ventanaI.getUsuarioActual();
-    	Usuario usuarioNormal = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
-		
-    	VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
+//		List<String> entradasCompradas = new ArrayList<>();
+//		VentanaInicio ventanaI = Main.getVentanaInicio();
+//		Usuario usuActual = ventanaI.getUsuarioActual();
+//    	Usuario usuarioNormal = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
+//		
+//    	VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
 
 	}
 

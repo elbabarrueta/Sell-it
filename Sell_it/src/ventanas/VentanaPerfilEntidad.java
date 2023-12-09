@@ -21,6 +21,8 @@ public class VentanaPerfilEntidad extends JFrame{
 	private List<String> entradasCompradas;
 	private JLabel lblFotoPerfil;
 	private JTextArea descriptionArea;
+	private ImageIcon imagenPerfil;
+
 	
 	public VentanaPerfilEntidad(Usuario usuario) {
 		
@@ -49,8 +51,9 @@ public class VentanaPerfilEntidad extends JFrame{
 	    	fotoPerfil(imagenPerfil);
 	    }else {
 	    	String rutaImg = usuario.getImgPerfil();
-            ImageIcon imagenPerfil = new ImageIcon(rutaImg);
-	    	fotoPerfil(imagenPerfil);
+	    	imagenPerfil = new ImageIcon(rutaImg);
+			usuario.setImgPerfil(rutaImg);
+			fotoPerfil(imagenPerfil);
 	    }        
         
         JButton infoButton1 = new JButton("En venta");
@@ -182,9 +185,16 @@ public class VentanaPerfilEntidad extends JFrame{
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = chooser.getSelectedFile();
 	                String rutaImg = selectedFile.getAbsolutePath();
-	                usuario.setImgPerfil(rutaImg);
+	                
+	                // Imprimir la ruta de la imagen para verificar
+	                System.out.println("Ruta de la imagen seleccionada: " + rutaImg);
+	                
+	                usuario.setImgPerfil(rutaImg);	// ¡Importante! Establecer la nueva ruta de la imagen en el usuario
 	                ImageIcon imagenPerfil = new ImageIcon(rutaImg);
 	                fotoPerfil(imagenPerfil);
+	             // Actualizar la ruta de la imagen en la base de datos
+	                BaseDeDatos base = new BaseDeDatos();
+	                base.modificarUsuarioImagenPerfil(usuario);
 	            }else {
             		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
 	            }
@@ -196,9 +206,9 @@ public class VentanaPerfilEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String NomNuevo = nameField.getText();
-//				String CorreoNuevo = emailField.getText();
+				String imagen = usuario.getImgPerfil();
 				// Crea un objeto Usuario con los datos actualizados
-				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena());
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen);
 
 				String nuevaDescripcion = descriptionArea.getText();
 		        descriptionArea.setText(nuevaDescripcion);
@@ -206,7 +216,7 @@ public class VentanaPerfilEntidad extends JFrame{
 				
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
-				base.modificarUsuarioYaRegistrado(usuarioActualizado);
+				base.modificarUsuarioYaRegistrado(usuario);
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
 				 // Buscar al usuario en la lista y actualizar sus datos
@@ -267,10 +277,10 @@ public class VentanaPerfilEntidad extends JFrame{
 	}
 	
     public static void main(String[] args) {
-    	VentanaInicio ventanaI = Main.getVentanaInicio();
-		Usuario usuActual = ventanaI.getUsuarioActual();
-    	Usuario usuarioEntidad = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
-    	VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuarioEntidad);
+//    	VentanaInicio ventanaI = Main.getVentanaInicio();
+//		Usuario usuActual = ventanaI.getUsuarioActual();
+//    	Usuario usuarioEntidad = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
+//    	VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuarioEntidad);
     }
 }
 

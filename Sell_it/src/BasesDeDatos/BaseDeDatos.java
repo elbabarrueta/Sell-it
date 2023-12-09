@@ -48,7 +48,7 @@ public class BaseDeDatos {
 			
 			//crear tabla Usuario
 			try {				
-				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string)";
+				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
@@ -64,13 +64,13 @@ public class BaseDeDatos {
 				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena ) values ('admin', 'admin', 'admin', 'admin')";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
-				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#");
+				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", " ");
 				anadirUsuarioNuevo(moma);
-				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou");
+				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", " ");
 				anadirUsuarioNuevo(kepa);
-				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g");
+				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", " ");
 				anadirUsuarioNuevo(miguel);
-				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33");
+				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", " ");
 				anadirUsuarioNuevo(laura);
 			}			
 			crearTablas(con);
@@ -92,8 +92,8 @@ public class BaseDeDatos {
 			rs = s.executeQuery( com );
 			if (!rs.next()) {
 				// "insert into Usuario ( nick, pass ) values ('admin', 'admin')";
-				com = "insert into Usuario (nombreUsuario, correoUsuario, tipoUsuario, contrasena) values ('"+ 
-						usu.getNombreUsuario() +"', '" + usu.getCorreoUsuario() +"', '" + usu.getTipoUsuario()+"', '" + usu.getContrasena()+ "')";
+				com = "insert into Usuario (nombreUsuario, correoUsuario, tipoUsuario, contrasena, ImagenPerfil) values ('"+ 
+						usu.getNombreUsuario() +"', '" + usu.getCorreoUsuario() +"', '" + usu.getTipoUsuario()+"', '" + usu.getContrasena()+ "', '" + usu.getImgPerfil() + "')";
 				logger.log( Level.INFO, "BD: " + com );
 				int val = s.executeUpdate( com );
 				if (val!=1) {
@@ -252,8 +252,8 @@ public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 		e1.printStackTrace();
 	}
 }
-public void modificarUsuarioYaRegistrado(Usuario usu) {		// EL CORREO IGUAL MEJOR NO MODIFICARLO
-	String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+public void modificarUsuarioYaRegistrado(Usuario usu) {		
+	String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+  "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
 //	String sentCorreo = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
 	logger.log(Level.INFO, "BD: " + sent);
 //	logger.log(Level.INFO, "BD: " + sentCorreo);
@@ -265,6 +265,18 @@ public void modificarUsuarioYaRegistrado(Usuario usu) {		// EL CORREO IGUAL MEJO
 		logger.log(Level.WARNING, sent, e1);
 //		logger.log(Level.WARNING, sentCorreo, e1);
 
+		e1.printStackTrace();
+	}
+}
+public void modificarUsuarioImagenPerfil(Usuario usu) {
+	String sent = "update Usuario set imagenPerfil= '" +
+            secu(usu.getImgPerfil()) + "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+	logger.log(Level.INFO, "BD: " + sent);
+
+	try {
+		s.executeUpdate(sent);
+	} catch (SQLException e1) {
+		logger.log(Level.WARNING, sent, e1);
 		e1.printStackTrace();
 	}
 }
@@ -319,7 +331,8 @@ public void cerrarConexiones() {
             String correoUsuario = rs.getString("correoUsuario");
             String tipoUsuario = rs.getString("tipoUsuario");
             String contrasena = rs.getString("contrasena");
-            Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena);
+            String imagenPerfil = rs.getString("imagenPerfil");
+            Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena, imagenPerfil);
 
             System.out.println("Nombre: " + nombreUsuario +
                     ", Correo: " + correoUsuario +
@@ -373,8 +386,8 @@ public void cerrarConexiones() {
                 String correoUsuario = rs.getString("correoUsuario");
                 String tipoUsuario = rs.getString("tipoUsuario");
                 String contrasena = rs.getString("contrasena");
-
-                Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena);
+                String imagenPerfil = rs.getString("imagenPerfil");
+                Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena, imagenPerfil);
                 mapaUsuarios.put(correoUsuario, usuario);
             }
 
