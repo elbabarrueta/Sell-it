@@ -41,7 +41,7 @@ public class DataSetUsuario {
 				String correo = partes[1];
 				String tipoUsu = partes[2];
 				String contrasena = partes[3];
-				Usuario usu = new Usuario(nombre, correo, tipoUsu, contrasena );
+				Usuario usu = new Usuario(nombre, correo, tipoUsu, contrasena, contrasena );
 				//usuariosGuardados.add( usu );
 				usu.setUltimaCambioContrasena(LocalDate.of(2000, 1, 1));
 			//	usu.cambiarContrasena("contrasenaInicial");

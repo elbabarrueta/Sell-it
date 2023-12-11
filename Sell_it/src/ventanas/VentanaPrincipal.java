@@ -206,6 +206,7 @@ public class VentanaPrincipal extends JFrame{
 				JLabel lblTitulo = new JLabel( titulo, JLabel.CENTER );
 				add( lblTitulo, BorderLayout.NORTH );
 				JTextArea taDescripcion = new JTextArea( descripcion, 2, 3); 
+				taDescripcion.setEditable(false);
 				add( new JScrollPane( taDescripcion ), BorderLayout.CENTER );
 //				String foto = fotos[(new Random()).nextInt(fotos.length)];
 				//JLabelGrafico grafico = new JLabelGrafico(foto, 50, 80 ); No se porque me da error
