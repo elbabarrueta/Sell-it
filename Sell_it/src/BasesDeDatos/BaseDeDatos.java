@@ -79,6 +79,10 @@ public class BaseDeDatos {
 			e.printStackTrace();
 			}
 		}
+	
+	public Connection getConnection() {
+		return con;
+	}
 	public static void anadirUsuarioNuevo(Usuario usu) {
 		String com = "";
 		try {

@@ -31,10 +31,10 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
-			ventanaLogo = new VentanaLogoPrincipal();
-			ventanaLogo.setVisible(true);
-			ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			Thread.sleep(5000);
+//			ventanaLogo = new VentanaLogoPrincipal();
+//			ventanaLogo.setVisible(true);
+//			ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//			Thread.sleep(5000);
 			ventana1 = new VentanaInicio();
 			ventana1.setVisible(true);
 			ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);

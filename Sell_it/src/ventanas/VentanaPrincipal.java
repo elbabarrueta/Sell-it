@@ -40,7 +40,7 @@ public class VentanaPrincipal extends JFrame{
 		
 	    public VentanaPrincipal(){
 			
-	    	this.baseDeDatos = baseDeDatos;
+	    	baseDeDatos = new BaseDeDatos();
 	    	
 			JButton bVenta = new JButton("Venta");
 			JButton bBuscar = new JButton("Buscar");
@@ -122,6 +122,13 @@ public class VentanaPrincipal extends JFrame{
 			
 		}		
 	    
+	    public void cargarEventosDesdeBD() {
+	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos(baseDeDatos.getConnection());
+	        for (Evento evento : listaEventos) {
+	            aniadirEventoDesdeBD(evento.getCodigo()); // Puedes pasar el código del evento como referencia
+	        }
+	    }
+	    
 		private String obtenerTipoUsuario(String nom) {
 //		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
 //		    Set<String> nombresUsuarios = usuarioT.keySet();
@@ -168,21 +175,21 @@ public class VentanaPrincipal extends JFrame{
 		private final int numColFila = 3;  
 		private JPanel pnlActual = null;   
 		public void empezarPanel() {
-			numCol = 4; 
+			numCol = 2; 
 			pnlCentro.removeAll(); 
 		}
 		
-		 public void aniadirEvento(Evento evento) {
+		 public void aniadirEventoDesdeBD(Evento evento) {
 		        numCol++;
 		        if (numCol == numColFila) {
 		            numCol = 0;
-//		            pnlActual = new JPanel();
-//		            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-//		            pnlCentro.add(pnlActual);
+		            pnlActual = new JPanel();
+		            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+		            pnlCentro.add(pnlActual);
 		        }
-		        pnlActual = new JPanel();
-	            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-	            pnlCentro.add(pnlActual);
+//		        pnlActual = new JPanel();
+//	            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+//	            pnlCentro.add(pnlActual);
 		        String tituloEvento = evento.getNombre();
 		        String descripcionEvento = evento.getDesc();
 
