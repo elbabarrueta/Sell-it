@@ -71,10 +71,16 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
 		
-			
 			//this.add(tbl_buscar);
-			
-			//this.add(lblMessi, BorderLayout.WEST);
+
+			bBuscar.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                String textoBusqueda = tfBuscador.getText().toLowerCase();
+	                List<Evento> eventosFiltrados = filtrarEventosPorPalabrasClave(textoBusqueda);
+	                actualizarVisualizacionEventos(eventosFiltrados);
+	            }
+	        });
 			
 			bPerfil.addActionListener(new ActionListener() {
 				
@@ -126,6 +132,29 @@ public class VentanaPrincipal extends JFrame{
 			this.setVisible(true);
 			
 		}		
+	    
+	    private List<Evento> filtrarEventosPorPalabrasClave(String palabrasClave) {
+	        List<Evento> eventosFiltrados = new ArrayList<>();
+	        for (Evento evento : BaseDeDatos.obtenerListaEventos()) {
+	            String nombreEvento = evento.getNombre().toLowerCase();
+	            String descripcionEvento = evento.getDesc().toLowerCase();
+
+	            // Verificar si el texto de búsqueda está presente en el nombre o la descripción
+	            if (nombreEvento.contains(palabrasClave) || descripcionEvento.contains(palabrasClave)) {
+	                eventosFiltrados.add(evento);
+	            }
+	        }
+	        return eventosFiltrados;
+	    }
+	    
+	 // Método para actualizar la visualización de eventos en la ventana
+	    private void actualizarVisualizacionEventos(List<Evento> eventos) {
+	        pnlCentro.removeAll();
+	        for (Evento evento : eventos) {
+	            aniadirEvento(evento);
+	        }
+	        acabarPanel();
+	    }
 	    
 		private String obtenerTipoUsuario(String nom) {
 //		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
