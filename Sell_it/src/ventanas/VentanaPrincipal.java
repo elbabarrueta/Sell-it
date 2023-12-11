@@ -115,6 +115,11 @@ public class VentanaPrincipal extends JFrame{
 			    }
 			});
 			
+			List<Evento> eventosBD = BaseDeDatos.obtenerListaEventos();
+			for(Evento e: eventosBD) {
+				aniadirEvento(e);
+			}
+			
 			this.setBounds(400, 150, 600, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setTitle("Menu Principal");

@@ -167,7 +167,7 @@ public class VentanaVentaEntidad extends JFrame{
 		
 			
 	}
-	private static int obtenerCod() {
+	public static int obtenerCod() {
 		int ultimoCodigo = 0;
 
         String url = "jdbc:sqlite:usuarios.db";
