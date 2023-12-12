@@ -4,6 +4,7 @@ import java.awt.*;
 
 
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -123,10 +124,12 @@ public class VentanaPrincipal extends JFrame{
 		}		
 	    
 	    public void cargarEventosDesdeBD() {
+	    	empezarPanel();
 	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos(baseDeDatos.getConnection());
-	        for (Evento evento : listaEventos) {
-	            aniadirEventoDesdeBD(evento.getCodigo()); // Puedes pasar el código del evento como referencia
-	        }
+	        System.out.println("Número de eventos recuperados: " + listaEventos.size());
+
+	        aniadirEventoDesdeBD(listaEventos);
+	        acabarPanel();
 	    }
 	    
 		private String obtenerTipoUsuario(String nom) {
@@ -179,7 +182,7 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.removeAll(); 
 		}
 		
-		 public void aniadirEventoDesdeBD(Evento evento) {
+		 public void aniadirEventoDesdeBD(List<Evento> eventos) {
 		        numCol++;
 		        if (numCol == numColFila) {
 		            numCol = 0;
@@ -190,10 +193,14 @@ public class VentanaPrincipal extends JFrame{
 //		        pnlActual = new JPanel();
 //	            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
 //	            pnlCentro.add(pnlActual);
-		        String tituloEvento = evento.getNombre();
-		        String descripcionEvento = evento.getDesc();
+		        for(Evento evento: eventos) {
+//		        	System.out.println("evento: "+ evento);
+		        	String tituloEvento = evento.getNombre();
+			        String descripcionEvento = evento.getDesc();
+				    System.out.println("AñadirEventoDesdeBD:"+ evento);
 
-		        pnlActual.add(new panel(tituloEvento, descripcionEvento));
+			        pnlActual.add(new Mipanel(tituloEvento, descripcionEvento));
+		        }
 		    }
 		public void acabarPanel() {
 			pnlCentro.revalidate(); 
@@ -202,8 +209,8 @@ public class VentanaPrincipal extends JFrame{
 		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
 
 		
-		private static class panel extends JPanel {
-			public panel( String titulo, String descripcion ) {
+		private static class Mipanel extends JPanel {
+			public Mipanel( String titulo, String descripcion ) {
 				setLayout( new BorderLayout() );
 				JLabel lblTitulo = new JLabel( titulo, JLabel.CENTER );
 				add( lblTitulo, BorderLayout.NORTH );
@@ -242,15 +249,15 @@ public class VentanaPrincipal extends JFrame{
 		}*/
 
 		public static void main(String[] args) throws IOException {
-			VentanaPrincipal v = new VentanaPrincipal();
-		    v.empezarPanel();
-		    
-		    DataSetEvento dataset = new DataSetEvento("evento.txt");
-		    HashMap<String, Evento> mapa = DataSetEvento.getMapaEvento();
-		    for(Evento e: mapa.values()) {
-		    	v.aniadirEvento(e);
-		    }
-
+//			VentanaPrincipal v = new VentanaPrincipal();
+//		    v.empezarPanel();
+//		    
+//		    DataSetEvento dataset = new DataSetEvento("evento.txt");
+//		    HashMap<String, Evento> mapa = DataSetEvento.getMapaEvento();
+//		    for(Evento e: mapa.values()) {
+//		    	v.aniadirEvento(e);
+//		    }
+//
 //		    for (int i = 0; i < 7; i++) {
 //		        
 //		        String nombreEvento = "Evento " + (i + 1);
@@ -262,8 +269,8 @@ public class VentanaPrincipal extends JFrame{
 //		       
 //		        v.aniadirEvento(evento);
 //		    }
-
-		    v.acabarPanel();
+//
+//		    v.acabarPanel();
 		}
 
 	}
