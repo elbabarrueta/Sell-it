@@ -3,6 +3,7 @@ package ventanas;
 import java.awt.BorderLayout;
 
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -39,7 +40,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import BasesDeDatos.BaseDeDatos;
 import clases.Datos;
 import clases.Usuario;
-import datos.DataSetUsuario;
 
 public class VentanaRegistroUsuario extends JFrame {
 	
@@ -50,7 +50,6 @@ public class VentanaRegistroUsuario extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private DataSetUsuario dataSetUsuario;
 
 	
 	public VentanaRegistroUsuario() {

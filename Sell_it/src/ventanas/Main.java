@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,13 +17,11 @@ import java.util.logging.FileHandler;
 import java.util.logging.StreamHandler;
 import java.util.logging.SimpleFormatter;
 import clases.Usuario;
-import datos.DataSetUsuario;
 
 public class Main {
 	
     private static Logger logger = Logger.getLogger(Main.class.getName());
 
-	private static DataSetUsuario dataset;
 	static HashMap<String, Usuario> mapaUsu;
 	private static VentanaInicio ventana1;
 	static BaseDeDatos base; 
@@ -62,19 +61,19 @@ public class Main {
 		}
 		
 	}
-	private static void cargaUsuarios() {
-		try {
-			dataset = new DataSetUsuario( "usuariosBase.txt" );
-			System.out.println( "Cargados usuarios:" );
-			for (Map.Entry<String, Usuario> entry : dataset.getMapaUsu().entrySet()) {
-	            Usuario usu = entry.getValue();
-	            System.out.println( " \t" + usu);
-	        }	
-			
-		} catch (IOException e) {
-			System.err.println( "Error en carga de usuarios" );
-		}
-	}
+//	private static void cargaUsuarios() {
+//		try {
+//			dataset = new DataSetUsuario( "usuariosBase.txt" );
+//			System.out.println( "Cargados usuarios:" );
+//			for (Map.Entry<String, Usuario> entry : dataset.getMapaUsu().entrySet()) {
+//	            Usuario usu = entry.getValue();
+//	            System.out.println( " \t" + usu);
+//	        }	
+//			
+//		} catch (IOException e) {
+//			System.err.println( "Error en carga de usuarios" );
+//		}
+//	}
 	
 	public static void setVentanaInicio(VentanaInicio v) {
 		ventana1 = v;

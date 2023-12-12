@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -35,15 +36,12 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import BasesDeDatos.BaseDeDatos;
 import clases.Usuario;
-import datos.DataSetUsuario;
-//import pruebasSelit.VentanaInicio;
 
 public class VentanaInicio extends JFrame {
 	
 	/**
 	 * 
 	 */
-	private static DataSetUsuario dataSetUsuario;
 	private Usuario usuarioActual;
 	private static CustomPasswordField txtContrasenia;
 	private static final long serialVersionUID = 1L;

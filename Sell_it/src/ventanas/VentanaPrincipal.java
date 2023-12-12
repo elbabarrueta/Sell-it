@@ -5,6 +5,7 @@ import java.awt.*;
 
 
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -25,9 +26,6 @@ import BasesDeDatos.BaseDeDatos;
 import clases.Evento;
 import clases.JLabelGrafico;
 import clases.Usuario;
-import datos.DataSetEvento;
-import datos.DataSetUsuario;
-
 
 public class VentanaPrincipal extends JFrame{
 
@@ -42,6 +40,7 @@ public class VentanaPrincipal extends JFrame{
 	    public VentanaPrincipal(){
 			
 	    	baseDeDatos = new BaseDeDatos();
+	    	cargarEventosDesdeBD();
 	    	
 			JButton bVenta = new JButton("Venta");
 			JButton bBuscar = new JButton("Buscar");
@@ -72,10 +71,16 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
 		
-			
 			//this.add(tbl_buscar);
-			
-			//this.add(lblMessi, BorderLayout.WEST);
+
+			bBuscar.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                String textoBusqueda = tfBuscador.getText().toLowerCase();
+	                List<Evento> eventosFiltrados = filtrarEventosPorPalabrasClave(textoBusqueda);
+	                actualizarVisualizacionEventos(eventosFiltrados);
+	            }
+	        });
 			
 			bPerfil.addActionListener(new ActionListener() {
 				
@@ -116,6 +121,11 @@ public class VentanaPrincipal extends JFrame{
 			    }
 			});
 			
+//			List<Evento> eventosBD = BaseDeDatos.obtenerListaEventos();
+//			for(Evento e: eventosBD) {
+//				aniadirEvento(e);
+//			}
+			
 			this.setBounds(400, 150, 600, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setTitle("Menu Principal");
@@ -123,13 +133,37 @@ public class VentanaPrincipal extends JFrame{
 			
 		}		
 	    
+
 	    public void cargarEventosDesdeBD() {
 	    	empezarPanel();
-	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos(baseDeDatos.getConnection());
+	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos();
 	        System.out.println("Número de eventos recuperados: " + listaEventos.size());
 
 	        aniadirEventoDesdeBD(listaEventos);
 	        acabarPanel();
+	    }
+	    
+	    private List<Evento> filtrarEventosPorPalabrasClave(String palabrasClave) {
+	        List<Evento> eventosFiltrados = new ArrayList<>();
+	        for (Evento evento : BaseDeDatos.obtenerListaEventos()) {
+	            String nombreEvento = evento.getNombre().toLowerCase();
+	            String descripcionEvento = evento.getDesc().toLowerCase();
+
+	            // Verificar si el texto de búsqueda está presente en el nombre o la descripción
+	            if (nombreEvento.contains(palabrasClave) || descripcionEvento.contains(palabrasClave)) {
+	                eventosFiltrados.add(evento);
+	            }
+	        }
+	        return eventosFiltrados;
+	    }
+	    
+	 // Método para actualizar la visualización de eventos en la ventana
+	    private void actualizarVisualizacionEventos(List<Evento> eventos) {
+	    	pnlActual = null;
+	    	empezarPanel();
+	        aniadirEventoDesdeBD(eventos);
+	        acabarPanel();
+	        pnlCentro.repaint();
 	    }
 	    
 		private String obtenerTipoUsuario(String nom) {
@@ -175,7 +209,7 @@ public class VentanaPrincipal extends JFrame{
 		*/
 		
 		private int numCol;  
-		private final int numColFila = 3;  
+		private final int NUM_COLS = 3;  
 		private JPanel pnlActual = null;   
 		public void empezarPanel() {
 			numCol = 2; 
@@ -183,27 +217,27 @@ public class VentanaPrincipal extends JFrame{
 		}
 		
 		 public void aniadirEventoDesdeBD(List<Evento> eventos) {
-		        numCol++;
-		        if (numCol == numColFila) {
-		            numCol = 0;
-		            pnlActual = new JPanel();
-		            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-		            pnlCentro.add(pnlActual);
-		        }
-//		        pnlActual = new JPanel();
-//	            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-//	            pnlCentro.add(pnlActual);
-		        for(Evento evento: eventos) {
-//		        	System.out.println("evento: "+ evento);
-		        	String tituloEvento = evento.getNombre();
-			        String descripcionEvento = evento.getDesc();
-				    System.out.println("AñadirEventoDesdeBD:"+ evento);
+			 for (Evento evento : eventos) {
+			        if (numCol == NUM_COLS || pnlActual == null) {
+			            numCol = 0;
+			            pnlActual = new JPanel();
+			            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+			            pnlCentro.add(pnlActual);
+			        }
 
-			        pnlActual.add(new Mipanel(tituloEvento, descripcionEvento));
-		        }
+			        String tituloEvento = evento.getNombre();
+			        String descripcionEvento = evento.getDesc();
+			        System.out.println("AñadirEventoDesdeBD: " + evento);
+
+			        if (pnlActual != null) {
+			            pnlActual.add(new Mipanel(tituloEvento, descripcionEvento));
+			            numCol++;
+			        }
+			    }
 		    }
 		public void acabarPanel() {
-			pnlCentro.revalidate(); 
+			pnlCentro.revalidate();
+			pnlCentro.repaint();
 		}
 		
 		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
@@ -215,6 +249,7 @@ public class VentanaPrincipal extends JFrame{
 				JLabel lblTitulo = new JLabel( titulo, JLabel.CENTER );
 				add( lblTitulo, BorderLayout.NORTH );
 				JTextArea taDescripcion = new JTextArea( descripcion, 2, 3); 
+				taDescripcion.setEditable(false);
 				add( new JScrollPane( taDescripcion ), BorderLayout.CENTER );
 //				String foto = fotos[(new Random()).nextInt(fotos.length)];
 				//JLabelGrafico grafico = new JLabelGrafico(foto, 50, 80 ); No se porque me da error
