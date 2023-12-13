@@ -74,7 +74,7 @@ public class Evento {
 	}
 	
 	//Constructores
-	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas, String creador) {
+	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas, String rutaImg, String creador) {
 		super();
 		this.codigo = obtenerCod();
 		this.nombre = nombre;
@@ -82,9 +82,19 @@ public class Evento {
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
 		this.nEntradas = nEntradas;
-//		this.entradasDisponibles = entradasDisponibles;
-//		this.precio = precio;
+		this.rutaImg = rutaImg;
 		this.creador = creador;
+	}
+	public Evento() {
+		super();
+		this.codigo = obtenerCod();
+		this.nombre = "";
+		this.desc = "";
+		this.fecha = "";
+		this.ubicacion = "";
+		this.nEntradas = 1;
+		this.rutaImg = null;
+		this.creador = "";
 	}
 	
 	@Override

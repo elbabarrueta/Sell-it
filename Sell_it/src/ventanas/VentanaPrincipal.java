@@ -37,6 +37,7 @@ public class VentanaPrincipal extends JFrame{
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
 	    private JXSearchField searchField;
+	    private static JLabel lblImagen;
 
 		
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
@@ -236,9 +237,9 @@ public class VentanaPrincipal extends JFrame{
 
 			        String tituloEvento = evento.getNombre();
 			        String descripcionEvento = evento.getDesc();
-
+			        String rutaImag = evento.getRutaImg();			       
 			        if (pnlActual != null) {
-			            pnlActual.add(new Mipanel(tituloEvento, descripcionEvento));
+			            pnlActual.add(new Mipanel(tituloEvento, descripcionEvento, rutaImag));
 			            numCol++;
 			        }
 			    }
@@ -248,22 +249,71 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.repaint();
 		}
 		
-		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
+//		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
 
-		
 		private static class Mipanel extends JPanel {
-			public Mipanel( String titulo, String descripcion ) {
-				setLayout( new BorderLayout() );
-				JLabel lblTitulo = new JLabel( titulo, JLabel.CENTER );
-				add( lblTitulo, BorderLayout.NORTH );
-				JTextArea taDescripcion = new JTextArea( descripcion, 2, 3); 
-				taDescripcion.setEditable(false);
-				add( new JScrollPane( taDescripcion ), BorderLayout.CENTER );
-//				String foto = fotos[(new Random()).nextInt(fotos.length)];
-				//JLabelGrafico grafico = new JLabelGrafico(foto, 50, 80 ); No se porque me da error
-			//	add( grafico, BorderLayout.EAST );
-			}
+			public Mipanel(String titulo, String descripcion, String rutaImagen) {
+		        setLayout(new BorderLayout());
+		        JLabel lblTitulo = new JLabel(titulo, JLabel.CENTER);
+		        add(lblTitulo, BorderLayout.NORTH);
+		        JTextArea taDescripcion = new JTextArea(descripcion, 2, 3);
+		        taDescripcion.setEditable(false);
+		        taDescripcion.setRows(1);  // Establece el número de filas deseado
+		        taDescripcion.setColumns(10);  // Establece el número de columnas deseado
+		        add(taDescripcion, BorderLayout.CENTER);
+//		        add(new JScrollPane(taDescripcion), BorderLayout.CENTER);
+
+		        // Mostrar imagen a la derecha
+		        lblImagen = new JLabel();
+		        cargarImagen(rutaImagen);
+		        add(lblImagen, BorderLayout.EAST);
+		    }
+
+		    private void cargarImagen(String rutaImagen) {
+		    	ImageIcon imagen;
+		    	if (rutaImagen != null) {
+		            try {
+		                imagen = new ImageIcon(rutaImagen);
+		                fotoPerfil(imagen);
+		                System.out.println("Imagen cargada correctamente: " + rutaImagen);
+		            } catch (Exception e) {
+		                System.err.println("Error al cargar la imagen: " + rutaImagen);
+		                e.printStackTrace();
+		                imagen = obtenerImagenPorDefecto();
+
+		            }
+		        } else {
+		            // No hay ruta de imagen válida, usar imagen por defecto
+		            System.out.println("No hay ruta de imagen válida proporcionada. Usando imagen por defecto.");
+	                imagen = obtenerImagenPorDefecto();
+
+		        }
+		        fotoPerfil(imagen);
+
+		    }
+		    private ImageIcon obtenerImagenPorDefecto() {
+		        return new ImageIcon("Sell_it/src/imagenes/default.png");
+		    }
 		}
+		
+		private static  void fotoPerfil(ImageIcon imagenPerfil) {
+	        int maxWidth = 100; // Tamaño máximo de ancho
+	        int maxHeight = 100; // Tamaño máximo de alto
+	        int newWidth, newHeight;
+	        Image img = imagenPerfil.getImage();
+	        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
+	            newWidth = maxWidth;
+	            newHeight = (maxWidth * imagenPerfil.getIconHeight()) / imagenPerfil.getIconWidth();
+	        } else {
+	            newHeight = maxHeight;
+	            newWidth = (maxHeight * imagenPerfil.getIconWidth()) / imagenPerfil.getIconHeight();
+	        }
+	        // Redimensiona la imagen
+	        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+	        imagenPerfil = new ImageIcon(newImg);
+	        lblImagen.setIcon(imagenPerfil);
+		}
+		
 		/*public static List<Evento> obtenerListaEvento(Connection con){
 			String sql = "SELECT * FROM Evento";
 			List<Evento> l = new ArrayList<>();

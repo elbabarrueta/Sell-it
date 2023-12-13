@@ -41,7 +41,7 @@ public class VentanaVentaEntidad extends JFrame{
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
 		
-		JPanel pCentral = new JPanel(new GridLayout(7,2));
+		JPanel pCentral = new JPanel(new GridLayout(8,2));
 		this.add(pCentral, BorderLayout.CENTER);
 		
 		JPanel pInferior = new JPanel(new BorderLayout());
@@ -80,7 +80,9 @@ public class VentanaVentaEntidad extends JFrame{
 		pCentral.add(lFoto);
 		pCentral.add(bFoto);
 		rutaImg = null;
-		
+		JLabel lFotoDefault = new JLabel( "Si no añades ninguna imagen, aparecera una por defecto");
+		lFotoDefault.setForeground(Color.BLUE);
+		pCentral.add(lFotoDefault);		
 		
 		//Panel Inferior
 		JButton bSubir = new JButton("Subir entrada");
@@ -135,6 +137,9 @@ public class VentanaVentaEntidad extends JFrame{
 				//ArrayList<Entrada> entradas = new ArrayList<Entrada>();
 				String cantText = tfCant.getText();
 		        String precioText = tfPrecio.getText();
+//		        String imagenE = rutaImg;
+		        String imagenE = (rutaImg != null) ? rutaImg : obtenerRutaImagenPorDefecto();
+
 				String correo = usuario.getCorreoUsuario();
 				
 				if (nombre.isEmpty() || desc.isEmpty() || fecha.isEmpty() || ubicacion.isEmpty() || cantText.isEmpty() || precioText.isEmpty()) {
@@ -144,7 +149,7 @@ public class VentanaVentaEntidad extends JFrame{
 				try {
 					int cantidad = Integer.parseInt(cantText);
 					double precio = Double.parseDouble(precioText);			
-					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad, correo);
+					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad, imagenE, correo);
 					if(rutaImg != null) {
 						evento.setRutaImg(rutaImg);
 					}
@@ -167,6 +172,11 @@ public class VentanaVentaEntidad extends JFrame{
 		});
 		
 			
+	}
+	// Método para obtener la ruta de la imagen por defecto
+	private String obtenerRutaImagenPorDefecto() {
+	    // Coloca la ruta correcta de tu imagen por defecto
+	    return "Sell_it/src/imagenes/default.png";
 	}
 	public static int obtenerCod() {
 		int ultimoCodigo = 0;
