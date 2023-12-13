@@ -17,6 +17,7 @@ public class Evento {
 	private int nEntradas;
 //	private double precio;
 	private String rutaImg;
+	private String creador;
 	
 	
 	//Getters y Setters
@@ -65,9 +66,15 @@ public class Evento {
 	public void setRutaImg(String rutaImg) {
 		this.rutaImg = rutaImg;
 	}
+	public String getCreador() {
+		return creador;
+	}
+	public void setCreador(String creador) {
+		this.creador = creador;
+	}
 	
 	//Constructores
-	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas) {
+	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas, String creador) {
 		super();
 		this.codigo = obtenerCod();
 		this.nombre = nombre;
@@ -77,12 +84,13 @@ public class Evento {
 		this.nEntradas = nEntradas;
 //		this.entradasDisponibles = entradasDisponibles;
 //		this.precio = precio;
+		this.creador = creador;
 	}
 	
 	@Override
 	public String toString() {
 		return "Evento [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", ubicacion=" + ubicacion
-				+ ", nEntradas=" + nEntradas;
+				+ ", nEntradas=" + nEntradas + ", creador=" + creador;
 	}
 	
 	private static int obtenerCod() {

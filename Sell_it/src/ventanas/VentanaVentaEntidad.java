@@ -20,7 +20,7 @@ import clases.Evento;
 import clases.Usuario;
 
 public class VentanaVentaEntidad extends JFrame{
-	private Usuario usuario;
+	private Usuario usuario = Main.getVentanaInicio().getUsuarioActual();
 	
 	private JTextField tfNombre = new JTextField();
 	private JTextField tfDesc = new JTextField();
@@ -135,6 +135,7 @@ public class VentanaVentaEntidad extends JFrame{
 				//ArrayList<Entrada> entradas = new ArrayList<Entrada>();
 				String cantText = tfCant.getText();
 		        String precioText = tfPrecio.getText();
+				String correo = usuario.getCorreoUsuario();
 				
 				if (nombre.isEmpty() || desc.isEmpty() || fecha.isEmpty() || ubicacion.isEmpty() || cantText.isEmpty() || precioText.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -143,7 +144,7 @@ public class VentanaVentaEntidad extends JFrame{
 				try {
 					int cantidad = Integer.parseInt(cantText);
 					double precio = Double.parseDouble(precioText);			
-					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad);
+					Evento evento = new Evento(nombre, desc, fecha, ubicacion, cantidad, correo);
 					if(rutaImg != null) {
 						evento.setRutaImg(rutaImg);
 					}
