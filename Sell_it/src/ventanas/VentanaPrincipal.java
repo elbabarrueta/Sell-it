@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXSearchField;
@@ -46,15 +47,15 @@ public class VentanaPrincipal extends JFrame{
 	    	cargarEventosDesdeBD();
 	    	
 			JButton bVenta = new JButton("Venta");
-			JButton bBuscar = new JButton("Buscar");
+//			JButton bBuscar = new JButton("Buscar");
 			JButton bPerfil = new JButton("Perfil");
 //			JTextField tfBuscador = new JTextField(20);
 //			JLabel lblBusca = new JLabel("¡Busca el evento que desees!");
 			JPanel pnlNorte = new JPanel();
 			JPanel pnlSur = new JPanel();
 			
-			searchField = new JXSearchField("Buscar eventos");
-	        pnlCentro.add(searchField);
+			searchField = new JXSearchField("¡Busca el evento que desees!");
+	        pnlCentro.add(searchField, BorderLayout.NORTH);
 			
 			JScrollPane scrollCentro = new JScrollPane();
 			pnlNorte.setLayout(new FlowLayout());
@@ -65,6 +66,7 @@ public class VentanaPrincipal extends JFrame{
 			
 //			tablaEventos = new JTable();
 //			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
+	        // Configuración de la tabla con SwingX
 			tablaEventos = new JXTable();
 	        tablaEventos.setHighlighters(HighlighterFactory.createSimpleStriping());
 	        tablaEventos.setColumnControlVisible(true);
@@ -78,13 +80,13 @@ public class VentanaPrincipal extends JFrame{
 //			pnlNorte.add(lblBusca);
 //			pnlNorte.add(tfBuscador);
 			pnlNorte.add(searchField);
-			pnlNorte.add(bBuscar);
+//			pnlNorte.add(bBuscar);
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
 		
 			//this.add(tbl_buscar);
 
-			bBuscar.addActionListener(new ActionListener() {
+			searchField.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 //	                String textoBusqueda = tfBuscador.getText().toLowerCase();
@@ -234,7 +236,6 @@ public class VentanaPrincipal extends JFrame{
 
 			        String tituloEvento = evento.getNombre();
 			        String descripcionEvento = evento.getDesc();
-			        System.out.println("AñadirEventoDesdeBD: " + evento);
 
 			        if (pnlActual != null) {
 			            pnlActual.add(new Mipanel(tituloEvento, descripcionEvento));
