@@ -193,7 +193,6 @@ public class VentanaRegistroUsuario extends JFrame {
                 limpiarCampos();
                 VentanaInicio ventanaInicio = new VentanaInicio();
                 dispose();  // Cierra la ventana actual
-                usuari.cerrarConexiones();
                 ventanaInicio.setVisible(true);
                 Main.setVentanaInicio(ventanaInicio);
     			

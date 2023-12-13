@@ -3,9 +3,6 @@ package ventanas;
 import java.awt.*;
 
 
-
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -22,6 +19,10 @@ import java.util.Set;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+
 import BasesDeDatos.BaseDeDatos;
 import clases.Evento;
 import clases.JLabelGrafico;
@@ -29,11 +30,13 @@ import clases.Usuario;
 
 public class VentanaPrincipal extends JFrame{
 
-		private JTable tablaEventos;
+		private JXTable tablaEventos;
 //		private DataSetUsuario dataSetUsuario;
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
+	    private JXSearchField searchField;
+
 		
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 		
@@ -45,10 +48,13 @@ public class VentanaPrincipal extends JFrame{
 			JButton bVenta = new JButton("Venta");
 			JButton bBuscar = new JButton("Buscar");
 			JButton bPerfil = new JButton("Perfil");
-			JTextField tfBuscador = new JTextField(20);
-			JLabel lblBusca = new JLabel("¡Busca el evento que desees!");
+//			JTextField tfBuscador = new JTextField(20);
+//			JLabel lblBusca = new JLabel("¡Busca el evento que desees!");
 			JPanel pnlNorte = new JPanel();
 			JPanel pnlSur = new JPanel();
+			
+			searchField = new JXSearchField("Buscar eventos");
+	        pnlCentro.add(searchField);
 			
 			JScrollPane scrollCentro = new JScrollPane();
 			pnlNorte.setLayout(new FlowLayout());
@@ -57,16 +63,21 @@ public class VentanaPrincipal extends JFrame{
 			modelo.addColumn("Nombre");
 			
 			
-			tablaEventos = new JTable();
-			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
+//			tablaEventos = new JTable();
+//			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
+			tablaEventos = new JXTable();
+	        tablaEventos.setHighlighters(HighlighterFactory.createSimpleStriping());
+	        tablaEventos.setColumnControlVisible(true);
+	        add(new JScrollPane(tablaEventos), BorderLayout.CENTER);
 			//JTable tbl_buscar = new JTable();
 			
 			this.add(pnlNorte, BorderLayout.NORTH);
 			this.add(pnlSur, BorderLayout.SOUTH);
 			pnlSur.add(bVenta);
 			pnlSur.add(bPerfil);
-			pnlNorte.add(lblBusca);
-			pnlNorte.add(tfBuscador);
+//			pnlNorte.add(lblBusca);
+//			pnlNorte.add(tfBuscador);
+			pnlNorte.add(searchField);
 			pnlNorte.add(bBuscar);
 			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
 			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
@@ -76,8 +87,9 @@ public class VentanaPrincipal extends JFrame{
 			bBuscar.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                String textoBusqueda = tfBuscador.getText().toLowerCase();
-	                List<Evento> eventosFiltrados = filtrarEventosPorPalabrasClave(textoBusqueda);
+//	                String textoBusqueda = tfBuscador.getText().toLowerCase();
+	                String textoBusqueda = searchField.getText().toLowerCase();
+	            	List<Evento> eventosFiltrados = filtrarEventosPorPalabrasClave(textoBusqueda);
 	                actualizarVisualizacionEventos(eventosFiltrados);
 	            }
 	        });
@@ -185,12 +197,7 @@ public class VentanaPrincipal extends JFrame{
 	           return JOptionPane.showInputDialog("Usuario no encontrado");
 			}
 		}
-
-//		public void cargarUsuariosInicio(DataSetUsuario dataset) {
-//			this.dataSetUsuario = dataset;
-//		}
-		
-		
+			
 		/*
 		private void mostrarTabla() {
 			DefaultTableModel modelo = new DefaultTableModel();
@@ -284,28 +291,6 @@ public class VentanaPrincipal extends JFrame{
 		}*/
 
 		public static void main(String[] args) throws IOException {
-//			VentanaPrincipal v = new VentanaPrincipal();
-//		    v.empezarPanel();
-//		    
-//		    DataSetEvento dataset = new DataSetEvento("evento.txt");
-//		    HashMap<String, Evento> mapa = DataSetEvento.getMapaEvento();
-//		    for(Evento e: mapa.values()) {
-//		    	v.aniadirEvento(e);
-//		    }
-//
-//		    for (int i = 0; i < 7; i++) {
-//		        
-//		        String nombreEvento = "Evento " + (i + 1);
-//		        String descripcionEvento = "Descripción del evento " + (i + 1);
-//
-//		        
-//		        Evento evento = new Evento(nombreEvento, descripcionEvento, "Fecha", "Ubicación", 100, 50.0);
-//
-//		       
-//		        v.aniadirEvento(evento);
-//		    }
-//
-//		    v.acabarPanel();
 		}
 
 	}
