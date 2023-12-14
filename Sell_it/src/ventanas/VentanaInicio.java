@@ -91,7 +91,7 @@ public class VentanaInicio extends JFrame {
 		
 		JTextField txtUsuario = new JTextField();
 		txtContrasenia = new CustomPasswordField();
-		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+		ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_closed_icon.png"));
 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
 		txtContrasenia.getButton().setBackground(Color.WHITE);
 		txtContrasenia.setEchoChar('\u2022');
@@ -390,10 +390,10 @@ public class VentanaInicio extends JFrame {
                     char echoChar = getEchoChar();
                     if (echoChar == 0) {
                         setEchoChar('\u2022'); // Ocultar contraseña (punto negro)
-                		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+                		ImageIcon imagenOjo = new ImageIcon("src/imagenes/eye_closed_icon.png");
                 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
                     } else {
-                		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_opened_icon.png");
+                		ImageIcon imagenOjo = new ImageIcon("src/imagenes/eye_opened_icon.png");
                 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
                         setEchoChar((char) 0); // Mostrar contraseña
                     }

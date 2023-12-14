@@ -5,6 +5,8 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -38,7 +40,7 @@ public class VentanaPrincipal extends JFrame{
 		private JPanel pnlCentro = new JPanel();
 	    private JXSearchField searchField;
 	    private static JLabel lblImagen;
-
+	    private static VentanaPrincipal vPrincipal;
 		
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 		
@@ -141,11 +143,11 @@ public class VentanaPrincipal extends JFrame{
 //				aniadirEvento(e);
 //			}
 			
-			this.setBounds(400, 150, 600, 600);
+			this.setBounds(55, 50, 1200, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setTitle("Menu Principal");
 			this.setVisible(true);
-			
+			vPrincipal = this;
 		}		
 	    
 
@@ -234,12 +236,11 @@ public class VentanaPrincipal extends JFrame{
 			            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
 			            pnlCentro.add(pnlActual);
 			        }
-
-			        String tituloEvento = evento.getNombre();
-			        String descripcionEvento = evento.getDesc();
-			        String rutaImag = evento.getRutaImg();			       
+			        
 			        if (pnlActual != null) {
-			            pnlActual.add(new Mipanel(tituloEvento, descripcionEvento, rutaImag));
+			        	Mipanel panel = new Mipanel(evento);
+			        	panel.setPreferredSize(new Dimension(100, 255));
+			            pnlActual.add(panel);
 			            numCol++;
 			        }
 			    }
@@ -252,21 +253,52 @@ public class VentanaPrincipal extends JFrame{
 //		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
 
 		private static class Mipanel extends JPanel {
-			public Mipanel(String titulo, String descripcion, String rutaImagen) {
-		        setLayout(new BorderLayout());
-		        JLabel lblTitulo = new JLabel(titulo, JLabel.CENTER);
-		        add(lblTitulo, BorderLayout.NORTH);
-		        JTextArea taDescripcion = new JTextArea(descripcion, 2, 3);
-		        taDescripcion.setEditable(false);
-		        taDescripcion.setRows(1);  // Establece el número de filas deseado
-		        taDescripcion.setColumns(10);  // Establece el número de columnas deseado
-		        add(taDescripcion, BorderLayout.CENTER);
+			public Mipanel(Evento evento) {
+		        setLayout(null);
+		        addMouseListener(new MouseAdapter() {
+		        	@Override
+					public void mouseClicked(MouseEvent e) {
+						VentanaEvento v = new VentanaEvento(evento);
+						v.setVisible(true);
+						vPrincipal.dispose();
+					}
+				});
+		        
+		        String titulo = evento.getNombre();
+		        String fecha = evento.getFecha();
+		        String rutaImagen = evento.getRutaImg();
+		        
+		        JLabel lblNombre = new JLabel(titulo);
+				lblNombre.setForeground(Color.BLACK);
+				lblNombre.setFont(new Font("Eras Demi ITC", Font.PLAIN, 14));
+				lblNombre.setBounds(10, 147, 208, 34);
+				add(lblNombre);
+				
+				JLabel lblFecha = new JLabel(fecha);
+				lblFecha.setForeground(Color.BLACK);
+				lblFecha.setFont(new Font("Eras Demi ITC", Font.PLAIN, 10));
+				lblFecha.setBounds(10, 127, 208, 34);
+				add(lblFecha);
+				
+				JLayeredPane layeredPane = new JLayeredPane();
+				layeredPane.setForeground(Color.BLACK);
+				layeredPane.setBounds(0, 0, 252, 182);
+				add(layeredPane);
+		        
+//		        JLabel lblTitulo = new JLabel(titulo, JLabel.CENTER);
+//		        add(lblTitulo, BorderLayout.NORTH);
+//		        JTextArea taDescripcion = new JTextArea(descripcion, 2, 3);
+//		        taDescripcion.setEditable(false);
+//		        taDescripcion.setRows(1);  // Establece el número de filas deseado
+//		        taDescripcion.setColumns(10);  // Establece el número de columnas deseado
+//		        add(taDescripcion, BorderLayout.CENTER);
 //		        add(new JScrollPane(taDescripcion), BorderLayout.CENTER);
 
 		        // Mostrar imagen a la derecha
 		        lblImagen = new JLabel();
 		        cargarImagen(rutaImagen);
-		        add(lblImagen, BorderLayout.EAST);
+		        lblImagen.setBounds(0, 0, 252, 182);
+				layeredPane.add(lblImagen);
 		    }
 
 		    private void cargarImagen(String rutaImagen) {
