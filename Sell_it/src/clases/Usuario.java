@@ -72,7 +72,7 @@ public class Usuario {
 		this.correoUsuario = " ";
 		this.tipoUsuario = " ";
 		this.contrasena = " ";
-		this.imgPerfil = " ";
+		this.imgPerfil = "Sell_it/src/imagenes/perfil.png";
 	}
 	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena, String imgPerfil) {
 		super();

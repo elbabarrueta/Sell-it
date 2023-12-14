@@ -67,13 +67,13 @@ public class BaseDeDatos {
 				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena ) values ('admin', 'admin', 'admin', 'admin')";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
-				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", " ");
+				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png");
 				anadirUsuarioNuevo(moma);
-				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", " ");
+				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png");
 				anadirUsuarioNuevo(kepa);
-				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", " ");
+				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png");
 				anadirUsuarioNuevo(miguel);
-				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", " ");
+				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png");
 				anadirUsuarioNuevo(laura);
 				
 				Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/default.png", "moma@gmail.com");
@@ -230,6 +230,37 @@ public class BaseDeDatos {
 			e2.printStackTrace();
 		}
 	}
+	
+	public static List<Evento> obtenerEventosEnVentaDelUsuario(Usuario usuario) {
+        String com = "SELECT * FROM Evento WHERE creador = ?";
+        logger.log(Level.INFO, "BD: " + com);
+
+        List<Evento> eventosEnVenta = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+            preparedStatement.setString(1, usuario.getCorreoUsuario());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                String desc = rs.getString("desc");
+                String fecha = rs.getString("fecha");
+                String ubicacion = rs.getString("ubicacion");
+                int nEntradas = rs.getInt("nEntradas");
+                String rutaImg = rs.getString("rutaImg");
+                String creador = rs.getString("creador");
+
+                Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
+                eventosEnVenta.add(evento);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Último comando: " + com);
+            e.printStackTrace();
+        }
+
+        return eventosEnVenta;
+    }
 	
 	//Devuelve una lista con los eventos de la tabla Eventos
 	public static List<Evento> obtenerListaEventos(){

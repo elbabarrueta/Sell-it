@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import BasesDeDatos.BaseDeDatos;
+import clases.Evento;
 import clases.Usuario;
 
 import java.awt.*;
@@ -56,7 +57,7 @@ public class VentanaPerfilEntidad extends JFrame{
 			fotoPerfil(imagenPerfil);
 	    }        
         
-        JButton infoButton1 = new JButton("En venta");
+        JButton botonEnVenta = new JButton("En venta");
         JButton infoButton2 = new JButton("Valoraciones");
         JButton infoButton3 = new JButton("Notificaciones");
         topPanel.add(lblFotoPerfil);
@@ -64,7 +65,7 @@ public class VentanaPerfilEntidad extends JFrame{
         topPanel.add(nameField);
         topPanel.add(emailLabel);
         topPanel.add(emailField);
-        topPanel.add(infoButton1);
+        topPanel.add(botonEnVenta);
         topPanel.add(infoButton2);
         topPanel.add(infoButton3);
 
@@ -97,10 +98,11 @@ public class VentanaPerfilEntidad extends JFrame{
         frame.add(bottomPanel, BorderLayout.SOUTH);
 
         // Agregar acción al botón de información 1
-        infoButton1.addActionListener(new ActionListener() {
+        botonEnVenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningún artículo en venta");
+//                JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningún artículo en venta");
+                mostrarEventosEnVentaDelUsuario(usuario);
             }
         });
         
@@ -275,6 +277,15 @@ public class VentanaPerfilEntidad extends JFrame{
         
         lblFotoPerfil.setIcon(imagenPerfil);
 	}
+	
+	private void mostrarEventosEnVentaDelUsuario(Usuario usuario) {
+		// Obtén eventos en venta del usuario
+        List<Evento> eventosEnVentaDelUsuario = BaseDeDatos.obtenerEventosEnVentaDelUsuario(usuario);
+
+        // Muestra la ventana con los eventos en venta del usuario
+        VentanaTablaInformacion ventanaTabla = new VentanaTablaInformacion(eventosEnVentaDelUsuario);
+        ventanaTabla.setVisible(true);
+    }
 	
     public static void main(String[] args) {
 //    	VentanaInicio ventanaI = Main.getVentanaInicio();

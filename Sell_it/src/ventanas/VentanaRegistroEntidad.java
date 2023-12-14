@@ -145,6 +145,7 @@ public class VentanaRegistroEntidad extends JFrame{
             String nombre = txtNombre.getText();
             String correo = txtCorreo.getText();
             String tipo = txtTipo.getText();
+            String imagenP = "Sell_it/src/imagenes/perfil.png";
             if (nombre.equals("Nombre") || correo.equals("Correo") || contrasenia.length == 0 || confirmada.length == 0) {
                 JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
                 return;
@@ -182,10 +183,9 @@ public class VentanaRegistroEntidad extends JFrame{
                 }
             }else {
             	String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
-            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia, null);
+            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia, imagenP);
     			u.setUltimaCambioContrasena(LocalDate.now());
     			
-//    			BaseDeDatos.main(null);
     			BaseDeDatos usuari = new BaseDeDatos();
                 usuari.anadirUsuarioNuevo(u);
                 JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
