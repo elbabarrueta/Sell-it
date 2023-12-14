@@ -1,16 +1,22 @@
 package ventanas;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import clases.Entrada;
 import clases.Evento;
+import clases.Usuario;
 
 public class VentanaEvento extends JFrame{
 	
 	private JTextField tfCantidad = new JTextField(); //Se puede cambiar por un JComboBox 
 	private JLabel lImagen;
 	private JLabel lNombre;//Telmo(lo he puesto aqui para obtener el no)
+	private VentanaCompra ventanaCompra;
+	
 	
 	public VentanaEvento(Evento e) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -32,6 +38,7 @@ public class VentanaEvento extends JFrame{
 		pImagen.add(lImagen);
         this.add(pImagen);
 		
+        JButton btnComprar = new JButton("Comprar");
 		JPanel pEvento = new JPanel(new GridLayout(4,1));
 		lNombre = new JLabel(e.getNombre());
 		pEvento.add(lNombre);
@@ -64,6 +71,20 @@ public class VentanaEvento extends JFrame{
 		JLabel lTotal = new JLabel();
 		pCantidad.add(lTotal);
 		this.add(pCantidad);
+		
+		 btnComprar.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                
+	               
+	                
+	                ventanaCompra.setVisible(true);
+	            }
+	        });
+	        this.add(btnComprar);
+	    
+		
+		
 		
 	}
 	
