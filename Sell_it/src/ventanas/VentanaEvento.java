@@ -72,16 +72,33 @@ public class VentanaEvento extends JFrame{
 		pCantidad.add(lTotal);
 		this.add(pCantidad);
 		
-		 btnComprar.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                
-	               
-	                
-	                ventanaCompra.setVisible(true);
-	            }
-	        });
-	        this.add(btnComprar);
+		btnComprar.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            
+		            int cantidadComprar = Integer.parseInt(tfCantidad.getText());
+		            int entradasDisponibles = Integer.parseInt(lNumEntradas.getText());
+
+		            
+		            if (cantidadComprar <= entradasDisponibles) {
+		                
+		                ventanaCompra.setVisible(true);
+		            } else {
+		                
+		                JOptionPane.showMessageDialog(VentanaEvento.this,
+		                        "Error",
+		                         "no hay suficientes entradas", JOptionPane.ERROR_MESSAGE);
+		            }
+		        } catch (NumberFormatException ex) {
+		            
+		            JOptionPane.showMessageDialog(VentanaEvento.this,
+		                    "Ingrese una cantidad válida.",
+		                    "Error de formato", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+
 	    
 		
 		
