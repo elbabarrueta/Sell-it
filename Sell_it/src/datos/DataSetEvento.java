@@ -44,7 +44,7 @@ public class DataSetEvento {
 				String ubicacion = partes[3];
 				int nEntradas = Integer.parseInt(partes[4]);
 				double precio = Double.parseDouble(partes[5]);
-				Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas );
+				Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas, ubicacion, ubicacion );
 				mapaEvento.put(desc, evento); //----- aqui uso a descripcion como clave unica
 			} catch (IndexOutOfBoundsException | NumberFormatException e) {
 				System.err.println( "Error en lectura de línea " + numLinea );
