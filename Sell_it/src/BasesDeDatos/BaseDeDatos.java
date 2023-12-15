@@ -21,6 +21,7 @@ import java.util.Map;
 
 import clases.Entrada;
 import clases.Evento;
+import clases.Notificacion;
 import clases.Usuario;
 import ventanas.VentanaVentaEntidad;
 
@@ -170,11 +171,14 @@ public class BaseDeDatos {
 //		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
 		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo Integer, nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String, creador String)";
 		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo Integer, evento_cod Integer, propietario_correo String, precio Double)";
-
+		String notificacion = "CREATE TABLE IF NOT EXISTS Notificacion (id Integer, mensaje String)";
+		String relacion = "CREATE TABLE IF NOT EXISTS Relacion (correo String, id_noti Integer, leido Boolean)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
 			st.executeUpdate(sql2);
+			st.executeUpdate(notificacion);
+			st.executeUpdate(relacion);
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -331,72 +335,72 @@ public class BaseDeDatos {
 		}
 		
 
-public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
-	//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
-	String sent = "update Usuario set contrasena = '" + secu(usu.getContrasena()) + "' where correoUsuario = '" + secu(usu.getCorreoUsuario()) + "'";
-	logger.log(Level.INFO, "BD: " + sent);
-	try {
-		s.executeUpdate(sent);
-	} catch (SQLException e1) {
-		logger.log(Level.WARNING, sent, e1);
-		e1.printStackTrace();
-	}
-}
-public void modificarUsuarioYaRegistrado(Usuario usu) {		
-	String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+  "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
-//	String sentCorreo = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
-	logger.log(Level.INFO, "BD: " + sent);
-//	logger.log(Level.INFO, "BD: " + sentCorreo);
-
-	try {
-		s.executeUpdate(sent);
-//		s.executeUpdate(sentCorreo);
-	} catch (SQLException e1) {
-		logger.log(Level.WARNING, sent, e1);
-//		logger.log(Level.WARNING, sentCorreo, e1);
-
-		e1.printStackTrace();
-	}
-}
-public void modificarUsuarioImagenPerfil(Usuario usu) {
-	String sent = "update Usuario set imagenPerfil= '" +
-            secu(usu.getImgPerfil()) + "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
-	logger.log(Level.INFO, "BD: " + sent);
-
-	try {
-		s.executeUpdate(sent);
-	} catch (SQLException e1) {
-		logger.log(Level.WARNING, sent, e1);
-		e1.printStackTrace();
-	}
-}
-
-public void borrarUsuarioRegistrado(Usuario usu) {
-	if (!usu.getCorreoUsuario().isEmpty() && !usu.getContrasena().isEmpty()) {
-		String com = "";
+	public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
+		//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
+		String sent = "update Usuario set contrasena = '" + secu(usu.getContrasena()) + "' where correoUsuario = '" + secu(usu.getCorreoUsuario()) + "'";
+		logger.log(Level.INFO, "BD: " + sent);
 		try {
-			// Borrar usuario
-			com = "delete from Usuario where correoUsuario = '"+ secu(usu.getCorreoUsuario()) +"'";
-			logger.log( Level.INFO, "BD: " + com );
-			s.executeUpdate( com );
+			s.executeUpdate(sent);
+		} catch (SQLException e1) {
+			logger.log(Level.WARNING, sent, e1);
+			e1.printStackTrace();
+		}
+	}
+	public void modificarUsuarioYaRegistrado(Usuario usu) {		
+		String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+  "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+	//	String sentCorreo = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+		logger.log(Level.INFO, "BD: " + sent);
+	//	logger.log(Level.INFO, "BD: " + sentCorreo);
+	
+		try {
+			s.executeUpdate(sent);
+	//		s.executeUpdate(sentCorreo);
+		} catch (SQLException e1) {
+			logger.log(Level.WARNING, sent, e1);
+	//		logger.log(Level.WARNING, sentCorreo, e1);
+	
+			e1.printStackTrace();
+		}
+	}
+	public void modificarUsuarioImagenPerfil(Usuario usu) {
+		String sent = "update Usuario set imagenPerfil= '" +
+	            secu(usu.getImgPerfil()) + "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
+		logger.log(Level.INFO, "BD: " + sent);
+	
+		try {
+			s.executeUpdate(sent);
+		} catch (SQLException e1) {
+			logger.log(Level.WARNING, sent, e1);
+			e1.printStackTrace();
+		}
+	}
+	
+	public void borrarUsuarioRegistrado(Usuario usu) {
+		if (!usu.getCorreoUsuario().isEmpty() && !usu.getContrasena().isEmpty()) {
+			String com = "";
+			try {
+				// Borrar usuario
+				com = "delete from Usuario where correoUsuario = '"+ secu(usu.getCorreoUsuario()) +"'";
+				logger.log( Level.INFO, "BD: " + com );
+				s.executeUpdate( com );
+			} catch (SQLException e2) {
+				System.out.println( "Último comando: " + com );
+				e2.printStackTrace();
+			}
+		} else {
+			JOptionPane.showMessageDialog( null, "Debes rellenar los dos campos" );
+		}
+	}
+	
+	public void cerrarConexiones() {
+		try {
+			rs.close();
+			s.close();
+			con.close();
 		} catch (SQLException e2) {
-			System.out.println( "Último comando: " + com );
 			e2.printStackTrace();
 		}
-	} else {
-		JOptionPane.showMessageDialog( null, "Debes rellenar los dos campos" );
 	}
-}
-
-public void cerrarConexiones() {
-	try {
-		rs.close();
-		s.close();
-		con.close();
-	} catch (SQLException e2) {
-		e2.printStackTrace();
-	}
-}
 
 // Posible función de "securización" para evitar errores o ataques
 	private static String secu( String sqlInicial ) {
@@ -542,6 +546,97 @@ public void cerrarConexiones() {
 
 	    } catch (SQLException e) {
 	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	}
+	
+	
+	public static void guardarNotificacion(Usuario usuario, Notificacion notificacion) {
+		String com = "";
+		try {
+			com = "select * from Notificacion where id = '" + notificacion.getId() + "'";
+			logger.log( Level.INFO, "BD: " + com );
+			rs = s.executeQuery( com );
+			if (!rs.next()) {
+				com = "insert into Notificacion (id, mensaje) values ('"+ 
+						notificacion.getId() +"', '" + notificacion.getMensaje() +"')";
+				logger.log( Level.INFO, "BD: " + com );
+				int val = s.executeUpdate( com );
+				if (val!=1) {
+					JOptionPane.showMessageDialog( null, "Error en inserción" );
+				}
+			}
+			// Insertar la relación en la tabla UsuariosNotificaciones
+	        com = "insert into Relacion (correo, id_noti, leido) values ('" +
+	                usuario.getCorreoUsuario() + "', '" + notificacion.getId() + "', '" + notificacion.isLeido() + "')";
+	        logger.log(Level.INFO, "BD: " + com);
+	        int valRelacion = s.executeUpdate(com);
+
+	        if (valRelacion != 1) {
+	            JOptionPane.showMessageDialog(null, "Error en inserción de relación usuario-notificación");
+	        }
+		} catch (SQLException e2) {
+			System.out.println( "Último comando: " + com );
+			e2.printStackTrace();
+		}
+	}
+	
+	public static List<Notificacion> obtenerNotificacionesPorUsuario(Usuario u){
+        List<Notificacion> notificaciones = new ArrayList<>();
+        String com = "";
+        try {
+            com = "select * from Relacion where correo = '" + u.getCorreoUsuario() + "'";
+            ResultSet rs = s.executeQuery(com);
+
+            while (rs.next()) {
+                // Para cada notificación asociada al usuario, obtén la información de la notificación
+                int idNotificacion = rs.getInt("id_noti");
+                Boolean leido = rs.getBoolean("leido");
+                String mensaje = obtenerMensaje(idNotificacion);
+                if(leido == false) {
+                    Notificacion notificacion = new Notificacion(mensaje, leido);
+                    if (notificacion != null) {
+                        notificaciones.add(notificacion);
+                        marcarLeidoBD(idNotificacion, u.getCorreoUsuario());
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener notificaciones para el usuario " + u.getCorreoUsuario());
+            System.out.println("Último comando: " + com);
+            e.printStackTrace();
+        }
+        return notificaciones;
+    }
+	
+	private static String obtenerMensaje(int id) {
+		String com = "SELECT * FROM Notificacion WHERE id = ?";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setInt(1, id);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            String mensaje = rs.getString("mensaje");
+	            return mensaje;
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	    return null;  // Devuelve null si no se encuentra el evento
+    }
+	
+	public static void marcarLeidoBD(int idNotificacion, String correo) {
+		String com = "UPDATE Relacion SET leido = true WHERE id_noti = ? and correo = ?";
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	    	preparedStatement.setInt(1, idNotificacion);
+	    	preparedStatement.setString(2, correo);
+	    	preparedStatement.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        System.out.println("Error al ejecutar la consulta: " + com);
 	        e.printStackTrace();
 	    }
 	}

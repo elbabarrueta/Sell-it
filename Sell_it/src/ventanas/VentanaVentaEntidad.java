@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
+import clases.Notificacion;
 import clases.Usuario;
 
 public class VentanaVentaEntidad extends JFrame{
@@ -162,6 +163,8 @@ public class VentanaVentaEntidad extends JFrame{
 	                	Entrada entrada = new Entrada(cod+i, evento, null, precio);
 	                	BaseDeDatos.anadirEntradaNueva(entrada);
 	                }
+	                Notificacion notificacion = new Notificacion("Nuevo evento: " + nombre, false);
+	                Usuario.distribuirNotificacion(notificacion, usu);
 	                
 					JOptionPane.showMessageDialog(null, "Evento subido exitosamente");
 				}catch(NumberFormatException ex) {

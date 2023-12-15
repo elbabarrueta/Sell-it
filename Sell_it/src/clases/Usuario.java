@@ -1,6 +1,12 @@
 package clases;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import BasesDeDatos.BaseDeDatos;
+import ventanas.Main;
 //Vamos a añadir un usuario admin
 public class Usuario {
 	//Hay que cambiar los atributos
@@ -9,6 +15,8 @@ public class Usuario {
 	public String tipoUsuario;
 	public String contrasena;
 	public String imgPerfil;
+	private List<Notificacion> notificaciones;
+
 	
 //	private String rutaImagenPerfil;
 	
@@ -64,6 +72,9 @@ public class Usuario {
 	public final void setUltimaCambioContrasena(LocalDate ultimaCambioContrasena) {
 		this.ultimaCambioContrasena = ultimaCambioContrasena;
 	}
+	public List<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
 	
 	//
 	public Usuario() {
@@ -73,6 +84,7 @@ public class Usuario {
 		this.tipoUsuario = " ";
 		this.contrasena = " ";
 		this.imgPerfil = "Sell_it/src/imagenes/perfil.png";
+        this.notificaciones = new ArrayList<>();
 	}
 	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena, String imgPerfil) {
 		super();
@@ -81,6 +93,7 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 		this.contrasena = contrasena;
 		this.imgPerfil = imgPerfil;
+        this.notificaciones = new ArrayList<>();
 	}
 	//
 	@Override
@@ -94,6 +107,27 @@ public class Usuario {
         // Código para cambiar la contraseña
         ultimaCambioContrasena = LocalDate.now();
 		this.contrasena = nuevaContrasena;
+    }
+	
+	public void agregarNotificacion(Notificacion notificacion) {
+        notificaciones.add(notificacion);
+        BaseDeDatos.guardarNotificacion(this, notificacion);
+    }
+	public static HashMap<String, Usuario> getMapaUsuarios() {
+    	return Main.getVentanaInicio().mapaUsu;
+    }
+	public static void distribuirNotificacion(Notificacion notificacion, Usuario usuarioActual) {
+        HashMap<String, Usuario> mapaUsuarios = getMapaUsuarios();
+        for (Usuario usuario : mapaUsuarios.values()) {
+            if (!usuario.equals(usuarioActual)) {
+                usuario.agregarNotificacion(notificacion);
+            }
+        }
+    }
+    public void cargarNotificacionesDesdeBD() {
+        // Lógica para cargar notificaciones desde la base de datos
+        List<Notificacion> notificacionesDesdeBD = BaseDeDatos.obtenerNotificacionesPorUsuario(this);
+        notificaciones.addAll(notificacionesDesdeBD);
     }
 	
 }

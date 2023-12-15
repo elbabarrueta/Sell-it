@@ -5,6 +5,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import BasesDeDatos.BaseDeDatos;
+import clases.Notificacion;
 import clases.Usuario;
 
 import java.awt.*;
@@ -302,18 +303,16 @@ public class VentanaPerfilUsuario extends JFrame{
 	    infoButton3.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		// Simulemos que aquí se obtienen notificaciones del sistema o de otros usuarios.
-	    		List<String> notificaciones = obtenerNotificaciones();
-
-	    		// Construir un mensaje de notificación a partir de las notificaciones.
-	    		StringBuilder notificacionMessage = new StringBuilder();
-	    		notificacionMessage.append("Notificaciones:\n");
-	    		for (String notificacion : notificaciones) {
-	    			notificacionMessage.append("- ").append(notificacion).append("\n");
-	    		}
-
-        
-	    		JOptionPane.showMessageDialog(frame, notificacionMessage.toString(), "Notificaciones", JOptionPane.INFORMATION_MESSAGE);
+//	    		// Simulemos que aquí se obtienen notificaciones del sistema o de otros usuarios.
+//	    		List<String> notificaciones = obtenerNotificaciones();
+//
+//	    		// Construir un mensaje de notificación a partir de las notificaciones.
+//	    		StringBuilder notificacionMessage = new StringBuilder();
+//	    		notificacionMessage.append("Notificaciones:\n");
+//	    		for (String notificacion : notificaciones) {
+//	    			notificacionMessage.append("- ").append(notificacion).append("\n");
+//	    		}
+	    		mostrarNotificaciones();
 	    	}
 	    });
 	    
@@ -325,14 +324,34 @@ public class VentanaPerfilUsuario extends JFrame{
 		descriptionArea.setEditable(editable);
 	}
 	
-	private List<String> obtenerNotificaciones() {
-	   
-	    List<String> notificaciones = new ArrayList<>();
-	    notificaciones.add("Nueva oferta para tu producto.");
-	    notificaciones.add("¡Has vendido un artículo!");
-	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
-	    return notificaciones;
-	}
+//	private List<String> obtenerNotificaciones() {
+//	   
+//	    List<String> notificaciones = new ArrayList<>();
+//	    notificaciones.add("Nueva oferta para tu producto.");
+//	    notificaciones.add("¡Has vendido un artículo!");
+//	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
+//	    return notificaciones;
+//	}
+	private void mostrarNotificaciones() {
+    	usuario.cargarNotificacionesDesdeBD();
+        List<Notificacion> notificaciones = usuario.getNotificaciones();
+        StringBuilder notificacionMessage = new StringBuilder();
+        notificacionMessage.append("Notificaciones:\n");
+        for (Notificacion notificacion : notificaciones) {
+        	if(notificacion.isLeido() == false) {
+                notificacionMessage.append("- ").append(notificacion.getMensaje()).append("\n");
+        	}
+        }
+        JOptionPane.showMessageDialog(this, notificacionMessage.toString(), "Notificaciones", JOptionPane.INFORMATION_MESSAGE);
+        
+        for (Notificacion notificacion : notificaciones) {
+        	if (notificacion.isLeido() == false) {
+                notificacion.setLeido(true);
+                int id = notificacion.getId();
+                Main.getVentanaInicio().base.marcarLeidoBD(id, usuario.getCorreoUsuario());
+            }
+       }
+    }
 	
 	private void fotoPerfil(ImageIcon imagenPerfil) {
         int maxWidth = 100; // Tamaño máximo de ancho
