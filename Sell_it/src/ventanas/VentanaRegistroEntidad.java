@@ -3,6 +3,7 @@ package src.ventanas;
 import java.awt.BorderLayout;
 
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -36,9 +37,9 @@ import javax.swing.text.JTextComponent;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import BasesDeDatos.BaseDeDatos;
-import clases.Datos;
-import clases.Usuario;
+import src.BasesDeDatos.BaseDeDatos;
+import src.clases.Datos;
+import src.clases.Usuario;
 
 public class VentanaRegistroEntidad extends JFrame{
 	

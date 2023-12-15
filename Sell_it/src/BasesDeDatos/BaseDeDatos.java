@@ -1,6 +1,7 @@
-package BasesDeDatos;
+package src.BasesDeDatos;
 
 import java.util.logging.FileHandler;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import clases.Entrada;
-import clases.Evento;
-import clases.Usuario;
-import ventanas.VentanaVentaEntidad;
+import src.clases.Entrada;
+import src.clases.Evento;
+import src.clases.Usuario;
+import src.ventanas.VentanaVentaEntidad;
 
 import java.sql.Statement;
 

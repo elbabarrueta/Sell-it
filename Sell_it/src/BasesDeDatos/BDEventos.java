@@ -1,6 +1,7 @@
-package BasesDeDatos;
+package src.BasesDeDatos;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +11,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import clases.Evento;
-import clases.Usuario;
+import src.clases.Evento;
+import src.clases.Usuario;
 
 public class BDEventos {
 	private Evento even;
