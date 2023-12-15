@@ -1,4 +1,4 @@
-package clases;
+package src.clases;
 
 import java.time.LocalDate;
 //Vamos a añadir un usuario admin

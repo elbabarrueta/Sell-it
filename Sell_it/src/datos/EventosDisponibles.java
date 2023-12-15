@@ -1,12 +1,13 @@
-package datos;
+package src.datos;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import clases.Evento;
+import src.clases.Evento;
 
 public class EventosDisponibles {
 	

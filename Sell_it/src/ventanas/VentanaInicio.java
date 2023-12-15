@@ -1,6 +1,7 @@
-package ventanas;
+package src.ventanas;
 
 import java.awt.BorderLayout;
+
 
 
 import java.awt.Color;
@@ -34,8 +35,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import BasesDeDatos.BaseDeDatos;
-import clases.Usuario;
+import src.BasesDeDatos.BaseDeDatos;
+import src.clases.Usuario;
 
 public class VentanaInicio extends JFrame {
 	

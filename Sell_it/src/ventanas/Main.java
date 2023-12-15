@@ -1,6 +1,7 @@
-package ventanas;
+package src.ventanas;
 
 import java.io.IOException;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import BasesDeDatos.BaseDeDatos;
+import src.BasesDeDatos.BaseDeDatos;
 
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -16,7 +17,7 @@ import java.util.logging.Handler;
 import java.util.logging.FileHandler;
 import java.util.logging.StreamHandler;
 import java.util.logging.SimpleFormatter;
-import clases.Usuario;
+import src.clases.Usuario;
 
 public class Main {
 	

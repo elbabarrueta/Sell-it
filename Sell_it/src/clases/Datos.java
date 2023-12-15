@@ -1,4 +1,4 @@
-package clases;
+package src.clases;
 
 
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package clases;
+package src.clases;
 
 import java.util.ArrayList;
 import java.sql.Connection;

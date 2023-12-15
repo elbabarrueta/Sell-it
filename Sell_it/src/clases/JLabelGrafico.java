@@ -1,4 +1,4 @@
-package clases;
+package src.clases;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

@@ -1,9 +1,10 @@
-package correoJUnitTest;
+package test.correoJUnitTest;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
-import ventanas.VentanaInicio;
+import src.ventanas.VentanaInicio;
 
 public class ComprobarCorreosTest {
 

@@ -1,11 +1,12 @@
-package ventanas;
+package src.ventanas;
 
 import javax.swing.*;
+
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import BasesDeDatos.BaseDeDatos;
-import clases.Usuario;
+import src.BasesDeDatos.BaseDeDatos;
+import src.clases.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;
