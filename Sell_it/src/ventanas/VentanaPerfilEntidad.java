@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import BasesDeDatos.BaseDeDatos;
 import clases.Evento;
 import clases.Usuario;
@@ -192,37 +194,58 @@ public class VentanaPerfilEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		        LocalDate hoy = LocalDate.now();
+				System.out.println("Botón de cambiar contraseña presionado.");
 
-		        if(usuario.getUltimaCambioContrasena() != null) {
-		        	long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(usuario.getUltimaCambioContrasena(), hoy);
-			        System.out.println(diasDesdeUltimoCambio);
-			        if (diasDesdeUltimoCambio >= 15) {
-			            int respuesta = JOptionPane.showConfirmDialog(VentanaPerfilEntidad.this, "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
-			                    "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+		        // Verificar en la base de datos la fecha de último cambio de contraseña
+		        BaseDeDatos base = new BaseDeDatos();
+		        LocalDate ultimaCambioDesdeBD = base.obtenerUltimoCambioContrasena(usuario);
 
-			            if (respuesta == JOptionPane.YES_OPTION) {
-			                // Código para cambiar la contraseña.
-			            	String nuevaContrasena = JOptionPane.showInputDialog(VentanaPerfilEntidad.this, "Introduce la nueva contrasena");
-			            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
-			            		usuario.cambiarContrasena(nuevaContrasena);
-			            		
-			            		 // Actualizar la contraseña en la base de datos
-			                    BaseDeDatos base = new BaseDeDatos();
-			                    base.modificarUsuarioYaRegistradoContrasena(usuario);
+		        if (ultimaCambioDesdeBD != null) {
+		            LocalDate hoy = LocalDate.now();
+		            long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(ultimaCambioDesdeBD, hoy);
+		            System.out.println("Días desde el último cambio: " + diasDesdeUltimoCambio);
 
-			                    JOptionPane.showMessageDialog(VentanaPerfilEntidad.this, "Contraseña cambiada exitosamente.");			            		
-			            	}else {
-			            		JOptionPane.showMessageDialog(VentanaPerfilEntidad.this, "Error al cambiar contraseña, vuelve a intentarlo.");
-			            	}
-			                
-			            }
-			        } else {
-			            JOptionPane.showMessageDialog(VentanaPerfilEntidad.this, "La contraseña solo se puede cambiar una vez cada 15 días.");
-			        }
+		            if (diasDesdeUltimoCambio >= 15) {
+		                int respuesta = JOptionPane.showConfirmDialog(VentanaPerfilEntidad.this,
+		                        "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
+		                        "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+
+		                if (respuesta == JOptionPane.YES_OPTION) {
+		                    try {
+		                        // Código para cambiar la contraseña.
+		                        String nuevaContrasena = JOptionPane.showInputDialog(VentanaPerfilEntidad.this,
+		                                "Introduce la nueva contraseña");
+
+		                        if (nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
+		                            usuario.cambiarContrasena(nuevaContrasena);
+		                            // Hash de la nueva contraseña
+		                            String hashNuevaContrasena = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
+
+		                            // Cambiar la contraseña y actualizar la fecha en el usuario
+		                            usuario.cambiarContrasena(hashNuevaContrasena);
+		                            usuario.setUltimaCambioContrasena(LocalDate.now());
+		                            // Actualizar la contraseña y la fecha en la base de datos
+		                            base.modificarUsuarioYaRegistradoContrasena(usuario);
+
+		                            JOptionPane.showMessageDialog(VentanaPerfilEntidad.this,
+		                                    "Contraseña cambiada exitosamente.");
+		                        } else {
+		                            System.out.println("Contraseña vacía o cancelada.");
+		                        }
+		                    } catch (Exception ex) {
+		                        ex.printStackTrace();
+		                        JOptionPane.showMessageDialog(VentanaPerfilEntidad.this,
+		                                "Error al cambiar contraseña: " + ex.getMessage());
+		                    }
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(VentanaPerfilEntidad.this,
+		                        "La contraseña solo se puede cambiar una vez cada 15 días. \nDías desde el último cambio: " + diasDesdeUltimoCambio);
+		            }
+		        } else {
+		            System.out.println("No se pudo obtener la fecha de último cambio desde la base de datos.");
 		        }
-		        
-			}
+		    }
 		});
         
         JPanel panelBotones = new JPanel();

@@ -182,12 +182,17 @@ public class VentanaRegistroEntidad extends JFrame{
                     return;
                 }
             }else {
-            	String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
-            	Usuario u = new Usuario(nombre,correo,tipo,hashContrasenia, imagenP);
-    			u.setUltimaCambioContrasena(LocalDate.now());
-    			
-    			BaseDeDatos usuari = new BaseDeDatos();
-                usuari.anadirUsuarioNuevo(u);
+            	// Hash de la contraseña
+                String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
+
+                // Crear un nuevo usuario
+                Usuario u = new Usuario(nombre, correo, tipo, hashContrasenia, imagenP);
+
+                // Establecer la fecha actual como último cambio de contraseña
+                u.cambiarContrasena(cont);
+
+                BaseDeDatos.anadirUsuarioNuevo(u);
+                
                 JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
                 limpiarCampos();
                 VentanaInicio v = new VentanaInicio();

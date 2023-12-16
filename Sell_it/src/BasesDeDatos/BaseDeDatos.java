@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +62,26 @@ public class BaseDeDatos {
 				// se lanza si la tabla ya existe - no hay problema
 				logger.log(Level.INFO, "La tabla ya está creada");
 			}
+			// Añadir columna ultimocambiodecontraseña a la tabla Usuario
+		    try {
+		        com = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena TEXT";
+		        logger.log(Level.INFO, "BD: " + com);
+		        s.executeUpdate(com);
+		    } catch (SQLException e) {
+		        logger.log(Level.WARNING, "Error al agregar la columna ultimoCambioContrasena", e);
+		        e.printStackTrace();
+		    }
 			crearTablas(con);
+			
+			try {
+		        com = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena IS NULL";
+		        logger.log(Level.INFO, "BD: " + com);
+		        s.executeUpdate(com);
+		    } catch (SQLException e) {
+		        logger.log(Level.WARNING, "Error al actualizar usuarios con diasdesdeultimocambio a null", e);
+		        e.printStackTrace();
+		    }
+			
 			// Ver si existe admin
 			com = "select * from Usuario where correoUsuario = 'admin'";
 			logger.log(Level.INFO, "BD: " + com);
@@ -151,8 +172,8 @@ public class BaseDeDatos {
 			rs = s.executeQuery( com );
 			if (!rs.next()) {
 				// "insert into Usuario ( nick, pass ) values ('admin', 'admin')";
-				com = "insert into Usuario (nombreUsuario, correoUsuario, tipoUsuario, contrasena, ImagenPerfil) values ('"+ 
-						usu.getNombreUsuario() +"', '" + usu.getCorreoUsuario() +"', '" + usu.getTipoUsuario()+"', '" + usu.getContrasena()+ "', '" + usu.getImgPerfil() + "')";
+				com = "insert into Usuario (nombreUsuario, correoUsuario, tipoUsuario, contrasena, ImagenPerfil, ultimoCambioContrasena) values ('"+ 
+						usu.getNombreUsuario() +"', '" + usu.getCorreoUsuario() +"', '" + usu.getTipoUsuario()+"', '" + usu.getContrasena()+ "', '" + usu.getImgPerfil() + "', '" + usu.getUltimaCambioContrasena() +"')";
 				logger.log( Level.INFO, "BD: " + com );
 				int val = s.executeUpdate( com );
 				if (val!=1) {
@@ -337,7 +358,7 @@ public class BaseDeDatos {
 
 	public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 		//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
-		String sent = "update Usuario set contrasena = '" + secu(usu.getContrasena()) + "' where correoUsuario = '" + secu(usu.getCorreoUsuario()) + "'";
+	    String sent = "update Usuario set contrasena = '" + secu(usu.getContrasena()) + "', ultimoCambioContrasena = '" + usu.getUltimaCambioContrasena() + "' where correoUsuario = '" + secu(usu.getCorreoUsuario()) + "'";
 		logger.log(Level.INFO, "BD: " + sent);
 		try {
 			s.executeUpdate(sent);
@@ -527,7 +548,41 @@ public class BaseDeDatos {
 	    }
 	    return null;  // Devuelve null si no se encuentra el evento
 	}
+//	
+	public LocalDate obtenerUltimoCambioContrasena(Usuario usuario) {
+	    String com = "SELECT ultimoCambioContrasena FROM Usuario WHERE correoUsuario = ?";
+	    logger.log(Level.INFO, "BD: " + com);
 
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setString(1, usuario.getCorreoUsuario());
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            String fechaUltimoCambio = rs.getString("ultimoCambioContrasena");
+	         // Ajusta el formato de parseo según el formato real de tu fecha
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	            
+	         // Verificar si la cadena no es nula
+	    	    if (fechaUltimoCambio != null) {
+	    	        try {
+	    	            // Intentar parsear la cadena a LocalDate
+	    	            return LocalDate.parse(fechaUltimoCambio);
+	    	        } catch (DateTimeParseException e) {
+	    	            // Manejar la excepción (puedes imprimir un mensaje de error, log, etc.)
+	    	            e.printStackTrace();
+	    	        }
+	    	    }
+	            
+	            return LocalDate.parse(fechaUltimoCambio, formatter);	        }
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+
+	    // Si la cadena es nula o no se puede parsear, devolver un valor por defecto
+	    return LocalDate.now();
+	}
+//
 	public void marcarEntradaComoComprada(String codigoEntrada, String correoComprador) {
 	    String com = "UPDATE Entrada SET propietario_correo = ? WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
