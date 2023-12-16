@@ -58,7 +58,7 @@ public class BaseDeDatos {
 			
 			//crear tabla Usuario
 			try {				
-				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
+				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
@@ -397,6 +397,29 @@ public class BaseDeDatos {
 			e1.printStackTrace();
 		}
 	}
+	
+//	public void modificarDescripcionUsuario(String correoUsuario, String nuevaDescripcion) {
+//	    String sent = "update Usuario set descripcion = ? where correoUsuario = ?";
+//	    logger.log(Level.INFO, "BD: " + sent);
+//
+//	    try (PreparedStatement preparedStatement = con.prepareStatement(sent)) {
+//	        preparedStatement.setString(1, nuevaDescripcion);
+//	        preparedStatement.setString(2, correoUsuario);
+//
+//	        int rowsAffected = preparedStatement.executeUpdate();
+//
+//	        if (rowsAffected > 0) {
+//	            System.out.println("Descripción actualizada exitosamente.");
+//	        } else {
+//	            System.out.println("No se pudo actualizar la descripción.");
+//	        }
+//
+//	    } catch (SQLException e) {
+//	        System.out.println("Último comando: " + sent);
+//	        e.printStackTrace();
+//	    }
+//	}
+
 	
 	public void borrarUsuarioRegistrado(Usuario usu) {
 		if (!usu.getCorreoUsuario().isEmpty() && !usu.getContrasena().isEmpty()) {
