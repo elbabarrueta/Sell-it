@@ -252,16 +252,18 @@ public class VentanaPerfilUsuario extends JFrame{
 				String imagen = usuario.getImgPerfil();
 
 				// Crea un objeto Usuario con los datos actualizados
-				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen);
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, "Descipcion vacía");
 
 				String nuevaDescripcion = descriptionArea.getText();
 		        descriptionArea.setText(nuevaDescripcion);
 		        setEditableDescripcion(false);
-
-				
+		  
+		
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
+				base.modificarDescripcionUsuario(usuario, nuevaDescripcion);
+				
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
 				 // Buscar al usuario en la lista y actualizar sus datos

@@ -337,7 +337,7 @@ public class VentanaCompra extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "");
+		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
 		VentanaCompra v = new VentanaCompra(u);
 		v.setVisible(true);
 	}

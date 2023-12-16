@@ -58,7 +58,7 @@ public class BaseDeDatos {
 			
 			//crear tabla Usuario
 			try {				
-				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string)";
+				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
@@ -91,16 +91,16 @@ public class BaseDeDatos {
 			rs = s.executeQuery(com);
 			if (!rs.next()) {
 				// Añadirlo si no existe
-				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena ) values ('admin', 'admin', 'admin', 'admin')";
+				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena, descripcion ) values ('admin', 'admin', 'admin', 'admin', 'admin')";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
-				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png");
+				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
 				anadirUsuarioNuevo(moma);
-				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png");
+				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
 				anadirUsuarioNuevo(kepa);
-				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png");
+				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
 				anadirUsuarioNuevo(miguel);
-				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png");
+				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
 				anadirUsuarioNuevo(laura);
 				
 				Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/default.png", "moma@gmail.com");
@@ -398,27 +398,16 @@ public class BaseDeDatos {
 		}
 	}
 	
-//	public void modificarDescripcionUsuario(String correoUsuario, String nuevaDescripcion) {
-//	    String sent = "update Usuario set descripcion = ? where correoUsuario = ?";
-//	    logger.log(Level.INFO, "BD: " + sent);
-//
-//	    try (PreparedStatement preparedStatement = con.prepareStatement(sent)) {
-//	        preparedStatement.setString(1, nuevaDescripcion);
-//	        preparedStatement.setString(2, correoUsuario);
-//
-//	        int rowsAffected = preparedStatement.executeUpdate();
-//
-//	        if (rowsAffected > 0) {
-//	            System.out.println("Descripción actualizada exitosamente.");
-//	        } else {
-//	            System.out.println("No se pudo actualizar la descripción.");
-//	        }
-//
-//	    } catch (SQLException e) {
-//	        System.out.println("Último comando: " + sent);
-//	        e.printStackTrace();
-//	    }
-//	}
+	public void modificarDescripcionUsuario(Usuario usu, String nuevaDescripcion) {
+	    String sent = "update Usuario set descripcion = '" + secu(nuevaDescripcion) + "' where correoUsuario = '" + secu(usu.getCorreoUsuario());
+	    logger.log(Level.INFO, "BD: " + sent);
+	    try {
+	    	s.executeUpdate(sent);
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + sent);
+	        e.printStackTrace();
+	    }
+	}
 
 	
 	public void borrarUsuarioRegistrado(Usuario usu) {
@@ -472,7 +461,8 @@ public class BaseDeDatos {
             String tipoUsuario = rs.getString("tipoUsuario");
             String contrasena = rs.getString("contrasena");
             String imagenPerfil = rs.getString("imagenPerfil");
-            Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena, imagenPerfil);
+            String descripcion = rs.getString("descripcion");
+            Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena, imagenPerfil, descripcion);
 
             System.out.println("Nombre: " + nombreUsuario +
                     ", Correo: " + correoUsuario +
@@ -528,7 +518,8 @@ public class BaseDeDatos {
                 String tipoUsuario = rs.getString("tipoUsuario");
                 String contrasena = rs.getString("contrasena");
                 String imagenPerfil = rs.getString("imagenPerfil");
-                Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena, imagenPerfil);
+                String descripcion = rs.getString("descripcion");
+                Usuario usuario = new Usuario(nombreUsuario, correoUsuario, tipoUsuario, contrasena, imagenPerfil, descripcion);
                 mapaUsuarios.put(correoUsuario, usuario);
             }
 

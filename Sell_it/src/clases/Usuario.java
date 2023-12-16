@@ -16,6 +16,7 @@ public class Usuario {
 	public String tipoUsuario;
 	public String contrasena;
 	public String imgPerfil;
+	public String descripcion;
 	private List<Notificacion> notificaciones;
 
 	
@@ -76,6 +77,12 @@ public class Usuario {
 	public List<Notificacion> getNotificaciones() {
         return notificaciones;
     }
+	public final String getDescripcion() {
+		return descripcion;
+	}
+	public final void setDescripion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	
 	//
 	public Usuario() {
@@ -86,8 +93,9 @@ public class Usuario {
 		this.contrasena = " ";
 		this.imgPerfil = "Sell_it/src/imagenes/perfil.png";
         this.notificaciones = new ArrayList<>();
+        this.descripcion = " ";
 	}
-	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena, String imgPerfil) {
+	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena, String imgPerfil, String descripcion) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correoUsuario = correoUsuario;
@@ -95,12 +103,13 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.imgPerfil = imgPerfil;
         this.notificaciones = new ArrayList<>();
+        this.descripcion = descripcion;
 	}
 	//
 	@Override
 	public String toString() {
 		return "Usuario [nombreUsuario=" + nombreUsuario + ", correoUsuario="
-				+ correoUsuario + ", tipoUsuario=" + tipoUsuario +", contraseña:"+ contrasena+ "]";
+				+ correoUsuario + ", tipoUsuario=" + tipoUsuario +", contraseña:"+ contrasena+ ",  descripción: " + descripcion + "]";
 	}
 	
 	//Metodos

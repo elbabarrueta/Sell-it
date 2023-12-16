@@ -152,6 +152,7 @@ public class VentanaRegistroUsuario extends JFrame {
             String correo = txtCorreo.getText();
             String tipo = txtTipo.getText();
             String imagenP = "Sell_it/src/imagenes/perfil.png";
+            String descripcion = "Descripción vacía";
             if (nombre.equals("Nombre") || correo.equals("Correo") || contrasenia.length == 0 || confirmada.length == 0) {
                 JOptionPane.showMessageDialog(null, "Para registrarse, debe introducir datos en todas las casillas.");
                 return;
@@ -188,7 +189,7 @@ public class VentanaRegistroUsuario extends JFrame {
                 String hashContrasenia = BCrypt.hashpw(cont, BCrypt.gensalt());
 
                 // Crear un nuevo usuario
-                Usuario u = new Usuario(nombre, correo, tipo, hashContrasenia, imagenP);
+                Usuario u = new Usuario(nombre, correo, tipo, hashContrasenia, imagenP, descripcion);
 
                 // Establecer la fecha actual como último cambio de contraseña
                 u.cambiarContrasena(cont);

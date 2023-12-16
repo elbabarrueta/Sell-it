@@ -315,7 +315,7 @@ public class VentanaPerfilEntidad extends JFrame{
 				String NomNuevo = nameField.getText();
 				String imagen = usuario.getImgPerfil();
 				// Crea un objeto Usuario con los datos actualizados
-				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen);
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, "Descripcion vacía");
 
 				String nuevaDescripcion = descriptionArea.getText();
 		        descriptionArea.setText(nuevaDescripcion);
