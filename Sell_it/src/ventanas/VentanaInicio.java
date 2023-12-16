@@ -47,7 +47,7 @@ public class VentanaInicio extends JFrame {
 	private static CustomPasswordField txtContrasenia;
 	private static final long serialVersionUID = 1L;
 	static BaseDeDatos base;
-	static HashMap<String, Usuario> mapaUsu;
+	public static HashMap<String, Usuario> mapaUsu;
 
 
 	//logger de prueba

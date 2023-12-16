@@ -2,6 +2,7 @@ package src.ventanas;
 
 import java.awt.*;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,10 +16,11 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 import src.BasesDeDatos.BaseDeDatos;
-import src.clases.Entrada;
-import src.clases.Evento;
-import src.clases.Usuario;
+import src.clases.*;
+
+
 
 public class VentanaVentaEntidad extends JFrame{
 	private Usuario usuario = Main.getVentanaInicio().getUsuarioActual();
@@ -163,6 +165,8 @@ public class VentanaVentaEntidad extends JFrame{
 	                	Entrada entrada = new Entrada(cod+i, evento, null, precio);
 	                	BaseDeDatos.anadirEntradaNueva(entrada);
 	                }
+	                Notificacion notificacion = new Notificacion("Nuevo evento: " + nombre, false);
+	                Usuario.distribuirNotificacion(notificacion, usu);
 	                
 					JOptionPane.showMessageDialog(null, "Evento subido exitosamente");
 				}catch(NumberFormatException ex) {

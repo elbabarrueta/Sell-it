@@ -2,11 +2,17 @@ package src.ventanas;
 
 import javax.swing.*;
 
+
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 import src.BasesDeDatos.BaseDeDatos;
-import src.clases.Evento;
+import src.clases.*;
 import src.clases.Usuario;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -24,30 +30,36 @@ public class VentanaPerfilEntidad extends JFrame{
 	private JLabel lblFotoPerfil;
 	private JTextArea descriptionArea;
 	private ImageIcon imagenPerfil;
-
+	private JPanel contentPane;
 	
 	public VentanaPerfilEntidad(Usuario usuario) {
 		
-		this.entradasCompradas = entradasCompradas;
+		this.entradasCompradas = new ArrayList<>();
 		this.usuario = usuario;
 		ultimoCambioContrasena = LocalDate.now();
 		
-        JFrame frame = new JFrame("Perfil entidad");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-
-        // Parte superior: nombre, correo y botones de información
-        JPanel topPanel = new JPanel(new FlowLayout());
-        JLabel nameLabel = new JLabel("Nombre:");
-        JTextField nameField = new JTextField(20);
-        JLabel emailLabel = new JLabel("Correo:");
-        JTextField emailField = new JTextField(20);
-        nameField.setText(usuario.getNombreUsuario());
-		emailField.setText(usuario.getCorreoUsuario());
-		nameField.setEditable(false);
-	    emailField.setEditable(false);
-	    
+        this.setTitle("Perfil entidad");
+        this.setBounds(100, 100, 641, 484);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(6, 5, 5, 5));
+		contentPane.setLayout(null);
+        this.setContentPane(contentPane);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+//        // Parte superior: nombre, correo y botones de información
+//        JPanel topPanel = new JPanel(new FlowLayout());
+//        JLabel nameLabel = new JLabel("Nombre:");
+//        JTextField nameField = new JTextField(20);
+//        JLabel emailLabel = new JLabel("Correo:");
+//        JTextField emailField = new JTextField(20);
+//        nameField.setText(usuario.getNombreUsuario());
+//		emailField.setText(usuario.getCorreoUsuario());
+//		nameField.setEditable(false);
+//	    emailField.setEditable(false);
+        
 	    lblFotoPerfil = new JLabel();
+	    lblFotoPerfil.setBounds(38, 10, 119, 95);
+		contentPane.add(lblFotoPerfil);
 	    if(usuario.getImgPerfil() == null) {
 	        ImageIcon imagenPerfil = new ImageIcon("Sell_it/src/imagenes/perfilE.png"); // Ruta de la imagen de perfil
 	    	fotoPerfil(imagenPerfil);
@@ -57,46 +69,113 @@ public class VentanaPerfilEntidad extends JFrame{
 			usuario.setImgPerfil(rutaImg);
 			fotoPerfil(imagenPerfil);
 	    }        
-        
-        JButton botonEnVenta = new JButton("En venta");
-        JButton infoButton2 = new JButton("Valoraciones");
-        JButton infoButton3 = new JButton("Notificaciones");
-        topPanel.add(lblFotoPerfil);
-        topPanel.add(nameLabel);
-        topPanel.add(nameField);
-        topPanel.add(emailLabel);
-        topPanel.add(emailField);
-        topPanel.add(botonEnVenta);
-        topPanel.add(infoButton2);
-        topPanel.add(infoButton3);
-
-        // Parte central: descripción del usuario
-        descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
-        descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
-	    descriptionArea.setLineWrap(true);
-	    descriptionArea.setWrapStyleWord(true);
-	    descriptionArea.setEditable(true);
-
-        // Parte inferior: más botones
-        JPanel bottomPanel = new JPanel();
-        JButton botonContrasena = new JButton("Cambiar Contraseña");
-        JButton botonEditar = new JButton("Editar Perfil");
-        JButton botonCompras = new JButton("Compras");
-        JButton botonVentanaP = new JButton("Ventana Principal");
-        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
-        //Personalizar la letra del boton
-        Font font = new Font("Montserrat", Font.BOLD, 14);
-        botonVentanaP.setFont(font);
-        
-        bottomPanel.add(botonContrasena);
-        bottomPanel.add(botonEditar);
-        bottomPanel.add(botonCompras);
-        bottomPanel.add(botonVentanaP);
-
-        frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(descriptionScrollPane, BorderLayout.CENTER);
-        frame.add(bottomPanel, BorderLayout.SOUTH);
+        	    		
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNombre.setBounds(38, 115, 84, 49);
+		contentPane.add(lblNombre);
+		
+		JLabel lblCorreo = new JLabel("Correo:");
+		lblCorreo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblCorreo.setBounds(38, 165, 73, 28);
+		contentPane.add(lblCorreo);
+		
+		JTextField nameField = new JTextField();
+		nameField.setBounds(117, 127, 195, 30);
+		contentPane.add(nameField);
+		nameField.setColumns(10);
+		
+		JTextField txtCorreo = new JTextField();
+		txtCorreo.setBounds(117, 163, 195, 30);
+		contentPane.add(txtCorreo);
+		txtCorreo.setColumns(10);
+		
+		nameField.setText(usuario.getNombreUsuario());
+		txtCorreo.setText(usuario.getCorreoUsuario());
+		nameField.setEditable(false);
+		txtCorreo.setEditable(false);
+		
+		JButton buttonContrasena = new JButton("Cambiar Contraseña");
+		buttonContrasena.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		buttonContrasena.setBounds(38, 256, 167, 30);
+		contentPane.add(buttonContrasena);
+		
+		JButton botonEditar = new JButton("Editar Perfil");
+		botonEditar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		botonEditar.setBounds(38, 216, 167, 30);
+		contentPane.add(botonEditar);
+		
+		JButton botonCompras = new JButton("Mis compras");
+		botonCompras.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		botonCompras.setBounds(382, 78, 167, 28);
+		contentPane.add(botonCompras);
+		
+		JButton botonVentanaP = new JButton("Volver");
+		botonVentanaP.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		botonVentanaP.setBounds(464, 399, 140, 28);
+		contentPane.add(botonVentanaP);
+		
+		JTextArea descriptionArea = new JTextArea();
+		descriptionArea.setWrapStyleWord(true);
+		descriptionArea.setLineWrap(true);
+		descriptionArea.setText("Ingresa información util sobre ti para completar tu perfil en la aplicación");
+		descriptionArea.setBounds(232, 210, 372, 179);
+		contentPane.add(descriptionArea);
+		
+		JButton botonEnVenta = new JButton("Articulos En Venta");
+		botonEnVenta.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		botonEnVenta.setBounds(382, 115, 167, 30);
+		contentPane.add(botonEnVenta);
+		
+		JButton btnNotificaciones = new JButton("Notificaciones");
+		btnNotificaciones.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnNotificaciones.setBounds(382, 40, 167, 30);
+		contentPane.add(btnNotificaciones);
+		
+		JButton btnValoraciones = new JButton("Valoraciones");
+		btnValoraciones.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnValoraciones.setBounds(382, 155, 167, 28);
+		contentPane.add(btnValoraciones);
+	    
+//        JButton botonEnVenta = new JButton("En venta");
+//        JButton infoButton2 = new JButton("Valoraciones");
+//        JButton infoButton3 = new JButton("Notificaciones");
+//        topPanel.add(lblFotoPerfil);
+//        topPanel.add(nameLabel);
+//        topPanel.add(nameField);
+//        topPanel.add(emailLabel);
+//        topPanel.add(emailField);
+//        topPanel.add(botonEnVenta);
+//        topPanel.add(infoButton2);
+//        topPanel.add(infoButton3);
+//
+//        // Parte central: descripción del usuario
+//        descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+//        descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
+//        JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
+//	    descriptionArea.setLineWrap(true);
+//	    descriptionArea.setWrapStyleWord(true);
+//	    descriptionArea.setEditable(true);
+//
+//        // Parte inferior: más botones
+//        JPanel bottomPanel = new JPanel();
+//        JButton botonContrasena = new JButton("Cambiar Contraseña");
+//        JButton botonEditar = new JButton("Editar Perfil");
+//        JButton botonCompras = new JButton("Compras");
+//        JButton botonVentanaP = new JButton("Ventana Principal");
+//        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
+//        //Personalizar la letra del boton
+//        Font font = new Font("Montserrat", Font.BOLD, 14);
+//        botonVentanaP.setFont(font);
+//        
+//        bottomPanel.add(botonContrasena);
+//        bottomPanel.add(botonEditar);
+//        bottomPanel.add(botonCompras);
+//        bottomPanel.add(botonVentanaP);
+//
+//        frame.add(topPanel, BorderLayout.NORTH);
+//        frame.add(descriptionScrollPane, BorderLayout.CENTER);
+//        frame.add(bottomPanel, BorderLayout.SOUTH);
 
         // Agregar acción al botón de información 1
         botonEnVenta.addActionListener(new ActionListener() {
@@ -110,48 +189,73 @@ public class VentanaPerfilEntidad extends JFrame{
         botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				VentanaPerfilEntidad.this.dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
 			}
 		});
         
-        botonContrasena.addActionListener(new ActionListener() {
+        buttonContrasena.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		        LocalDate hoy = LocalDate.now();
+				System.out.println("Botón de cambiar contraseña presionado.");
 
-		        if(usuario.getUltimaCambioContrasena() != null) {
-		        	long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(usuario.getUltimaCambioContrasena(), hoy);
-			        System.out.println(diasDesdeUltimoCambio);
-			        if (diasDesdeUltimoCambio >= 15) {
-			            int respuesta = JOptionPane.showConfirmDialog(frame, "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
-			                    "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+		        // Verificar en la base de datos la fecha de último cambio de contraseña
+		        BaseDeDatos base = new BaseDeDatos();
+		        LocalDate ultimaCambioDesdeBD = base.obtenerUltimoCambioContrasena(usuario);
 
-			            if (respuesta == JOptionPane.YES_OPTION) {
-			                // Código para cambiar la contraseña.
-			            	String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
-			            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
-			            		usuario.cambiarContrasena(nuevaContrasena);
-			            		
-			            		 // Actualizar la contraseña en la base de datos
-			                    BaseDeDatos base = new BaseDeDatos();
-			                    base.modificarUsuarioYaRegistradoContrasena(usuario);
+		        if (ultimaCambioDesdeBD != null) {
+		            LocalDate hoy = LocalDate.now();
+		            long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(ultimaCambioDesdeBD, hoy);
+		            System.out.println("Días desde el último cambio: " + diasDesdeUltimoCambio);
 
-			                    JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");			            		
-			            	}else {
-			            		JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
-			            	}
-			                
-			            }
-			        } else {
-			            JOptionPane.showMessageDialog(frame, "La contraseña solo se puede cambiar una vez cada 15 días.");
-			        }
+		            if (diasDesdeUltimoCambio >= 15) {
+		                int respuesta = JOptionPane.showConfirmDialog(VentanaPerfilEntidad.this,
+		                        "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
+		                        "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+
+		                if (respuesta == JOptionPane.YES_OPTION) {
+		                    try {
+		                        // Código para cambiar la contraseña.
+		                        String nuevaContrasena = JOptionPane.showInputDialog(VentanaPerfilEntidad.this,
+		                                "Introduce la nueva contraseña");
+
+		                        if (nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
+		                            usuario.cambiarContrasena(nuevaContrasena);
+		                            // Hash de la nueva contraseña
+		                            String hashNuevaContrasena = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
+
+		                            // Cambiar la contraseña y actualizar la fecha en el usuario
+		                            usuario.cambiarContrasena(hashNuevaContrasena);
+		                            usuario.setUltimaCambioContrasena(LocalDate.now());
+		                            // Actualizar la contraseña y la fecha en la base de datos
+		                            base.modificarUsuarioYaRegistradoContrasena(usuario);
+
+		                            JOptionPane.showMessageDialog(VentanaPerfilEntidad.this,
+		                                    "Contraseña cambiada exitosamente.");
+		                        } else {
+		                            System.out.println("Contraseña vacía o cancelada.");
+		                        }
+		                    } catch (Exception ex) {
+		                        ex.printStackTrace();
+		                        JOptionPane.showMessageDialog(VentanaPerfilEntidad.this,
+		                                "Error al cambiar contraseña: " + ex.getMessage());
+		                    }
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(VentanaPerfilEntidad.this,
+		                        "La contraseña solo se puede cambiar una vez cada 15 días. \nDías desde el último cambio: " + diasDesdeUltimoCambio);
+		            }
+		        } else {
+		            System.out.println("No se pudo obtener la fecha de último cambio desde la base de datos.");
 		        }
-		        
-			}
+		    }
 		});
         
+        JPanel panelBotones = new JPanel();
+        panelBotones.setBounds(38, 296, 167, 141);
+		contentPane.add(panelBotones);
+		
         JButton botonGuardarCambios = new JButton("Guardar cambios");
 	    botonGuardarCambios.setVisible(false);
 	    botonGuardarCambios.setBackground(Color.gray);
@@ -165,11 +269,11 @@ public class VentanaPerfilEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nameField.setEditable(true);
-	            setEditableDescripcion(true);
+				descriptionArea.setEditable(true);
 	            botonCambiarFoto.setVisible(true);
 	            // Quitamos botones para que no haya demasiados a la vez
 	            botonVentanaP.setVisible(false);
-	            botonContrasena.setVisible(false);
+	            buttonContrasena.setVisible(false);
 	            botonEditar.setVisible(false);
 	            botonCompras.setVisible(false);
 	            // Después de editar, habilitamos el botón "Guardar Cambios"
@@ -184,7 +288,7 @@ public class VentanaPerfilEntidad extends JFrame{
 				JFileChooser chooser = new JFileChooser();
 	            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos imagen (.jpg, .png)", "jpg", "png");
 	            chooser.setFileFilter(filtro);
-	            int result = chooser.showOpenDialog(frame);
+	            int result = chooser.showOpenDialog(VentanaPerfilEntidad.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = chooser.getSelectedFile();
 	                String rutaImg = selectedFile.getAbsolutePath();
@@ -199,7 +303,7 @@ public class VentanaPerfilEntidad extends JFrame{
 	                BaseDeDatos base = new BaseDeDatos();
 	                base.modificarUsuarioImagenPerfil(usuario);
 	            }else {
-            		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
+            		JOptionPane.showMessageDialog(VentanaPerfilEntidad.this, "Error al cambiar imagen, vuelve a intentarlo.");
 	            }
 			}
 		});
@@ -215,11 +319,13 @@ public class VentanaPerfilEntidad extends JFrame{
 
 				String nuevaDescripcion = descriptionArea.getText();
 		        descriptionArea.setText(nuevaDescripcion);
-		        setEditableDescripcion(false);
+		        descriptionArea.setEditable(false);
 				
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
-				base.modificarUsuarioYaRegistrado(usuario);
+//				base.modificarUsuarioYaRegistrado(usuario);
+				base.modificarUsuarioYaRegistrado(usuarioActualizado);
+
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
 				 // Buscar al usuario en la lista y actualizar sus datos
@@ -236,20 +342,16 @@ public class VentanaPerfilEntidad extends JFrame{
 				botonCambiarFoto.setVisible(false);
 				// Volvemos a poner los botones
 				botonVentanaP.setVisible(true);
-	            botonContrasena.setVisible(true);
+				buttonContrasena.setVisible(true);
 	            botonEditar.setVisible(true);
 	            botonCompras.setVisible(true);
 			}
 		});
-	    bottomPanel.add(botonGuardarCambios);
-        bottomPanel.add(botonCambiarFoto);
+	    panelBotones.add(botonGuardarCambios);
+        panelBotones.add(botonCambiarFoto);
 
-        frame.pack();
-        frame.setVisible(true);
+        this.setVisible(true);
         
-	}
-	private void setEditableDescripcion(boolean editable) {
-		descriptionArea.setEditable(editable);
 	}
 	private List<String> obtenerNotificaciones() {
 		   

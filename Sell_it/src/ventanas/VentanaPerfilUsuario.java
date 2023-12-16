@@ -2,11 +2,16 @@ package src.ventanas;
 
 import javax.swing.*;
 
+
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 import src.BasesDeDatos.BaseDeDatos;
 import src.clases.Usuario;
+import src.clases.Notificacion;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -131,62 +136,58 @@ public class VentanaPerfilUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		        LocalDate hoy = LocalDate.now();
-		    //    LocalDate ultimaCambio = LocalDate.of(2023, 10, 10);
-		        
-		        if(usuario.getUltimaCambioContrasena() != null) {
-		        	long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(usuario.getUltimaCambioContrasena(), hoy);
-			        System.out.println(diasDesdeUltimoCambio);
-			        if (diasDesdeUltimoCambio >= 15) {
-			            int respuesta = JOptionPane.showConfirmDialog(frame, "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
-			                    "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+				System.out.println("Botón de cambiar contraseña presionado.");
 
-			            
-			            if (respuesta == JOptionPane.YES_OPTION) {
-			                // Código para cambiar la contraseña.
-			                String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
-			                if (nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
-			                    usuario.cambiarContrasena(nuevaContrasena);
+		        // Verificar en la base de datos la fecha de último cambio de contraseña
+		        BaseDeDatos base = new BaseDeDatos();
+		        LocalDate ultimaCambioDesdeBD = base.obtenerUltimoCambioContrasena(usuario);
 
-			                    // Actualizar la contraseña en la base de datos
-			                    BaseDeDatos base = new BaseDeDatos();
-			                    base.modificarUsuarioYaRegistradoContrasena(usuario);
+		        if (ultimaCambioDesdeBD != null) {
+		            LocalDate hoy = LocalDate.now();
+		            long diasDesdeUltimoCambio = ChronoUnit.DAYS.between(ultimaCambioDesdeBD, hoy);
+		            System.out.println("Días desde el último cambio: " + diasDesdeUltimoCambio);
 
-			                    JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");
-			                			                    
-			                } else {
-			                    JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
-			                }
-			            }
-/*
-			            if (respuesta == JOptionPane.YES_OPTION) {
-			                // Código para cambiar la contraseña.
-			            	String nuevaContrasena = JOptionPane.showInputDialog(frame, "Introduce la nueva contrasena");
-			            	if(nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
-			            		usuario.cambiarContrasena(nuevaContrasena);
-			           // 		ultimaCambio = LocalDate.now(); // Actualizar la fecha
-			            		
-//			            		String nuevoNombre = nameField.getText();
-//			     		        String nuevoCorreo = emailField.getText();
-//			    		        Usuario usuarioActualizado = new Usuario(nuevoNombre, nuevoCorreo, "tipoUsuario", nuevaContrasena);
-//			    		        
-//			    		        BaseDeDatos.main(null);
-//			    				BaseDeDatos base = new BaseDeDatos();
-//			    				base.modificarUsuarioYaRegistrado(usuarioActualizado);
-		            		
-			            		JOptionPane.showMessageDialog(frame, "Contraseña cambiada exitosamente.");   
-			            	}else {
-			            		JOptionPane.showMessageDialog(frame, "Error al cambiar contraseña, vuelve a intentarlo.");
-			            	}
-			                
-			            }
-			            
-	*/		        } else {
-			            JOptionPane.showMessageDialog(frame, "La contraseña solo se puede cambiar una vez cada 15 días.");
-			        }
+		            if (diasDesdeUltimoCambio >= 15) {
+		                int respuesta = JOptionPane.showConfirmDialog(VentanaPerfilUsuario.this,
+		                        "La contraseña se cambió hace más de 15 días. ¿Seguro que deseas cambiarla ahora?",
+		                        "Confirmación de Cambio de Contraseña", JOptionPane.YES_NO_OPTION);
+
+		                if (respuesta == JOptionPane.YES_OPTION) {
+		                    try {
+		                        // Código para cambiar la contraseña.
+		                        String nuevaContrasena = JOptionPane.showInputDialog(VentanaPerfilUsuario.this,
+		                                "Introduce la nueva contraseña");
+
+		                        if (nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
+		                            usuario.cambiarContrasena(nuevaContrasena);
+		                            // Hash de la nueva contraseña
+		                            String hashNuevaContrasena = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
+
+		                            // Cambiar la contraseña y actualizar la fecha en el usuario
+		                            usuario.cambiarContrasena(hashNuevaContrasena);
+		                            usuario.setUltimaCambioContrasena(LocalDate.now());
+		                            // Actualizar la contraseña y la fecha en la base de datos
+		                            base.modificarUsuarioYaRegistradoContrasena(usuario);
+
+		                            JOptionPane.showMessageDialog(VentanaPerfilUsuario.this,
+		                                    "Contraseña cambiada exitosamente.");
+		                        } else {
+		                            System.out.println("Contraseña vacía o cancelada.");
+		                        }
+		                    } catch (Exception ex) {
+		                        ex.printStackTrace();
+		                        JOptionPane.showMessageDialog(VentanaPerfilUsuario.this,
+		                                "Error al cambiar contraseña: " + ex.getMessage());
+		                    }
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(VentanaPerfilUsuario.this,
+		                        "La contraseña solo se puede cambiar una vez cada 15 días. \nDías desde el último cambio: " + diasDesdeUltimoCambio);
+		            }
+		        } else {
+		            System.out.println("No se pudo obtener la fecha de último cambio desde la base de datos.");
 		        }
-	
-			}
+		    }
 		});
 	    
 	    JButton botonGuardarCambios = new JButton("Guardar cambios");
@@ -303,18 +304,16 @@ public class VentanaPerfilUsuario extends JFrame{
 	    infoButton3.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-	    		// Simulemos que aquí se obtienen notificaciones del sistema o de otros usuarios.
-	    		List<String> notificaciones = obtenerNotificaciones();
-
-	    		// Construir un mensaje de notificación a partir de las notificaciones.
-	    		StringBuilder notificacionMessage = new StringBuilder();
-	    		notificacionMessage.append("Notificaciones:\n");
-	    		for (String notificacion : notificaciones) {
-	    			notificacionMessage.append("- ").append(notificacion).append("\n");
-	    		}
-
-        
-	    		JOptionPane.showMessageDialog(frame, notificacionMessage.toString(), "Notificaciones", JOptionPane.INFORMATION_MESSAGE);
+//	    		// Simulemos que aquí se obtienen notificaciones del sistema o de otros usuarios.
+//	    		List<String> notificaciones = obtenerNotificaciones();
+//
+//	    		// Construir un mensaje de notificación a partir de las notificaciones.
+//	    		StringBuilder notificacionMessage = new StringBuilder();
+//	    		notificacionMessage.append("Notificaciones:\n");
+//	    		for (String notificacion : notificaciones) {
+//	    			notificacionMessage.append("- ").append(notificacion).append("\n");
+//	    		}
+	    		mostrarNotificaciones();
 	    	}
 	    });
 	    
@@ -326,14 +325,34 @@ public class VentanaPerfilUsuario extends JFrame{
 		descriptionArea.setEditable(editable);
 	}
 	
-	private List<String> obtenerNotificaciones() {
-	   
-	    List<String> notificaciones = new ArrayList<>();
-	    notificaciones.add("Nueva oferta para tu producto.");
-	    notificaciones.add("¡Has vendido un artículo!");
-	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
-	    return notificaciones;
-	}
+//	private List<String> obtenerNotificaciones() {
+//	   
+//	    List<String> notificaciones = new ArrayList<>();
+//	    notificaciones.add("Nueva oferta para tu producto.");
+//	    notificaciones.add("¡Has vendido un artículo!");
+//	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
+//	    return notificaciones;
+//	}
+	private void mostrarNotificaciones() {
+    	usuario.cargarNotificacionesDesdeBD();
+        List<Notificacion> notificaciones = usuario.getNotificaciones();
+        StringBuilder notificacionMessage = new StringBuilder();
+        notificacionMessage.append("Notificaciones:\n");
+        for (Notificacion notificacion : notificaciones) {
+        	if(notificacion.isLeido() == false) {
+                notificacionMessage.append("- ").append(notificacion.getMensaje()).append("\n");
+        	}
+        }
+        JOptionPane.showMessageDialog(this, notificacionMessage.toString(), "Notificaciones", JOptionPane.INFORMATION_MESSAGE);
+        
+        for (Notificacion notificacion : notificaciones) {
+        	if (notificacion.isLeido() == false) {
+                notificacion.setLeido(true);
+                int id = notificacion.getId();
+                Main.getVentanaInicio().base.marcarLeidoBD(id, usuario.getCorreoUsuario());
+            }
+       }
+    }
 	
 	private void fotoPerfil(ImageIcon imagenPerfil) {
         int maxWidth = 100; // Tamaño máximo de ancho
