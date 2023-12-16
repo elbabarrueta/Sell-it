@@ -1,4 +1,4 @@
-package clases;
+package src.clases;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
