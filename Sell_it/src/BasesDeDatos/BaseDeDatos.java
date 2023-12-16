@@ -58,7 +58,7 @@ public class BaseDeDatos {
 			
 			//crear tabla Usuario
 			try {				
-				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string)";
+				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
 			} catch (SQLException e) {
@@ -357,7 +357,6 @@ public class BaseDeDatos {
 			}
 			return listaEntrada;
 		}
-		
 
 	public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 		//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
