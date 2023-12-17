@@ -297,7 +297,8 @@ public class VentanaPrincipal extends JFrame{
 		        // Mostrar imagen a la derecha
 		        lblImagen = new JLabel();
 		        cargarImagen(rutaImagen);
-		        lblImagen.setBounds(0, 0, 252, 182);
+//		        lblImagen.setBounds(0, 0, 252, 182);
+		        lblImagen.setBounds(0,0,300,200);
 				layeredPane.add(lblImagen);
 		    }
 

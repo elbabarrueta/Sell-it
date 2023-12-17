@@ -68,7 +68,7 @@ public class BaseDeDatos {
 			}
 			// Añadir columna ultimocambiodecontraseña a la tabla Usuario
 		    try {
-		        com = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena TEXT";
+		        com = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string";
 		        logger.log(Level.INFO, "BD: " + com);
 		        s.executeUpdate(com);
 		    } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class BaseDeDatos {
 			crearTablas(con);
 			
 			try {
-		        com = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena IS NULL";
+		        com = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'";
 		        logger.log(Level.INFO, "BD: " + com);
 		        s.executeUpdate(com);
 		    } catch (SQLException e) {
@@ -104,49 +104,49 @@ public class BaseDeDatos {
 				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
 				anadirUsuarioNuevo(laura);
 				
-				Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/default.png", "moma@gmail.com");
+				Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/melendi.png", "moma@gmail.com");
 				anadirEventoNuevo(e1);
 				int cod = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e1.getnEntradas(); i++) {
                 	Entrada entrada = new Entrada(cod+i, e1, null, 25);
                 	anadirEntradaNueva(entrada);
                 }
-				Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/default.png",null);
+				Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg",null);
 				anadirEventoNuevo(e2);
 				int cod2 = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e2.getnEntradas(); i++) {
                 	Entrada entrada = new Entrada(cod2+i, e2, null, 20.5);
                 	anadirEntradaNueva(entrada);
                 }
-				Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/default.png",null);
+				Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png",null);
 				anadirEventoNuevo(e3);
 				int cod3 = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e3.getnEntradas(); i++) {
                 	Entrada entrada = new Entrada(cod3+i, e3, null, 10.2);
                 	anadirEntradaNueva(entrada);
                 }
-				Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/default.png",null);
+				Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg",null);
 				anadirEventoNuevo(e4);
 				int cod4 = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e4.getnEntradas(); i++) {
                 	Entrada entrada = new Entrada(cod4+i, e4, null, 15);
                 	anadirEntradaNueva(entrada);
                 }
-				Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/default.png",null);
+				Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg",null);
 				anadirEventoNuevo(e5);
 				int cod5 = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e5.getnEntradas(); i++) {
                 	Entrada entrada = new Entrada(cod5+i, e5, null, 30);
                 	anadirEntradaNueva(entrada);
                 }
-				Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/default.png", null);
+				Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", null);
 				anadirEventoNuevo(e6);
 				int cod6 = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e6.getnEntradas(); i++) {
                 	Entrada entrada = new Entrada(cod6+i, e6, null, 12);
                 	anadirEntradaNueva(entrada);
                 }
-				Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/default.png", null);
+				Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", null);
 				anadirEventoNuevo(e7);
 				int cod7 = VentanaVentaEntidad.obtenerCod();
                 for(int i=0; i<e7.getnEntradas(); i++) {
@@ -583,7 +583,7 @@ public class BaseDeDatos {
 	    	    if (fechaUltimoCambio != null) {
 	    	        try {
 	    	            // Intentar parsear la cadena a LocalDate
-	    	            return LocalDate.parse(fechaUltimoCambio);
+	    	            return LocalDate.parse(fechaUltimoCambio, formatter);
 	    	        } catch (DateTimeParseException e) {
 	    	            // Manejar la excepción (puedes imprimir un mensaje de error, log, etc.)
 	    	            e.printStackTrace();
