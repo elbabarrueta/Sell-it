@@ -400,7 +400,7 @@ public class BaseDeDatos {
 	}
 	
 	public void modificarDescripcionUsuario(Usuario usu, String nuevaDescripcion) {
-	    String sent = "update Usuario set descripcion = '" + secu(nuevaDescripcion) + "' where correoUsuario = '" + secu(usu.getCorreoUsuario());
+	    String sent = "update Usuario set descripcion= '" + nuevaDescripcion + "' where correoUsuario= '" + secu(usu.getCorreoUsuario());
 	    logger.log(Level.INFO, "BD: " + sent);
 	    try {
 	    	s.executeUpdate(sent);

@@ -316,12 +316,9 @@ public class VentanaPerfilEntidad extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String NomNuevo = nameField.getText();
 				String imagen = usuario.getImgPerfil();
+				String descripcion = descriptionArea.getText();
 				// Crea un objeto Usuario con los datos actualizados
-				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, "Descripcion vacía");
-
-				String nuevaDescripcion = descriptionArea.getText();
-		        descriptionArea.setText(nuevaDescripcion);
-		        descriptionArea.setEditable(false);
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, descripcion);
 				
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
