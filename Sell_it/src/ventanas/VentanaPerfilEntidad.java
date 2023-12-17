@@ -1,4 +1,4 @@
-package src.ventanas;
+package ventanas;
 
 import javax.swing.*;
 
