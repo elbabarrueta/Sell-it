@@ -1,4 +1,4 @@
-package src.ventanas;
+package ventanas;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import src.clases.Entrada;
-import src.clases.Evento;
-import src.clases.Usuario;
+import clases.Entrada;
+import clases.Evento;
+import clases.Usuario;
 
 public class VentanaEvento extends JFrame{
 	

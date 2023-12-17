@@ -1,9 +1,8 @@
-package src.ventanas;
+package ventanas;
 import javax.swing.*;
-
 import javax.swing.table.AbstractTableModel;
 
-import src.clases.Evento;
+import clases.Evento;
 
 import java.awt.*;
 import java.util.ArrayList;

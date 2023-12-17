@@ -1,7 +1,6 @@
-package src.ventanas;
+package ventanas;
 
 import java.awt.*;
-
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +14,9 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.painter.MattePainter;
 
-import src.clases.Entrada;
-import src.clases.Evento;
-import src.clases.Usuario;
+import clases.Entrada;
+import clases.Evento;
+import clases.Usuario;
 
 
 

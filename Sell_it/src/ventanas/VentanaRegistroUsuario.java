@@ -1,7 +1,6 @@
-package src.ventanas;
+package ventanas;
 
 import java.awt.BorderLayout;
-
 
 
 
@@ -38,9 +37,9 @@ import javax.swing.text.JTextComponent;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import src.BasesDeDatos.BaseDeDatos;
-import src.clases.Datos;
-import src.clases.Usuario;
+import BasesDeDatos.BaseDeDatos;
+import clases.Datos;
+import clases.Usuario;
 
 public class VentanaRegistroUsuario extends JFrame {
 	

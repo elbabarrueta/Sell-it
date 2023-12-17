@@ -1,8 +1,6 @@
-package src.ventanas;
+package ventanas;
 
 import java.awt.*;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,11 +14,13 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import BasesDeDatos.BaseDeDatos;
+import clases.*;
 
-import src.BasesDeDatos.BaseDeDatos;
-import src.clases.*;
-
-
+import BasesDeDatos.BaseDeDatos;
+import clases.Entrada;
+import clases.Evento;
+import clases.Usuario;
 
 public class VentanaVentaEntidad extends JFrame{
 	private Usuario usuario = Main.getVentanaInicio().getUsuarioActual();

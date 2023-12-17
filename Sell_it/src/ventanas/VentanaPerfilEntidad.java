@@ -1,18 +1,20 @@
-package src.ventanas;
+package ventanas;
 
 import javax.swing.*;
 
 
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-
-import src.BasesDeDatos.BaseDeDatos;
-import src.clases.*;
-import src.clases.Usuario;
+import BasesDeDatos.BaseDeDatos;
+import clases.*;
+import clases.Usuario;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import BasesDeDatos.BaseDeDatos;
+import clases.Evento;
+import clases.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;

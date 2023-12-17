@@ -1,17 +1,17 @@
-package src.ventanas;
+package ventanas;
 
 import javax.swing.*;
 
 
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-
-import src.BasesDeDatos.BaseDeDatos;
-import src.clases.Usuario;
-import src.clases.Notificacion;
+import BasesDeDatos.BaseDeDatos;
+import clases.Usuario;
+import clases.Notificacion;
 
 import org.mindrot.jbcrypt.BCrypt;
+import BasesDeDatos.BaseDeDatos;
+import clases.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;

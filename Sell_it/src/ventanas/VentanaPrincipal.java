@@ -1,7 +1,6 @@
-package src.ventanas;
+package ventanas;
 
 import java.awt.*;
-
 
 
 import java.awt.event.ActionEvent;
@@ -27,10 +26,10 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
-import src.BasesDeDatos.BaseDeDatos;
-import src.clases.Evento;
-import src.clases.JLabelGrafico;
-import src.clases.Usuario;
+import BasesDeDatos.BaseDeDatos;
+import clases.Evento;
+import clases.JLabelGrafico;
+import clases.Usuario;
 
 public class VentanaPrincipal extends JFrame{
 

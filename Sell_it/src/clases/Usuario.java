@@ -1,13 +1,14 @@
-package src.clases;
+package clases;
 
 import java.time.LocalDate;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import src.BasesDeDatos.BaseDeDatos;
-import src.ventanas.Main;
+import BasesDeDatos.BaseDeDatos;
+import ventanas.Main;
 //Vamos a añadir un usuario admin
 public class Usuario {
 	//Hay que cambiar los atributos
