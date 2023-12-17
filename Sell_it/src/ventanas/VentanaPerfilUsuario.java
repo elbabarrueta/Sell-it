@@ -3,6 +3,7 @@ package ventanas;
 import javax.swing.*;
 
 
+
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import BasesDeDatos.BaseDeDatos;
@@ -250,19 +251,15 @@ public class VentanaPerfilUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String NomNuevo = nameField.getText();
 				String imagen = usuario.getImgPerfil();
-
-				// Crea un objeto Usuario con los datos actualizados
-				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, "Descipcion vacía");
-
 				String nuevaDescripcion = descriptionArea.getText();
-		        descriptionArea.setText(nuevaDescripcion);
-		        setEditableDescripcion(false);
+				// Crea un objeto Usuario con los datos actualizados
+				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, nuevaDescripcion);
 		  
 		
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
-				base.modificarDescripcionUsuario(usuario, nuevaDescripcion);
+				base.modificarDescripcionUsuario(usuarioActualizado, nuevaDescripcion);
 				
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
