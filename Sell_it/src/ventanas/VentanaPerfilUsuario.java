@@ -87,7 +87,8 @@ public class VentanaPerfilUsuario extends JFrame{
 	    topPanel.add(infoButton3);
 
 	    // Parte central: descripción del usuario
-	    descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+//	    descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
+	    descriptionArea = new JTextArea(usuario.getDescripcion());
 	    descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
 	    descriptionArea.setLineWrap(true);
@@ -252,6 +253,7 @@ public class VentanaPerfilUsuario extends JFrame{
 				String NomNuevo = nameField.getText();
 				String imagen = usuario.getImgPerfil();
 				String nuevaDescripcion = descriptionArea.getText();
+				System.out.println(nuevaDescripcion);
 				// Crea un objeto Usuario con los datos actualizados
 				Usuario usuarioActualizado = new Usuario(NomNuevo, usuario.getCorreoUsuario(), "tipoUsuario", usuario.getContrasena(), imagen, nuevaDescripcion);
 		  
@@ -259,7 +261,8 @@ public class VentanaPerfilUsuario extends JFrame{
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
-				base.modificarDescripcionUsuario(usuarioActualizado, nuevaDescripcion);
+//				base.modificarDescripcionUsuario(usuarioActualizado, nuevaDescripcion);
+				base.modificarDescripcionUsuario(usuarioActualizado);
 				
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				

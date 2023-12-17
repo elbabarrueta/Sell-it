@@ -95,13 +95,13 @@ public class BaseDeDatos {
 				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena, descripcion ) values ('admin', 'admin', 'admin', 'admin', 'admin')";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
-				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
+				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png", "null");
 				anadirUsuarioNuevo(moma);
-				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
+				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png", "null");
 				anadirUsuarioNuevo(kepa);
-				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
+				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png", "null");
 				anadirUsuarioNuevo(miguel);
-				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "Descripcion vacía");
+				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "null");
 				anadirUsuarioNuevo(laura);
 				
 				Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/melendi.png", "moma@gmail.com");
@@ -372,17 +372,12 @@ public class BaseDeDatos {
 	}
 	public void modificarUsuarioYaRegistrado(Usuario usu) {		
 		String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+  "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
-	//	String sentCorreo = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+ "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
 		logger.log(Level.INFO, "BD: " + sent);
-	//	logger.log(Level.INFO, "BD: " + sentCorreo);
 	
 		try {
 			s.executeUpdate(sent);
-	//		s.executeUpdate(sentCorreo);
 		} catch (SQLException e1) {
-			logger.log(Level.WARNING, sent, e1);
-	//		logger.log(Level.WARNING, sentCorreo, e1);
-	
+			logger.log(Level.WARNING, sent, e1);	
 			e1.printStackTrace();
 		}
 	}
@@ -399,8 +394,18 @@ public class BaseDeDatos {
 		}
 	}
 	
-	public void modificarDescripcionUsuario(Usuario usu, String nuevaDescripcion) {
-	    String sent = "update Usuario set descripcion= '" + nuevaDescripcion + "' where correoUsuario= '" + secu(usu.getCorreoUsuario());
+//	public void modificarDescripcionUsuario(Usuario usu, String nuevaDescripcion) {
+//	    String sent = "update Usuario set descripcion= '" + nuevaDescripcion + "' where correoUsuario= '" + secu(usu.getCorreoUsuario());
+//	    logger.log(Level.INFO, "BD: " + sent);
+//	    try {
+//	    	s.executeUpdate(sent);
+//	    } catch (SQLException e) {
+//	        System.out.println("Último comando: " + sent);
+//	        e.printStackTrace();
+//	    }
+//	}
+	public void modificarDescripcionUsuario(Usuario usu) {
+	    String sent = "update Usuario set descripcion= '" + usu.getDescripcion() + "' where correoUsuario= '" + secu(usu.getCorreoUsuario())+"'";
 	    logger.log(Level.INFO, "BD: " + sent);
 	    try {
 	    	s.executeUpdate(sent);
