@@ -39,6 +39,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	private LocalDate ultimoCambioContrasena;
 	private List<String> entradasCompradas;
 	private JButton btnMisCompras;
+	private JButton btnEnVenta;
 	
 	public VentanaPerfilUsuario(Usuario usuario, List<String> entradasCompradas) {
 		
@@ -104,6 +105,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JButton buttonProductosCompados = new JButton("Mis compras");
         JButton botonVentanaP = new JButton("Ventana Principal");
         btnMisCompras = new JButton("Mis Compras");
+        btnEnVenta = new JButton("En Venta");
         
         botonVentanaP.setBackground(Color.LIGHT_GRAY);        
         //Personalizar la letra del boton
@@ -143,6 +145,20 @@ public class VentanaPerfilUsuario extends JFrame{
 				frame.dispose();
 				VentanaEntradasCompradas v1 = new VentanaEntradasCompradas(entradasCompradas);
 				v1.setVisible(true);
+			}
+		});
+	    
+	    btnEnVenta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				VentanaReventaUsuario v2 = new VentanaReventaUsuario(usuario);
+				v2.setVisible(true);
+				
+				
+				
+				
 			}
 		});
 	    
