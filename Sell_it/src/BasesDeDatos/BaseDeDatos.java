@@ -431,6 +431,29 @@ public class BaseDeDatos {
 			JOptionPane.showMessageDialog( null, "Debes rellenar los dos campos" );
 		}
 	}
+	public void borrarEvento(Evento evento) {
+	    if (evento != null) {
+	        String com = "DELETE FROM Evento WHERE codigo = ?";
+	        logger.log(Level.INFO, "BD: " + com);
+
+	        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	            preparedStatement.setInt(1, evento.getCodigo());
+
+	            int rowsAffected = preparedStatement.executeUpdate();
+
+	            if (rowsAffected > 0) {
+	                System.out.println("Evento eliminado exitosamente.");
+	            } else {
+	                System.out.println("No se encontró el evento o no se pudo eliminar.");
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Error al ejecutar la consulta: " + com);
+	            e.printStackTrace();
+	        }
+	    } else {
+	        System.out.println("El evento proporcionado es nulo.");
+	    }
+	}
 	
 	public void cerrarConexiones() {
 		try {
