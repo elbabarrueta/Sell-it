@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import BasesDeDatos.BaseDeDatos;
 import ventanas.Main;
 //Vamos a añadir un usuario admin
@@ -117,7 +119,10 @@ public class Usuario {
 	public void cambiarContrasena(String nuevaContrasena) {
         // Código para cambiar la contraseña
         ultimaCambioContrasena = LocalDate.now();
-		this.contrasena = nuevaContrasena;
+        // Hash de la nueva contraseña
+        String hashNuevaContrasena = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
+        // Almacenar la contraseña encriptada
+		this.contrasena = hashNuevaContrasena;
     }
 	
 	public void agregarNotificacion(Notificacion notificacion) {

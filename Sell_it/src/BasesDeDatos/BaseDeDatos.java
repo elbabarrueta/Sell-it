@@ -72,8 +72,7 @@ public class BaseDeDatos {
 		        logger.log(Level.INFO, "BD: " + com);
 		        s.executeUpdate(com);
 		    } catch (SQLException e) {
-		        logger.log(Level.WARNING, "Error al agregar la columna ultimoCambioContrasena", e);
-		        e.printStackTrace();
+		        logger.log(Level.INFO, "La columna ya esta creada");
 		    }
 			crearTablas(con);
 			
