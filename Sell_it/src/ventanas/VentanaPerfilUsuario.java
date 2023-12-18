@@ -206,6 +206,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 		        // Restablece la edición de los campos
 				nameField.setEditable(true);
+				descriptionArea.setEditable(true);
 		        setEditableDescripcion(true);
 	            botonCambiarFoto.setVisible(true);
 	            // Quitamos botones para que no haya demasiados a la vez

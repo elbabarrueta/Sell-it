@@ -118,6 +118,7 @@ public class VentanaPerfilEntidad extends JFrame{
 		contentPane.add(botonVentanaP);
 		
 		JTextArea descriptionArea = new JTextArea();
+		descriptionArea.setEditable(false);
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setLineWrap(true);
 		descriptionArea.setText("Ingresa información util sobre ti para completar tu perfil en la aplicación");
@@ -324,7 +325,7 @@ public class VentanaPerfilEntidad extends JFrame{
 				BaseDeDatos base = new BaseDeDatos();
 //				base.modificarUsuarioYaRegistrado(usuario);
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
-
+				base.modificarDescripcionUsuario(usuarioActualizado);
 /*				
 // hacer algo asi pero con el MAPA de USUARIOS				
 				 // Buscar al usuario en la lista y actualizar sus datos
