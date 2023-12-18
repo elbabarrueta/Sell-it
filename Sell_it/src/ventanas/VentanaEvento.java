@@ -23,7 +23,13 @@ public class VentanaEvento extends JFrame{
 		setSize(600, 500);
 		setLocationRelativeTo(null);
 		setTitle("Entrada");
-		setLayout(new GridLayout(2,2));
+		setLayout(new BorderLayout());
+		//setLayout(new GridLayout(2,2));
+		
+		
+		JPanel pnlCentral = new JPanel();
+		pnlCentral.setLayout(new GridLayout(2,2));
+		this.add(pnlCentral, BorderLayout.CENTER);
 		
 		JPanel pImagen = new JPanel();
 		lImagen = new JLabel();
@@ -36,7 +42,7 @@ public class VentanaEvento extends JFrame{
             setImagen(imagen);
 	    } 
 		pImagen.add(lImagen);
-        this.add(pImagen);
+        pnlCentral.add(pImagen);
 		
         JButton btnComprar = new JButton("Comprar");
 		JPanel pEvento = new JPanel(new GridLayout(4,1));
@@ -48,7 +54,7 @@ public class VentanaEvento extends JFrame{
 		pEvento.add(lUbicacion);
 		JLabel lNumEntradas = new JLabel(String.valueOf(e.getnEntradas()));
 		pEvento.add(lNumEntradas);
-		this.add(pEvento);
+		pnlCentral.add(pEvento);
 		
 		JPanel pDesc = new JPanel();
 		JLabel lDesc = new JLabel("Detalles del evento:");
@@ -59,7 +65,7 @@ public class VentanaEvento extends JFrame{
 		taDesc.setWrapStyleWord(true); 
 		pDesc.add(lDesc);
 		pDesc.add(taDesc);
-		this.add(pDesc);
+		pnlCentral.add(pDesc);
 		
 		
 		JPanel pCantidad = new JPanel(new GridLayout(4,1));
@@ -70,7 +76,19 @@ public class VentanaEvento extends JFrame{
 		pCantidad.add(lPrecio);
 		JLabel lTotal = new JLabel();
 		pCantidad.add(lTotal);
-		this.add(pCantidad);
+		pnlCentral.add(pCantidad);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		this.add(btnVolver, BorderLayout.SOUTH);
+		
+		btnVolver.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					VentanaEvento.this.dispose();
+					VentanaPrincipal v = new VentanaPrincipal();
+				}
+			});
 		
 		btnComprar.addActionListener(new ActionListener() {
 		    @Override
