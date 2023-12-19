@@ -431,27 +431,18 @@ public class BaseDeDatos {
 			JOptionPane.showMessageDialog( null, "Debes rellenar los dos campos" );
 		}
 	}
-	public void borrarEvento(Evento evento) {
-	    if (evento != null) {
-	        String com = "DELETE FROM Evento WHERE codigo = ?";
-	        logger.log(Level.INFO, "BD: " + com);
 
-	        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
-	            preparedStatement.setInt(1, evento.getCodigo());
+	public void borrarEvento(int codigo) {
+	    String url = "jdbc:sqlite:usuarios.db";
 
-	            int rowsAffected = preparedStatement.executeUpdate();
+	    try (Connection connection = DriverManager.getConnection(url);
+	         Statement statement = connection.createStatement()) {
 
-	            if (rowsAffected > 0) {
-	                System.out.println("Evento eliminado exitosamente.");
-	            } else {
-	                System.out.println("No se encontró el evento o no se pudo eliminar.");
-	            }
-	        } catch (SQLException e) {
-	            System.out.println("Error al ejecutar la consulta: " + com);
-	            e.printStackTrace();
-	        }
-	    } else {
-	        System.out.println("El evento proporcionado es nulo.");
+	        String query = "DELETE FROM Evento WHERE codigo = " + codigo;
+	        statement.executeUpdate(query);
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
 	    }
 	}
 	

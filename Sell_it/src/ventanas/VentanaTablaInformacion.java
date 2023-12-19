@@ -18,13 +18,16 @@ public class VentanaTablaInformacion extends JFrame {
 	private JTable tablaInfo;
     private MiTableModel modeloInfo;
     private BaseDeDatos bdatos;
+	private Usuario usuario;
 
-    public VentanaTablaInformacion(List<Evento> eventos) {
+
+    public VentanaTablaInformacion(List<Evento> eventos, Usuario usuario) {
         setTitle("Informacion sobre Eventos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 400);
         setLocationRelativeTo(null);
-        
+		this.usuario = usuario;
+
         modeloInfo = new MiTableModel();
         tablaInfo = new JTable(modeloInfo);
 
@@ -48,12 +51,8 @@ public class VentanaTablaInformacion extends JFrame {
 					// Obtén el código del evento de la fila seleccionada
 		            int codigoEvento = (int) tablaInfo.getValueAt(filaSel, 0);
 
-		         // Create an Evento object with the obtained codigo
-		            Evento eventoAEliminar = new Evento();
-//		            eventoAEliminar.setCodigo(codigoEvento);
-
 		            // Remove the event from the database
-		            bdatos.borrarEvento(eventoAEliminar);
+		            bdatos.borrarEvento(codigoEvento);
 
 		            // Remove the row from the table model
 		            modeloInfo.removeRow(filaSel);
@@ -77,9 +76,10 @@ public class VentanaTablaInformacion extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Repinta la tabla
-		        modeloInfo.setDatos(eventos);
-	            tablaInfo.repaint();
+				 // Cerrar la ventana actual
+		        dispose();
+		        VentanaPerfilEntidad.mostrarEventosEnVentaDelUsuario(usuario);
+		        
 				
 			}
 		});
@@ -111,8 +111,15 @@ public class VentanaTablaInformacion extends JFrame {
         public int getColumnCount() {
             return 7; // Ajusta esto según la cantidad de columnas en tu modelo de Evento
         }
-
-        @Override
+//
+        private final String[] cabeceras = { "codigo", "nombre", "desc", "fecha", "ubicacion", "nEntradas", "rutaImg", "creador"};
+		@Override
+		public String getColumnName(int columnIndex) {
+			System.out.println( "getColumnName " + columnIndex );
+			return cabeceras[columnIndex];
+		}
+ // 
+		@Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             if (datos == null || rowIndex < 0 || rowIndex >= datos.size()) {
                 return null;
@@ -121,7 +128,7 @@ public class VentanaTablaInformacion extends JFrame {
             Evento evento = datos.get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    return evento.obtenerCodFromDB();
+                    return evento.getCodigo();
                 case 1:
                     return evento.getNombre();
                 case 2:
