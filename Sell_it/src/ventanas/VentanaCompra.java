@@ -16,11 +16,14 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXLabel;
 
+import clases.Entrada;
+import clases.Evento;
 import clases.Usuario;
 
 public class VentanaCompra extends JFrame{
 	
 	private Usuario usuario;
+	private Entrada ent;
 	
 	//Componentes de la ventana
 	private JTextField tfNombre;
@@ -38,13 +41,20 @@ public class VentanaCompra extends JFrame{
     private int tiempoRestante;
     private JXBusyLabel busyLabel;
     private JXErrorPane errorPane;
+    private VentanaEvento vEvento;
+
+	private int cantidadCompra;
 	
-	public VentanaCompra(Usuario usuario) {
+	public VentanaCompra(Usuario usuario, int cantidadCompra) {
 		this.usuario = usuario;
+		this.cantidadCompra = cantidadCompra;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(700, 500);
 		setLocationRelativeTo(null);
 		setTitle("Compra de entrada");
+		
+		//Obtenemos el evento al que hacemos referencia
+		Evento eventoActual = vEvento.getEvento();
 		
 		//Creamos los paneles principales
 		JPanel pCentral = new JPanel(new GridLayout(2,1));
@@ -199,13 +209,31 @@ public class VentanaCompra extends JFrame{
 		});
 		
 		JXLabel lTotal = new JXLabel();
-        lTotal.setText("<html><h2>TOTAL: €</h2></html>");
+		this.cantidadCompra = (int) (cantidadCompra*ent.getPrecio());
+        lTotal.setText("<html><h2>TOTAL: "+ cantidadCompra + "€</h2></html>");
         pTiempo.add(lTotal);
 		
 		
 		//Panel Confirmar
-		JButton bConfirmar = new JButton("CONFIRMAR COMPRA");
+		JButton bConfirmar = new JButton("Confirmar compra");
+		bConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		pConfirmar.add(bConfirmar);
+		
+		JButton bVolver = new JButton("Volver");
+		bVolver.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pConfirmar.add(bVolver);
+		
+		bVolver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				 busyLabel.setBusy(false);
+				 VentanaCompra.this.dispose();
+				 VentanaEvento ve = new VentanaEvento(eventoActual);
+				 ve.setVisible(true);
+			}
+		});
 		
 		bConfirmar.addActionListener(new ActionListener() {
 			@Override
@@ -279,6 +307,10 @@ public class VentanaCompra extends JFrame{
 		}else {
 			timer.stop();
 			JOptionPane.showMessageDialog(null, "Límite de tiempo excedido. Por favor, inténtalo de nuevo", "Tiempo agotado", JOptionPane.ERROR_MESSAGE);
+			VentanaCompra.this.dispose();
+			Evento eventoActual = vEvento.getEvento();
+			VentanaEvento ve = new VentanaEvento(eventoActual);
+			ve.setVisible(true);
 		}
 	}
 	
@@ -338,7 +370,7 @@ public class VentanaCompra extends JFrame{
 	
 	public static void main(String[] args) {
 		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
-		VentanaCompra v = new VentanaCompra(u);
+		VentanaCompra v = new VentanaCompra(u, 0);
 		v.setVisible(true);
 	}
 

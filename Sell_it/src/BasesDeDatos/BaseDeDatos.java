@@ -740,6 +740,27 @@ public class BaseDeDatos {
 	    }
 	}
 	
+	//metodo para obtener el precio
+	public static double obtenerPrecioEntrada(int codigoEntrada) {
+        double precio = 0;
+
+        // Utiliza el código de la entrada para obtener el precio
+        String com = "SELECT precio FROM Entrada WHERE codigo = " + codigoEntrada;
+
+        try {
+            ResultSet resultSet = s.executeQuery(com);
+
+            if (resultSet.next()) {
+                precio = resultSet.getDouble("precio");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el precio de la entrada.");
+            e.printStackTrace();
+        }
+
+        return precio;
+    }
+	
 // Esto seria para marcar la entrada como comprada
 //	String codigoEntrada = "tu_codigo_de_entrada";
 //	String correoComprador = "correo_del_comprador";

@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Entrada {
+public class Entrada{
 	//Atributos
 	private static int cod; //codigo unico
 //	private String desc;
@@ -64,6 +64,15 @@ public class Entrada {
 		this.propietario = propietario;
 		this.precio = precio;
 	}
+	
+	public Entrada() {
+        super();
+        this.cod = 0; // Puedes establecer el valor predeterminado que desees
+        this.eventoAsociado = null; // Puedes establecer el valor predeterminado que desees
+        this.propietario = null; // Puedes establecer el valor predeterminado que desees
+        this.precio = 0.0; // Puedes establecer el valor predeterminado que desees
+    }
+	
 	
 	@Override
 	public String toString() {

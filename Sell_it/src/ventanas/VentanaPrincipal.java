@@ -41,11 +41,12 @@ public class VentanaPrincipal extends JFrame{
 	    private JXSearchField searchField;
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
+	    private Usuario usuario;
 		
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 		
 	    public VentanaPrincipal(){
-			
+			//usuario = this.usuario;
 	    	baseDeDatos = new BaseDeDatos();
 	    	cargarEventosDesdeBD();
 	    	

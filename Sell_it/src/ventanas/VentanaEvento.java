@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
 import clases.Usuario;
@@ -15,17 +16,26 @@ public class VentanaEvento extends JFrame{
 	private JTextField tfCantidad = new JTextField(); //Se puede cambiar por un JComboBox 
 	private JLabel lImagen;
 	private JLabel lNombre;//Telmo(lo he puesto aqui para obtener el no)
-	private VentanaCompra ventanaCompra;
-	
+//	private VentanaCompra ventanaCompra;
+	private Evento eventoActual;
+	private Entrada ent;
 	
 	public VentanaEvento(Evento e) {
+		
+		this.eventoActual = e;
+		
+		VentanaInicio ventanaI = Main.getVentanaInicio();
+		Usuario usuActual = ventanaI.getUsuarioActual();
+		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(e.getCodigo());
+		ent = new Entrada(e.getCodigo(), e, usuActual, precioEntrada);
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
 		setTitle("Entrada");
 		setLayout(new BorderLayout());
 		//setLayout(new GridLayout(2,2));
-		
+
 		
 		JPanel pnlCentral = new JPanel();
 		pnlCentral.setLayout(new GridLayout(2,2));
@@ -67,46 +77,61 @@ public class VentanaEvento extends JFrame{
 		pDesc.add(taDesc);
 		pnlCentral.add(pDesc);
 		
+	     
 		
 		JPanel pCantidad = new JPanel(new GridLayout(4,1));
 		JLabel lCantidad = new JLabel("Cantidad:");
 		pCantidad.add(lCantidad);
 		pCantidad.add(tfCantidad);
-		JLabel lPrecio = new JLabel("Precio Total:");
+		JLabel lPrecio = new JLabel("Precio por cada entrada: " + ent.getPrecio() + "€");
 		pCantidad.add(lPrecio);
 		JLabel lTotal = new JLabel();
 		pCantidad.add(lTotal);
 		pnlCentral.add(pCantidad);
 		
+		JPanel pnlBotones = new JPanel();
+		this.add(pnlBotones, BorderLayout.SOUTH);
+		pnlBotones.setLayout(new FlowLayout());
+		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		this.add(btnVolver, BorderLayout.SOUTH);
+		pnlBotones.add(btnVolver);
+		
+		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		pnlBotones.add(btnComprar);
 		
 		btnVolver.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					VentanaEvento.this.dispose();
 					VentanaPrincipal v = new VentanaPrincipal();
+					v.setVisible(true);
 				}
 			});
 		
 		btnComprar.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
+		    	
+		    	VentanaInicio ventanaI = Main.getVentanaInicio();
+				Usuario usuActual = ventanaI.getUsuarioActual();
+				
 		        try {
 		            
 		            int cantidadComprar = Integer.parseInt(tfCantidad.getText());
 		            int entradasDisponibles = Integer.parseInt(lNumEntradas.getText());
-
 		            
 		            if (cantidadComprar <= entradasDisponibles) {
 		                
-		                ventanaCompra.setVisible(true);
+		            	VentanaEvento.this.dispose();
+						VentanaCompra vc = new VentanaCompra(usuActual, cantidadComprar);
+						vc.setVisible(true);
+						
 		            } else {
 		                
 		                JOptionPane.showMessageDialog(VentanaEvento.this,
-		                        "Error",
-		                         "no hay suficientes entradas", JOptionPane.ERROR_MESSAGE);
+		                        "No hay suficientes entradas",
+		                         "Error", JOptionPane.ERROR_MESSAGE);
 		            }
 		        } catch (NumberFormatException ex) {
 		            
@@ -117,10 +142,6 @@ public class VentanaEvento extends JFrame{
 		    }
 		});
 
-	    
-		
-		
-		
 	}
 	
 	public void setImagen(ImageIcon imagen) {
@@ -143,6 +164,10 @@ public class VentanaEvento extends JFrame{
 	
 	public JLabel getNombreEvento() { //Telmo
 		return lNombre;
+	}
+	
+	public Evento getEvento() {
+		return this.eventoActual;
 	}
 
 }
