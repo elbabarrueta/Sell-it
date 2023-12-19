@@ -272,6 +272,7 @@ public class BaseDeDatos {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
+            	int codigo = rs.getInt("codigo");
                 String nombre = rs.getString("nombre");
                 String desc = rs.getString("desc");
                 String fecha = rs.getString("fecha");
@@ -280,16 +281,16 @@ public class BaseDeDatos {
                 String rutaImg = rs.getString("rutaImg");
                 String creador = rs.getString("creador");
 
-                Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
+                Evento evento = new Evento(codigo, nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
                 eventosEnVenta.add(evento);
+
             }
 
         } catch (SQLException e) {
             System.out.println("Último comando: " + com);
             e.printStackTrace();
         }
-
-        return eventosEnVenta;
+        return eventosEnVenta;        
     }
 	
 	//Devuelve una lista con los eventos de la tabla Eventos

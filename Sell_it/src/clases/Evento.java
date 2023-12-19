@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class Evento {
 	//Atributos
-	public static int codigo = obtenerCod();
+	public int codigo;
 	private String nombre;
 	private String desc;
 	private String fecha;
@@ -85,6 +85,17 @@ public class Evento {
 		this.rutaImg = rutaImg;
 		this.creador = creador;
 	}
+	public Evento(int codigo, String nombre, String desc, String fecha, String ubicacion, int nEntradas, String rutaImg, String creador) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.desc = desc;
+		this.fecha = fecha;
+		this.ubicacion = ubicacion;
+		this.nEntradas = nEntradas;
+		this.rutaImg = rutaImg;
+		this.creador = creador;
+	}
 	public Evento() {
 		super();
 		this.codigo = obtenerCod();
@@ -99,7 +110,7 @@ public class Evento {
 	
 	@Override
 	public String toString() {
-		return "Evento [nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", ubicacion=" + ubicacion
+		return "Evento [codigo=" + codigo + ", nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", ubicacion=" + ubicacion
 				+ ", nEntradas=" + nEntradas + ", creador=" + creador;
 	}
 	

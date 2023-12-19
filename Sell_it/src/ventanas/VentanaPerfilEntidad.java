@@ -121,7 +121,7 @@ public class VentanaPerfilEntidad extends JFrame{
 		descriptionArea.setEditable(false);
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setLineWrap(true);
-		descriptionArea.setText(usuario.getDescripcion());
+		descriptionArea.setText("Ingresa información util sobre ti para completar tu perfil en la aplicación");
 		descriptionArea.setBounds(232, 210, 372, 179);
 		contentPane.add(descriptionArea);
 		

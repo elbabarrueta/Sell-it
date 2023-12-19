@@ -121,7 +121,7 @@ public class VentanaTablaInformacion extends JFrame {
             Evento evento = datos.get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    return evento.obtenerCodFromDB();
+                    return evento.getCodigo();
                 case 1:
                     return evento.getNombre();
                 case 2:
