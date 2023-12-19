@@ -24,6 +24,7 @@ public class VentanaCompra extends JFrame{
 	
 	private Usuario usuario;
 	private Entrada ent;
+	private Evento evento;
 	
 	//Componentes de la ventana
 	private JTextField tfNombre;
@@ -42,12 +43,13 @@ public class VentanaCompra extends JFrame{
     private JXBusyLabel busyLabel;
     private JXErrorPane errorPane;
     private VentanaEvento vEvento;
-
 	private int cantidadCompra;
 	
-	public VentanaCompra(Usuario usuario, int cantidadCompra) {
+	public VentanaCompra(Usuario usuario, int cantidadCompra, VentanaEvento vEvento, Entrada entrada) {
+	    this.vEvento = vEvento;
 		this.usuario = usuario;
 		this.cantidadCompra = cantidadCompra;
+		this.ent = entrada;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(700, 500);
 		setLocationRelativeTo(null);
@@ -209,8 +211,8 @@ public class VentanaCompra extends JFrame{
 		});
 		
 		JXLabel lTotal = new JXLabel();
-		this.cantidadCompra = (int) (cantidadCompra*ent.getPrecio());
-        lTotal.setText("<html><h2>TOTAL: "+ cantidadCompra + "€</h2></html>");
+		int precioTotal = (int) (cantidadCompra*ent.getPrecio());
+        lTotal.setText("<html><h2>TOTAL: "+ precioTotal + "€</h2></html>");
         pTiempo.add(lTotal);
 		
 		
@@ -370,7 +372,7 @@ public class VentanaCompra extends JFrame{
 	
 	public static void main(String[] args) {
 		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
-		VentanaCompra v = new VentanaCompra(u, 0);
+		VentanaCompra v = new VentanaCompra(u, 0, null, null);
 		v.setVisible(true);
 	}
 

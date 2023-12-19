@@ -110,7 +110,8 @@ public class VentanaEvento extends JFrame{
 			});
 		
 		btnComprar.addActionListener(new ActionListener() {
-		    @Override
+
+			@Override
 		    public void actionPerformed(ActionEvent e) {
 		    	
 		    	VentanaInicio ventanaI = Main.getVentanaInicio();
@@ -124,7 +125,7 @@ public class VentanaEvento extends JFrame{
 		            if (cantidadComprar <= entradasDisponibles) {
 		                
 		            	VentanaEvento.this.dispose();
-						VentanaCompra vc = new VentanaCompra(usuActual, cantidadComprar);
+						VentanaCompra vc = new VentanaCompra(usuActual, cantidadComprar, VentanaEvento.this, ent);
 						vc.setVisible(true);
 						
 		            } else {
