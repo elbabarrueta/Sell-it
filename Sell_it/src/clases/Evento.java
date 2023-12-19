@@ -3,13 +3,16 @@ package clases;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Evento {
 	//Atributos
-	public int codigo;
+//	public int codigo;
+//	public static int codigo = obtenerCod();
+	private int codigo;
 	private String nombre;
 	private String desc;
 	private String fecha;
@@ -134,24 +137,26 @@ public class Evento {
         }
         return ultimoCodigo + 1;
     }
-	public int obtenerCodFromDB() {
-	    int codigoFromDB = 0;
-
-	    String url = "jdbc:sqlite:usuarios.db";
-
-	    try (Connection connection = DriverManager.getConnection(url);
-	         Statement statement = connection.createStatement()) {
-
-	        String query = "SELECT MAX(codigo) AS ultimoCodigo FROM Evento";
-	        ResultSet resultSet = statement.executeQuery(query);
-
-	        if (resultSet.next()) {
-	            codigoFromDB = resultSet.getInt("ultimoCodigo");
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return codigoFromDB;
-	}
+//	public int obtenerCodFromDB(Evento evento) {
+//	    int codigoFromDB = 0;
+//
+//	    String url = "jdbc:sqlite:usuarios.db";
+//
+//	    try (Connection connection = DriverManager.getConnection(url);
+//	    	PreparedStatement preparedStatement = connection.prepareStatement("SELECT codigo FROM Evento WHERE tu_columna_clave = ?")) {
+//
+//	    	// Suponiendo que tu_columna_clave es el nombre de la columna que identifica de manera única tus eventos.
+//	        preparedStatement.setInt(1, evento.getCodigo());
+//
+//	        ResultSet resultSet = preparedStatement.executeQuery();
+//
+//	        if (resultSet.next()) {
+//	            codigoFromDB = resultSet.getInt("codigo");
+//	        }
+//
+//	    } catch (SQLException e) {
+//	        e.printStackTrace();
+//	    }
+//	    return codigoFromDB;
+//	}
 }

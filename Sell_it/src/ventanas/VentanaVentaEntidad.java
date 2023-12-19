@@ -93,7 +93,7 @@ public class VentanaVentaEntidad extends JFrame{
 		pCentral.add(lFotoDefault);		
 		
 		//Panel Inferior
-		JButton bSubir = new JButton("Subir entrada");
+		JButton bSubir = new JButton("Subir evento");
 		pInferior.add(bSubir, BorderLayout.EAST);
 		JButton bVprincipal = new JButton("Ventana Principal");
 		pInferior.add(bVprincipal, BorderLayout.WEST);

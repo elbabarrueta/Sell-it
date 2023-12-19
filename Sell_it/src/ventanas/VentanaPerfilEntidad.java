@@ -381,12 +381,12 @@ public class VentanaPerfilEntidad extends JFrame{
         lblFotoPerfil.setIcon(imagenPerfil);
 	}
 	
-	private void mostrarEventosEnVentaDelUsuario(Usuario usuario) {
+	public static void mostrarEventosEnVentaDelUsuario(Usuario usuario) {
 		// Obtén eventos en venta del usuario
         List<Evento> eventosEnVentaDelUsuario = BaseDeDatos.obtenerEventosEnVentaDelUsuario(usuario);
 
         // Muestra la ventana con los eventos en venta del usuario
-        VentanaTablaInformacion ventanaTabla = new VentanaTablaInformacion(eventosEnVentaDelUsuario);
+        VentanaTablaInformacion ventanaTabla = new VentanaTablaInformacion(eventosEnVentaDelUsuario, usuario);
         ventanaTabla.setVisible(true);
     }
 	
