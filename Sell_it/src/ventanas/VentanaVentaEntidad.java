@@ -9,10 +9,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.jdesktop.swingx.JXDatePicker;
 
 import BasesDeDatos.BaseDeDatos;
 import clases.*;
@@ -27,7 +32,7 @@ public class VentanaVentaEntidad extends JFrame{
 	
 	private JTextField tfNombre = new JTextField();
 	private JTextField tfDesc = new JTextField();
-	private JTextField tfFecha = new JTextField();
+	private JXDatePicker datePicker = new JXDatePicker();
 	private JTextField tfUbicacion = new JTextField();
 	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
@@ -65,7 +70,7 @@ public class VentanaVentaEntidad extends JFrame{
 		
 		JLabel lFecha = new JLabel("Fecha del evento");
 		pCentral.add(lFecha);
-		pCentral.add(tfFecha);
+		pCentral.add(datePicker);
 		
 		JLabel lUbicacion = new JLabel("Ubicación");
 		pCentral.add(lUbicacion);
@@ -135,8 +140,14 @@ public class VentanaVentaEntidad extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String nombre = tfNombre.getText();
 				String desc = tfDesc.getText();
-				String fecha = tfFecha.getText();
-				String ubicacion = tfUbicacion.getText();
+//				String fecha = tfFecha.getText();
+				
+				Date selectedDate = datePicker.getDate();
+				// Format the date as a string (adjust the format as needed)
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		        String fecha = dateFormat.format(selectedDate);
+				
+		        String ubicacion = tfUbicacion.getText();
 				//ArrayList<Entrada> entradas = new ArrayList<Entrada>();
 				String cantText = tfCant.getText();
 		        String precioText = tfPrecio.getText();
@@ -147,6 +158,10 @@ public class VentanaVentaEntidad extends JFrame{
 				
 				if (nombre.isEmpty() || desc.isEmpty() || fecha.isEmpty() || ubicacion.isEmpty() || cantText.isEmpty() || precioText.isEmpty()) {
 		            JOptionPane.showMessageDialog(null, "Por favor, completa todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+		            return;
+		        }
+				if (!isDateInFuture(selectedDate)) {
+		            JOptionPane.showMessageDialog(null, "La fecha del evento debe ser en el futuro", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
 				try {
@@ -172,7 +187,7 @@ public class VentanaVentaEntidad extends JFrame{
 				}catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Ingresa valores válidos para la cantidad y el precio", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-								
+				dispose();				
 			}
 		});
 		
@@ -182,6 +197,15 @@ public class VentanaVentaEntidad extends JFrame{
 	private String obtenerRutaImagenPorDefecto() {
 	    // Coloca la ruta correcta de tu imagen por defecto
 	    return "Sell_it/src/imagenes/default.png";
+	}
+	private boolean isDateInFuture(Date date) {
+	    try {
+	        Date currentDate = new Date();
+	        return date.after(currentDate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false; // Handle the exception as needed
+	    }
 	}
 	public static int obtenerCod() {
 		int ultimoCodigo = 0;

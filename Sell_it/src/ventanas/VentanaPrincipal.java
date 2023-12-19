@@ -239,7 +239,7 @@ public class VentanaPrincipal extends JFrame{
 			        
 			        if (pnlActual != null) {
 			        	Mipanel panel = new Mipanel(evento);
-			        	panel.setPreferredSize(new Dimension(100, 255));
+			        	panel.setPreferredSize(new Dimension(350, 300));
 			            pnlActual.add(panel);
 			            numCol++;
 			        }
@@ -270,20 +270,16 @@ public class VentanaPrincipal extends JFrame{
 		        
 		        JLabel lblNombre = new JLabel(titulo);
 				lblNombre.setForeground(Color.BLACK);
-				lblNombre.setFont(new Font("Eras Demi ITC", Font.PLAIN, 14));
-				lblNombre.setBounds(10, 147, 208, 34);
+				lblNombre.setFont(new Font("Eras Demi ITC", Font.PLAIN, 16));
+				lblNombre.setBounds(10, 235, 331, 34);
 				add(lblNombre);
 				
 				JLabel lblFecha = new JLabel(fecha);
 				lblFecha.setForeground(Color.BLACK);
-				lblFecha.setFont(new Font("Eras Demi ITC", Font.PLAIN, 10));
-				lblFecha.setBounds(10, 127, 208, 34);
+				lblFecha.setFont(new Font("Eras Demi ITC", Font.PLAIN, 12));
+				lblFecha.setBounds(10, 215, 331, 34);
 				add(lblFecha);
 				
-				JLayeredPane layeredPane = new JLayeredPane();
-				layeredPane.setForeground(Color.BLACK);
-				layeredPane.setBounds(0, 0, 252, 182);
-				add(layeredPane);
 		        
 //		        JLabel lblTitulo = new JLabel(titulo, JLabel.CENTER);
 //		        add(lblTitulo, BorderLayout.NORTH);
@@ -298,8 +294,8 @@ public class VentanaPrincipal extends JFrame{
 		        lblImagen = new JLabel();
 		        cargarImagen(rutaImagen);
 //		        lblImagen.setBounds(0, 0, 252, 182);
-		        lblImagen.setBounds(0,0,300,200);
-				layeredPane.add(lblImagen);
+		        lblImagen.setBounds(10, 14, 331, 204);
+				add(lblImagen);
 		    }
 
 		    private void cargarImagen(String rutaImagen) {
@@ -330,8 +326,8 @@ public class VentanaPrincipal extends JFrame{
 		}
 		
 		private static  void fotoPerfil(ImageIcon imagenPerfil) {
-	        int maxWidth = 100; // Tamaño máximo de ancho
-	        int maxHeight = 100; // Tamaño máximo de alto
+	        int maxWidth = 330; // Tamaño máximo de ancho
+	        int maxHeight = 200; // Tamaño máximo de alto
 	        int newWidth, newHeight;
 	        Image img = imagenPerfil.getImage();
 	        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {

@@ -123,4 +123,24 @@ public class Evento {
         }
         return ultimoCodigo + 1;
     }
+	public int obtenerCodFromDB() {
+	    int codigoFromDB = 0;
+
+	    String url = "jdbc:sqlite:usuarios.db";
+
+	    try (Connection connection = DriverManager.getConnection(url);
+	         Statement statement = connection.createStatement()) {
+
+	        String query = "SELECT MAX(codigo) AS ultimoCodigo FROM Evento";
+	        ResultSet resultSet = statement.executeQuery(query);
+
+	        if (resultSet.next()) {
+	            codigoFromDB = resultSet.getInt("ultimoCodigo");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return codigoFromDB;
+	}
 }
