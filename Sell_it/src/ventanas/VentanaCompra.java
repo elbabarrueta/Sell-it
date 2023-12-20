@@ -240,6 +240,7 @@ public class VentanaCompra extends JFrame{
 		bConfirmar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				confirmarCompra();
 			}
 		});
@@ -317,6 +318,7 @@ public class VentanaCompra extends JFrame{
 	}
 	
 	private void confirmarCompra() {
+		
 //		if(tfNombre.getText().equals("")|| tfCorreo.getText().equals("") || tfTfno.getText().equals("") || tfNtarjeta.getText().equals("") || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
 //            JOptionPane.showMessageDialog(null, "Para confirmar la comra debe introducir todos los datos.");
 //            return;
