@@ -27,6 +27,7 @@ public class VentanaTablaInformacion extends JFrame {
         setSize(800, 400);
         setLocationRelativeTo(null);
 		this.usuario = usuario;
+		this.bdatos = new BasesDeDatos.BaseDeDatos(); // Ajusta esto según tu lógica de inicialización
 
         modeloInfo = new MiTableModel();
         tablaInfo = new JTable(modeloInfo);
@@ -50,12 +51,17 @@ public class VentanaTablaInformacion extends JFrame {
 				if (filaSel >= 0) {
 					// Obtén el código del evento de la fila seleccionada
 		            int codigoEvento = (int) tablaInfo.getValueAt(filaSel, 0);
+		            // Muestra un mensaje de confirmación
+		            int opcion = JOptionPane.showConfirmDialog(VentanaTablaInformacion.this,
+		                    "¿Seguro que quieres borrar este evento? Si aceptas, el evento dejara de estar en venta", "Confirmar borrado",
+		                    JOptionPane.YES_NO_OPTION);
+		            if (opcion == JOptionPane.YES_OPTION) {
+		                // Remove the event from the database
+		                bdatos.borrarEvento(codigoEvento);
 
-		            // Remove the event from the database
-		            bdatos.borrarEvento(codigoEvento);
-
-		            // Remove the row from the table model
-		            modeloInfo.removeRow(filaSel);
+		                // Remove the row from the table model
+		                modeloInfo.removeRow(filaSel);
+		            }
 		            
 				}
 			}
@@ -111,14 +117,12 @@ public class VentanaTablaInformacion extends JFrame {
         public int getColumnCount() {
             return 7; // Ajusta esto según la cantidad de columnas en tu modelo de Evento
         }
-//
         private final String[] cabeceras = { "codigo", "nombre", "desc", "fecha", "ubicacion", "nEntradas", "rutaImg", "creador"};
 		@Override
 		public String getColumnName(int columnIndex) {
-			System.out.println( "getColumnName " + columnIndex );
+//			System.out.println( "getColumnName " + columnIndex );
 			return cabeceras[columnIndex];
 		}
- // 
 		@Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             if (datos == null || rowIndex < 0 || rowIndex >= datos.size()) {
