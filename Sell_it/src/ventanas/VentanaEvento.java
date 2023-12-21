@@ -109,6 +109,7 @@ public class VentanaEvento extends JFrame{
 				}
 			});
 		
+		
 		btnComprar.addActionListener(new ActionListener() {
 
 			@Override
@@ -128,6 +129,7 @@ public class VentanaEvento extends JFrame{
 						VentanaCompra vc = new VentanaCompra(usuActual, cantidadComprar, VentanaEvento.this, ent);
 						vc.setVisible(true);
 						
+						
 		            } else {
 		                
 		                JOptionPane.showMessageDialog(VentanaEvento.this,
@@ -144,6 +146,12 @@ public class VentanaEvento extends JFrame{
 		});
 
 	}
+	public int entradasCompradas() {
+		int cantidadComprar = Integer.parseInt(tfCantidad.getText());
+        
+        return cantidadComprar;
+        
+    };
 	
 	public void setImagen(ImageIcon imagen) {
 		int maxWidth = 200; // Tamaño máximo de ancho

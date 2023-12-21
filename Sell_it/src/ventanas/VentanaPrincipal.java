@@ -304,7 +304,7 @@ public class VentanaPrincipal extends JFrame{
 		            try {
 		                imagen = new ImageIcon(rutaImagen);
 		                fotoPerfil(imagen);
-		                System.out.println("Imagen cargada correctamente: " + rutaImagen);
+//		                System.out.println("Imagen cargada correctamente: " + rutaImagen);
 		            } catch (Exception e) {
 		                System.err.println("Error al cargar la imagen: " + rutaImagen);
 		                e.printStackTrace();
