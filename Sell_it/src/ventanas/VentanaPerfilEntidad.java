@@ -8,13 +8,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import BasesDeDatos.BaseDeDatos;
 import clases.*;
-import clases.Usuario;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import BasesDeDatos.BaseDeDatos;
-import clases.Evento;
-import clases.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -196,6 +193,14 @@ public class VentanaPerfilEntidad extends JFrame{
 				VentanaPrincipal v = new VentanaPrincipal();
 			}
 		});
+        btnNotificaciones.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+	    		// 	QUE SALGAN LAS NOTIFICACIONES DE QUE LE HAN COMPRADO ENTRADAS Y QUE HAN SUBIDO NUEVAS ENTRADAS
+				obtenerNotificaciones();
+			}
+		});
         
         buttonContrasena.addActionListener(new ActionListener() {
 			
@@ -353,14 +358,26 @@ public class VentanaPerfilEntidad extends JFrame{
         this.setVisible(true);
         
 	}
-	private List<String> obtenerNotificaciones() {
-		   
-	    List<String> notificaciones = new ArrayList<>();
-	    notificaciones.add("Nueva oferta para tu producto.");
-	    notificaciones.add("¡Has vendido un artículo!");
-	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
-	    return notificaciones;
-	}
+	private void obtenerNotificaciones() {
+		usuario.cargarNotificacionesDesdeBD();
+        List<Notificacion> notificaciones = usuario.getNotificaciones();
+        StringBuilder notificacionMessage = new StringBuilder();
+        notificacionMessage.append("Notificaciones:\n");
+        for (Notificacion notificacion : notificaciones) {
+        	if(notificacion.isLeido() == false) {
+                notificacionMessage.append("- ").append(notificacion.getMensaje()).append("\n");
+        	}
+        }
+        JOptionPane.showMessageDialog(this, notificacionMessage.toString(), "Notificaciones", JOptionPane.INFORMATION_MESSAGE);
+        
+        for (Notificacion notificacion : notificaciones) {
+        	if (notificacion.isLeido() == false) {
+                notificacion.setLeido(true);
+                int id = notificacion.getId();
+                Main.getVentanaInicio().base.marcarLeidoBD(id, usuario.getCorreoUsuario());
+            }
+       }
+    }
 	
 	private void fotoPerfil(ImageIcon imagenPerfil) {
         int maxWidth = 100; // Tamaño máximo de ancho

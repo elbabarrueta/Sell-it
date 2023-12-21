@@ -102,9 +102,9 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JPanel bottomPanel = new JPanel();
 	    JButton buttonContrasena = new JButton("Cambiar contraseña");
 	    JButton buttonEditar = new JButton("Editar Perfil");
-	    JButton buttonProductosCompados = new JButton("Mis compras");
+	    btnMisCompras = new JButton("Mis compras");
         JButton botonVentanaP = new JButton("Ventana Principal");
-        btnMisCompras = new JButton("Mis Compras");
+//        btnMisCompras = new JButton("Mis Compras");
         btnEnVenta = new JButton("En Venta");
         
         botonVentanaP.setBackground(Color.LIGHT_GRAY);        
@@ -114,9 +114,8 @@ public class VentanaPerfilUsuario extends JFrame{
         
 	    bottomPanel.add(buttonContrasena);
 	    bottomPanel.add(buttonEditar);
-	    bottomPanel.add(buttonProductosCompados);
+	    bottomPanel.add(btnMisCompras);
         bottomPanel.add(botonVentanaP);
-        bottomPanel.add(btnMisCompras);
 	    
 	    frame.add(topPanel, BorderLayout.NORTH);
 	    frame.add(descriptionScrollPane, BorderLayout.CENTER);
@@ -241,7 +240,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	            botonVentanaP.setVisible(false);
 	            buttonContrasena.setVisible(false);
 	            buttonEditar.setVisible(false);
-	            buttonProductosCompados.setVisible(false);
+	            btnMisCompras.setVisible(false);
 	            // Después de editar, habilitamos el botón "Guardar Cambios"
 	            botonGuardarCambios.setVisible(true);
 			}
@@ -311,26 +310,11 @@ public class VentanaPerfilUsuario extends JFrame{
 				botonVentanaP.setVisible(true);
 	            buttonContrasena.setVisible(true);
 	            buttonEditar.setVisible(true);
-	            buttonProductosCompados.setVisible(true);
+	            btnMisCompras.setVisible(true);
 			}
 		});
 	    bottomPanel.add(botonGuardarCambios);
 	    bottomPanel.add(botonCambiarFoto);
-   
-	    buttonProductosCompados.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-		//		 String entrada = JOptionPane.showInputDialog(frame, "Introduce el nombre de la entrada comprada:");
-		//	        if (entrada != null && !entrada.isEmpty()) {
-		//	            entradasCompradas.add(entrada);
-			            // Actualizar la lista de entradas compradas antes de mostrar la nueva ventana
-			            VentanaEntradasCompradas entradasC = new VentanaEntradasCompradas(entradasCompradas);
-			            entradasC.setVisible(true);
-		//	        }
-			}
-		});
-	    
 
 	    infoButton3.addActionListener(new ActionListener() {
 	    	@Override
