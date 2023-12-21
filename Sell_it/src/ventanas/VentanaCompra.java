@@ -4,6 +4,8 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -51,7 +53,7 @@ public class VentanaCompra extends JFrame{
 		this.cantidadCompra = cantidadCompra;
 		this.ent = entrada;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(700, 500);
+		setSize(800, 500);
 		setLocationRelativeTo(null);
 		setTitle("Compra de entrada");
 		
@@ -84,7 +86,6 @@ public class VentanaCompra extends JFrame{
 		JLabel lNombre = new JLabel("Nombre");
 		tfNombre = new JTextField();
 		tfNombre.setText(usuario.getNombreUsuario());
-		tfNombre.setPreferredSize(new Dimension(200, 20));
 		pNombre.add(lNombre);
 		pNombre.add(tfNombre);
 		pDatos.add(pNombre);
@@ -93,7 +94,6 @@ public class VentanaCompra extends JFrame{
 		JLabel lCorreo = new JLabel("Correo");
 		tfCorreo = new JTextField();
 		tfCorreo.setText(usuario.getCorreoUsuario());
-		tfCorreo.setPreferredSize(new Dimension(200, 20));
 		pCorreo.add(lCorreo);
 		pCorreo.add(tfCorreo);
 		pDatos.add(pCorreo);
@@ -101,7 +101,6 @@ public class VentanaCompra extends JFrame{
 		JPanel pTfno = new JPanel();
 		JLabel lTfno = new JLabel("Teléfono");
 		tfTfno = new JTextField();
-		tfTfno.setPreferredSize(new Dimension(200, 20));
 		pTfno.add(lTfno);
 		pTfno.add(tfTfno);
 		pDatos.add(pTfno);
@@ -117,7 +116,6 @@ public class VentanaCompra extends JFrame{
 		pNTarjeta = new JPanel();
 		JLabel lNtarjeta = new JLabel("Nº tarjeta");
 		tfNtarjeta = new JTextField();
-		tfNtarjeta.setPreferredSize(new Dimension(200, 20));
 		pNTarjeta.add(lNtarjeta);
 		pNTarjeta.add(tfNtarjeta);
 		pPago.add(pNTarjeta);
@@ -131,7 +129,6 @@ public class VentanaCompra extends JFrame{
 		JPanel pCCV = new JPanel();
 		JLabel lCCV = new JLabel("CCV");
 		tfCCV = new JTextField();
-		tfCCV.setPreferredSize(new Dimension(80,20));
 		pCCV.add(lCCV);
 		pCCV.add(tfCCV);
 		pPago.add(pCCV);
@@ -159,6 +156,14 @@ public class VentanaCompra extends JFrame{
 			}
 		});
 //		
+		
+		this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                ajustarComponentes();
+            }
+		});
+		
 		JPanel pFC = new JPanel(new GridLayout(1,1));
 		String[] meses = {"MES", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 		cbMes = new JComboBox<>(meses);
@@ -182,7 +187,7 @@ public class VentanaCompra extends JFrame{
         JXHyperlink hyperlinkTerminos = new JXHyperlink();
         hyperlinkTerminos.setText("Términos y Condiciones");
         hyperlinkTerminos.addActionListener(e -> mostrarTerminos());
-        pCentral.add(hyperlinkTerminos);
+        pConfirmar.add(hyperlinkTerminos);
 
         // Añadir indicador de actividad con JXBusyLabel;
         busyLabel = new JXBusyLabel();
@@ -243,7 +248,11 @@ public class VentanaCompra extends JFrame{
 				confirmarCompra();
 			}
 		});
+		
+		ajustarComponentes();
 	}
+	
+	
 	private boolean verificarCampoTarjeta() {
 	    // Verificar longitud y si son solo números
 	    String numeroTarjeta = tfNtarjeta.getText();
@@ -369,6 +378,17 @@ public class VentanaCompra extends JFrame{
 	private void mostrarError(Component parent, String mensaje) {
 	    JOptionPane.showMessageDialog(parent, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	private void ajustarComponentes() {
+	    tfNombre.setPreferredSize(new Dimension(200, 40));
+	    tfCorreo.setPreferredSize(new Dimension(200, 40));
+	    tfTfno.setPreferredSize(new Dimension(200, 40));
+	    tfNtarjeta.setPreferredSize(new Dimension(200, 40));
+	    tfCCV.setPreferredSize(new Dimension(80, 40));
+	    revalidate();
+	    repaint();
+	}
+
 	
 	public static void main(String[] args) {
 		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
