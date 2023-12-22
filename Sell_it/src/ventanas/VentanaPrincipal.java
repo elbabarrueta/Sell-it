@@ -3,10 +3,13 @@ package ventanas;
 import java.awt.*;
 
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,8 +18,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -38,10 +43,14 @@ public class VentanaPrincipal extends JFrame{
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
+		private JPanel pEventosDestacados = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		private JPanel pTodosEventos = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		private JPanel pEventosReventa = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	    private JXSearchField searchField;
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
-		
+	    private Map<Evento, Integer> eventosBuscados = new HashMap<>();
+
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 		
 	    public VentanaPrincipal(){
@@ -49,24 +58,26 @@ public class VentanaPrincipal extends JFrame{
 	    	baseDeDatos = new BaseDeDatos();
 	    	cargarEventosDesdeBD();
 	    	
-			JButton bVenta = new JButton("Venta");
-//			JButton bBuscar = new JButton("Buscar");
-			JButton bPerfil = new JButton("Perfil");
-//			JTextField tfBuscador = new JTextField(20);
-//			JLabel lblBusca = new JLabel("¡Busca el evento que desees!");
-			JPanel pnlNorte = new JPanel();
-			JPanel pnlSur = new JPanel();
 			
+			JPanel pnlNorte = new JPanel();
+			pnlNorte.setLayout(new FlowLayout());
 			searchField = new JXSearchField("¡Busca el evento que desees!");
-	        pnlCentro.add(searchField, BorderLayout.NORTH);
+			pnlNorte.add(searchField);
+
+			
+			JPanel pnlSur = new JPanel();
+			JButton bVenta = new JButton("Venta");
+			JButton bPerfil = new JButton("Perfil");
+			pnlSur.add(bVenta);
+			pnlSur.add(bPerfil);
+			
+			this.add(pnlNorte, BorderLayout.NORTH);
+			this.add(pnlSur, BorderLayout.SOUTH);
 			
 			JScrollPane scrollCentro = new JScrollPane();
-			pnlNorte.setLayout(new FlowLayout());
 			DefaultTableModel modelo = new DefaultTableModel();
 			modelo.addColumn("Código");
 			modelo.addColumn("Nombre");
-			
-			
 //			tablaEventos = new JTable();
 //			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
 	        // Configuración de la tabla con SwingX
@@ -76,19 +87,29 @@ public class VentanaPrincipal extends JFrame{
 	        add(new JScrollPane(tablaEventos), BorderLayout.CENTER);
 			//JTable tbl_buscar = new JTable();
 			
-			this.add(pnlNorte, BorderLayout.NORTH);
-			this.add(pnlSur, BorderLayout.SOUTH);
-			pnlSur.add(bVenta);
-			pnlSur.add(bPerfil);
-//			pnlNorte.add(lblBusca);
-//			pnlNorte.add(tfBuscador);
-			pnlNorte.add(searchField);
-//			pnlNorte.add(bBuscar);
-			pnlCentro.setLayout(new BoxLayout(pnlCentro,BoxLayout.Y_AXIS));
-			add( new JScrollPane( pnlCentro ) , BorderLayout.CENTER );
-		
+			
+//			pnlCentro.setLayout(new BoxLayout(pnlCentro, BoxLayout.Y_AXIS));
+//			add( new JScrollPane( pnlCentro ), BorderLayout.CENTER );
 			//this.add(tbl_buscar);
 
+	        // Crear paneles para cada sección de eventos
+			JPanel pDestacado = crearPanelEventos("Lo más buscado", pEventosDestacados);
+			JPanel pEventos = crearPanelEventos("Todos los eventos", pTodosEventos);
+			JPanel pReventa = crearPanelEventos("Entradas de reventa", pEventosReventa);
+			
+			// Crear un panel principal con un BoxLayout y desplazamiento horizontal
+			JPanel pnlCentro = new JPanel();
+			pnlCentro.setLayout(new BoxLayout(pnlCentro, BoxLayout.Y_AXIS));
+	
+			// Agregar los paneles de eventos al panel principal
+			pnlCentro.add(pDestacado);
+			pnlCentro.add(pEventos);
+			pnlCentro.add(pReventa);
+	
+			JScrollPane scrollPane = new JScrollPane(pnlCentro);	
+			getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+	        
 			searchField.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
@@ -142,23 +163,79 @@ public class VentanaPrincipal extends JFrame{
 //			for(Evento e: eventosBD) {
 //				aniadirEvento(e);
 //			}
-			
+			List<Evento> todosLosEventos = BaseDeDatos.obtenerListaEventos();
+	        for (Evento evento : todosLosEventos) {
+	            eventosBuscados.put(evento, 1);
+	        }
+	    	List<Evento> destacados = getEventosDestacados(5);
+	    	List<Evento> enentosReventa = null;
+	    	visualizarEventos(destacados, pEventosDestacados);
+	    	visualizarEventos(todosLosEventos, pTodosEventos);
+	    	visualizarEventos(enentosReventa, pEventosReventa);
+	    	
 			this.setBounds(55, 50, 1200, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setTitle("Menu Principal");
 			this.setVisible(true);
 			vPrincipal = this;
+			
+			//Aqui falta hacer un metodo para guardar cuantas veces se han buscado los eventos
+			addWindowListener(new WindowAdapter() {
+	            @Override
+	            public void windowClosing(WindowEvent e) {
+//	            	guardarEventosBuscados();
+	            }
+	        });
+			addWindowListener(new WindowAdapter() {
+			    @Override
+			    public void windowOpened(WindowEvent e) {
+//			        cargarEventosBuscados();
+			    }
+			});
 		}		
 	    
+	    private JPanel crearPanelEventos(String titulo, JPanel panelEventos) {
+	        JPanel panel = new JPanel();
+	        panel.setLayout(new BorderLayout());
 
-	    public void cargarEventosDesdeBD() {
-	    	empezarPanel();
+	        JLabel lblTitulo = new JLabel("       " + titulo);
+	        lblTitulo.setFont(new Font("Rockwell", Font.ITALIC, 18));
+	        panel.add(lblTitulo, BorderLayout.NORTH);
+
+	        panel.add(panelEventos, BorderLayout.CENTER);
+
+	        return panel;
+	    }
+	    
+	    public void visualizarEventos(List<Evento> eventos, JPanel panel) {
+	    	panel.removeAll();
+	    	if(eventos != null) {
+	    		for(Evento evento: eventos) {
+		    		Mipanel pnlActual = new Mipanel(evento);
+		    		panel.add(pnlActual);
+		    	}
+	    	}
+	    	panel.revalidate(); 
+	        panel.repaint();
+	    }
+	    public List<Evento> cargarEventosDesdeBD() {
+//	    	empezarPanel();
 	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos();
 	        System.out.println("Número de eventos recuperados: " + listaEventos.size());
-
-	        aniadirEventoDesdeBD(listaEventos);
-	        acabarPanel();
+	        return listaEventos;
+//	        aniadirEventoDesdeBD(listaEventos);
+//	        acabarPanel();
 	    }
+	    
+	    private List<Evento> getEventosDestacados(int cantidad) {
+	    	return eventosBuscados.entrySet()
+	                .stream()
+	                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // Ordena por la cantidad descendente
+	                .limit(cantidad)
+	                .map(Map.Entry::getKey)
+	                .collect(Collectors.toList());
+		}
+
 	    
 	    private List<Evento> filtrarEventosPorPalabrasClave(String palabrasClave) {
 	        List<Evento> eventosFiltrados = new ArrayList<>();
@@ -176,13 +253,39 @@ public class VentanaPrincipal extends JFrame{
 	    
 	 // Método para actualizar la visualización de eventos en la ventana
 	    private void actualizarVisualizacionEventos(List<Evento> eventos) {
-	    	pnlActual = null;
-	    	empezarPanel();
-	        aniadirEventoDesdeBD(eventos);
-	        acabarPanel();
-	        pnlCentro.repaint();
+//	    	pnlActual = null;
+//	    	empezarPanel();
+//	        aniadirEventoDesdeBD(eventos);
+//	        acabarPanel();
+//	        pnlCentro.repaint();
+	    	List<Evento> destacados = getEventosDestacados(5);
+	    	List<Evento> filtradosDes = new ArrayList<>();
+	    	if(destacados != null) {
+	    		for(Evento e: eventos) {
+		    		if(destacados.contains(e)) {
+		    			filtradosDes.add(e);
+		    		}
+		    	}
+	    	}
+	        visualizarEventos(filtradosDes, pEventosDestacados);
+	    	visualizarEventos(eventos, pTodosEventos);
+	    	List<Evento> reventa = getEventosDeReventa();
+	    	List<Evento> filtradoRev = new ArrayList<>();
+	    	if(reventa != null) {
+	    		for(Evento e: eventos) {
+		    		if(reventa.contains(e)) {
+		    			filtradoRev.add(e);
+		    		}
+		    	}
+	    	}
+	    	visualizarEventos(filtradoRev, pEventosReventa);
 	    }
 	    
+	    //Hay que hacer el metodo
+		private List<Evento> getEventosDeReventa() {
+			return null;
+		}
+
 		private String obtenerTipoUsuario(String nom) {
 //		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
 //		    Set<String> nombresUsuarios = usuarioT.keySet();
@@ -252,12 +355,14 @@ public class VentanaPrincipal extends JFrame{
 		
 //		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
 
-		private static class Mipanel extends JPanel {
+		private class Mipanel extends JPanel {
 			public Mipanel(Evento evento) {
 		        setLayout(null);
+		        setPreferredSize(new Dimension(350, 250)); // Establece el tamaño preferido del panel principal
 		        addMouseListener(new MouseAdapter() {
 		        	@Override
 					public void mouseClicked(MouseEvent e) {
+	                    eventosBuscados.put(evento, eventosBuscados.getOrDefault(evento, 0) + 1);
 						VentanaEvento v = new VentanaEvento(evento);
 						v.setVisible(true);
 						vPrincipal.dispose();
@@ -271,13 +376,13 @@ public class VentanaPrincipal extends JFrame{
 		        JLabel lblNombre = new JLabel(titulo);
 				lblNombre.setForeground(Color.BLACK);
 				lblNombre.setFont(new Font("Eras Demi ITC", Font.PLAIN, 16));
-				lblNombre.setBounds(10, 235, 331, 34);
+				lblNombre.setBounds(10, 185, 331, 34);
 				add(lblNombre);
 				
 				JLabel lblFecha = new JLabel(fecha);
 				lblFecha.setForeground(Color.BLACK);
 				lblFecha.setFont(new Font("Eras Demi ITC", Font.PLAIN, 12));
-				lblFecha.setBounds(10, 215, 331, 34);
+				lblFecha.setBounds(10, 165, 331, 34);
 				add(lblFecha);
 				
 		        
@@ -294,7 +399,7 @@ public class VentanaPrincipal extends JFrame{
 		        lblImagen = new JLabel();
 		        cargarImagen(rutaImagen);
 //		        lblImagen.setBounds(0, 0, 252, 182);
-		        lblImagen.setBounds(10, 14, 331, 204);
+		        lblImagen.setBounds(10, 14, 331, 150);
 				add(lblImagen);
 		    }
 
@@ -326,8 +431,8 @@ public class VentanaPrincipal extends JFrame{
 		}
 		
 		private static  void fotoPerfil(ImageIcon imagenPerfil) {
-	        int maxWidth = 330; // Tamaño máximo de ancho
-	        int maxHeight = 200; // Tamaño máximo de alto
+	        int maxWidth = 350; // Tamaño máximo de ancho
+	        int maxHeight = 150; // Tamaño máximo de alto
 	        int newWidth, newHeight;
 	        Image img = imagenPerfil.getImage();
 	        if (imagenPerfil.getIconWidth() > imagenPerfil.getIconHeight()) {
