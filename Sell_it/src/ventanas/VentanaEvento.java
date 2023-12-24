@@ -55,14 +55,14 @@ public class VentanaEvento extends JFrame{
         pnlCentral.add(pImagen);
 		
         JButton btnComprar = new JButton("Comprar");
-		JPanel pEvento = new JPanel(new GridLayout(4,1));
-		lNombre = new JLabel(e.getNombre());
+		JPanel pEvento = new JPanel(new GridLayout(6,1));
+		lNombre = new JLabel("Nombre: " +e.getNombre());
 		pEvento.add(lNombre);
-		JLabel lFecha = new JLabel(e.getFecha());
+		JLabel lFecha = new JLabel("Fecha: " +e.getFecha());
 		pEvento.add(lFecha);
-		JLabel lUbicacion = new JLabel(e.getUbicacion());
+		JLabel lUbicacion = new JLabel("Ubicacion: " +e.getUbicacion());
 		pEvento.add(lUbicacion);
-		JLabel lNumEntradas = new JLabel(String.valueOf(e.getnEntradas()));
+		JLabel lNumEntradas = new JLabel("Entradas disponibles: " +String.valueOf(e.getnEntradas()));
 		pEvento.add(lNumEntradas);
 		pnlCentral.add(pEvento);
 		
@@ -76,10 +76,26 @@ public class VentanaEvento extends JFrame{
 		pDesc.add(lDesc);
 		pDesc.add(taDesc);
 		pnlCentral.add(pDesc);
-		
-	     
-		
-		JPanel pCantidad = new JPanel(new GridLayout(4,1));
+//		
+		// Agrega un JLabel para mostrar el correo del usuario
+	    JLabel lCorreoUsuario = new JLabel("Usuario: " + e.getCreador());
+	    pEvento.add(lCorreoUsuario); 
+	    JButton botonVal  = new JButton("Valora el creador");
+		pEvento.add(botonVal);
+        pEvento.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Añade espacio debajo del botón
+        botonVal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	 String correoCreador = eventoActual.getCreador(); // Obtén el correo del creador del evento actual
+                 String nombreEvento = eventoActual.getNombre(); // Obtén el nombre del evento actual
+                 VentanaValoracion ventanaValoracion = new VentanaValoracion(correoCreador, nombreEvento);
+                 ventanaValoracion.setVisible(true);
+            }
+        });
+//		
+		JPanel pCantidad = new JPanel(new GridLayout(5,1));
+		JLabel lCompra = new JLabel("<html>Para comprar entradas,"+ "<br/>"+"agrega la cantidad que quieres comprar"+"<br/>"+"y pulsa el boton compra."+ "</html>");
+		pCantidad.add(lCompra);
 		JLabel lCantidad = new JLabel("Cantidad:");
 		pCantidad.add(lCantidad);
 		pCantidad.add(tfCantidad);
