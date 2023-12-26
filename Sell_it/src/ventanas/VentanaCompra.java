@@ -7,6 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 import javax.swing.*;
@@ -326,6 +332,8 @@ public class VentanaCompra extends JFrame{
 //			JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 //			dispose();
 //		}
+		
+		
 	
 		if (tfNombre.getText().isEmpty() || tfCorreo.getText().isEmpty() || tfTfno.getText().isEmpty() ||
 	            tfNtarjeta.getText().isEmpty() || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
@@ -342,6 +350,30 @@ public class VentanaCompra extends JFrame{
 	        mostrarError(errorPane, "Error al confirmar la compra.\nInténtalo de nuevo.\nRecuerda que el número de TARJETA debe tener 16 dígitos y el CCV debe tener 3 dígitos.");
 	    }
 	    if(verificarCampoTelefono() == true) {
+	    	
+	    	Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db", "usuario", "contraseña");
+	    	Statement statement = connection.createStatement();
+	    	ResultSet resultSet = statement.executeQuery("SELECT nEntradas FROM Evento ");
+
+	    	int valorBD = 0;
+
+	    	if (resultSet.next()) {
+	    	    valorBD = resultSet.getInt("columna");
+	    	}
+
+	    	
+	    	
+	    	VentanaEvento instancia = new VentanaEvento(evento);
+			int nEntradasCompradas = instancia.entradasCompradas();
+			int nEntradasDisponibles = valorBD - nEntradasCompradas;
+			String updateQuery = "UPDATE Evento SET nEntradas = ? ";
+			try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+			    preparedStatement.setInt(1, nEntradasDisponibles);
+			    preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+			    e.printStackTrace(); 
+			}
+			connection.close();
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
