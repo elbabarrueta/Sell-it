@@ -163,9 +163,14 @@ public class VentanaEvento extends JFrame{
 
 	}
 	public int entradasCompradas() {
-		int cantidadComprar = Integer.parseInt(tfCantidad.getText());
-        
-        return cantidadComprar;
+		try {
+	        int cantidadComprar = Integer.parseInt(tfCantidad.getText());
+	        return cantidadComprar;
+		} catch (NumberFormatException e) {
+	        
+	        System.err.println("Error: Ingresa un número válido");
+	        return 0; 
+	    }
         
     };
 	
