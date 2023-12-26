@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -194,7 +195,12 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 		
-		BaseDeDatos.main(null);
+		try {
+			BaseDeDatos.main(null);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		base = new BaseDeDatos();
 		base.verUsuarios();
 		base.verEvento();
