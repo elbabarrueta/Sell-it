@@ -197,12 +197,14 @@ public class BaseDeDatos {
 		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo Integer, evento_cod Integer, propietario_correo String, precio Double)";
 		String notificacion = "CREATE TABLE IF NOT EXISTS Notificacion (id Integer, mensaje String)";
 		String relacion = "CREATE TABLE IF NOT EXISTS Relacion (correo String, id_noti Integer, leido Boolean)";
+		String valoraciones = "CREATE TABLE IF NOT EXISTS Valoracion (id Integer, usuario_revisor String, usuario_valorado String, puntuacion Integer, comentario String)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
 			st.executeUpdate(sql2);
 			st.executeUpdate(notificacion);
 			st.executeUpdate(relacion);
+			st.executeUpdate(valoraciones);
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -752,6 +754,51 @@ public class BaseDeDatos {
 
         return precio;
     }
+//	
+	// Método para insertar una valoración
+    public static void insertarValoracion(Integer id, String usuarioRevisor, String usuarioValorado, int puntuacion, String comentario) {
+        String com = "INSERT INTO Valoracion (id, usuario_revisor, usuario_valorado, puntuacion, comentario) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+            preparedStatement.setInt(1, id);
+        	preparedStatement.setString(2, usuarioRevisor);
+            preparedStatement.setString(3, usuarioValorado);
+            preparedStatement.setInt(4, puntuacion);
+            preparedStatement.setString(5, comentario);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Valoración registrada exitosamente.");
+            } else {
+                System.out.println("No se pudo registrar la valoración.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al insertar la valoración.");
+            e.printStackTrace();
+        }
+    }
+ // Método para obtener valoraciones por usuario
+    public static List<Valoracion> obtenerValoracionesPorUsuario(String usuario) {
+        List<Valoracion> valoraciones = new ArrayList<>();
+        String com = "SELECT * FROM Valoracion WHERE usuario_valorado = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+            preparedStatement.setString(1, usuario);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                int puntuacion = rs.getInt("puntuacion");
+                String comentario = rs.getString("comentario");
+                String usuarioRevisor = rs.getString("usuario_revisor");
+                Valoracion valoracion = new Valoracion(usuarioRevisor, usuario, puntuacion, comentario);
+                valoraciones.add(valoracion);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener valoraciones.");
+            e.printStackTrace();
+        }
+        return valoraciones;
+    }
+//	
 	
 // Esto seria para marcar la entrada como comprada
 //	String codigoEntrada = "tu_codigo_de_entrada";

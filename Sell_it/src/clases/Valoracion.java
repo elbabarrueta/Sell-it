@@ -1,23 +1,46 @@
 package clases;
 
-public class Valoracion {
-	private int id;
-    private String comentario;
-    private int calificacion;
-    private String usuarioCorreo;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-    public Valoracion(String comentario, int calificacion, String usuarioCorreo) {
+public class Valoracion {
+	private String usuarioRevisor;
+    private String usuarioValorado;
+    private int puntuacion;
+    private String comentario;
+
+    public Valoracion(String usuarioRevisor, String usuarioValorado, int puntuacion, String comentario) {
+        this.usuarioRevisor = usuarioRevisor;
+        this.usuarioValorado = usuarioValorado;
+        this.puntuacion = puntuacion;
         this.comentario = comentario;
-        this.calificacion = calificacion;
-        this.usuarioCorreo = usuarioCorreo;
     }
 
-	public final int getId() {
-		return id;
+	public final String getUsuarioRevisor() {
+		return usuarioRevisor;
 	}
 
-	public final void setId(int id) {
-		this.id = id;
+	public final void setUsuarioRevisor(String usuarioRevisor) {
+		this.usuarioRevisor = usuarioRevisor;
+	}
+
+	public final String getUsuarioValorado() {
+		return usuarioValorado;
+	}
+
+	public final void setUsuarioValorado(String usuarioValorado) {
+		this.usuarioValorado = usuarioValorado;
+	}
+
+	public final int getPuntuacion() {
+		return puntuacion;
+	}
+
+	public final void setPuntuacion(int puntuacion) {
+		this.puntuacion = puntuacion;
 	}
 
 	public final String getComentario() {
@@ -27,21 +50,29 @@ public class Valoracion {
 	public final void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
+	@Override
+    public String toString() {
+        return "Valoración [Revisor: " + usuarioRevisor + ", Puntuación: " + puntuacion + ", Comentario: " + comentario + "]";
+    }
+	public static int obtenerId() {
+		int ultimoId = 0;
 
-	public final int getCalificacion() {
-		return calificacion;
-	}
+        String url = "jdbc:sqlite:usuarios.db";
 
-	public final void setCalificacion(int calificacion) {
-		this.calificacion = calificacion;
-	}
+        try (Connection connection = DriverManager.getConnection(url);
+             Statement statement = connection.createStatement()) {
 
-	public final String getUsuarioCorreo() {
-		return usuarioCorreo;
-	}
+            String query = "SELECT MAX(id) AS ultimoId FROM Valoracion";
+            ResultSet resultSet = statement.executeQuery(query);
 
-	public final void setUsuarioCorreo(String usuarioCorreo) {
-		this.usuarioCorreo = usuarioCorreo;
-	}
+            if (resultSet.next()) {
+            	ultimoId = resultSet.getInt("ultimoId");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ultimoId + 1;
+    }
     
 }

@@ -11,16 +11,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import BasesDeDatos.BaseDeDatos;
+import clases.Usuario;
+import clases.Valoracion;
+
 public class VentanaValoracion extends JFrame {
 
     private JTextField tfComentario;
     private JComboBox<Integer> cbCalificacion;
-    private String correoUsuarioCreador;
+//    private Usuario usuarioActual;
     private String nombreEvento;
+    private String correoUsuarioCreador;
 
     public VentanaValoracion(String correoUsuarioCreador, String nombreEvento) {
     	this.correoUsuarioCreador = correoUsuarioCreador;
         this.nombreEvento = nombreEvento;
+//        this.usuarioActual = usuarioActual;
     	
     	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 350);
@@ -62,12 +68,16 @@ public class VentanaValoracion extends JFrame {
         String comentario = tfComentario.getText();
         int calificacion = (int) cbCalificacion.getSelectedItem();
 
-        // Aquí puedes realizar la lógica para guardar la valoración en la base de datos
-        // Por ejemplo, podrías crear una instancia de la clase Valoracion y guardarla
-        // en tu base de datos.
+     // Obtén el usuario revisor desde la instancia de VentanaInicio
+        VentanaInicio ventanaInicio = Main.getVentanaInicio();
+        Usuario usuarioRevisor = ventanaInicio.getUsuarioActual();
 
-        // Valoracion valoracion = new Valoracion(comentario, calificacion, usuarioActual.getCorreo());
-        // BaseDeDatos.guardarValoracion(valoracion);
+        // Obtén el usuario valorado desde el correo almacenado en correoUsuarioCreador
+        Usuario usuarioValorado = BaseDeDatos.getUsuarioPorCorreo(correoUsuarioCreador); // Reemplaza con la lógica correcta
+
+        int id = Valoracion.obtenerId();
+        // Guarda la valoracion
+        BaseDeDatos.insertarValoracion(id, usuarioRevisor.getCorreoUsuario(), usuarioValorado.getCorreoUsuario(), calificacion, comentario);
 
         // Puedes cerrar la ventana después de guardar la valoración
         dispose();

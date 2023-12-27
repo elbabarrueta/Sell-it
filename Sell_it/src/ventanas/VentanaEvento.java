@@ -23,14 +23,14 @@ public class VentanaEvento extends JFrame{
 	private Evento eventoActual;
 	private Entrada ent;
 	
-	public VentanaEvento(Evento e, JFrame vPrincipal) {
+	public VentanaEvento(Evento ev, JFrame vPrincipal) {
 		
-		this.eventoActual = e;
+		this.eventoActual = ev;
 		
 		VentanaInicio ventanaI = Main.getVentanaInicio();
 		Usuario usuActual = ventanaI.getUsuarioActual();
-		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(e.getCodigo());
-		ent = new Entrada(e.getCodigo(), e, usuActual, precioEntrada);
+		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(ev.getCodigo());
+		ent = new Entrada(ev.getCodigo(), ev, usuActual, precioEntrada);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
@@ -46,11 +46,11 @@ public class VentanaEvento extends JFrame{
 		
 		JPanel pImagen = new JPanel();
 		lImagen = new JLabel();
-		if(e.getRutaImg() == null) {
+		if(ev.getRutaImg() == null) {
 	        ImageIcon imagen = new ImageIcon("Sell_it/src/imagenes/default.png"); // Ruta de la imagen de perfil
 	    	setImagen(imagen);
 	    }else {
-	    	String rutaImg = e.getRutaImg();
+	    	String rutaImg = ev.getRutaImg();
             ImageIcon imagen = new ImageIcon(rutaImg);
             setImagen(imagen);
 	    } 
@@ -59,19 +59,19 @@ public class VentanaEvento extends JFrame{
 		
         JButton btnComprar = new JButton("Comprar");
 		JPanel pEvento = new JPanel(new GridLayout(6,1));
-		lNombre = new JLabel("Nombre: " +e.getNombre());
+		lNombre = new JLabel("Nombre: " +ev.getNombre());
 		pEvento.add(lNombre);
-		JLabel lFecha = new JLabel("Fecha: " +e.getFecha());
+		JLabel lFecha = new JLabel("Fecha: " +ev.getFecha());
 		pEvento.add(lFecha);
-		JLabel lUbicacion = new JLabel("Ubicacion: " +e.getUbicacion());
+		JLabel lUbicacion = new JLabel("Ubicacion: " +ev.getUbicacion());
 		pEvento.add(lUbicacion);
-		JLabel lNumEntradas = new JLabel("Entradas disponibles: " +String.valueOf(e.getnEntradas()));
+		JLabel lNumEntradas = new JLabel("Entradas disponibles: " +String.valueOf(ev.getnEntradas()));
 		pEvento.add(lNumEntradas);
 		pnlCentral.add(pEvento);
 		
 		JPanel pDesc = new JPanel();
 		JLabel lDesc = new JLabel("Detalles del evento:");
-		JTextArea taDesc = new JTextArea(e.getDesc());
+		JTextArea taDesc = new JTextArea(ev.getDesc());
 		taDesc.setPreferredSize(new Dimension(200, 180));
 		taDesc.setEditable(false);
 		taDesc.setLineWrap(true); 
@@ -81,7 +81,7 @@ public class VentanaEvento extends JFrame{
 		pnlCentral.add(pDesc);
 //		
 		// Agrega un JLabel para mostrar el correo del usuario
-	    JLabel lCorreoUsuario = new JLabel("Usuario: " + e.getCreador());
+	    JLabel lCorreoUsuario = new JLabel("Usuario: " + ev.getCreador());
 	    pEvento.add(lCorreoUsuario); 
 	    JButton botonVal  = new JButton("Valora el creador");
 		pEvento.add(botonVal);
@@ -91,6 +91,7 @@ public class VentanaEvento extends JFrame{
             public void actionPerformed(ActionEvent e) {
             	 String correoCreador = eventoActual.getCreador(); // Obtén el correo del creador del evento actual
                  String nombreEvento = eventoActual.getNombre(); // Obtén el nombre del evento actual
+                
                  VentanaValoracion ventanaValoracion = new VentanaValoracion(correoCreador, nombreEvento);
                  ventanaValoracion.setVisible(true);
             }
