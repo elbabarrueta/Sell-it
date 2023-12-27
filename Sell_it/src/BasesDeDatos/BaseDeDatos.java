@@ -49,7 +49,7 @@ public class BaseDeDatos {
 			logger.addHandler(new FileHandler("BasesDeDatos.xml"));
 		}catch (Exception e){}
 		
-		String com = "";
+		String comentarioSQL = "";
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
@@ -57,41 +57,41 @@ public class BaseDeDatos {
 			
 			//crear tabla Usuario
 			try {				
-				com = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
-				logger.log(Level.INFO, "BD: " + com);
-				s.executeUpdate(com);
+				comentarioSQL = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
+				logger.log(Level.INFO, "BD: " + comentarioSQL);
+				s.executeUpdate(comentarioSQL);
 			} catch (SQLException e) {
 				// se lanza si la tabla ya existe - no hay problema
 				logger.log(Level.INFO, "La tabla ya está creada");
 			}
 			// Añadir columna ultimocambiodecontraseña a la tabla Usuario
 		    try {
-		        com = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string";
-		        logger.log(Level.INFO, "BD: " + com);
-		        s.executeUpdate(com);
+		        comentarioSQL = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string";
+		        logger.log(Level.INFO, "BD: " + comentarioSQL);
+		        s.executeUpdate(comentarioSQL);
 		    } catch (SQLException e) {
 		        logger.log(Level.INFO, "La columna ya esta creada");
 		    }
 			crearTablas(con);
 			
 			try {
-		        com = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'";
-		        logger.log(Level.INFO, "BD: " + com);
-		        s.executeUpdate(com);
+		        comentarioSQL = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'";
+		        logger.log(Level.INFO, "BD: " + comentarioSQL);
+		        s.executeUpdate(comentarioSQL);
 		    } catch (SQLException e) {
 		        logger.log(Level.WARNING, "Error al actualizar usuarios con diasdesdeultimocambio a null", e);
 		        e.printStackTrace();
 		    }
 			
 			// Ver si existe admin
-			com = "select * from Usuario where correoUsuario = 'admin'";
-			logger.log(Level.INFO, "BD: " + com);
-			rs = s.executeQuery(com);
+			comentarioSQL = "select * from Usuario where correoUsuario = 'admin'";
+			logger.log(Level.INFO, "BD: " + comentarioSQL);
+			rs = s.executeQuery(comentarioSQL);
 			if (!rs.next()) {
 				// Añadirlo si no existe
-				com = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena, descripcion ) values ('admin', 'admin', 'admin', 'admin', 'admin')";
-				logger.log(Level.INFO, "BD: " + com);
-				s.executeUpdate(com);
+				comentarioSQL = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena, descripcion ) values ('admin', 'admin', 'admin', 'admin', 'admin')";
+				logger.log(Level.INFO, "BD: " + comentarioSQL);
+				s.executeUpdate(comentarioSQL);
 				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png", "null");
 				anadirUsuarioNuevo(moma);
 				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png", "null");
@@ -152,7 +152,7 @@ public class BaseDeDatos {
                 }
 			}			
 		} catch (SQLException | ClassNotFoundException e) {
-			System.out.println("Último comando: " + com);
+			System.out.println("Último comando: " + comentarioSQL);
 			e.printStackTrace();
 			}
 		}
