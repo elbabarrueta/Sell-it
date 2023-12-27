@@ -312,7 +312,7 @@ public class BaseDeDatos {
 				String rutaImg = rs.getString("rutaImg");
 				String creador = rs.getString("creador");
 				
-				Evento even = new Evento(nombre, desc, fecha, ubicacion, nEntradas,rutaImg, creador);
+				Evento even = new Evento(codigo, nombre, desc, fecha, ubicacion, nEntradas,rutaImg, creador);
 				listaEventos.add(even);
 			}
 			rs.close();

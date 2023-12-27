@@ -10,7 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,15 +53,16 @@ public class VentanaPrincipal extends JFrame{
 	    private JXSearchField searchField;
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
-	    private Map<Evento, Integer> eventosBuscados = new HashMap<>();
+	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
 
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
-		
+	    
 	    public VentanaPrincipal(){
 			
 	    	baseDeDatos = new BaseDeDatos();
 	    	cargarEventosDesdeBD();
-	    	
+	        cargarEventosBuscados();
+
 			
 			JPanel pnlNorte = new JPanel();
 			pnlNorte.setLayout(new FlowLayout());
@@ -164,9 +169,6 @@ public class VentanaPrincipal extends JFrame{
 //				aniadirEvento(e);
 //			}
 			List<Evento> todosLosEventos = BaseDeDatos.obtenerListaEventos();
-	        for (Evento evento : todosLosEventos) {
-	            eventosBuscados.put(evento, 1);
-	        }
 	    	List<Evento> destacados = getEventosDestacados(5);
 	    	List<Evento> enentosReventa = null;
 	    	visualizarEventos(destacados, pEventosDestacados);
@@ -179,20 +181,40 @@ public class VentanaPrincipal extends JFrame{
 			this.setVisible(true);
 			vPrincipal = this;
 			
-			//Aqui falta hacer un metodo para guardar cuantas veces se han buscado los eventos
+			//Metodo para guardar cuantas veces se han buscado los eventos
 			addWindowListener(new WindowAdapter() {
 	            @Override
 	            public void windowClosing(WindowEvent e) {
-//	            	guardarEventosBuscados();
+	            	guardarEventosBuscados();
 	            }
 	        });
-			addWindowListener(new WindowAdapter() {
-			    @Override
-			    public void windowOpened(WindowEvent e) {
-//			        cargarEventosBuscados();
-			    }
-			});
 		}		
+	    
+	    private void guardarEventosBuscados() {
+	    	try { 
+	    		FileOutputStream fout = new FileOutputStream("eventosBuscados.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fout);
+				oos.writeObject( eventosBuscados );
+				System.out.println("Eventos buscados guardados correctamente");
+				System.out.println("Contenido de eventosBuscados antes de guardar: " + eventosBuscados);
+				oos.close();
+	    	}catch (IOException e) {
+	    		System.out.println("Error al guardar los eventos buscados");
+	    		e.printStackTrace();
+	    	}
+	    }
+	    private void cargarEventosBuscados() {
+	    	try {
+	    		FileInputStream fin = new FileInputStream("eventosBuscados.dat");
+	    		ObjectInputStream ois = new ObjectInputStream(fin);
+	    		eventosBuscados = (HashMap<Evento, Integer>) ois.readObject();
+				System.out.println("Eventos buscados cargados correctamente");
+	    		ois.close();
+    		} catch (Exception e) { 
+    			System.out.println("Error al cargar los eventos buscados");
+	    		e.printStackTrace();
+    		}
+	    }
 	    
 	    private JPanel crearPanelEventos(String titulo, JPanel panelEventos) {
 	        JPanel panel = new JPanel();
@@ -221,7 +243,7 @@ public class VentanaPrincipal extends JFrame{
 	    public List<Evento> cargarEventosDesdeBD() {
 //	    	empezarPanel();
 	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos();
-	        System.out.println("Número de eventos recuperados: " + listaEventos.size());
+//	        System.out.println("Número de eventos recuperados: " + listaEventos.size());
 	        return listaEventos;
 //	        aniadirEventoDesdeBD(listaEventos);
 //	        acabarPanel();
@@ -230,7 +252,14 @@ public class VentanaPrincipal extends JFrame{
 	    private List<Evento> getEventosDestacados(int cantidad) {
 	    	return eventosBuscados.entrySet()
 	                .stream()
-	                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // Ordena por la cantidad descendente
+	                .sorted((entry1, entry2) -> {
+	                    int comparacionPorBusquedas = Integer.compare(entry2.getValue(), entry1.getValue());
+	                    // Si la cantidad de búsquedas es la misma, comparar por el nombre en orden alfabético
+	                    if (comparacionPorBusquedas == 0) {
+	                        return entry1.getKey().getNombre().compareTo(entry2.getKey().getNombre());
+	                    }
+	                    return comparacionPorBusquedas;
+	                })
 	                .limit(cantidad)
 	                .map(Map.Entry::getKey)
 	                .collect(Collectors.toList());
@@ -259,14 +288,16 @@ public class VentanaPrincipal extends JFrame{
 //	        acabarPanel();
 //	        pnlCentro.repaint();
 	    	List<Evento> destacados = getEventosDestacados(5);
-	    	List<Evento> filtradosDes = new ArrayList<>();
+	    	ArrayList<Evento> filtradosDes = new ArrayList<>();
 	    	if(destacados != null) {
-	    		for(Evento e: eventos) {
-		    		if(destacados.contains(e)) {
+	    		for(Evento e: destacados) {
+		    		if(eventos.contains(e)) {
 		    			filtradosDes.add(e);
+//		    			System.out.println(e);
 		    		}
 		    	}
 	    	}
+//	    	System.out.println(eventos);
 	        visualizarEventos(filtradosDes, pEventosDestacados);
 	    	visualizarEventos(eventos, pTodosEventos);
 	    	List<Evento> reventa = getEventosDeReventa();
@@ -362,8 +393,13 @@ public class VentanaPrincipal extends JFrame{
 		        addMouseListener(new MouseAdapter() {
 		        	@Override
 					public void mouseClicked(MouseEvent e) {
-	                    eventosBuscados.put(evento, eventosBuscados.getOrDefault(evento, 0) + 1);
-						VentanaEvento v = new VentanaEvento(evento);
+		        		if(eventosBuscados.containsKey(evento)) {
+		                    eventosBuscados.put(evento, eventosBuscados.get(evento) + 1);
+		        		}else {
+		        			eventosBuscados.put(evento, 1);
+		        		}
+		        		System.out.println(eventosBuscados);
+						VentanaEvento v = new VentanaEvento(evento, vPrincipal);
 						v.setVisible(true);
 						vPrincipal.dispose();
 					}

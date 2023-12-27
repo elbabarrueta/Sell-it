@@ -3,6 +3,9 @@ package ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.*;
 
@@ -20,7 +23,7 @@ public class VentanaEvento extends JFrame{
 	private Evento eventoActual;
 	private Entrada ent;
 	
-	public VentanaEvento(Evento e) {
+	public VentanaEvento(Evento e, JFrame vPrincipal) {
 		
 		this.eventoActual = e;
 		
@@ -120,11 +123,16 @@ public class VentanaEvento extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					VentanaEvento.this.dispose();
-					VentanaPrincipal v = new VentanaPrincipal();
-					v.setVisible(true);
+//					VentanaPrincipal v = new VentanaPrincipal();
+					vPrincipal.setVisible(true);
 				}
 			});
-		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				vPrincipal.setVisible(true);
+			}
+		});
 		
 		btnComprar.addActionListener(new ActionListener() {
 

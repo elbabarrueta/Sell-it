@@ -1,6 +1,11 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import ventanas.VentanaPrincipal;
+
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Evento {
+public class Evento implements Serializable{
 	//Atributos
 //	public int codigo;
 //	public static int codigo = obtenerCod();
@@ -115,6 +120,19 @@ public class Evento {
 	public String toString() {
 		return "Evento [codigo=" + codigo + ", nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", ubicacion=" + ubicacion
 				+ ", nEntradas=" + nEntradas + ", creador=" + creador;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Evento evento = (Evento) obj;
+	    return codigo == evento.codigo;
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(codigo);
 	}
 	
 	private static int obtenerCod() {
