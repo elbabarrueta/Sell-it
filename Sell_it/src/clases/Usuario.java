@@ -21,6 +21,7 @@ public class Usuario {
 	public String imgPerfil;
 	public String descripcion;
 	private List<Notificacion> notificaciones;
+	private List<Entrada> entradasCompradas;
 
 	
 //	private String rutaImagenPerfil;
@@ -86,6 +87,9 @@ public class Usuario {
 	public final void setDescripion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	public List<Entrada> getEntradasCompradas() {
+        return entradasCompradas;
+    }
 	
 	//
 	public Usuario() {
@@ -96,6 +100,7 @@ public class Usuario {
 		this.contrasena = " ";
 		this.imgPerfil = "Sell_it/src/imagenes/perfil.png";
         this.notificaciones = new ArrayList<>();
+        this.entradasCompradas = new ArrayList<>();
         this.descripcion = " ";
 	}
 	public Usuario(String nombreUsuario, String correoUsuario, String tipoUsuario, String contrasena, String imgPerfil, String descripcion) {
@@ -106,6 +111,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.imgPerfil = imgPerfil;
         this.notificaciones = new ArrayList<>();
+        this.entradasCompradas = new ArrayList<>();
         this.descripcion = descripcion;
 	}
 	//

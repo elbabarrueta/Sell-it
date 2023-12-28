@@ -22,9 +22,10 @@ public class VentanaEvento extends JFrame{
 //	private VentanaCompra ventanaCompra;
 	private Evento eventoActual;
 	private Entrada ent;
+	public static VentanaPrincipal vPrincipal;
 	
-	public VentanaEvento(Evento ev, JFrame vPrincipal) {
-		
+	public VentanaEvento(Evento ev, VentanaPrincipal vPrincipal) {
+		this.vPrincipal = vPrincipal;
 		this.eventoActual = ev;
 		
 		VentanaInicio ventanaI = Main.getVentanaInicio();
@@ -121,16 +122,10 @@ public class VentanaEvento extends JFrame{
 		pnlBotones.add(btnComprar);
 		
 		btnVolver.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					VentanaEvento.this.dispose();
-//					VentanaPrincipal v = new VentanaPrincipal();
-					vPrincipal.setVisible(true);
-				}
-			});
-		this.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosed(WindowEvent e) {
+			public void actionPerformed(ActionEvent e) {
+				VentanaEvento.this.dispose();
+//					VentanaPrincipal v = new VentanaPrincipal();
 				vPrincipal.setVisible(true);
 			}
 		});
@@ -146,7 +141,7 @@ public class VentanaEvento extends JFrame{
 		        try {
 		            
 		            int cantidadComprar = Integer.parseInt(tfCantidad.getText());
-		            int entradasDisponibles = Integer.parseInt(lNumEntradas.getText());
+		            int entradasDisponibles = eventoActual.getnEntradas();
 		            
 		            if (cantidadComprar <= entradasDisponibles) {
 		                

@@ -621,13 +621,13 @@ public class BaseDeDatos {
 	    return LocalDate.now();
 	}
 //
-	public void marcarEntradaComoComprada(String codigoEntrada, String correoComprador) {
+	public void marcarEntradaComoComprada(Integer codigoEntrada, String correoComprador) {
 	    String com = "UPDATE Entrada SET propietario_correo = ? WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setString(1, correoComprador);
-	        preparedStatement.setString(2, codigoEntrada);
+	        preparedStatement.setInt(2, codigoEntrada);
 
 	        int rowsAffected = preparedStatement.executeUpdate();
 
@@ -643,6 +643,16 @@ public class BaseDeDatos {
 	    }
 	}
 	
+	public void updateNEntradas(int nEntradas, int codigo) {
+		String updateQuery = "UPDATE Evento SET nEntradas = ? WHERE codigo = ?";
+		try (PreparedStatement preparedStatement = con.prepareStatement(updateQuery)) {
+		    preparedStatement.setInt(1, nEntradas);
+		    preparedStatement.setInt(2, codigo);
+		    preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+		    e.printStackTrace(); 
+		}
+	}
 	
 	public static void guardarNotificacion(Usuario usuario, Notificacion notificacion) {
 		String com = "";
