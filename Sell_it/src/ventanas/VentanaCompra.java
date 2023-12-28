@@ -381,23 +381,51 @@ public class VentanaCompra extends JFrame{
 //			connection.close();
 	    	
 	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
-    		entradasEnBD = BaseDeDatos.obtenerListaEntradas();
-    		for(int i=0; i<cantidadCompra; i++) {
-	    		for(Entrada e: entradasEnBD) {
-	    			if(e.getEventoAsociado().getCodigo() == eventoActual.getCodigo()) {
-	    				if(e.getPropietario() == null) {
-	    			    	baseDeDatos.marcarEntradaComoComprada(e.getCod(), usuario.getCorreoUsuario());
-	    			    	usuario.getEntradasCompradas().add(e);
-	    				}
-	    			}
-	    		}
-    		}
+    		int codigoEventoActual = vEvento.getEvento().getCodigo();
+    		System.out.println(codigoEventoActual);
+    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
+    		System.out.println(evento);
+	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasPorEvento(codigoEventoActual);
+//	    	System.out.println(entradasEnBD);
+	    	
+	    	// Contador para rastrear cuántas entradas se han marcado como compradas
+	    	int entradasMarcadasComoCompradas = 0;
+
+	    	for (Entrada e : entradasEnBD) {
+	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
+	    	    	// Obtener el correo del propietario desde la base de datos
+	    	        String propietarioCorreo = baseDeDatos.obtenerPropietarioCorreoEntrada(e.getCod());
+
+	    	        if (e.getEventoAsociado().getCodigo() == eventoActual.getCodigo() && propietarioCorreo == null) {
+	    	            int codigoEntrada = e.getCod();
+	    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+//    			    	usuario.getEntradasCompradas().add(e);
+	    	            entradasMarcadasComoCompradas++;
+	    	        }
+	    	    } else {
+	    	        // Si ya se han marcado la cantidad necesaria de entradas, salir del bucle
+	    	        break;
+	    	    }
+	    	}
+	    	
+//    		for(Entrada e: entradasEnBD) {
+//	    		for(int i=0; i<cantidadCompra; i++) {
+//	    			if(e.getEventoAsociado().getCodigo() == eventoActual.getCodigo()) {
+//	    				if(e.getPropietario() == null) {
+//	    					int codigoEntrada = e.getCod();
+////	    					System.out.println(codigoEntrada + " y...... " + usuario);
+//	    					baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+////	    			    	usuario.getEntradasCompradas().add(e);
+//	    				}
+//	    			}
+//	    		}
+//    		}
 	    	baseDeDatos.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
 	    	System.out.println("Entradas de usuario" + usuario.getEntradasCompradas());
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-	        dispose();
+    		dispose();
 	        vPrincipal.setVisible(true);
 	    }else {
 	        JOptionPane.showMessageDialog(null, "Comprueba que el telefono introducido tiene 9 digitos", "Error", JOptionPane.INFORMATION_MESSAGE);

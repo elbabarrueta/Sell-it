@@ -325,41 +325,75 @@ public class BaseDeDatos {
 		}
 		return listaEventos;
 	}
-	//Devuelve una lista con las entradas de la tabla Entrada
-		public static List<Entrada> obtenerListaEntradas(){
-			String sql = "SELECT * FROM Entrada";
-			List<Entrada> listaEntrada = new ArrayList<>();
-			try {
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				while(rs.next()) {
-					int codigo = rs.getInt("codigo");
-					//String desc = rs.getString("desc");
-					//String fecha = rs.getString("fecha");
-					int evento_cod = rs.getInt("evento_cod");
-					String propietario_correo = rs.getString("propietario_correo");
-					double precio = rs.getDouble("precio");
-					
-					Evento evento = obtenerEventoPorCodigo(evento_cod);
-					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
-					if (evento != null ) {
-					    Entrada entrada = new Entrada(codigo, evento, propietario, precio);
-						listaEntrada.add(entrada);
-					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
-					} else {
-					    // Manejar el caso en que no se encuentre el evento
-					    System.out.println("No se encontró el evento con el código: " + evento_cod);
-					}
-					//Entrada e = new Entrada(codigo, desc, fecha,precio);
-				}
-				rs.close();
-				st.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return listaEntrada;
-		}
+//	//Devuelve una lista con las entradas de la tabla Entrada
+//		public static List<Entrada> obtenerListaEntradas(){
+//			String sql = "SELECT * FROM Entrada";
+//			List<Entrada> listaEntrada = new ArrayList<>();
+//			try {
+//				Statement st = con.createStatement();
+//				ResultSet rs = st.executeQuery(sql);
+//				while(rs.next()) {
+//					int codigo = rs.getInt("codigo");
+//					//String desc = rs.getString("desc");
+//					//String fecha = rs.getString("fecha");
+//					int evento_cod = rs.getInt("evento_cod");
+//					String propietario_correo = rs.getString("propietario_correo");
+//					double precio = rs.getDouble("precio");
+//					
+//					Evento evento = obtenerEventoPorCodigo(evento_cod);
+//					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+//					if (evento != null ) {
+//						System.out.println(evento);
+//					    Entrada entrada = new Entrada(codigo, evento, propietario, precio);
+//						System.out.println(entrada);
+//					    listaEntrada.add(entrada);
+//					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
+//					} else {
+//					    // Manejar el caso en que no se encuentre el evento
+//					    System.out.println("No se encontró el evento con el código: " + evento_cod);
+//					}
+//					//Entrada e = new Entrada(codigo, desc, fecha,precio);
+//				}
+//				rs.close();
+//				st.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			return listaEntrada;
+//		}
+	public static List<Entrada> obtenerListaEntradasPorEvento(int evento_cod) {
+	    String sql = "SELECT * FROM Entrada WHERE evento_cod = ?";
+	    List<Entrada> listaEntrada = new ArrayList<>();
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+	        preparedStatement.setInt(1, evento_cod);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        while (rs.next()) {
+	            int codigo = rs.getInt("codigo");
+	            String propietario_correo = rs.getString("propietario_correo");
+	            double precio = rs.getDouble("precio");
+
+	            Evento evento = obtenerEventoPorCodigo(evento_cod);
+	            Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+
+	            if (evento != null) {
+//	                System.out.println(evento);
+	                Entrada entrada = new Entrada(codigo, evento, propietario, precio);
+//	                System.out.println(entrada);
+	                listaEntrada.add(entrada);
+	            } else {
+	                // Manejar el caso en que no se encuentre el evento
+	                System.out.println("No se encontró el evento con el código: " + evento_cod);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return listaEntrada;
+	}
 
 	public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 		//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
@@ -570,6 +604,7 @@ public class BaseDeDatos {
 	        ResultSet rs = preparedStatement.executeQuery();
 
 	        if (rs.next()) {
+	        	int codigo = rs.getInt("codigo");
 	            String nombre = rs.getString("nombre");
 	            String desc = rs.getString("desc");
 	            String fecha = rs.getString("fecha");
@@ -577,13 +612,14 @@ public class BaseDeDatos {
 	            int nEntradas = rs.getInt("nEntradas");
 	            String rutaImg = rs.getString("rutaImg");
 	            String creador = rs.getString("creador");
-	            Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
+	            Evento evento = new Evento(codigo, nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
 	            return evento;
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("Último comando: " + com);
 	        e.printStackTrace();
 	    }
+	    System.out.println("No se encontró el evento con el código: " + evento_cod);
 	    return null;  // Devuelve null si no se encuentra el evento
 	}
 //	
@@ -642,7 +678,25 @@ public class BaseDeDatos {
 	        e.printStackTrace();
 	    }
 	}
-	
+//	
+	public String obtenerPropietarioCorreoEntrada(int codigoEntrada) {
+	    String com = "SELECT propietario_correo FROM Entrada WHERE codigo = ?";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setInt(1, codigoEntrada);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getString("propietario_correo");
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	    return null;  // Devuelve null si no se encuentra la entrada o hay un error
+	}
+//	
 	public void updateNEntradas(int nEntradas, int codigo) {
 		String updateQuery = "UPDATE Evento SET nEntradas = ? WHERE codigo = ?";
 		try (PreparedStatement preparedStatement = con.prepareStatement(updateQuery)) {
