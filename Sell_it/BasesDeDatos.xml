@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2023-12-17T17:41:58.532442200Z</date>
-  <millis>1702834918532</millis>
-  <nanos>442200</nanos>
+  <date>2023-12-29T17:04:03.930149100Z</date>
+  <millis>1703869443930</millis>
+  <nanos>149100</nanos>
   <sequence>1</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>BD: create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.548076100Z</date>
-  <millis>1702834918548</millis>
-  <nanos>76100</nanos>
+  <date>2023-12-29T17:04:03.930149100Z</date>
+  <millis>1703869443930</millis>
+  <nanos>149100</nanos>
   <sequence>2</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -26,107 +26,45 @@
   <message>La tabla ya está creada</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.548076100Z</date>
-  <millis>1702834918548</millis>
-  <nanos>76100</nanos>
+  <date>2023-12-29T17:04:03.930149100Z</date>
+  <millis>1703869443930</millis>
+  <nanos>149100</nanos>
   <sequence>3</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
   <class>BasesDeDatos.BaseDeDatos</class>
   <method>main</method>
   <thread>1</thread>
-  <message>BD: ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena TEXT</message>
+  <message>BD: ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.548076100Z</date>
-  <millis>1702834918548</millis>
-  <nanos>76100</nanos>
+  <date>2023-12-29T17:04:03.930149100Z</date>
+  <millis>1703869443930</millis>
+  <nanos>149100</nanos>
   <sequence>4</sequence>
   <logger>BaseDeDatos</logger>
-  <level>WARNING</level>
+  <level>INFO</level>
   <class>BasesDeDatos.BaseDeDatos</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Error al agregar la columna ultimoCambioContrasena</message>
-  <exception>
-    <message>org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (duplicate column name: ultimoCambioContrasena)</message>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1179</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>newSQLException</method>
-      <line>1190</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.DB</class>
-      <method>throwex</method>
-      <line>1150</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec_utf8</method>
-    </frame>
-    <frame>
-      <class>org.sqlite.core.NativeDB</class>
-      <method>_exec</method>
-      <line>97</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>lambda$executeLargeUpdate$2</method>
-      <line>132</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>withConnectionTimeout</method>
-      <line>459</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeLargeUpdate</method>
-      <line>119</line>
-    </frame>
-    <frame>
-      <class>org.sqlite.jdbc3.JDBC3Statement</class>
-      <method>executeUpdate</method>
-      <line>106</line>
-    </frame>
-    <frame>
-      <class>BasesDeDatos.BaseDeDatos</class>
-      <method>main</method>
-      <line>73</line>
-    </frame>
-    <frame>
-      <class>ventanas.VentanaInicio</class>
-      <method>&lt;init&gt;</method>
-      <line>197</line>
-    </frame>
-    <frame>
-      <class>ventanas.Main</class>
-      <method>main</method>
-      <line>37</line>
-    </frame>
-  </exception>
+  <message>La columna ya esta creada</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.557533500Z</date>
-  <millis>1702834918557</millis>
-  <nanos>533500</nanos>
+  <date>2023-12-29T17:04:03.930149100Z</date>
+  <millis>1703869443930</millis>
+  <nanos>149100</nanos>
   <sequence>5</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
   <class>BasesDeDatos.BaseDeDatos</class>
   <method>main</method>
   <thread>1</thread>
-  <message>BD: UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena IS NULL</message>
+  <message>BD: UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.559000600Z</date>
-  <millis>1702834918559</millis>
-  <nanos>600</nanos>
+  <date>2023-12-29T17:04:03.930149100Z</date>
+  <millis>1703869443930</millis>
+  <nanos>149100</nanos>
   <sequence>6</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -136,9 +74,9 @@
   <message>BD: select * from Usuario where correoUsuario = 'admin'</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.560551Z</date>
-  <millis>1702834918560</millis>
-  <nanos>551000</nanos>
+  <date>2023-12-29T17:04:03.947798700Z</date>
+  <millis>1703869443947</millis>
+  <nanos>798700</nanos>
   <sequence>7</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -148,9 +86,9 @@
   <message>BD: select * from Usuario</message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.563997Z</date>
-  <millis>1702834918563</millis>
-  <nanos>997000</nanos>
+  <date>2023-12-29T17:04:03.947798700Z</date>
+  <millis>1703869443947</millis>
+  <nanos>798700</nanos>
   <sequence>8</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -160,9 +98,9 @@
   <message>BD: select * from Evento </message>
 </record>
 <record>
-  <date>2023-12-17T17:41:58.595259500Z</date>
-  <millis>1702834918595</millis>
-  <nanos>259500</nanos>
+  <date>2023-12-29T17:04:03.961850500Z</date>
+  <millis>1703869443961</millis>
+  <nanos>850500</nanos>
   <sequence>9</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -171,15 +109,4 @@
   <thread>1</thread>
   <message>BD: select * from Usuario</message>
 </record>
-<record>
-  <date>2023-12-17T17:43:17.191218800Z</date>
-  <millis>1702834997191</millis>
-  <nanos>218800</nanos>
-  <sequence>10</sequence>
-  <logger>BaseDeDatos</logger>
-  <level>INFO</level>
-  <class>BasesDeDatos.BaseDeDatos</class>
-  <method>modificarUsuarioYaRegistrado</method>
-  <thread>28</thread>
-  <message>BD: update Usuario set nombreUsuario= 'Discoteca Moma' where correoUsuario = 'moma@gmail.com'</message>
-</record>
+</log>

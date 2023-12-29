@@ -3,6 +3,7 @@ package ventanas;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -130,6 +131,10 @@ public class VentanaEvento extends JFrame{
 						vc.setVisible(true);
 						
 						
+		            } else if (cantidadComprar <= 0) {
+		            	JOptionPane.showMessageDialog(VentanaEvento.this,
+		                        "No puedes comprar ese numero de entradas",
+		                         "Error", JOptionPane.ERROR_MESSAGE);
 		            } else {
 		                
 		                JOptionPane.showMessageDialog(VentanaEvento.this,

@@ -27,6 +27,7 @@ public class VentanaCompra extends JFrame{
 	private Usuario usuario;
 	private Entrada ent;
 	private Evento evento;
+	private VentanaPrincipal vPrincipal;
 	
 	//Componentes de la ventana
 	private JTextField tfNombre;
@@ -350,11 +351,16 @@ public class VentanaCompra extends JFrame{
 	    if (!esNumeroTarjetaValido || !esCCVValido) {
 	        mostrarError(errorPane, "Error al confirmar la compra.\nInténtalo de nuevo.\nRecuerda que el número de TARJETA debe tener 16 dígitos y el CCV debe tener 3 dígitos.");
 	    }
+	    if(!validarCorreo(tfCorreo.getText())) {
+	    	mostrarError(errorPane, "Correo incorrecto. Vuelve a provar");
+	    }
 	    if(verificarCampoTelefono() == true) {
+	    	vPrincipal = new VentanaPrincipal();
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        dispose();
+	        vPrincipal.setVisible(true);
 	    }else {
 	        JOptionPane.showMessageDialog(null, "Comprueba que el telefono introducido tiene 9 digitos", "Error", JOptionPane.INFORMATION_MESSAGE);
 	    }
@@ -391,6 +397,22 @@ public class VentanaCompra extends JFrame{
 	    repaint();
 	}
 
+	private boolean validarCorreo(String correo) {
+        if (correo == null || correo.isEmpty()) {
+        	tfCorreo.setBackground(Color.RED);
+            return false; // Correo nulo o vacío es inválido
+        }
+
+        // Expresión regular para validar un correo electrónico
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        
+        if(correo.matches(regex)) {
+        	return true;
+        } else {
+        	tfCorreo.setBackground(Color.RED);
+        	return false;
+        }
+    }
 	
 	public static void main(String[] args) {
 		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
