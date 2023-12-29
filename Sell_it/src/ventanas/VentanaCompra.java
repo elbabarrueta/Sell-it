@@ -382,11 +382,12 @@ public class VentanaCompra extends JFrame{
 	    	
 	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
     		int codigoEventoActual = vEvento.getEvento().getCodigo();
-    		System.out.println(codigoEventoActual);
-    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
-    		System.out.println(evento);
-	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasPorEvento(codigoEventoActual);
-//	    	System.out.println(entradasEnBD);
+//    		System.out.println("Codigo evento actual " + codigoEventoActual);
+//    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
+    		Evento evento = vEvento.getEvento();
+//    		System.out.println("Evento actual " + evento);
+	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
+//	    	System.out.println("Entradas en BD " + entradasEnBD);
 	    	
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
 	    	int entradasMarcadasComoCompradas = 0;
@@ -394,20 +395,17 @@ public class VentanaCompra extends JFrame{
 	    	for (Entrada e : entradasEnBD) {
 	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
 	    	    	// Obtener el correo del propietario desde la base de datos
-	    	        String propietarioCorreo = baseDeDatos.obtenerPropietarioCorreoEntrada(e.getCod());
-
-	    	        if (e.getEventoAsociado().getCodigo() == eventoActual.getCodigo() && propietarioCorreo == null) {
-	    	            int codigoEntrada = e.getCod();
-	    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
-//    			    	usuario.getEntradasCompradas().add(e);
-	    	            entradasMarcadasComoCompradas++;
-	    	        }
+//	    	        String propietarioCorreo = baseDeDatos.obtenerPropietarioCorreoEntrada(e.getCod());
+    	            int codigoEntrada = e.getCod();
+//    	            System.out.println("Entrada a comprar: " + e);
+    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+    	            entradasMarcadasComoCompradas++;	
 	    	    } else {
 	    	        // Si ya se han marcado la cantidad necesaria de entradas, salir del bucle
 	    	        break;
 	    	    }
 	    	}
-	    	
+//	    	System.out.println("Entradas compradas: " + BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual));
 //    		for(Entrada e: entradasEnBD) {
 //	    		for(int i=0; i<cantidadCompra; i++) {
 //	    			if(e.getEventoAsociado().getCodigo() == eventoActual.getCodigo()) {
@@ -421,7 +419,7 @@ public class VentanaCompra extends JFrame{
 //	    		}
 //    		}
 	    	baseDeDatos.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
-	    	System.out.println("Entradas de usuario" + usuario.getEntradasCompradas());
+//	    	System.out.println("Entradas de usuario " + usuario.getEntradasCompradas());
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);

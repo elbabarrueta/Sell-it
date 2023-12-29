@@ -362,36 +362,37 @@ public class BaseDeDatos {
 //			}
 //			return listaEntrada;
 //		}
-	public static List<Entrada> obtenerListaEntradasPorEvento(int evento_cod) {
+	public static List<Entrada> obtenerListaEntradasSinComprarPorEvento(int evento_cod) {
 	    String sql = "SELECT * FROM Entrada WHERE evento_cod = ?";
 	    List<Entrada> listaEntrada = new ArrayList<>();
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
 	        preparedStatement.setInt(1, evento_cod);
 	        ResultSet rs = preparedStatement.executeQuery();
+            Evento evento = obtenerEventoPorCodigo(evento_cod);
 
 	        while (rs.next()) {
 	            int codigo = rs.getInt("codigo");
 	            String propietario_correo = rs.getString("propietario_correo");
 	            double precio = rs.getDouble("precio");
 
-	            Evento evento = obtenerEventoPorCodigo(evento_cod);
 	            Usuario propietario = getUsuarioPorCorreo(propietario_correo);
 
 	            if (evento != null) {
-//	                System.out.println(evento);
-	                Entrada entrada = new Entrada(codigo, evento, propietario, precio);
-//	                System.out.println(entrada);
-	                listaEntrada.add(entrada);
+	            	if(propietario == null) {
+//		                System.out.println(evento);
+		                Entrada entrada = new Entrada(codigo, evento, propietario, precio);
+//		                System.out.println(entrada);
+		                listaEntrada.add(entrada);
+	            	}
 	            } else {
-	                // Manejar el caso en que no se encuentre el evento
+	                // Manejar el caso en que no se encuentre el evento 
 	                System.out.println("No se encontró el evento con el código: " + evento_cod);
 	            }
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-
 	    return listaEntrada;
 	}
 
@@ -597,7 +598,7 @@ public class BaseDeDatos {
 
 	public static Evento obtenerEventoPorCodigo(int evento_cod) {
 	    String com = "SELECT * FROM Evento WHERE codigo = ?";
-	    logger.log(Level.INFO, "BD: " + com);
+//	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setInt(1, evento_cod);
@@ -681,7 +682,7 @@ public class BaseDeDatos {
 //	
 	public String obtenerPropietarioCorreoEntrada(int codigoEntrada) {
 	    String com = "SELECT propietario_correo FROM Entrada WHERE codigo = ?";
-	    logger.log(Level.INFO, "BD: " + com);
+//	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setInt(1, codigoEntrada);
@@ -737,7 +738,28 @@ public class BaseDeDatos {
 			e2.printStackTrace();
 		}
 	}
-	
+	public static List<Entrada> obtenerEntradasDeUsuario(Usuario u){
+        List<Entrada> entradas = new ArrayList<>();
+        String com = "";
+        try {
+            com = "select * from Entrada where propietario_correo = '" + u.getCorreoUsuario() + "'";
+            ResultSet rs = s.executeQuery(com);
+
+            while (rs.next()) {
+                int codigo = rs.getInt("codigo");
+                int evento_cod = rs.getInt("evento_cod");
+                Evento evento = obtenerEventoPorCodigo(evento_cod);
+                Double precio = rs.getDouble("precio");
+                Entrada e = new Entrada(codigo, evento, u, precio);
+                entradas.add(e);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener entradas del usuario " + u.getCorreoUsuario());
+            System.out.println("Último comando: " + com);
+            e.printStackTrace();
+        }
+        return entradas;
+    }
 	public static List<Notificacion> obtenerNotificacionesPorUsuario(Usuario u){
         List<Notificacion> notificaciones = new ArrayList<>();
         String com = "";

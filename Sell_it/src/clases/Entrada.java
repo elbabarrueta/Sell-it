@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class Entrada{
 	//Atributos
-	private static int cod; //codigo unico
+	private int cod; //codigo unico
 //	private String desc;
 //	private String fecha; 
 	private Evento eventoAsociado;

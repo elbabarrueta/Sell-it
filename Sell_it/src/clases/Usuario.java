@@ -151,5 +151,9 @@ public class Usuario {
         List<Notificacion> notificacionesDesdeBD = BaseDeDatos.obtenerNotificacionesPorUsuario(this);
         notificaciones.addAll(notificacionesDesdeBD);
     }
-	
+    public void cargarEntradasCompradasDesdeBD() {
+        // Lógica para cargar notificaciones desde la base de datos
+        List<Entrada> entradasCompradas = BaseDeDatos.obtenerEntradasDeUsuario(this);
+        entradasCompradas.addAll(entradasCompradas);
+    }
 }

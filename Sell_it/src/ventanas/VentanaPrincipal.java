@@ -398,7 +398,7 @@ public class VentanaPrincipal extends JFrame{
 		        		}else {
 		        			eventosBuscados.put(evento, 1);
 		        		}
-		        		System.out.println(eventosBuscados);
+//		        		System.out.println(eventosBuscados);
 						VentanaEvento v = new VentanaEvento(evento, vPrincipal);
 						v.setVisible(true);
 						vPrincipal.dispose();
