@@ -136,6 +136,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
+				v.setVisible(true);
 			}
 		});
 	    btnMisCompras.addActionListener(new ActionListener() {
@@ -151,13 +152,9 @@ public class VentanaPerfilUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				dispose();
 				VentanaReventaUsuario v2 = new VentanaReventaUsuario(usuario);
-				v2.setVisible(true);
-				
-				
-				
-				
+				v2.setVisible(true);				
 			}
 		});
 	    

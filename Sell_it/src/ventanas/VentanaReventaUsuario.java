@@ -91,6 +91,7 @@ public class VentanaReventaUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				VentanaPerfilUsuario vPerfilEntidad = new VentanaPerfilUsuario(usu, entradasCompradas);
+				vPerfilEntidad.setVisible(true);
 			}
 		});
 		
@@ -100,6 +101,7 @@ public class VentanaReventaUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				VentanaPrincipal vPrincipal = new VentanaPrincipal();
+				vPrincipal.setVisible(true);
 			}
 		});
 		
