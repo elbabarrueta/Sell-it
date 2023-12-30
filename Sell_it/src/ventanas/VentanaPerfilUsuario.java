@@ -143,7 +143,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaPerfilUsuario.this.dispose();
-				VentanaEntradasCompradas v1 = new VentanaEntradasCompradas(entradasCompradas);
+				VentanaMisCompras v1 = new VentanaMisCompras(usuario);
 				v1.setVisible(true);
 			}
 		});

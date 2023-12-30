@@ -117,7 +117,7 @@ public class VentanaTablaInformacion extends JFrame {
         public int getColumnCount() {
             return 7; // Ajusta esto según la cantidad de columnas en tu modelo de Evento
         }
-        private final String[] cabeceras = { "codigo", "nombre", "desc", "fecha", "ubicacion", "nEntradas", "rutaImg", "creador"};
+        private final String[] cabeceras = { "codigo", "nombre", "desc", "fecha", "ubicacion", "nEntradas", "creador"};
 		@Override
 		public String getColumnName(int columnIndex) {
 //			System.out.println( "getColumnName " + columnIndex );

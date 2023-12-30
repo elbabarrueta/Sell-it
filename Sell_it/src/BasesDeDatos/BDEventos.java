@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,9 +19,21 @@ import clases.Usuario;
 public class BDEventos {
 	private Evento even;
 	private static Logger logger = Logger.getLogger("Base de Datos Eventos");
-	private static Connection con;
 	private static Statement s;
 	private static ResultSet rs;
+	private static Connection con;
+    static {
+        initializeConnection();
+    }
+    private static void initializeConnection() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            // Log the exception or show a message to the user
+        }
+    }
 	
 //	public static void main(String args[]) {
 //		//Decidimos el driver
@@ -107,6 +120,41 @@ public class BDEventos {
 			e2.printStackTrace();
 		}
 }
+	
+	public static Evento obtenerEventoPorCodigo(int evento_cod) {
+        // Asegúrate de que la conexión ha sido inicializada
+        if (con == null) {
+            initializeConnection();
+            if (con == null) {
+                // La conexión sigue siendo nula, manejar el error adecuadamente
+                return null;
+            }
+        }
+	    Evento evento = null;
+	    String query = "SELECT * FROM Evento WHERE codigo = ?";
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+	        preparedStatement.setInt(1, evento_cod);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            String nombre = rs.getString("nombre");
+	            String desc = rs.getString("desc");
+	            String fecha = rs.getString("fecha");
+	            String ubicacion = rs.getString("ubicacion");
+	            int nEntradas = rs.getInt("nEntradas");
+	            String rutaImg = rs.getString("rutaImg");
+	            String creador = rs.getString("creador");
+
+	            evento = new Evento(evento_cod, nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Error al obtener evento por código", e);
+	        e.printStackTrace();
+	    }
+	    return evento;
+	}
+
 
 public void modificarEventoYaRegistradoFecha(Evento even) {
 

@@ -707,6 +707,36 @@ public class BaseDeDatos {
 		}
 	}
 	
+	public static List<Entrada> obtenerEntradasCompradas(Usuario usuario) {
+	    List<Entrada> entradasCompradas = new ArrayList<>();
+	    String query = "SELECT * FROM Entrada WHERE propietario_correo = ?";
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+	        preparedStatement.setString(1, usuario.getCorreoUsuario());
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        while (rs.next()) {
+	            int codigo = rs.getInt("codigo");
+	            int evento_cod = rs.getInt("evento_cod");
+	            double precio = rs.getDouble("precio");
+
+	            // Asumimos que esta función devuelve un evento dado su código.
+	            // Deberás implementarla si aún no existe.
+	            Evento evento = BDEventos.obtenerEventoPorCodigo(evento_cod);
+	            
+	            if (evento != null) {
+	                Entrada entrada = new Entrada(codigo, evento, usuario, precio);
+	                entradasCompradas.add(entrada);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Error al obtener entradas compradas", e);
+	        e.printStackTrace();
+	    }
+	    return entradasCompradas;
+	}
+
+	
 	public static void guardarNotificacion(Usuario usuario, Notificacion notificacion) {
 		String com = "";
 		try {

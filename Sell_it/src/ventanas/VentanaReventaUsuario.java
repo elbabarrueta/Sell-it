@@ -114,6 +114,7 @@ public class VentanaReventaUsuario extends JFrame{
 		            return;
 		        }
 		        String precioText = tfPrecio.getText();
+		        
 		        try {
 			        double precio = Double.parseDouble(precioText);			            
 			        JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
@@ -122,7 +123,7 @@ public class VentanaReventaUsuario extends JFrame{
 		        }
 								
 			}
-		});	
+		});
 		setVisible(true);
 	}
 	public static void main(String[] args) {
