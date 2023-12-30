@@ -371,7 +371,7 @@ public class VentanaCompra extends JFrame{
 	    if(!validarCorreo(tfCorreo.getText())) {
 	    	mostrarError(errorPane, "Correo incorrecto. Vuelve a provar");
 	    }
-	    if(verificarCampoTelefono() == true) {
+	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
 	    	vPrincipal = new VentanaPrincipal();
 //	    	
 //	    	Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db", "usuario", "contraseña");
@@ -441,7 +441,7 @@ public class VentanaCompra extends JFrame{
 	        dispose();
 	        vPrincipal.setVisible(true);
 	    }else {
-	        JOptionPane.showMessageDialog(null, "Comprueba que el telefono introducido tiene 9 digitos", "Error", JOptionPane.INFORMATION_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "Comprueba que los datos introcudicos son los correctos", "Error", JOptionPane.INFORMATION_MESSAGE);
 	    }
 
 	}

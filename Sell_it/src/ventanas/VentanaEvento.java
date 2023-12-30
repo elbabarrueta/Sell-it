@@ -144,7 +144,7 @@ public class VentanaEvento extends JFrame{
 		            int cantidadComprar = Integer.parseInt(tfCantidad.getText());
 		            int entradasDisponibles = eventoActual.getnEntradas();
 		            
-		            if (cantidadComprar <= entradasDisponibles) {
+		            if (cantidadComprar <= entradasDisponibles && cantidadComprar > 0) {
 		                
 		            	VentanaEvento.this.dispose();
 						VentanaCompra vc = new VentanaCompra(usuActual, cantidadComprar, VentanaEvento.this, ent);
