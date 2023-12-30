@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2023-12-29T17:04:03.930149100Z</date>
-  <millis>1703869443930</millis>
-  <nanos>149100</nanos>
+  <date>2023-12-30T11:51:30.102276800Z</date>
+  <millis>1703937090102</millis>
+  <nanos>276800</nanos>
   <sequence>1</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>BD: create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.930149100Z</date>
-  <millis>1703869443930</millis>
-  <nanos>149100</nanos>
+  <date>2023-12-30T11:51:30.117906600Z</date>
+  <millis>1703937090117</millis>
+  <nanos>906600</nanos>
   <sequence>2</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -26,9 +26,9 @@
   <message>La tabla ya está creada</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.930149100Z</date>
-  <millis>1703869443930</millis>
-  <nanos>149100</nanos>
+  <date>2023-12-30T11:51:30.118976100Z</date>
+  <millis>1703937090118</millis>
+  <nanos>976100</nanos>
   <sequence>3</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -38,9 +38,9 @@
   <message>BD: ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.930149100Z</date>
-  <millis>1703869443930</millis>
-  <nanos>149100</nanos>
+  <date>2023-12-30T11:51:30.118976100Z</date>
+  <millis>1703937090118</millis>
+  <nanos>976100</nanos>
   <sequence>4</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -50,9 +50,9 @@
   <message>La columna ya esta creada</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.930149100Z</date>
-  <millis>1703869443930</millis>
-  <nanos>149100</nanos>
+  <date>2023-12-30T11:51:30.118976100Z</date>
+  <millis>1703937090118</millis>
+  <nanos>976100</nanos>
   <sequence>5</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -62,9 +62,9 @@
   <message>BD: UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.930149100Z</date>
-  <millis>1703869443930</millis>
-  <nanos>149100</nanos>
+  <date>2023-12-30T11:51:30.118976100Z</date>
+  <millis>1703937090118</millis>
+  <nanos>976100</nanos>
   <sequence>6</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -74,9 +74,9 @@
   <message>BD: select * from Usuario where correoUsuario = 'admin'</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.947798700Z</date>
-  <millis>1703869443947</millis>
-  <nanos>798700</nanos>
+  <date>2023-12-30T11:51:30.118976100Z</date>
+  <millis>1703937090118</millis>
+  <nanos>976100</nanos>
   <sequence>7</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -86,9 +86,9 @@
   <message>BD: select * from Usuario</message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.947798700Z</date>
-  <millis>1703869443947</millis>
-  <nanos>798700</nanos>
+  <date>2023-12-30T11:51:30.118976100Z</date>
+  <millis>1703937090118</millis>
+  <nanos>976100</nanos>
   <sequence>8</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
@@ -98,9 +98,9 @@
   <message>BD: select * from Evento </message>
 </record>
 <record>
-  <date>2023-12-29T17:04:03.961850500Z</date>
-  <millis>1703869443961</millis>
-  <nanos>850500</nanos>
+  <date>2023-12-30T11:51:30.135821900Z</date>
+  <millis>1703937090135</millis>
+  <nanos>821900</nanos>
   <sequence>9</sequence>
   <logger>BaseDeDatos</logger>
   <level>INFO</level>
