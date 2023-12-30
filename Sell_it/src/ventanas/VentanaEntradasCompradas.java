@@ -20,5 +20,6 @@ public class VentanaEntradasCompradas extends JFrame{
 			entradasA.append(entrada + "\n");
 		}
 		getContentPane().add(entradaScoll, BorderLayout.CENTER);
+		setVisible(true);
 	}
 }

@@ -123,7 +123,7 @@ public class VentanaReventaUsuario extends JFrame{
 								
 			}
 		});	
-		
+		setVisible(true);
 	}
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();

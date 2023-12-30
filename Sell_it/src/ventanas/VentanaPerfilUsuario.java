@@ -38,8 +38,8 @@ public class VentanaPerfilUsuario extends JFrame{
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
 	private List<String> entradasCompradas;
-	private JButton btnMisCompras;
-	private JButton btnEnVenta;
+//	private JButton btnMisCompras;
+//	private JButton btnEnVenta;
 	
 	public VentanaPerfilUsuario(Usuario usuario, List<String> entradasCompradas) {
 		
@@ -102,15 +102,15 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JPanel bottomPanel = new JPanel();
 	    JButton buttonContrasena = new JButton("Cambiar contraseña");
 	    JButton buttonEditar = new JButton("Editar Perfil");
-	    btnMisCompras = new JButton("Mis compras");
+	    JButton btnMisCompras = new JButton("Mis compras");
         JButton botonVentanaP = new JButton("Ventana Principal");
 //        btnMisCompras = new JButton("Mis Compras");
-        btnEnVenta = new JButton("En Venta");
+        JButton btnEnVenta = new JButton("En Venta");
         
-        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
-        //Personalizar la letra del boton
-        Font font = new Font("Montserrat", Font.BOLD, 14);
-        botonVentanaP.setFont(font);
+//        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
+//        //Personalizar la letra del boton
+//        Font font = new Font("Montserrat", Font.BOLD, 14);
+//        botonVentanaP.setFont(font);
         
 	    bottomPanel.add(buttonContrasena);
 	    bottomPanel.add(buttonEditar);
@@ -134,7 +134,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				VentanaPerfilUsuario.this.dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
 				v.setVisible(true);
 			}
@@ -142,7 +142,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    btnMisCompras.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				VentanaPerfilUsuario.this.dispose();
 				VentanaEntradasCompradas v1 = new VentanaEntradasCompradas(entradasCompradas);
 				v1.setVisible(true);
 			}
@@ -152,7 +152,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				VentanaPerfilUsuario.this.dispose();
 				VentanaReventaUsuario v2 = new VentanaReventaUsuario(usuario);
 				v2.setVisible(true);				
 			}
@@ -331,6 +331,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    
 
 	    frame.pack();
+	    setLocationRelativeTo(null);
 	    frame.setVisible(true);
 	}	
 	private void setEditableDescripcion(boolean editable) {
