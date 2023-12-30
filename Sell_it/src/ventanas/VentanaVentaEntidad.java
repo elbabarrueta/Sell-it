@@ -207,6 +207,15 @@ public class VentanaVentaEntidad extends JFrame{
 	        return false; // Handle the exception as needed
 	    }
 	}
+	
+	public double obtenerPrecioEntrada() {
+	    String precioEntrada = tfPrecio.getText();
+	    try {
+	        return Double.parseDouble(precioEntrada);
+	    } catch (NumberFormatException ex) {
+	        return -1; 
+	    }
+	}
 	public static int obtenerCod() {
 		int ultimoCodigo = 0;
 
@@ -226,6 +235,7 @@ public class VentanaVentaEntidad extends JFrame{
             e.printStackTrace();
         }
         return ultimoCodigo + 1;
+        
     }
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();

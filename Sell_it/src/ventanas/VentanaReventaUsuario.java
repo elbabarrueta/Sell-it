@@ -23,10 +23,12 @@ import clases.Usuario;
 public class VentanaReventaUsuario extends JFrame{
 	private Usuario usuario;
 	private List<String> entradasCompradas;
+	private JTextField tfNombre = new JTextField();
 
 	private JComboBox cbEntradas = new JComboBox();   //Lista con entradas disponibles para vender
 //	private JTextField tfCant = new JTextField();
 	private JTextField tfPrecio = new JTextField();
+	
 	
 	public VentanaReventaUsuario(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -35,18 +37,26 @@ public class VentanaReventaUsuario extends JFrame{
 		setTitle("Reventa");
 		
 		//Creamos los paneles
+		
+		
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
+		
 		
 		JLabel fillerLabel = new JLabel("Bienvenido a la Ventana de Reventa");
         fillerLabel.setFont(new Font("Sans Serif", Font.BOLD, 15));
         fillerLabel.setHorizontalAlignment(JLabel.CENTER);
         fillerLabel.setVerticalAlignment(JLabel.CENTER);
         pSuperior.add(fillerLabel, BorderLayout.CENTER);
+        
 		
+    
 		JPanel pCentral = new JPanel(new GridLayout(2, 2, 10, 10));
         pCentral.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add(pCentral, BorderLayout.CENTER);
+		
+		
+		
 		
 		JPanel pInferior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pInferior.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
@@ -84,6 +94,8 @@ public class VentanaReventaUsuario extends JFrame{
 
         // Configuración adicional
         AutoCompleteDecorator.decorate(cbEntradas); // Añadir funcionalidad de autocompletado
+        
+        
 		
 		bMiperfil.addActionListener(new ActionListener() {
 			
@@ -104,7 +116,10 @@ public class VentanaReventaUsuario extends JFrame{
 				vPrincipal.setVisible(true);
 			}
 		});
-		
+		private double obtenerPrecioEntrada() {
+            VentanaVentaEntidad v1 = new VentanaVentaEntidad();
+            return v1.obtenerPrecioEntrada();
+        }
 		bSubir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -116,11 +131,28 @@ public class VentanaReventaUsuario extends JFrame{
 		        String precioText = tfPrecio.getText();
 		        
 		        try {
+		            double precioReventa = Double.parseDouble(precioText);
+
+		            // Obtener la entrada seleccionada
+		            // Suponemos que la entrada tiene un atributo "precioOriginal"
+		            double precioEntidad = obtenerPrecioEntrada();
+
+		            // Validar que el precio de reventa sea mayor que el precio original
+		            if (precioEntidad <= precioReventa) {
+		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+		            }
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio de reventa", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		        
+		    /*    try {
 			        double precio = Double.parseDouble(precioText);			            
 			        JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
 		        }catch(NumberFormatException ex) {
 		        	JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio", "Error", JOptionPane.ERROR_MESSAGE);
-		        }
+		        }*/
 								
 			}
 		});
