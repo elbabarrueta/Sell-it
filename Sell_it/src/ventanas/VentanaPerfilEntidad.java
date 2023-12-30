@@ -177,6 +177,16 @@ public class VentanaPerfilEntidad extends JFrame{
 //        frame.add(descriptionScrollPane, BorderLayout.CENTER);
 //        frame.add(bottomPanel, BorderLayout.SOUTH);
 
+		botonCompras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				VentanaPerfilEntidad.this.dispose();
+				VentanaMisCompras vc = new VentanaMisCompras(usuario);
+				//vc.setVisible(true);
+			}
+		});
         // Agregar acción al botón de información 1
         botonEnVenta.addActionListener(new ActionListener() {
             @Override

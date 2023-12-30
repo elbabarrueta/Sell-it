@@ -31,7 +31,6 @@ public class BDEventos {
             con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            // Log the exception or show a message to the user
         }
     }
 	
@@ -74,8 +73,6 @@ public class BDEventos {
 			con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 			s = con.createStatement();
 			try {
-				
-				// DA IGUAL QUE SEA MAYUSCULA O NO????
 				com = "CREATE TABLE EVENTO (codigo int, nombre string, desc string, fecha string,ubicacion string,nEntradas int,precio double,rutaImg string)";
 				logger.log(Level.INFO, "BD: " + com);
 				s.executeUpdate(com);
@@ -122,11 +119,9 @@ public class BDEventos {
 }
 	
 	public static Evento obtenerEventoPorCodigo(int evento_cod) {
-        // Asegúrate de que la conexión ha sido inicializada
         if (con == null) {
             initializeConnection();
             if (con == null) {
-                // La conexión sigue siendo nula, manejar el error adecuadamente
                 return null;
             }
         }
