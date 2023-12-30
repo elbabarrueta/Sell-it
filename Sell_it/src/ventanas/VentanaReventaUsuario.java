@@ -89,9 +89,9 @@ public class VentanaReventaUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				VentanaReventaUsuario.this.dispose();
 				VentanaPerfilUsuario vPerfilEntidad = new VentanaPerfilUsuario(usu, entradasCompradas);
-				vPerfilEntidad.setVisible(true);
+//				vPerfilEntidad.setVisible(true);
 			}
 		});
 		
@@ -99,9 +99,9 @@ public class VentanaReventaUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				VentanaReventaUsuario.this.dispose();
 				VentanaPrincipal vPrincipal = new VentanaPrincipal();
-				vPrincipal.setVisible(true);
+				//vPrincipal.setVisible(true);
 			}
 		});
 		
