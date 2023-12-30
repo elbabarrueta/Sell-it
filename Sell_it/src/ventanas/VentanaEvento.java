@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.*;
 
@@ -20,15 +23,16 @@ public class VentanaEvento extends JFrame{
 //	private VentanaCompra ventanaCompra;
 	private Evento eventoActual;
 	private Entrada ent;
+	public static VentanaPrincipal vPrincipal;
 	
-	public VentanaEvento(Evento e) {
-		
-		this.eventoActual = e;
+	public VentanaEvento(Evento ev, VentanaPrincipal vPrincipal) {
+		this.vPrincipal = vPrincipal;
+		this.eventoActual = ev;
 		
 		VentanaInicio ventanaI = Main.getVentanaInicio();
 		Usuario usuActual = ventanaI.getUsuarioActual();
-		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(e.getCodigo());
-		ent = new Entrada(e.getCodigo(), e, usuActual, precioEntrada);
+		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(ev.getCodigo());
+		ent = new Entrada(ev.getCodigo(), ev, usuActual, precioEntrada);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
@@ -44,11 +48,11 @@ public class VentanaEvento extends JFrame{
 		
 		JPanel pImagen = new JPanel();
 		lImagen = new JLabel();
-		if(e.getRutaImg() == null) {
+		if(ev.getRutaImg() == null) {
 	        ImageIcon imagen = new ImageIcon("Sell_it/src/imagenes/default.png"); // Ruta de la imagen de perfil
 	    	setImagen(imagen);
 	    }else {
-	    	String rutaImg = e.getRutaImg();
+	    	String rutaImg = ev.getRutaImg();
             ImageIcon imagen = new ImageIcon(rutaImg);
             setImagen(imagen);
 	    } 
@@ -56,20 +60,20 @@ public class VentanaEvento extends JFrame{
         pnlCentral.add(pImagen);
 		
         JButton btnComprar = new JButton("Comprar");
-		JPanel pEvento = new JPanel(new GridLayout(4,1));
-		lNombre = new JLabel(e.getNombre());
+		JPanel pEvento = new JPanel(new GridLayout(6,1));
+		lNombre = new JLabel("Nombre: " +ev.getNombre());
 		pEvento.add(lNombre);
-		JLabel lFecha = new JLabel(e.getFecha());
+		JLabel lFecha = new JLabel("Fecha: " +ev.getFecha());
 		pEvento.add(lFecha);
-		JLabel lUbicacion = new JLabel(e.getUbicacion());
+		JLabel lUbicacion = new JLabel("Ubicacion: " +ev.getUbicacion());
 		pEvento.add(lUbicacion);
-		JLabel lNumEntradas = new JLabel(String.valueOf(e.getnEntradas()));
+		JLabel lNumEntradas = new JLabel("Entradas disponibles: " +String.valueOf(ev.getnEntradas()));
 		pEvento.add(lNumEntradas);
 		pnlCentral.add(pEvento);
 		
 		JPanel pDesc = new JPanel();
 		JLabel lDesc = new JLabel("Detalles del evento:");
-		JTextArea taDesc = new JTextArea(e.getDesc());
+		JTextArea taDesc = new JTextArea(ev.getDesc());
 		taDesc.setPreferredSize(new Dimension(200, 180));
 		taDesc.setEditable(false);
 		taDesc.setLineWrap(true); 
@@ -77,10 +81,27 @@ public class VentanaEvento extends JFrame{
 		pDesc.add(lDesc);
 		pDesc.add(taDesc);
 		pnlCentral.add(pDesc);
-		
-	     
-		
-		JPanel pCantidad = new JPanel(new GridLayout(4,1));
+//		
+		// Agrega un JLabel para mostrar el correo del usuario
+	    JLabel lCorreoUsuario = new JLabel("Usuario: " + ev.getCreador());
+	    pEvento.add(lCorreoUsuario); 
+	    JButton botonVal  = new JButton("Valora el creador");
+		pEvento.add(botonVal);
+        pEvento.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Añade espacio debajo del botón
+        botonVal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	 String correoCreador = eventoActual.getCreador(); // Obtén el correo del creador del evento actual
+                 String nombreEvento = eventoActual.getNombre(); // Obtén el nombre del evento actual
+                
+                 VentanaValoracion ventanaValoracion = new VentanaValoracion(correoCreador, nombreEvento);
+                 ventanaValoracion.setVisible(true);
+            }
+        });
+//		
+		JPanel pCantidad = new JPanel(new GridLayout(5,1));
+		JLabel lCompra = new JLabel("<html>Para comprar entradas,"+ "<br/>"+"agrega la cantidad que quieres comprar"+"<br/>"+"y pulsa el boton compra."+ "</html>");
+		pCantidad.add(lCompra);
 		JLabel lCantidad = new JLabel("Cantidad:");
 		pCantidad.add(lCantidad);
 		pCantidad.add(tfCantidad);
@@ -102,14 +123,13 @@ public class VentanaEvento extends JFrame{
 		pnlBotones.add(btnComprar);
 		
 		btnVolver.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					VentanaEvento.this.dispose();
-					VentanaPrincipal v = new VentanaPrincipal();
-					v.setVisible(true);
-				}
-			});
-		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaEvento.this.dispose();
+//					VentanaPrincipal v = new VentanaPrincipal();
+				vPrincipal.setVisible(true);
+			}
+		});
 		
 		btnComprar.addActionListener(new ActionListener() {
 
@@ -122,7 +142,7 @@ public class VentanaEvento extends JFrame{
 		        try {
 		            
 		            int cantidadComprar = Integer.parseInt(tfCantidad.getText());
-		            int entradasDisponibles = Integer.parseInt(lNumEntradas.getText());
+		            int entradasDisponibles = eventoActual.getnEntradas();
 		            
 		            if (cantidadComprar <= entradasDisponibles) {
 		                
@@ -152,9 +172,14 @@ public class VentanaEvento extends JFrame{
 
 	}
 	public int entradasCompradas() {
-		int cantidadComprar = Integer.parseInt(tfCantidad.getText());
-        
-        return cantidadComprar;
+		try {
+	        int cantidadComprar = Integer.parseInt(tfCantidad.getText());
+	        return cantidadComprar;
+		} catch (NumberFormatException e) {
+	        
+	        System.err.println("Error: Ingresa un número válido");
+	        return 0; 
+	    }
         
     };
 	

@@ -195,12 +195,14 @@ public class BaseDeDatos {
 		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo Integer, evento_cod Integer, propietario_correo String, precio Double)";
 		String notificacion = "CREATE TABLE IF NOT EXISTS Notificacion (id Integer, mensaje String)";
 		String relacion = "CREATE TABLE IF NOT EXISTS Relacion (correo String, id_noti Integer, leido Boolean)";
+		String valoraciones = "CREATE TABLE IF NOT EXISTS Valoracion (id Integer, usuario_revisor String, usuario_valorado String, puntuacion Integer, comentario String)";
 		try {
 			Statement st = con.createStatement();
 			st.executeUpdate(sql);
 			st.executeUpdate(sql2);
 			st.executeUpdate(notificacion);
 			st.executeUpdate(relacion);
+			st.executeUpdate(valoraciones);
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -310,7 +312,7 @@ public class BaseDeDatos {
 				String rutaImg = rs.getString("rutaImg");
 				String creador = rs.getString("creador");
 				
-				Evento even = new Evento(nombre, desc, fecha, ubicacion, nEntradas,rutaImg, creador);
+				Evento even = new Evento(codigo, nombre, desc, fecha, ubicacion, nEntradas,rutaImg, creador);
 				listaEventos.add(even);
 			}
 			rs.close();
@@ -321,41 +323,76 @@ public class BaseDeDatos {
 		}
 		return listaEventos;
 	}
-	//Devuelve una lista con las entradas de la tabla Entrada
-		public static List<Entrada> obtenerListaEntradas(){
-			String sql = "SELECT * FROM Entrada";
-			List<Entrada> listaEntrada = new ArrayList<>();
-			try {
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				while(rs.next()) {
-					int codigo = rs.getInt("codigo");
-					//String desc = rs.getString("desc");
-					//String fecha = rs.getString("fecha");
-					int evento_cod = rs.getInt("evento_cod");
-					String propietario_correo = rs.getString("propietario_correo");
-					double precio = rs.getDouble("precio");
-					
-					Evento evento = obtenerEventoPorCodigo(evento_cod);
-					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
-					if (evento != null ) {
-					    Entrada entrada = new Entrada(codigo, evento, propietario, precio);
-						listaEntrada.add(entrada);
-					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
-					} else {
-					    // Manejar el caso en que no se encuentre el evento
-					    System.out.println("No se encontró el evento con el código: " + evento_cod);
-					}
-					//Entrada e = new Entrada(codigo, desc, fecha,precio);
-				}
-				rs.close();
-				st.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return listaEntrada;
-		}
+//	//Devuelve una lista con las entradas de la tabla Entrada
+//		public static List<Entrada> obtenerListaEntradas(){
+//			String sql = "SELECT * FROM Entrada";
+//			List<Entrada> listaEntrada = new ArrayList<>();
+//			try {
+//				Statement st = con.createStatement();
+//				ResultSet rs = st.executeQuery(sql);
+//				while(rs.next()) {
+//					int codigo = rs.getInt("codigo");
+//					//String desc = rs.getString("desc");
+//					//String fecha = rs.getString("fecha");
+//					int evento_cod = rs.getInt("evento_cod");
+//					String propietario_correo = rs.getString("propietario_correo");
+//					double precio = rs.getDouble("precio");
+//					
+//					Evento evento = obtenerEventoPorCodigo(evento_cod);
+//					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+//					if (evento != null ) {
+//						System.out.println(evento);
+//					    Entrada entrada = new Entrada(codigo, evento, propietario, precio);
+//						System.out.println(entrada);
+//					    listaEntrada.add(entrada);
+//					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
+//					} else {
+//					    // Manejar el caso en que no se encuentre el evento
+//					    System.out.println("No se encontró el evento con el código: " + evento_cod);
+//					}
+//					//Entrada e = new Entrada(codigo, desc, fecha,precio);
+//				}
+//				rs.close();
+//				st.close();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			return listaEntrada;
+//		}
+	public static List<Entrada> obtenerListaEntradasSinComprarPorEvento(int evento_cod) {
+	    String sql = "SELECT * FROM Entrada WHERE evento_cod = ?";
+	    List<Entrada> listaEntrada = new ArrayList<>();
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+	        preparedStatement.setInt(1, evento_cod);
+	        ResultSet rs = preparedStatement.executeQuery();
+            Evento evento = obtenerEventoPorCodigo(evento_cod);
+
+	        while (rs.next()) {
+	            int codigo = rs.getInt("codigo");
+	            String propietario_correo = rs.getString("propietario_correo");
+	            double precio = rs.getDouble("precio");
+
+	            Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+
+	            if (evento != null) {
+	            	if(propietario == null) {
+//		                System.out.println(evento);
+		                Entrada entrada = new Entrada(codigo, evento, propietario, precio);
+//		                System.out.println(entrada);
+		                listaEntrada.add(entrada);
+	            	}
+	            } else {
+	                // Manejar el caso en que no se encuentre el evento 
+	                System.out.println("No se encontró el evento con el código: " + evento_cod);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return listaEntrada;
+	}
 
 	public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
 		//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
@@ -559,13 +596,14 @@ public class BaseDeDatos {
 
 	public static Evento obtenerEventoPorCodigo(int evento_cod) {
 	    String com = "SELECT * FROM Evento WHERE codigo = ?";
-	    logger.log(Level.INFO, "BD: " + com);
+//	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setInt(1, evento_cod);
 	        ResultSet rs = preparedStatement.executeQuery();
 
 	        if (rs.next()) {
+	        	int codigo = rs.getInt("codigo");
 	            String nombre = rs.getString("nombre");
 	            String desc = rs.getString("desc");
 	            String fecha = rs.getString("fecha");
@@ -573,13 +611,14 @@ public class BaseDeDatos {
 	            int nEntradas = rs.getInt("nEntradas");
 	            String rutaImg = rs.getString("rutaImg");
 	            String creador = rs.getString("creador");
-	            Evento evento = new Evento(nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
+	            Evento evento = new Evento(codigo, nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
 	            return evento;
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("Último comando: " + com);
 	        e.printStackTrace();
 	    }
+	    System.out.println("No se encontró el evento con el código: " + evento_cod);
 	    return null;  // Devuelve null si no se encuentra el evento
 	}
 //	
@@ -617,13 +656,13 @@ public class BaseDeDatos {
 	    return LocalDate.now();
 	}
 //
-	public void marcarEntradaComoComprada(String codigoEntrada, String correoComprador) {
+	public void marcarEntradaComoComprada(Integer codigoEntrada, String correoComprador) {
 	    String com = "UPDATE Entrada SET propietario_correo = ? WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setString(1, correoComprador);
-	        preparedStatement.setString(2, codigoEntrada);
+	        preparedStatement.setInt(2, codigoEntrada);
 
 	        int rowsAffected = preparedStatement.executeUpdate();
 
@@ -638,7 +677,35 @@ public class BaseDeDatos {
 	        e.printStackTrace();
 	    }
 	}
-	
+//	
+	public String obtenerPropietarioCorreoEntrada(int codigoEntrada) {
+	    String com = "SELECT propietario_correo FROM Entrada WHERE codigo = ?";
+//	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setInt(1, codigoEntrada);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	            return rs.getString("propietario_correo");
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	    return null;  // Devuelve null si no se encuentra la entrada o hay un error
+	}
+//	
+	public void updateNEntradas(int nEntradas, int codigo) {
+		String updateQuery = "UPDATE Evento SET nEntradas = ? WHERE codigo = ?";
+		try (PreparedStatement preparedStatement = con.prepareStatement(updateQuery)) {
+		    preparedStatement.setInt(1, nEntradas);
+		    preparedStatement.setInt(2, codigo);
+		    preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+		    e.printStackTrace(); 
+		}
+	}
 	
 	public static void guardarNotificacion(Usuario usuario, Notificacion notificacion) {
 		String com = "";
@@ -669,7 +736,28 @@ public class BaseDeDatos {
 			e2.printStackTrace();
 		}
 	}
-	
+	public static List<Entrada> obtenerEntradasDeUsuario(Usuario u){
+        List<Entrada> entradas = new ArrayList<>();
+        String com = "";
+        try {
+            com = "select * from Entrada where propietario_correo = '" + u.getCorreoUsuario() + "'";
+            ResultSet rs = s.executeQuery(com);
+
+            while (rs.next()) {
+                int codigo = rs.getInt("codigo");
+                int evento_cod = rs.getInt("evento_cod");
+                Evento evento = obtenerEventoPorCodigo(evento_cod);
+                Double precio = rs.getDouble("precio");
+                Entrada e = new Entrada(codigo, evento, u, precio);
+                entradas.add(e);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener entradas del usuario " + u.getCorreoUsuario());
+            System.out.println("Último comando: " + com);
+            e.printStackTrace();
+        }
+        return entradas;
+    }
 	public static List<Notificacion> obtenerNotificacionesPorUsuario(Usuario u){
         List<Notificacion> notificaciones = new ArrayList<>();
         String com = "";
@@ -750,6 +838,51 @@ public class BaseDeDatos {
 
         return precio;
     }
+//	
+	// Método para insertar una valoración
+    public static void insertarValoracion(Integer id, String usuarioRevisor, String usuarioValorado, int puntuacion, String comentario) {
+        String com = "INSERT INTO Valoracion (id, usuario_revisor, usuario_valorado, puntuacion, comentario) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+            preparedStatement.setInt(1, id);
+        	preparedStatement.setString(2, usuarioRevisor);
+            preparedStatement.setString(3, usuarioValorado);
+            preparedStatement.setInt(4, puntuacion);
+            preparedStatement.setString(5, comentario);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Valoración registrada exitosamente.");
+            } else {
+                System.out.println("No se pudo registrar la valoración.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al insertar la valoración.");
+            e.printStackTrace();
+        }
+    }
+ // Método para obtener valoraciones por usuario
+    public static List<Valoracion> obtenerValoracionesPorUsuario(String usuario) {
+        List<Valoracion> valoraciones = new ArrayList<>();
+        String com = "SELECT * FROM Valoracion WHERE usuario_valorado = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+            preparedStatement.setString(1, usuario);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                int puntuacion = rs.getInt("puntuacion");
+                String comentario = rs.getString("comentario");
+                String usuarioRevisor = rs.getString("usuario_revisor");
+                Valoracion valoracion = new Valoracion(usuarioRevisor, usuario, puntuacion, comentario);
+                valoraciones.add(valoracion);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener valoraciones.");
+            e.printStackTrace();
+        }
+        return valoraciones;
+    }
+//	
 	
 // Esto seria para marcar la entrada como comprada
 //	String codigoEntrada = "tu_codigo_de_entrada";

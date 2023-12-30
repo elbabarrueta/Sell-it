@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.*;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -9,7 +10,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -18,6 +27,7 @@ import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXLabel;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
 import clases.Usuario;
@@ -26,8 +36,9 @@ public class VentanaCompra extends JFrame{
 	
 	private Usuario usuario;
 	private Entrada ent;
+
 	private Evento evento;
-	private VentanaPrincipal vPrincipal;
+	private Evento eventoActual;
 	
 	//Componentes de la ventana
 	private JTextField tfNombre;
@@ -47,19 +58,24 @@ public class VentanaCompra extends JFrame{
     private JXErrorPane errorPane;
     private VentanaEvento vEvento;
 	private int cantidadCompra;
+	private List<Entrada> entradasEnBD;
+    private static BaseDeDatos baseDeDatos;
+    private static VentanaPrincipal vPrincipal;
 	
 	public VentanaCompra(Usuario usuario, int cantidadCompra, VentanaEvento vEvento, Entrada entrada) {
+    	this.baseDeDatos = new BaseDeDatos();
 	    this.vEvento = vEvento;
 		this.usuario = usuario;
 		this.cantidadCompra = cantidadCompra;
 		this.ent = entrada;
+		vPrincipal = vEvento.vPrincipal;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(800, 500);
 		setLocationRelativeTo(null);
 		setTitle("Compra de entrada");
 		
 		//Obtenemos el evento al que hacemos referencia
-		Evento eventoActual = vEvento.getEvento();
+		this.eventoActual = vEvento.getEvento();
 		
 		//Creamos los paneles principales
 		JPanel pCentral = new JPanel(new GridLayout(2,1));
@@ -238,7 +254,7 @@ public class VentanaCompra extends JFrame{
 				// TODO Auto-generated method stub
 				 busyLabel.setBusy(false);
 				 VentanaCompra.this.dispose();
-				 VentanaEvento ve = new VentanaEvento(eventoActual);
+				 VentanaEvento ve = new VentanaEvento(eventoActual, vPrincipal);
 				 ve.setVisible(true);
 			}
 		});
@@ -322,7 +338,7 @@ public class VentanaCompra extends JFrame{
 			JOptionPane.showMessageDialog(null, "Límite de tiempo excedido. Por favor, inténtalo de nuevo", "Tiempo agotado", JOptionPane.ERROR_MESSAGE);
 			VentanaCompra.this.dispose();
 			Evento eventoActual = vEvento.getEvento();
-			VentanaEvento ve = new VentanaEvento(eventoActual);
+			VentanaEvento ve = new VentanaEvento(eventoActual, vPrincipal);
 			ve.setVisible(true);
 		}
 	}
@@ -336,7 +352,8 @@ public class VentanaCompra extends JFrame{
 //			JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 //			dispose();
 //		}
-	
+		
+		
 		if (tfNombre.getText().isEmpty() || tfCorreo.getText().isEmpty() || tfTfno.getText().isEmpty() ||
 	            tfNtarjeta.getText().isEmpty() || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
 	        JOptionPane.showMessageDialog(null, "Para confirmar la compra debe introducir todos los datos.");
@@ -356,6 +373,68 @@ public class VentanaCompra extends JFrame{
 	    }
 	    if(verificarCampoTelefono() == true) {
 	    	vPrincipal = new VentanaPrincipal();
+//	    	
+//	    	Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db", "usuario", "contraseña");
+//	    	Statement statement = connection.createStatement();
+//	    	ResultSet resultSet = statement.executeQuery("SELECT nEntradas FROM Evento ");
+//
+//	    	int valorBD = 0;
+//
+//	    	if (resultSet.next()) {
+//	    	    valorBD = resultSet.getInt("columna");
+//	    	}
+//	    	VentanaEvento instancia = new VentanaEvento(evento);
+//			int nEntradasCompradas = instancia.entradasCompradas();
+//			int nEntradasDisponibles = valorBD - nEntradasCompradas;
+//			String updateQuery = "UPDATE Evento SET nEntradas = ? ";
+//			try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+//			    preparedStatement.setInt(1, nEntradasDisponibles);
+//			    preparedStatement.executeUpdate();
+//			} catch (SQLException e) {
+//			    e.printStackTrace(); 
+//			}
+//			connection.close();
+	    	
+	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
+    		int codigoEventoActual = vEvento.getEvento().getCodigo();
+//    		System.out.println("Codigo evento actual " + codigoEventoActual);
+//    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
+    		Evento evento = vEvento.getEvento();
+//    		System.out.println("Evento actual " + evento);
+	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
+//	    	System.out.println("Entradas en BD " + entradasEnBD);
+	    	
+	    	// Contador para rastrear cuántas entradas se han marcado como compradas
+	    	int entradasMarcadasComoCompradas = 0;
+
+	    	for (Entrada e : entradasEnBD) {
+	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
+	    	    	// Obtener el correo del propietario desde la base de datos
+//	    	        String propietarioCorreo = baseDeDatos.obtenerPropietarioCorreoEntrada(e.getCod());
+    	            int codigoEntrada = e.getCod();
+//    	            System.out.println("Entrada a comprar: " + e);
+    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+    	            entradasMarcadasComoCompradas++;	
+	    	    } else {
+	    	        // Si ya se han marcado la cantidad necesaria de entradas, salir del bucle
+	    	        break;
+	    	    }
+	    	}
+//	    	System.out.println("Entradas compradas: " + BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual));
+//    		for(Entrada e: entradasEnBD) {
+//	    		for(int i=0; i<cantidadCompra; i++) {
+//	    			if(e.getEventoAsociado().getCodigo() == eventoActual.getCodigo()) {
+//	    				if(e.getPropietario() == null) {
+//	    					int codigoEntrada = e.getCod();
+////	    					System.out.println(codigoEntrada + " y...... " + usuario);
+//	    					baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+////	    			    	usuario.getEntradasCompradas().add(e);
+//	    				}
+//	    			}
+//	    		}
+//    		}
+	    	baseDeDatos.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
+//	    	System.out.println("Entradas de usuario " + usuario.getEntradasCompradas());
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
