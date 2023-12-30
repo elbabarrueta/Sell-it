@@ -101,7 +101,7 @@ public class VentanaReventaUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				VentanaReventaUsuario.this.dispose();
 				VentanaPrincipal vPrincipal = new VentanaPrincipal();
-				//vPrincipal.setVisible(true);
+				vPrincipal.setVisible(true);
 			}
 		});
 		
