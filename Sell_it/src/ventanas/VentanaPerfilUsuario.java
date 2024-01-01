@@ -8,6 +8,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import BasesDeDatos.BaseDeDatos;
 import clases.Usuario;
+import clases.Entrada;
 import clases.Notificacion;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -49,9 +50,9 @@ public class VentanaPerfilUsuario extends JFrame{
 		
 		BaseDeDatos base = new BaseDeDatos();
 
-		JFrame frame = new JFrame("Perfil Usuario");
-	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    frame.setLayout(new BorderLayout());
+		this.setTitle("Perfil Usuario");
+	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    this.setLayout(new BorderLayout());
 
 	    // Parte superior: nombre, correo y botones de información
 	    JPanel topPanel = new JPanel(new FlowLayout());
@@ -77,17 +78,15 @@ public class VentanaPerfilUsuario extends JFrame{
 		nameField.setEditable(false);
 	    emailField.setEditable(false);
 	    
-	    JButton infoButton1 = new JButton("En venta");
-	    JButton infoButton2 = new JButton("Valoraciones");
-	    JButton infoButton3 = new JButton("Notificaciones");
+	    JButton btnValoraciones = new JButton("Valoraciones");
+	    JButton btnNotificaciones = new JButton("Notificaciones");
 	    topPanel.add(lblFotoPerfil);
 	    topPanel.add(nameLabel);
 	    topPanel.add(nameField);
 	    topPanel.add(emailLabel);
 	    topPanel.add(emailField);
-	    topPanel.add(infoButton1);
-	    topPanel.add(infoButton2);
-	    topPanel.add(infoButton3);
+	    topPanel.add(btnValoraciones);
+	    topPanel.add(btnNotificaciones);
 
 	    // Parte central: descripción del usuario
 //	    descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
@@ -107,6 +106,8 @@ public class VentanaPerfilUsuario extends JFrame{
 //        btnMisCompras = new JButton("Mis Compras");
         JButton btnEnVenta = new JButton("En Venta");
         
+	    topPanel.add(btnEnVenta);
+        
 //        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
 //        //Personalizar la letra del boton
 //        Font font = new Font("Montserrat", Font.BOLD, 14);
@@ -117,19 +118,19 @@ public class VentanaPerfilUsuario extends JFrame{
 	    bottomPanel.add(btnMisCompras);
         bottomPanel.add(botonVentanaP);
 	    
-	    frame.add(topPanel, BorderLayout.NORTH);
-	    frame.add(descriptionScrollPane, BorderLayout.CENTER);
-	    frame.add(bottomPanel, BorderLayout.SOUTH);
-
+	    this.add(topPanel, BorderLayout.NORTH);
+	    this.add(descriptionScrollPane, BorderLayout.CENTER);
+	    this.add(bottomPanel, BorderLayout.SOUTH);
 	    
-	    infoButton1.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	    //        JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningun articulo en venta");
-//	        	VentanaTablaInformacion infV = new VentanaTablaInformacion();
-//	        	infV.setVisible(true);
-	        }
-	    });
+	    btnValoraciones.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				VentanaPerfilUsuario.this.dispose();
+//				QUEDA POR AÑADIR LA VENTANA DONDE SALEN LAS VALORACIONES QUE HEMOS RECIBIDO
+			}
+		});
 	    
 	    botonVentanaP.addActionListener(new ActionListener() {
 			@Override
@@ -251,7 +252,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	            JFileChooser chooser = new JFileChooser();
 	            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos imagen (.jpg, .png)", "jpg", "png");
 	            chooser.setFileFilter(filtro);
-	            int result = chooser.showOpenDialog(frame);
+	            int result = chooser.showOpenDialog(VentanaPerfilUsuario.this);
 	            if (result == JFileChooser.APPROVE_OPTION) {
 	                File selectedFile = chooser.getSelectedFile();
 	                String rutaImg = selectedFile.getAbsolutePath();
@@ -266,7 +267,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	                BaseDeDatos base = new BaseDeDatos();
 	                base.modificarUsuarioImagenPerfil(usuario);
 	            }else {
-            		JOptionPane.showMessageDialog(frame, "Error al cambiar imagen, vuelve a intentarlo.");
+            		JOptionPane.showMessageDialog(VentanaPerfilUsuario.this, "Error al cambiar imagen, vuelve a intentarlo.");
 	            }
 			}
 		});
@@ -313,7 +314,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    bottomPanel.add(botonGuardarCambios);
 	    bottomPanel.add(botonCambiarFoto);
 
-	    infoButton3.addActionListener(new ActionListener() {
+	    btnNotificaciones.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
 //	    		// Simulemos que aquí se obtienen notificaciones del sistema o de otros usuarios.
@@ -330,9 +331,9 @@ public class VentanaPerfilUsuario extends JFrame{
 	    });
 	    
 
-	    frame.pack();
+	    this.pack();
 	    setLocationRelativeTo(null);
-	    frame.setVisible(true);
+	    this.setVisible(true);
 	}	
 	private void setEditableDescripcion(boolean editable) {
 		descriptionArea.setEditable(editable);
@@ -386,7 +387,7 @@ public class VentanaPerfilUsuario extends JFrame{
         lblFotoPerfil.setIcon(imagenPerfil);
 	}
 	
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 		
 //		List<String> entradasCompradas = new ArrayList<>();
 //		VentanaInicio ventanaI = Main.getVentanaInicio();
@@ -395,6 +396,6 @@ public class VentanaPerfilUsuario extends JFrame{
 //		
 //    	VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
 
-	}
+//	}
 
 }

@@ -2,6 +2,7 @@ package ventanas;
 
 import java.awt.*;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.painter.MattePainter;
 
+import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
 import clases.Usuario;
-
 
 
 public class VentanaReventaUsuario extends JFrame{
@@ -25,19 +26,22 @@ public class VentanaReventaUsuario extends JFrame{
 	private List<String> entradasCompradas;
 	private JTextField tfNombre = new JTextField();
 
-	private JComboBox cbEntradas = new JComboBox();   //Lista con entradas disponibles para vender
-//	private JTextField tfCant = new JTextField();
+	private JComboBox<String> cbEntradas = new JComboBox<String>();
 	private JTextField tfPrecio = new JTextField();
 	
 	
-	public VentanaReventaUsuario(Usuario usu) {
+	public VentanaReventaUsuario(Usuario usuario) {
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(450, 400);
 		setLocationRelativeTo(null);
 		setTitle("Reventa");
 		
-		//Creamos los paneles
+		this.usuario = usuario;
 		
+		cargarEntradasCompradas();
+		
+		//Creamos los paneles
 		
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
@@ -94,15 +98,13 @@ public class VentanaReventaUsuario extends JFrame{
 
         // Configuración adicional
         AutoCompleteDecorator.decorate(cbEntradas); // Añadir funcionalidad de autocompletado
-        
-        
 		
 		bMiperfil.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaReventaUsuario.this.dispose();
-				VentanaPerfilUsuario vPerfilEntidad = new VentanaPerfilUsuario(usu, entradasCompradas);
+				VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
 //				vPerfilEntidad.setVisible(true);
 			}
 		});
@@ -116,6 +118,7 @@ public class VentanaReventaUsuario extends JFrame{
 				vPrincipal.setVisible(true);
 			}
 		});
+		
 		
 		bSubir.addActionListener(new ActionListener() {
 			
@@ -156,6 +159,17 @@ public class VentanaReventaUsuario extends JFrame{
 		setVisible(true);
 	}
 	
+	private void cargarEntradasCompradas() {
+	    List<Entrada> entradasCompradasList = BaseDeDatos.obtenerEntradasCompradas(usuario);
+	    cbEntradas.removeAllItems();
+	    for (Entrada entrada : entradasCompradasList) {
+	        // Aquí puedes decidir qué información de la entrada quieres mostrar en el JComboBox
+	        String entradaInfo = entrada.getEventoAsociado().getNombre() + " - " + entrada.getEventoAsociado().getFecha();
+	        cbEntradas.addItem(entradaInfo);
+	    }
+	}
+
+	
 	private double obtenerPrecioEntrada() {
         VentanaVentaEntidad v1 = new VentanaVentaEntidad(usuario);
         return v1.obtenerPrecioEntrada();
@@ -166,5 +180,7 @@ public class VentanaReventaUsuario extends JFrame{
 		VentanaReventaUsuario v = new VentanaReventaUsuario(usu);
 		v.setVisible(true);
 	}
+	
+	
 	
 }

@@ -22,6 +22,7 @@ public class VentanaMisCompras extends JFrame {
 
     private JTable tablaInfo;
     private EntradaTableModel modeloInfo;
+    private List<String> entradasCompradas;
     private Usuario usuario;
 
     public VentanaMisCompras(Usuario usuario) {
@@ -37,6 +38,8 @@ public class VentanaMisCompras extends JFrame {
         JPanel panelPrincipal = new JPanel(new BorderLayout());
         panelPrincipal.add(new JScrollPane(tablaInfo), BorderLayout.CENTER);
         
+        JButton bMiPerfil = new JButton("Perfil");
+        panelPrincipal.add(bMiPerfil, BorderLayout.SOUTH);
         // ... (configuración de otros paneles y botones si es necesario)
 
         add(panelPrincipal, BorderLayout.CENTER);
@@ -44,12 +47,23 @@ public class VentanaMisCompras extends JFrame {
         // Cargar las entradas compradas por el usuario
         cargarEntradasCompradas();
         this.setVisible(true);
+        
+        bMiPerfil.addActionListener(new ActionListener() {
+    		
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			VentanaMisCompras.this.dispose();
+    			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
+//    			vPerfilEntidad.setVisible(true);
+    		}
+    	});
     }
 
     private void cargarEntradasCompradas() {
         List<Entrada> entradasCompradas = BaseDeDatos.obtenerEntradasCompradas(usuario);
         modeloInfo.setDatos(entradasCompradas);
     }
+
 
     private class EntradaTableModel extends AbstractTableModel {
         private List<Entrada> datos;
