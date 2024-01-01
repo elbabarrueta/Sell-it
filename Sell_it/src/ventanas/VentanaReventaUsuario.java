@@ -116,10 +116,7 @@ public class VentanaReventaUsuario extends JFrame{
 				vPrincipal.setVisible(true);
 			}
 		});
-		private double obtenerPrecioEntrada() {
-            VentanaVentaEntidad v1 = new VentanaVentaEntidad();
-            return v1.obtenerPrecioEntrada();
-        }
+		
 		bSubir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -158,6 +155,12 @@ public class VentanaReventaUsuario extends JFrame{
 		});
 		setVisible(true);
 	}
+	
+	private double obtenerPrecioEntrada() {
+        VentanaVentaEntidad v1 = new VentanaVentaEntidad(usuario);
+        return v1.obtenerPrecioEntrada();
+    }
+	
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();
 		VentanaReventaUsuario v = new VentanaReventaUsuario(usu);
