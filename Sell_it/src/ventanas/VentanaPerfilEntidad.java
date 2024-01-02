@@ -417,6 +417,14 @@ public class VentanaPerfilEntidad extends JFrame{
         ventanaTabla.setVisible(true);
     }
 	
+	public static void mostrarValoraciones(Usuario usuario) {
+		// Obtén valoraciones del usuario
+	    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(null);
+	 // Crear la nueva ventana con la tabla de valoraciones
+	    VentanaTablaValoraciones ventanaValoraciones = new VentanaTablaValoraciones(valoracionesUsuario, usuario);
+	    ventanaValoraciones.setVisible(true);
+	}
+	
     public static void main(String[] args) {
 //    	VentanaInicio ventanaI = Main.getVentanaInicio();
 //		Usuario usuActual = ventanaI.getUsuarioActual();
