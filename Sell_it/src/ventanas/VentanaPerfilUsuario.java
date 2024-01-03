@@ -27,9 +27,6 @@ import java.util.List;
 
 public class VentanaPerfilUsuario extends JFrame{
 
-//	private JPanel panelBotones;
-//	private JPanel panelPrincipal;
-//	private JPanel panelInformacion;
 	private JLabel lblFotoPerfil;
 	private JTextField nameField;
 	private JTextField emailField;
@@ -39,8 +36,6 @@ public class VentanaPerfilUsuario extends JFrame{
 	private Usuario usuario;
 	private LocalDate ultimoCambioContrasena;
 	private List<String> entradasCompradas;
-//	private JButton btnMisCompras;
-//	private JButton btnEnVenta;
 	
 	public VentanaPerfilUsuario(Usuario usuario, List<String> entradasCompradas) {
 		

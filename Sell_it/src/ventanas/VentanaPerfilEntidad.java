@@ -176,15 +176,27 @@ public class VentanaPerfilEntidad extends JFrame{
 //        frame.add(topPanel, BorderLayout.NORTH);
 //        frame.add(descriptionScrollPane, BorderLayout.CENTER);
 //        frame.add(bottomPanel, BorderLayout.SOUTH);
-
+		
+		btnValoraciones.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				dispose();
+				
+				// Obtén valoraciones del usuario
+			    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(usuario);
+			    // Crear la nueva ventana con la tabla de valoraciones
+			    VentanaTablaValoraciones ventanaValoraciones = new VentanaTablaValoraciones(valoracionesUsuario, usuario);
+			    ventanaValoraciones.setVisible(true);
+			}
+		});
 		botonCompras.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				VentanaPerfilEntidad.this.dispose();
+//				VentanaPerfilEntidad.this.dispose();
 				VentanaMisCompras vc = new VentanaMisCompras(usuario);
-				//vc.setVisible(true);
+				vc.setVisible(true);
 			}
 		});
         // Agregar acción al botón de información 1
@@ -417,13 +429,13 @@ public class VentanaPerfilEntidad extends JFrame{
         ventanaTabla.setVisible(true);
     }
 	
-	public static void mostrarValoraciones(Usuario usuario) {
-		// Obtén valoraciones del usuario
-	    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(null);
-	 // Crear la nueva ventana con la tabla de valoraciones
-	    VentanaTablaValoraciones ventanaValoraciones = new VentanaTablaValoraciones(valoracionesUsuario, usuario);
-	    ventanaValoraciones.setVisible(true);
-	}
+//	public static void mostrarValoraciones(Usuario usuario) {
+//		// Obtén valoraciones del usuario
+//	    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(usuario);
+//	 // Crear la nueva ventana con la tabla de valoraciones
+//	    VentanaTablaValoraciones ventanaValoraciones = new VentanaTablaValoraciones(valoracionesUsuario, usuario);
+//	    ventanaValoraciones.setVisible(true);
+//	}
 	
     public static void main(String[] args) {
 //    	VentanaInicio ventanaI = Main.getVentanaInicio();

@@ -372,7 +372,7 @@ public class VentanaCompra extends JFrame{
 	    	mostrarError(errorPane, "Correo incorrecto. Vuelve a provar");
 	    }
 	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
-	    	vPrincipal = new VentanaPrincipal();
+//	    	vPrincipal = new VentanaPrincipal();
 //	    	
 //	    	Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db", "usuario", "contraseña");
 //	    	Statement statement = connection.createStatement();
@@ -439,6 +439,7 @@ public class VentanaCompra extends JFrame{
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        dispose();
+	        vPrincipal = new VentanaPrincipal();
 	        vPrincipal.setVisible(true);
 	    }else {
 	        JOptionPane.showMessageDialog(null, "Comprueba que los datos introcudicos son los correctos", "Error", JOptionPane.INFORMATION_MESSAGE);

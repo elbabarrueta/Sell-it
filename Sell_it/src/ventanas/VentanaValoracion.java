@@ -20,7 +20,7 @@ public class VentanaValoracion extends JFrame {
 
     private JTextField tfComentario;
     private JComboBox<Integer> cbCalificacion;
-    private JCheckBox chkAnonimo;  // Nuevo checkbox para la opción de ser anónimo
+    private JCheckBox chkAnonimo;  // Checkbox para la opción de ser anónimo
     private String nombreEvento;
     private String correoUsuarioCreador;
 
@@ -72,7 +72,6 @@ public class VentanaValoracion extends JFrame {
 
      // Obtén el usuario revisor desde la instancia de VentanaInicio
         VentanaInicio ventanaInicio = Main.getVentanaInicio();
-       // Usuario usuarioRevisor = ventanaInicio.getUsuarioActual();
      // Comprueba si la opción de ser anónimo está seleccionada
         String correoUsuarioRevisor = chkAnonimo.isSelected() ? "Anónimo" : ventanaInicio.getUsuarioActual().getCorreoUsuario();
 
@@ -81,7 +80,6 @@ public class VentanaValoracion extends JFrame {
 
         int id = Valoracion.obtenerId();
         // Guarda la valoracion
-      //  BaseDeDatos.insertarValoracion(id, usuarioRevisor.getCorreoUsuario(), usuarioValorado.getCorreoUsuario(), calificacion, comentario);
         BaseDeDatos.insertarValoracion(id, correoUsuarioRevisor, usuarioValorado.getCorreoUsuario(), calificacion, comentario);
 
         // Cerrar la ventana después de guardar la valoración

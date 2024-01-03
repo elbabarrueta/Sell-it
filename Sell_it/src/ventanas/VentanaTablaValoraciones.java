@@ -21,6 +21,7 @@ public class VentanaTablaValoraciones extends JFrame{
 	 	private JTable tablaInfo;
 	    private MiTableModel modeloInfor;
 	    private Usuario usuario;
+	    
 	public VentanaTablaValoraciones(List<Valoracion> val, Usuario usuario) {
 		setTitle("Informacion sobre Eventos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -44,26 +45,19 @@ public class VentanaTablaValoraciones extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				 // Cerrar la ventana actual
 		        dispose();
-		        VentanaPerfilEntidad.mostrarEventosEnVentaDelUsuario(usuario);
-		        
+//		        VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
+//		        v.setVisible(true);
 				
 			}
 		});
         add(panelPrincipal, BorderLayout.CENTER);
         add(pInferior, BorderLayout.SOUTH);
         
-//        cargarEntradasCompradas();
-//        this.setVisible(true);
+        this.setVisible(true);
         
-        // Configuración inicial con los eventos proporcionados
+        // Configuración inicial con las valoraciones proporcionados
         modeloInfor.setDatos(val);
     }
-
-    
-//    private void cargarEntradasCompradas() {
-//        List<Entrada> entradasCompradas = BaseDeDatos.obtenerEntradasCompradas(usuario);
-//        modeloInfor.setDatos(entradasCompradas);
-//    }
 
     private static class MiTableModel extends AbstractTableModel {
         private List<Valoracion> datos;
@@ -85,7 +79,6 @@ public class VentanaTablaValoraciones extends JFrame{
         }
 		@Override
 		public String getColumnName(int columnIndex) {
-//			System.out.println( "getColumnName " + columnIndex );
 			return cabeceras[columnIndex];
 		}
 		@Override

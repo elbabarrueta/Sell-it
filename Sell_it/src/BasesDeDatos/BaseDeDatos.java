@@ -892,18 +892,20 @@ public class BaseDeDatos {
         }
     }
  // Método para obtener valoraciones por usuario
-    public static List<Valoracion> obtenerValoracionesPorUsuario(String usuario) {
-        List<Valoracion> valoraciones = new ArrayList<>();
+    public static List<Valoracion> obtenerValoracionesPorUsuario(Usuario usuario) {
         String com = "SELECT * FROM Valoracion WHERE usuario_valorado = ?";
+  
+        List<Valoracion> valoraciones = new ArrayList<>();
         try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
-            preparedStatement.setString(1, usuario);
+            preparedStatement.setString(1, usuario.getCorreoUsuario());
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
                 int puntuacion = rs.getInt("puntuacion");
                 String comentario = rs.getString("comentario");
                 String usuarioRevisor = rs.getString("usuario_revisor");
-                Valoracion valoracion = new Valoracion(usuarioRevisor, usuario, puntuacion, comentario);
+                String usuarioA = rs.getString("usuario_valorado");
+                Valoracion valoracion = new Valoracion(usuarioRevisor, usuarioA, puntuacion, comentario);
                 valoraciones.add(valoracion);
             }
         } catch (SQLException e) {
