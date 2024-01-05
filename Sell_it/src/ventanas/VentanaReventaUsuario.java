@@ -127,10 +127,12 @@ public class VentanaReventaUsuario extends JFrame{
 		            JOptionPane.showMessageDialog(null, "Selecciona una entrada antes de subirla", "Error", JOptionPane.ERROR_MESSAGE);
 		            return;
 		        }
-		        String precioText = tfPrecio.getText();
+				
 		        String entradaInfo = (String) cbEntradas.getSelectedItem();
+		        
 		        try {
-		            double precioReventa = Double.parseDouble(precioText);
+		            double precioReventa = Double.parseDouble(tfPrecio.getText());;
+		            
 		            // Obtener la entrada seleccionada
 		            // Suponemos que la entrada tiene un atributo "precioOriginal"
 		            double precioEntidad = obtenerPrecioEntrada();
