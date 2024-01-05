@@ -258,20 +258,22 @@ public void cerrarConexiones() {
     }
 }
 	
-	public static List<EntradaReventa> obtenerEntradasReventa() {
+	public static List<EntradaReventa> obtenerEntradasReventa(String correoUsuario) {
 	    List<EntradaReventa> entradasReventa = new ArrayList<>();
-	    String sql = "SELECT * FROM entradas_reventa";
+	    String sql = "SELECT * FROM entradas_reventa WHERE correoUsuario = ?";
 
 	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
-	         Statement stmt = conn.createStatement();
-	         ResultSet rs = stmt.executeQuery(sql)) {
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, correoUsuario); // Establece el correo del usuario en la consulta
+	        ResultSet rs = pstmt.executeQuery();
 
 	        while (rs.next()) {
 	            int codigoEntrada = rs.getInt("codigoEntrada");
 	            double precioReventa = rs.getDouble("precioReventa");
-	            String correoUsuario = rs.getString("correoUsuario");
+	            String correoVendedor = rs.getString("correoUsuario");
 
-	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoUsuario);
+	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor);
 	            entradasReventa.add(entrada);
 	        }
 	    } catch (SQLException e) {
@@ -280,9 +282,19 @@ public void cerrarConexiones() {
 	    return entradasReventa;
 	}
 
+	public static void borrarEntradaReventa(int codigoEntrada) {
+	    String sql = "DELETE FROM entradas_reventa WHERE codigoEntrada = ?";
 
-	
-	
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setInt(1, codigoEntrada);
+	        pstmt.executeUpdate();
+	    } catch (SQLException e) {
+	        System.out.println(e.getMessage());
+	    }
+	}
+
 //	private static ArrayList<Usuario> visualizar( Statement s) throws SQLException{
 //		ArrayList<Usuario> u = new ArrayList<>();
 //		String sent = "select * from usuario";
