@@ -118,8 +118,7 @@ public class VentanaReventaUsuario extends JFrame{
 				vPrincipal.setVisible(true);
 			}
 		});
-		
-		
+	
 		bSubir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -136,12 +135,16 @@ public class VentanaReventaUsuario extends JFrame{
 		            // Obtener la entrada seleccionada
 		            // Suponemos que la entrada tiene un atributo "precioOriginal"
 		            double precioEntidad = obtenerPrecioEntrada();
+		            String entradaSeleccionada = (String) cbEntradas.getSelectedItem(); // Implementa este método
 
+		            boolean exito = BaseDeDatos.insertarEntradaReventa(entradaSeleccionada, precioReventa, usuario);
 		            // Validar que el precio de reventa sea mayor que el precio original
 		            if (precioEntidad <= precioReventa) {
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
-		            } else {
+		            } else if (exito && precioEntidad >= precioReventa){
 		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+		            }else {
+		            	JOptionPane.showMessageDialog(null, "Error al subir la entrada a la base de datos");
 		            }
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio de reventa", "Error", JOptionPane.ERROR_MESSAGE);
@@ -158,6 +161,23 @@ public class VentanaReventaUsuario extends JFrame{
 		});
 		setVisible(true);
 	}
+	
+	private Entrada obtenerEntradaSeleccionada() {
+	    // Obtener el item seleccionado en el JComboBox
+	    String entradaSeleccionadaInfo = (String) cbEntradas.getSelectedItem();
+	    
+	    // Iterar sobre las entradas compradas y encontrar la que coincide
+	    for (Entrada entrada : entradasCompradas) {
+	        Evento eventoAsociado = entrada.getEventoAsociado();
+	        String info = eventoAsociado.getNombre() + " - " + eventoAsociado.getFecha();
+	        
+	        if (entradaSeleccionadaInfo.equals(info)) {
+	            return entrada;
+	        }
+	    }
+	    return null; // Si no se encuentra, retorna null
+	}
+
 	
 	private void cargarEntradasCompradas() {
 	    List<Entrada> entradasCompradasList = BaseDeDatos.obtenerEntradasCompradas(usuario);

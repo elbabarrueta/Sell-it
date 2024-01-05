@@ -53,6 +53,8 @@ public class BaseDeDatos {
             establecerConexion();
             // Crear la tabla 'Usuario' si no existe.
             crearTablaUsuario();
+            // Crea la tabla de las entradas en reventa
+            crearTablaEntradasReventa();
             // Añadir columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
             agregarColumnaUltimoCambioContrasena();
             // Crear otras tablas necesarias en la base de datos.
@@ -107,6 +109,20 @@ public class BaseDeDatos {
         String comentarioSQL = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
         ejecutarSQL(comentarioSQL, Level.INFO);
     }
+    
+    public static void crearTablaEntradasReventa() {
+        String comentarioSQL = "CREATE TABLE IF NOT EXISTS entradas_reventa (" +
+                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                     "nombre_evento TEXT NOT NULL," +
+                     "fecha_evento TEXT NOT NULL," +
+                     "precio REAL NOT NULL," +
+                     "asiento TEXT," +
+                     "usuario_id INTEGER," +
+                     "FOREIGN KEY(usuario_id) REFERENCES usuario(id)" +
+                     ");";
+        ejecutarSQL(comentarioSQL, Level.INFO);
+    }
+
     /**
      * Agrega la columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
      */
@@ -551,6 +567,23 @@ public class BaseDeDatos {
 	    }
 	}
 	
+	public static boolean insertarEntradaReventa(Entrada entrada, double precioReventa, Usuario usuario) {
+	    String sql = "INSERT INTO entradas_reventa (nombre_evento, fecha_evento, precio, usuario_id) VALUES (?, ?, ?, ?)";
+	    try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+	        Evento evento = BDEventos.obtenerEventoPorCodigo(entrada.getEventoAsociado().getCodigo());
+	        pstmt.setString(1, evento.getNombre());
+	        pstmt.setString(2, evento.getFecha());
+	        pstmt.setDouble(3, precioReventa);
+	        pstmt.setString(4, usuario.getCorreoUsuario()); // Asumiendo que usuario_id se refiere al correo del usuario
+
+	        int affectedRows = pstmt.executeUpdate();
+	        return affectedRows > 0;
+	    } catch (SQLException e) {
+	        System.out.println(e.getMessage());
+	        return false;
+	    }
+	}
+
 //
 	/**
      * Cierra la conexión, el statement y el resultado si están abiertos.
