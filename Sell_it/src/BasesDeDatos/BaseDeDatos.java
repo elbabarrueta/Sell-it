@@ -604,22 +604,37 @@ public class BaseDeDatos {
 	    }
 	}
 
-	public static boolean insertarEntradaReventa(Entrada entrada, double precioReventa, Usuario usuario) {
-	    String sql = "INSERT INTO entradas_reventa (nombre_evento, fecha_evento, precio, usuario_id) VALUES (?, ?, ?, ?)";
-	    try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-	        Evento evento = BDEventos.obtenerEventoPorCodigo(entrada.getEventoAsociado().getCodigo());
-	        pstmt.setString(1, evento.getNombre());
-	        pstmt.setString(2, evento.getFecha());
-	        pstmt.setDouble(3, precioReventa);
-	        pstmt.setString(4, usuario.getCorreoUsuario()); // Asumiendo que usuario_id se refiere al correo del usuario
+	public static void insertarEntradaReventa(String entradaInfo, Usuario usuario, double precioReventa) {
+	    // Obtener el código de la entrada a partir del String entradaInfo
+	    // Esto depende de cómo esté formateado tu String entradaInfo
+	    int codigoEntrada = obtenerCodigoEntradaDesdeInfo(entradaInfo);
 
-	        int affectedRows = pstmt.executeUpdate();
-	        return affectedRows > 0;
+	    // Aquí va tu código para conectarte a la base de datos
+	    String sql = "INSERT INTO entradas_reventa (codigoEntrada, precioReventa, correoUsuario) VALUES (?, ?, ?)";
+	    
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        // Establecer los valores para la consulta
+	        pstmt.setInt(1, codigoEntrada);
+	        pstmt.setDouble(2, precioReventa);
+	        pstmt.setString(3, usuario.getCorreoUsuario());
+
+	        // Ejecutar la consulta
+	        pstmt.executeUpdate();
 	    } catch (SQLException e) {
 	        System.out.println(e.getMessage());
-	        return false;
 	    }
 	}
+
+	private static int obtenerCodigoEntradaDesdeInfo(String entradaInfo) {
+	    // Implementar la lógica para extraer el código de la entrada del String entradaInfo
+	    // Esto dependerá de cómo esté formateado tu String entradaInfo
+	    // Por ejemplo, si entradaInfo contiene el código al principio seguido de un guion, podrías hacer algo como esto:
+	    int codigo = Integer.parseInt(entradaInfo.split("-")[0].trim());
+	    return codigo;
+	}
+
 
 	/**
      * Cierra la conexión, el statement y el resultado si están abiertos.

@@ -128,23 +128,19 @@ public class VentanaReventaUsuario extends JFrame{
 		            return;
 		        }
 		        String precioText = tfPrecio.getText();
-		        
+		        String entradaInfo = (String) cbEntradas.getSelectedItem();
 		        try {
 		            double precioReventa = Double.parseDouble(precioText);
-
 		            // Obtener la entrada seleccionada
 		            // Suponemos que la entrada tiene un atributo "precioOriginal"
 		            double precioEntidad = obtenerPrecioEntrada();
-		            String entradaSeleccionada = (String) cbEntradas.getSelectedItem(); // Implementa este método
-
-		            boolean exito = BaseDeDatos.insertarEntradaReventa(entradaSeleccionada, precioReventa, usuario);
+		            
 		            // Validar que el precio de reventa sea mayor que el precio original
 		            if (precioEntidad <= precioReventa) {
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
-		            } else if (exito && precioEntidad >= precioReventa){
-		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
-		            }else {
-		            	JOptionPane.showMessageDialog(null, "Error al subir la entrada a la base de datos");
+		            } else {
+		            	BaseDeDatos.insertarEntradaReventa(entradaInfo, usuario, precioReventa);
+		            	JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
 		            }
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio de reventa", "Error", JOptionPane.ERROR_MESSAGE);
