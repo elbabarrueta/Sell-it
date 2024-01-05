@@ -210,6 +210,7 @@ public class VentanaVentaEntidad extends JFrame{
 	
 	public double obtenerPrecioEntrada() {
 	    String precioEntrada = tfPrecio.getText();
+	    System.out.println(tfPrecio.getText());
 	    try {
 	        return Double.parseDouble(precioEntrada);
 	    } catch (NumberFormatException ex) {

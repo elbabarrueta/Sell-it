@@ -8,16 +8,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import clases.EntradaReventa;
 import clases.Evento;
 import clases.Usuario;
 
 public class BDEventos {
 	private Evento even;
+	private EntradaReventa er;
 	private static Logger logger = Logger.getLogger("Base de Datos Eventos");
 	private static Statement s;
 	private static ResultSet rs;
@@ -253,6 +257,30 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
+	
+	public static List<EntradaReventa> obtenerEntradasReventa() {
+	    List<EntradaReventa> entradasReventa = new ArrayList<>();
+	    String sql = "SELECT * FROM entradas_reventa";
+
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
+	         Statement stmt = conn.createStatement();
+	         ResultSet rs = stmt.executeQuery(sql)) {
+
+	        while (rs.next()) {
+	            int codigoEntrada = rs.getInt("codigoEntrada");
+	            double precioReventa = rs.getDouble("precioReventa");
+	            String correoUsuario = rs.getString("correoUsuario");
+
+	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoUsuario);
+	            entradasReventa.add(entrada);
+	        }
+	    } catch (SQLException e) {
+	        System.out.println(e.getMessage());
+	    }
+	    return entradasReventa;
+	}
+
+
 	
 	
 //	private static ArrayList<Usuario> visualizar( Statement s) throws SQLException{

@@ -131,12 +131,13 @@ public class VentanaReventaUsuario extends JFrame{
 		        String entradaInfo = (String) cbEntradas.getSelectedItem();
 		        
 		        try {
-		            double precioReventa = Double.parseDouble(tfPrecio.getText());;
+		        	System.out.println(tfPrecio.getText());
+		            double precioReventa = Double.parseDouble(tfPrecio.getText());
 		            
 		            // Obtener la entrada seleccionada
 		            // Suponemos que la entrada tiene un atributo "precioOriginal"
 		            double precioEntidad = obtenerPrecioEntrada();
-		            
+		            System.out.println("algo");
 		            // Validar que el precio de reventa sea mayor que el precio original
 		            if (precioEntidad >= precioReventa) {
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
