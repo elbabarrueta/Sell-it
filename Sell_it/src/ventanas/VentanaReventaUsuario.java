@@ -136,7 +136,7 @@ public class VentanaReventaUsuario extends JFrame{
 		            double precioEntidad = obtenerPrecioEntrada();
 		            
 		            // Validar que el precio de reventa sea mayor que el precio original
-		            if (precioEntidad <= precioReventa) {
+		            if (precioEntidad >= precioReventa) {
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
 		            } else {
 		            	BaseDeDatos.insertarEntradaReventa(entradaInfo, usuario, precioReventa);
@@ -157,23 +157,6 @@ public class VentanaReventaUsuario extends JFrame{
 		});
 		setVisible(true);
 	}
-	
-	private Entrada obtenerEntradaSeleccionada() {
-	    // Obtener el item seleccionado en el JComboBox
-	    String entradaSeleccionadaInfo = (String) cbEntradas.getSelectedItem();
-	    
-	    // Iterar sobre las entradas compradas y encontrar la que coincide
-	    for (Entrada entrada : entradasCompradas) {
-	        Evento eventoAsociado = entrada.getEventoAsociado();
-	        String info = eventoAsociado.getNombre() + " - " + eventoAsociado.getFecha();
-	        
-	        if (entradaSeleccionadaInfo.equals(info)) {
-	            return entrada;
-	        }
-	    }
-	    return null; // Si no se encuentra, retorna null
-	}
-
 	
 	private void cargarEntradasCompradas() {
 	    List<Entrada> entradasCompradasList = BaseDeDatos.obtenerEntradasCompradas(usuario);
