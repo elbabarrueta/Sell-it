@@ -224,19 +224,22 @@ public class BaseDeDatos {
         }
     }
     
-//	
+    /**
+     * Obtiene la conexión actual a la base de datos.
+     * @return Objeto Connection que representa la conexión a la base de datos.
+     */
 	public Connection getConnection() {
 		return con;
 	}
 	
+	/**
+	 * Añade un nuevo usuario a la base de datos.
+	 * @param usu Objeto Usuario que se va a añadir.
+	 */
 	public static void anadirUsuarioNuevo(Usuario usu) {
 		String com = "";
-		try {
-			// Ver si existe usuario
-			// Si queremos asegurar el string habría que hacer algo así...
-			// String nick = tfUsuario.getText().replaceAll( "'", "''" );
-			// ...si no, cuidado con lo que venga en el campo de entrada.
-			// "select * from Usuario where nick = 'admin'";
+		try {			
+	        // Verificar si el usuario ya existe en la base de datos.
 			com = "select * from Usuario where correoUsuario = '" + usu.getCorreoUsuario() + "'";
 			logger.log( Level.INFO, "BD: " + com );
 			rs = s.executeQuery( com );
@@ -245,21 +248,29 @@ public class BaseDeDatos {
 				com = "insert into Usuario (nombreUsuario, correoUsuario, tipoUsuario, contrasena, ImagenPerfil, ultimoCambioContrasena) values ('"+ 
 						usu.getNombreUsuario() +"', '" + usu.getCorreoUsuario() +"', '" + usu.getTipoUsuario()+"', '" + usu.getContrasena()+ "', '" + usu.getImgPerfil() + "', '" + usu.getUltimaCambioContrasena() +"')";
 				logger.log( Level.INFO, "BD: " + com );
+				
 				int val = s.executeUpdate( com );
+				
 				if (val!=1) {
-					JOptionPane.showMessageDialog( null, "Error en inserción" );
+					// Mostrar mensaje de error si la inserción falla.
+                    showError("Error en inserción");				
 				}
 			} else {
-				JOptionPane.showMessageDialog( null, "Usuario " + usu.getCorreoUsuario() + " ya existe" );
+				// Mostrar mensaje si el usuario ya existe.
+                showError("Usuario " + usu.getCorreoUsuario() + " ya existe");
 			}
 		} catch (SQLException e2) {
-			System.out.println( "Último comando: " + com );
-			e2.printStackTrace();
+			// Manejar excepciones e imprimir información de error.
+	        handleException(e2, com);
 		}
 	}
+	
+	/**
+	 * Crea las tablas necesarias en la base de datos si no existen.
+	 * @param con Conexión a la base de datos.
+	 */
 	public static void crearTablas(Connection con) {
-//		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo String, nombre String,desc String,fecha String,ubicacion String, nEntradas Integer, precio Double, rutaImg String)";
-//		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo String,desc String, fecha String, precio Double)";
+	    // Definición de las sentencias SQL para la creación de las tablas.
 		String sql = "CREATE TABLE IF NOT EXISTS Evento (codigo Integer, nombre String, desc String, fecha String,ubicacion String, nEntradas Integer, rutaImg String, creador String)";
 		String sql2 = "CREATE TABLE IF NOT EXISTS Entrada (codigo Integer, evento_cod Integer, propietario_correo String, precio Double)";
 		String notificacion = "CREATE TABLE IF NOT EXISTS Notificacion (id Integer, mensaje String)";
@@ -267,40 +278,53 @@ public class BaseDeDatos {
 		String valoraciones = "CREATE TABLE IF NOT EXISTS Valoracion (id Integer, usuario_revisor String, usuario_valorado String, puntuacion Integer, comentario String)";
 		try {
 			Statement st = con.createStatement();
+	        // Ejecutar las sentencias SQL para la creación de las tablas.
 			st.executeUpdate(sql);
 			st.executeUpdate(sql2);
 			st.executeUpdate(notificacion);
 			st.executeUpdate(relacion);
 			st.executeUpdate(valoraciones);
+	        // Cerrar la declaración después de ejecutar las sentencias.
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Añade un nuevo evento a la base de datos.
+	 * @param evento Objeto Evento que se va a añadir.
+	 */
 	public static void anadirEventoNuevo(Evento evento) {
 		String com = "";
 		try {
+	        // Verificar si el evento ya existe en la base de datos.
 			com = "select * from Evento where codigo = '" + evento.getCodigo() + "'";
 			logger.log( Level.INFO, "BD: " + com );
 			rs = s.executeQuery( com );
 			if (!rs.next()) {
+                // Insertar nuevo evento si no existe.
 				com = "insert into Evento (codigo, nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador) values ('"+ 
 						evento.getCodigo() +"', '" + evento.getNombre() +"', '" + evento.getDesc() +"', '" + evento.getFecha() + "', '" + evento.getUbicacion() + "', '" + evento.getnEntradas() + "', '" + evento.getRutaImg() + "', '" + evento.getCreador() +"')";
 				logger.log( Level.INFO, "BD: " + com );
 				int val = s.executeUpdate( com );
+				
 				if (val!=1) {
-					JOptionPane.showMessageDialog( null, "Error en inserción" );
-				}
+					// Mostrar mensaje de error si la inserción falla.
+                    showError("Error en inserción");				}
 			} else {
-				JOptionPane.showMessageDialog( null, "Evento " + evento.getCodigo() + " ya existe" );
-			}
+				// Mostrar mensaje si el evento ya existe.
+                showError("Evento " + evento.getCodigo() + " ya existe");			}
 		} catch (SQLException e2) {
-			System.out.println( "Último comando: " + com );
-			e2.printStackTrace();
+			// Manejar excepciones e imprimir información de error.
+	        handleException(e2, com);
 		}
 	}
 	
+	/**
+	 * Añade una nueva entrada a la base de datos.
+	 * @param entrada Objeto Entrada que se va a añadir.
+	 */
 	public static void anadirEntradaNueva(Entrada entrada) {
 		String com = "";
 		try {
@@ -318,18 +342,26 @@ public class BaseDeDatos {
 						entrada.getCod() +"', '" + entrada.getEventoAsociado().getCodigo() +"', '" + propietario_correo +"', '" + entrada.getPrecio() +"')";
 				logger.log( Level.INFO, "BD: " + com );
 				int val = s.executeUpdate( com );
+				
 				if (val!=1) {
-					JOptionPane.showMessageDialog( null, "Error en inserción" );
-				}
+					// Mostrar mensaje de error si la inserción falla.
+                    showError("Error en inserción");
+                    }
 			} else {
-				JOptionPane.showMessageDialog( null, "Entrada " + entrada.getCod() + " ya existe" );
+				// Mostrar mensaje si la entrada ya existe.
+                showError("Entrada " + entrada.getCod() + " ya existe");
 			}
-		} catch (SQLException e2) {
-			System.out.println( "Último comando: " + com );
-			e2.printStackTrace();
+		} catch (SQLException e) {
+			// Manejar excepciones e imprimir información de error.
+	        handleException(e, com);
 		}
 	}
 	
+	/**
+	 * Obtiene una lista de eventos en venta asociados al usuario.
+	 * @param usuario Usuario para el que se obtienen los eventos en venta.
+	 * @return Lista de objetos Evento.
+	 */
 	public static List<Evento> obtenerEventosEnVentaDelUsuario(Usuario usuario) {
         String com = "SELECT * FROM Evento WHERE creador = ?";
         logger.log(Level.INFO, "BD: " + com);
@@ -341,6 +373,7 @@ public class BaseDeDatos {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
+            	//Código para obtener los datos del ResultSet y crear objetos Evento
             	int codigo = rs.getInt("codigo");
                 String nombre = rs.getString("nombre");
                 String desc = rs.getString("desc");
@@ -352,17 +385,19 @@ public class BaseDeDatos {
 
                 Evento evento = new Evento(codigo, nombre, desc, fecha, ubicacion, nEntradas, rutaImg, creador);
                 eventosEnVenta.add(evento);
-
             }
 
         } catch (SQLException e) {
-            System.out.println("Último comando: " + com);
-            e.printStackTrace();
+            // Manejar excepciones e imprimir información de error.
+            handleException(e, com);
         }
         return eventosEnVenta;        
     }
 	
-	//Devuelve una lista con los eventos de la tabla Eventos
+	/**
+	 * Obtiene una lista de todos los eventos almacenados en la base de datos.
+	 * @return Lista de objetos Evento.
+	 */	
 	public static List<Evento> obtenerListaEventos(){
 		String sql = "SELECT * FROM Evento";
 		List<Evento> listaEventos = new ArrayList<>();
@@ -370,14 +405,13 @@ public class BaseDeDatos {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()) {
+				//Código para obtener los datos del ResultSet y crear objetos Evento
 				int codigo = rs.getInt("codigo");
 				String nombre = rs.getString("nombre");
-				//String dni = rs.getString("dni");
 				String desc = rs.getString("desc");
 				String fecha = rs.getString("fecha");
 				String ubicacion = rs.getString("ubicacion");
 				int nEntradas = rs.getInt("nEntradas");
-				//double precio = rs.getDouble("precio");
 				String rutaImg = rs.getString("rutaImg");
 				String creador = rs.getString("creador");
 				
@@ -387,48 +421,36 @@ public class BaseDeDatos {
 			rs.close();
 			st.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Manejar excepciones e imprimir información de error.
+	        handleException(e, "Último comando: " + sql);
 		}
 		return listaEventos;
 	}
-//	//Devuelve una lista con las entradas de la tabla Entrada
-//		public static List<Entrada> obtenerListaEntradas(){
-//			String sql = "SELECT * FROM Entrada";
-//			List<Entrada> listaEntrada = new ArrayList<>();
-//			try {
-//				Statement st = con.createStatement();
-//				ResultSet rs = st.executeQuery(sql);
-//				while(rs.next()) {
-//					int codigo = rs.getInt("codigo");
-//					//String desc = rs.getString("desc");
-//					//String fecha = rs.getString("fecha");
-//					int evento_cod = rs.getInt("evento_cod");
-//					String propietario_correo = rs.getString("propietario_correo");
-//					double precio = rs.getDouble("precio");
-//					
-//					Evento evento = obtenerEventoPorCodigo(evento_cod);
-//					Usuario propietario = getUsuarioPorCorreo(propietario_correo);
-//					if (evento != null ) {
-//						System.out.println(evento);
-//					    Entrada entrada = new Entrada(codigo, evento, propietario, precio);
-//						System.out.println(entrada);
-//					    listaEntrada.add(entrada);
-//					    // Agregar la entrada a tu lista o realizar otras operaciones necesarias
-//					} else {
-//					    // Manejar el caso en que no se encuentre el evento
-//					    System.out.println("No se encontró el evento con el código: " + evento_cod);
-//					}
-//					//Entrada e = new Entrada(codigo, desc, fecha,precio);
-//				}
-//				rs.close();
-//				st.close();
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			return listaEntrada;
-//		}
+	/**
+	 * Maneja una excepción, imprime la información de error y muestra un mensaje de error.
+	 * @param e Excepción que se debe manejar.
+	 * @param lastCommand Último comando SQL ejecutado.
+	 */
+	private static void handleException(SQLException e, String lastCommand) {
+	    System.out.println("Último comando: " + lastCommand);
+	    e.printStackTrace();
+	    // Mostrar mensaje de error.
+	    showError("Error en la base de datos: " + e.getMessage());
+	}
+	/**
+	 * Muestra un mensaje de error en una ventana de diálogo.
+	 * @param message Mensaje de error a mostrar.
+	 */
+	private static void showError(String message) {
+	    JOptionPane.showMessageDialog(null, message);
+	}
+	
+//
+	/**
+	 * Obtiene una lista de entradas sin comprar para un evento específico.
+	 * @param evento_cod Código del evento.
+	 * @return Lista de objetos Entrada.
+	 */
 	public static List<Entrada> obtenerListaEntradasSinComprarPorEvento(int evento_cod) {
 	    String sql = "SELECT * FROM Entrada WHERE evento_cod = ?";
 	    List<Entrada> listaEntrada = new ArrayList<>();
@@ -458,22 +480,30 @@ public class BaseDeDatos {
 	            }
 	        }
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	    	// Manejar la excepción y mostrar mensaje de error
+	        handleException(e, "Error al obtener entradas sin comprar para el evento " + evento_cod);
 	    }
 	    return listaEntrada;
 	}
 
+	/**
+	 * Modifica la contraseña de un usuario registrado.
+	 * @param usu Objeto Usuario con la nueva contraseña.
+	 */
 	public void modificarUsuarioYaRegistradoContrasena(Usuario usu) {
-		//update Usuario set contrasena = 'valor1' where correoUsuario = 'valor2'
 	    String sent = "update Usuario set contrasena = '" + secu(usu.getContrasena()) + "', ultimoCambioContrasena = '" + usu.getUltimaCambioContrasena() + "' where correoUsuario = '" + secu(usu.getCorreoUsuario()) + "'";
 		logger.log(Level.INFO, "BD: " + sent);
 		try {
 			s.executeUpdate(sent);
 		} catch (SQLException e1) {
 			logger.log(Level.WARNING, sent, e1);
-			e1.printStackTrace();
+	        handleException(e1, "Error al modificar la contraseña del usuario " + usu.getCorreoUsuario());
 		}
 	}
+	/**
+	 * Modifica el nombre de usuario de un usuario registrado.
+	 * @param usu Objeto Usuario con el nuevo nombre.
+	 */
 	public void modificarUsuarioYaRegistrado(Usuario usu) {		
 		String sent = "update Usuario set nombreUsuario= '"+ secu(usu.getNombreUsuario())+  "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
 		logger.log(Level.INFO, "BD: " + sent);
@@ -482,9 +512,14 @@ public class BaseDeDatos {
 			s.executeUpdate(sent);
 		} catch (SQLException e1) {
 			logger.log(Level.WARNING, sent, e1);	
-			e1.printStackTrace();
+			// Manejar la excepción y mostrar mensaje de error
+	        handleException(e1, "Error al modificar el nombre del usuario " + usu.getCorreoUsuario());
 		}
 	}
+	/**
+	 * Modifica la imagen de perfil de un usuario registrado.
+	 * @param usu Objeto Usuario con la nueva imagen de perfil.
+	 */
 	public void modificarUsuarioImagenPerfil(Usuario usu) {
 		String sent = "update Usuario set imagenPerfil= '" +
 	            secu(usu.getImgPerfil()) + "' where correoUsuario = '"+ secu(usu.getCorreoUsuario()) + "'";
@@ -494,32 +529,30 @@ public class BaseDeDatos {
 			s.executeUpdate(sent);
 		} catch (SQLException e1) {
 			logger.log(Level.WARNING, sent, e1);
-			e1.printStackTrace();
+			// Manejar la excepción y mostrar mensaje de error
+	        handleException(e1, "Error al modificar la imagen de perfil del usuario " + usu.getCorreoUsuario());
 		}
 	}
 	
-//	public void modificarDescripcionUsuario(Usuario usu, String nuevaDescripcion) {
-//	    String sent = "update Usuario set descripcion= '" + nuevaDescripcion + "' where correoUsuario= '" + secu(usu.getCorreoUsuario());
-//	    logger.log(Level.INFO, "BD: " + sent);
-//	    try {
-//	    	s.executeUpdate(sent);
-//	    } catch (SQLException e) {
-//	        System.out.println("Último comando: " + sent);
-//	        e.printStackTrace();
-//	    }
-//	}
+	/**
+	 * Modifica la descripción de un usuario registrado.
+	 * @param usu Objeto Usuario con la nueva descripción.
+	 */
 	public void modificarDescripcionUsuario(Usuario usu) {
 	    String sent = "update Usuario set descripcion= '" + usu.getDescripcion() + "' where correoUsuario= '" + secu(usu.getCorreoUsuario())+"'";
 	    logger.log(Level.INFO, "BD: " + sent);
 	    try {
 	    	s.executeUpdate(sent);
 	    } catch (SQLException e) {
-	        System.out.println("Último comando: " + sent);
-	        e.printStackTrace();
+	    	// Manejar la excepción y mostrar mensaje de error
+	        handleException(e, "Error al modificar la descripción del usuario " + usu.getCorreoUsuario());
 	    }
 	}
 
-	
+	/**
+	 * Borra un usuario registrado.
+	 * @param usu Objeto Usuario que se va a borrar.
+	 */
 	public void borrarUsuarioRegistrado(Usuario usu) {
 		if (!usu.getCorreoUsuario().isEmpty() && !usu.getContrasena().isEmpty()) {
 			String com = "";
@@ -529,14 +562,18 @@ public class BaseDeDatos {
 				logger.log( Level.INFO, "BD: " + com );
 				s.executeUpdate( com );
 			} catch (SQLException e2) {
-				System.out.println( "Último comando: " + com );
-				e2.printStackTrace();
+				// Manejar la excepción y mostrar mensaje de error
+	            handleException(e2, "Error al borrar el usuario " + usu.getCorreoUsuario());
 			}
 		} else {
 			JOptionPane.showMessageDialog( null, "Debes rellenar los dos campos" );
 		}
 	}
 
+	/**
+	 * Borra un evento por su código.
+	 * @param codigo Código del evento a borrar.
+	 */
 	public void borrarEvento(int codigo) {
 	    String url = "jdbc:sqlite:usuarios.db";
 
@@ -547,11 +584,10 @@ public class BaseDeDatos {
 	        statement.executeUpdate(query);
 
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        handleException(e, "Error al borrar el evento con código " + codigo);
 	    }
 	}
 	
-//
 	/**
      * Cierra la conexión, el statement y el resultado si están abiertos.
      */
@@ -564,7 +600,6 @@ public class BaseDeDatos {
             manejarExcepcion(e);
         }
 	}
-//
 	
 // Posible función de "securización" para evitar errores o ataques
 	private static String secu( String sqlInicial ) {
@@ -574,8 +609,10 @@ public class BaseDeDatos {
 	}
 
 	
-//visualizar por consola los usuarios registrados	
-	public void verUsuarios() {
+	/**
+	 * Visualiza por consola los usuarios registrados.
+	 */	
+public void verUsuarios() {
     String com = "select * from Usuario";
     logger.log(Level.INFO, "BD: " + com);
 
@@ -600,11 +637,13 @@ public class BaseDeDatos {
         }
 
     } catch (SQLException e) {
-        System.out.println("Último comando: " + com);
-        e.printStackTrace();
+    	// Manejar la excepción y mostrar mensaje de error
+        handleException(e, "Error al visualizar usuarios");
     }
 }
-	
+	/**
+	 * Visualiza por consola los eventos registrados.
+	 */
 	public void verEvento() {
 	    String com = "select * from Evento ";
 	    logger.log(Level.INFO, "BD: " + com);
