@@ -123,6 +123,8 @@ public class VentanaPerfilUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				VentanaPerfilUsuario.this.dispose();
+				VentanaTablaValoraciones vv = new VentanaTablaValoraciones(null, usuario);
+				vv.setVisible(true);
 //				QUEDA POR AÑADIR LA VENTANA DONDE SALEN LAS VALORACIONES QUE HEMOS RECIBIDO
 			}
 		});
