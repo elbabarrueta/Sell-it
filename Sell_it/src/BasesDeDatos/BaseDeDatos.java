@@ -670,7 +670,10 @@ public void verUsuarios() {
 	    }
 	}
 	
-
+	/**
+	 * Crea un mapa de usuarios a partir de la información en la base de datos.
+	 * @return HashMap donde la clave es el correo del usuario y el valor es el objeto Usuario correspondiente.
+	 */
 	public HashMap<String, Usuario> crearMapa() {
         mapaUsuarios = new HashMap<>();
 
@@ -698,6 +701,12 @@ public void verUsuarios() {
 
         return mapaUsuarios;
     }
+	
+	/**
+	 * Obtiene un usuario por su correo electrónico desde el mapa de usuarios.
+	 * @param correo Correo electrónico del usuario a buscar.
+	 * @return Objeto Usuario correspondiente al correo o null si no se encuentra.
+	 */
 	public static Usuario getUsuarioPorCorreo(String correo) {
 		if(mapaUsuarios.containsKey(correo)) {
 			return mapaUsuarios.get(correo);
@@ -707,9 +716,13 @@ public void verUsuarios() {
 		}
 	}
 
+	/**
+	 * Obtiene un evento por su código desde la base de datos.
+	 * @param evento_cod Código del evento a buscar.
+	 * @return Objeto Evento correspondiente al código o null si no se encuentra.
+	 */
 	public static Evento obtenerEventoPorCodigo(int evento_cod) {
 	    String com = "SELECT * FROM Evento WHERE codigo = ?";
-//	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setInt(1, evento_cod);
@@ -734,7 +747,12 @@ public void verUsuarios() {
 	    System.out.println("No se encontró el evento con el código: " + evento_cod);
 	    return null;  // Devuelve null si no se encuentra el evento
 	}
-//	
+
+	/**
+	 * Obtiene la fecha del último cambio de contraseña para un usuario.
+	 * @param usuario Usuario del cual se quiere obtener la fecha del último cambio de contraseña.
+	 * @return LocalDate que representa la fecha del último cambio de contraseña.
+	 */
 	public LocalDate obtenerUltimoCambioContrasena(Usuario usuario) {
 	    String com = "SELECT ultimoCambioContrasena FROM Usuario WHERE correoUsuario = ?";
 	    logger.log(Level.INFO, "BD: " + com);
@@ -745,10 +763,10 @@ public void verUsuarios() {
 
 	        if (rs.next()) {
 	            String fechaUltimoCambio = rs.getString("ultimoCambioContrasena");
-	         // Ajusta el formato de parseo según el formato real de tu fecha
+	            // Ajusta el formato de parseo según el formato real de tu fecha
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	            
-	         // Verificar si la cadena no es nula
+	            // Verificar si la cadena no es nula
 	    	    if (fechaUltimoCambio != null) {
 	    	        try {
 	    	            // Intentar parsear la cadena a LocalDate
@@ -759,7 +777,8 @@ public void verUsuarios() {
 	    	        }
 	    	    }
 	            
-	            return LocalDate.parse(fechaUltimoCambio, formatter);	        }
+	            return LocalDate.parse(fechaUltimoCambio, formatter);	       
+	        }
 	    } catch (SQLException e) {
 	        System.out.println("Último comando: " + com);
 	        e.printStackTrace();
@@ -768,7 +787,12 @@ public void verUsuarios() {
 	    // Si la cadena es nula o no se puede parsear, devolver un valor por defecto
 	    return LocalDate.now();
 	}
-//
+
+	/**
+	 * Marca una entrada como comprada en la base de datos.
+	 * @param codigoEntrada Código de la entrada a marcar como comprada.
+	 * @param correoComprador Correo del comprador.
+	 */
 	public void marcarEntradaComoComprada(Integer codigoEntrada, String correoComprador) {
 	    String com = "UPDATE Entrada SET propietario_correo = ? WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
@@ -790,10 +814,14 @@ public void verUsuarios() {
 	        e.printStackTrace();
 	    }
 	}
-//	
+
+	/**
+	 * Obtiene el correo del propietario de una entrada en la base de datos.
+	 * @param codigoEntrada Código de la entrada.
+	 * @return Correo del propietario de la entrada o null si no se encuentra.
+	 */
 	public String obtenerPropietarioCorreoEntrada(int codigoEntrada) {
 	    String com = "SELECT propietario_correo FROM Entrada WHERE codigo = ?";
-//	    logger.log(Level.INFO, "BD: " + com);
 
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setInt(1, codigoEntrada);
@@ -808,7 +836,12 @@ public void verUsuarios() {
 	    }
 	    return null;  // Devuelve null si no se encuentra la entrada o hay un error
 	}
-//	
+	
+	/**
+	 * Actualiza el número de entradas de un evento en la base de datos.
+	 * @param nEntradas Nuevo número de entradas.
+	 * @param codigo Código del evento.
+	 */
 	public void updateNEntradas(int nEntradas, int codigo) {
 		String updateQuery = "UPDATE Evento SET nEntradas = ? WHERE codigo = ?";
 		try (PreparedStatement preparedStatement = con.prepareStatement(updateQuery)) {
@@ -820,6 +853,11 @@ public void verUsuarios() {
 		}
 	}
 	
+	/**
+	 * Obtiene la lista de entradas compradas por un usuario.
+	 * @param usuario Usuario para el cual se obtienen las entradas compradas.
+	 * @return Lista de entradas compradas por el usuario.
+	 */
 	public static List<Entrada> obtenerEntradasCompradas(Usuario usuario) {
 	    List<Entrada> entradasCompradas = new ArrayList<>();
 	    String query = "SELECT * FROM Entrada WHERE propietario_correo = ?";
@@ -833,8 +871,7 @@ public void verUsuarios() {
 	            int evento_cod = rs.getInt("evento_cod");
 	            double precio = rs.getDouble("precio");
 
-	            // Asumimos que esta función devuelve un evento dado su código.
-	            // Deberás implementarla si aún no existe.
+	            // Esta función devuelve un evento dado su código.
 	            Evento evento = BDEventos.obtenerEventoPorCodigo(evento_cod);
 	            
 	            if (evento != null) {
@@ -849,18 +886,24 @@ public void verUsuarios() {
 	    return entradasCompradas;
 	}
 
-	
+	/**
+	 * Guarda una notificación en la base de datos.
+	 * @param usuario Usuario al cual se le asocia la notificación.
+	 * @param notificacion Notificación a guardar.
+	 */
 	public static void guardarNotificacion(Usuario usuario, Notificacion notificacion) {
 		String com = "";
 		try {
 			com = "select * from Notificacion where id = '" + notificacion.getId() + "'";
 			logger.log( Level.INFO, "BD: " + com );
 			rs = s.executeQuery( com );
+			
 			if (!rs.next()) {
 				com = "insert into Notificacion (id, mensaje) values ('"+ 
 						notificacion.getId() +"', '" + notificacion.getMensaje() +"')";
 				logger.log( Level.INFO, "BD: " + com );
 				int val = s.executeUpdate( com );
+				
 				if (val!=1) {
 					JOptionPane.showMessageDialog( null, "Error en inserción" );
 				}
@@ -879,6 +922,12 @@ public void verUsuarios() {
 			e2.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Obtiene las entradas de un usuario desde la base de datos.
+	 * @param u Usuario del cual se obtienen las entradas.
+	 * @return Lista de entradas del usuario.
+	 */
 	public static List<Entrada> obtenerEntradasDeUsuario(Usuario u){
         List<Entrada> entradas = new ArrayList<>();
         String com = "";
@@ -901,6 +950,12 @@ public void verUsuarios() {
         }
         return entradas;
     }
+	
+	/**
+	 * Obtiene las notificaciones asociadas a un usuario desde la base de datos.
+	 * @param u Usuario del cual se obtienen las notificaciones.
+	 * @return Lista de notificaciones para el usuario.
+	 */
 	public static List<Notificacion> obtenerNotificacionesPorUsuario(Usuario u){
         List<Notificacion> notificaciones = new ArrayList<>();
         String com = "";
@@ -929,6 +984,11 @@ public void verUsuarios() {
         return notificaciones;
     }
 	
+	/**
+	 * Obtiene el mensaje asociado a una notificación desde la base de datos.
+	 * @param id Identificador de la notificación.
+	 * @return Mensaje de la notificación o null si no se encuentra.
+	 */
 	private static String obtenerMensaje(int id) {
 		String com = "SELECT * FROM Notificacion WHERE id = ?";
 	    logger.log(Level.INFO, "BD: " + com);
@@ -948,6 +1008,11 @@ public void verUsuarios() {
 	    return null;  // Devuelve null si no se encuentra el evento
     }
 	
+	/**
+	 * Marca una notificación como leída en la base de datos.
+	 * @param idNotificacion Identificador de la notificación.
+	 * @param correo Correo del usuario asociado a la notificación.
+	 */
 	public static void marcarLeidoBD(int idNotificacion, String correo) {
 		String com = "UPDATE Relacion SET leido = true WHERE id_noti = ? and correo = ?";
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
@@ -961,7 +1026,11 @@ public void verUsuarios() {
 	    }
 	}
 	
-	//metodo para obtener el precio
+	/**
+	 * Obtiene el precio de una entrada mediante su código.
+	 * @param codigoEntrada Código de la entrada.
+	 * @return Precio de la entrada. Si no se encuentra, se devuelve 0.
+	 */
 	public static double obtenerPrecioEntrada(int codigoEntrada) {
         double precio = 0;
 
@@ -981,8 +1050,15 @@ public void verUsuarios() {
 
         return precio;
     }
-//	
-	// Método para insertar una valoración
+	
+	/**
+	 * Inserta una nueva valoración en la base de datos.
+	 * @param id Identificador único de la valoración.
+	 * @param usuarioRevisor Correo del usuario que realiza la valoración.
+	 * @param usuarioValorado Correo del usuario que recibe la valoración.
+	 * @param puntuacion Puntuación asignada en la valoración.
+	 * @param comentario Comentario asociado a la valoración.
+	 */
     public static void insertarValoracion(Integer id, String usuarioRevisor, String usuarioValorado, int puntuacion, String comentario) {
         String com = "INSERT INTO Valoracion (id, usuario_revisor, usuario_valorado, puntuacion, comentario) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
@@ -1004,7 +1080,12 @@ public void verUsuarios() {
             e.printStackTrace();
         }
     }
- // Método para obtener valoraciones por usuario
+ 
+    /**
+     * Obtiene la lista de valoraciones recibidas por un usuario.
+     * @param usuario Usuario para el que se obtienen las valoraciones.
+     * @return Lista de objetos Valoracion asociadas al usuario.
+     */
     public static List<Valoracion> obtenerValoracionesPorUsuario(Usuario usuario) {
         String com = "SELECT * FROM Valoracion WHERE usuario_valorado = ?";
   
@@ -1027,7 +1108,6 @@ public void verUsuarios() {
         }
         return valoraciones;
     }
-//	
 	
 // Esto seria para marcar la entrada como comprada
 //	String codigoEntrada = "tu_codigo_de_entrada";
