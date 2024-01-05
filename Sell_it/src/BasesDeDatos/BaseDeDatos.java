@@ -40,126 +40,195 @@ public class BaseDeDatos {
 	private static Statement s;
 	private static ResultSet rs;
 	private static HashMap<String, Usuario> mapaUsuarios;
-
 	
+	/**
+     * Punto de entrada principal para la aplicación.
+     * @param args Los argumentos de la línea de comandos.
+     */
 	public static void main(String[] args) throws SQLException{
-		
-		try {
-			logger = Logger.getLogger("BaseDeDatos");
-			logger.addHandler(new FileHandler("BasesDeDatos.xml"));
-		}catch (Exception e){}
-		
-		String comentarioSQL = "";
-		try {
-			Class.forName("org.sqlite.JDBC");
-			con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-			s = con.createStatement();
 			
-			//crear tabla Usuario
-			try {				
-				comentarioSQL = "create table usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
-				logger.log(Level.INFO, "BD: " + comentarioSQL);
-				s.executeUpdate(comentarioSQL);
-			} catch (SQLException e) {
-				// se lanza si la tabla ya existe - no hay problema
-				logger.log(Level.INFO, "La tabla ya está creada");
-			}
-			// Añadir columna ultimocambiodecontraseña a la tabla Usuario
-		    try {
-		        comentarioSQL = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string";
-		        logger.log(Level.INFO, "BD: " + comentarioSQL);
-		        s.executeUpdate(comentarioSQL);
-		    } catch (SQLException e) {
-		        logger.log(Level.INFO, "La columna ya esta creada");
-		    }
+		try {		
+            // Inicializar el logger y establecer la conexión con la base de datos.
+            inicializarLogger();
+            establecerConexion();
+            // Crear la tabla 'Usuario' si no existe.
+            crearTablaUsuario();
+            // Añadir columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
+            agregarColumnaUltimoCambioContrasena();
+            // Crear otras tablas necesarias en la base de datos.
 			crearTablas(con);
-			
-			try {
-		        comentarioSQL = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'";
-		        logger.log(Level.INFO, "BD: " + comentarioSQL);
-		        s.executeUpdate(comentarioSQL);
-		    } catch (SQLException e) {
-		        logger.log(Level.WARNING, "Error al actualizar usuarios con diasdesdeultimocambio a null", e);
-		        e.printStackTrace();
-		    }
-			
-			// Ver si existe admin
-			comentarioSQL = "select * from Usuario where correoUsuario = 'admin'";
-			logger.log(Level.INFO, "BD: " + comentarioSQL);
-			rs = s.executeQuery(comentarioSQL);
-			if (!rs.next()) {
-				// Añadirlo si no existe
-				comentarioSQL = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena, descripcion ) values ('admin', 'admin', 'admin', 'admin', 'admin')";
-				logger.log(Level.INFO, "BD: " + comentarioSQL);
-				s.executeUpdate(comentarioSQL);
-				Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png", "null");
-				anadirUsuarioNuevo(moma);
-				Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png", "null");
-				anadirUsuarioNuevo(kepa);
-				Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png", "null");
-				anadirUsuarioNuevo(miguel);
-				Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "null");
-				anadirUsuarioNuevo(laura);
-				
-				Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/melendi.png", "moma@gmail.com");
-				anadirEventoNuevo(e1);
-				int cod = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e1.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod+i, e1, null, 25);
-                	anadirEntradaNueva(entrada);
-                }
-				Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg",null);
-				anadirEventoNuevo(e2);
-				int cod2 = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e2.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod2+i, e2, null, 20.5);
-                	anadirEntradaNueva(entrada);
-                }
-				Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png",null);
-				anadirEventoNuevo(e3);
-				int cod3 = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e3.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod3+i, e3, null, 10.2);
-                	anadirEntradaNueva(entrada);
-                }
-				Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg",null);
-				anadirEventoNuevo(e4);
-				int cod4 = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e4.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod4+i, e4, null, 15);
-                	anadirEntradaNueva(entrada);
-                }
-				Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg",null);
-				anadirEventoNuevo(e5);
-				int cod5 = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e5.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod5+i, e5, null, 30);
-                	anadirEntradaNueva(entrada);
-                }
-				Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", null);
-				anadirEventoNuevo(e6);
-				int cod6 = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e6.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod6+i, e6, null, 12);
-                	anadirEntradaNueva(entrada);
-                }
-				Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", null);
-				anadirEventoNuevo(e7);
-				int cod7 = VentanaVentaEntidad.obtenerCod();
-                for(int i=0; i<e7.getnEntradas(); i++) {
-                	Entrada entrada = new Entrada(cod7+i, e7, null, 25);
-                	anadirEntradaNueva(entrada);
-                }
-			}			
+			// Actualizar 'ultimoCambioContrasena' para usuarios con valor 'null'.
+            actualizarUltimoCambioContrasena();			
+            // Verificar y agregar el usuario administrador si no existe.
+            verificarYAgregarAdmin();
+            		
 		} catch (SQLException | ClassNotFoundException e) {
-			System.out.println("Último comando: " + comentarioSQL);
-			e.printStackTrace();
-			}
-		}
-	
+            // Manejar excepciones e imprimir traza de error.
+			manejarExcepcion(e);
+		} finally {
+//            // Cerrar la conexión con la base de datos.
+//            cerrarConexiones();
+        }
+	}
+		
+	/**
+     * Inicializa el logger para registrar eventos y errores en un archivo XML.
+     */
+	private static void inicializarLogger() {
+        try {
+            logger = Logger.getLogger("BaseDeDatos");
+            logger.addHandler(new FileHandler("BasesDeDatos.xml"));
+        } catch (Exception e) {
+            manejarExcepcion(e);
+        }
+    }
+	/**
+     * Establece la conexión con la base de datos SQLite.
+     * @throws SQLException Si hay un error al intentar establecer la conexión.
+     * @throws ClassNotFoundException Si no se encuentra la clase del controlador JDBC.
+     */
+	private static void establecerConexion() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        con = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
+        s = con.createStatement();
+    }
+	/**
+     * Maneja una excepción imprimiendo el mensaje de error y la traza de la excepción.
+     * @param e La excepción que se debe manejar.
+     */
+	private static void manejarExcepcion(Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+	/**
+     * Crea la tabla 'usuario' en la base de datos si no existe.
+     */
+    private static void crearTablaUsuario() {
+        String comentarioSQL = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario string, correoUsuario string, tipoUsuario string, contrasena string, imagenPerfil string, descripcion string)";
+        ejecutarSQL(comentarioSQL, Level.INFO);
+    }
+    /**
+     * Agrega la columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
+     */
+    private static void agregarColumnaUltimoCambioContrasena() {
+        String comentarioSQL = "ALTER TABLE Usuario ADD COLUMN ultimoCambioContrasena string";
+        ejecutarSQL(comentarioSQL, Level.INFO);
+    }
+    /**
+     * Actualiza la columna 'ultimoCambioContrasena' para usuarios con valor 'null'.
+     */
+    private static void actualizarUltimoCambioContrasena() {
+        String comentarioSQL = "UPDATE Usuario SET ultimoCambioContrasena = '2023-12-01' WHERE ultimoCambioContrasena = 'null'";
+        ejecutarSQL(comentarioSQL, Level.INFO);
+    }
+    /**
+     * Ejecuta la sentencia SQL proporcionada y registra eventos en el logger.
+     * @param sql La sentencia SQL a ejecutar.
+     * @param logLevel El nivel de log para el evento.
+     */
+    private static void ejecutarSQL(String sql, Level logLevel) {
+        try {
+            logger.log(logLevel, "BD: " + sql);
+            s.executeUpdate(sql);
+        } catch (SQLException e) {
+            if (logLevel == Level.INFO) {
+                logger.log(Level.INFO, "La operación ya se realizó anteriormente");
+            } else {
+                manejarExcepcion(e);
+            }
+        }
+    }
+    /**
+     * Verifica y agrega el usuario administrador si no existe.
+     */
+    private static void verificarYAgregarAdmin() {
+        String comentarioSQL = "SELECT * FROM Usuario WHERE correoUsuario = 'admin'";
+        logger.log(Level.INFO, "BD: " + comentarioSQL);
+
+        try {
+            rs = s.executeQuery(comentarioSQL);
+            if (!rs.next()) {
+                // Añadir el usuario administrador si no existe.
+				comentarioSQL = "insert into Usuario ( nombreUsuario, correoUsuario, tipoUsuario, contrasena, descripcion ) values ('admin', 'admin', 'admin', 'admin', 'admin')";
+                ejecutarSQL(comentarioSQL, Level.INFO);
+
+                // Añadir otros usuarios y eventos iniciales...
+                agregarUsuariosYEventosIniciales();
+            }
+        } catch (SQLException e) {
+            manejarExcepcion(e);
+        }
+    }
+    /**
+     * Añade usuarios y eventos iniciales a la base de datos.
+     */
+    private static void agregarUsuariosYEventosIniciales() {
+        // Código para agregar usuarios y eventos iniciales...
+    	Usuario moma = new Usuario("Discoteca Moma", "moma@gmail.com", "Usuario entidad", "MmMon345627#", "Sell_it/src/imagenes/perfil.png", "null");
+		anadirUsuarioNuevo(moma);
+		Usuario kepa = new Usuario("Kepa Galindo", "k10galindo@gmail.com", "Usuario corriente", "GK842aeiou", "Sell_it/src/imagenes/perfil.png", "null");
+		anadirUsuarioNuevo(kepa);
+		Usuario miguel = new Usuario("Miguel Diaz", "mdiaz@gmail.com", "Usuario corriente", "mMiaz45#g", "Sell_it/src/imagenes/perfil.png", "null");
+		anadirUsuarioNuevo(miguel);
+		Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "null");
+		anadirUsuarioNuevo(laura);
+		
+		Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/melendi.png", "moma@gmail.com");
+		anadirEventoNuevo(e1);
+		int cod = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e1.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod+i, e1, null, 25);
+        	anadirEntradaNueva(entrada);
+        }
+		Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg",null);
+		anadirEventoNuevo(e2);
+		int cod2 = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e2.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod2+i, e2, null, 20.5);
+        	anadirEntradaNueva(entrada);
+        }
+		Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png",null);
+		anadirEventoNuevo(e3);
+		int cod3 = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e3.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod3+i, e3, null, 10.2);
+        	anadirEntradaNueva(entrada);
+        }
+		Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg",null);
+		anadirEventoNuevo(e4);
+		int cod4 = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e4.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod4+i, e4, null, 15);
+        	anadirEntradaNueva(entrada);
+        }
+		Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg",null);
+		anadirEventoNuevo(e5);
+		int cod5 = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e5.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod5+i, e5, null, 30);
+        	anadirEntradaNueva(entrada);
+        }
+		Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", null);
+		anadirEventoNuevo(e6);
+		int cod6 = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e6.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod6+i, e6, null, 12);
+        	anadirEntradaNueva(entrada);
+        }
+		Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", null);
+		anadirEventoNuevo(e7);
+		int cod7 = VentanaVentaEntidad.obtenerCod();
+        for(int i=0; i<e7.getnEntradas(); i++) {
+        	Entrada entrada = new Entrada(cod7+i, e7, null, 25);
+        	anadirEntradaNueva(entrada);
+        }
+    }
+    
+//	
 	public Connection getConnection() {
 		return con;
 	}
+	
 	public static void anadirUsuarioNuevo(Usuario usu) {
 		String com = "";
 		try {
@@ -482,16 +551,21 @@ public class BaseDeDatos {
 	    }
 	}
 	
+//
+	/**
+     * Cierra la conexión, el statement y el resultado si están abiertos.
+     */
 	public void cerrarConexiones() {
 		try {
-			rs.close();
-			s.close();
-			con.close();
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
+            if (rs != null) rs.close();
+            if (s != null) s.close();
+            if (con != null) con.close();
+        } catch (SQLException e) {
+            manejarExcepcion(e);
+        }
 	}
-
+//
+	
 // Posible función de "securización" para evitar errores o ataques
 	private static String secu( String sqlInicial ) {
 		return sqlInicial;
