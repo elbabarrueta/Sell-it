@@ -175,7 +175,7 @@ public class VentanaInicio extends JFrame {
 
             if (!validarCorreo(correo)) {
                 // El correo es válido, puedes realizar acciones adicionales aquí
-                JOptionPane.showMessageDialog(null, "Correo con formato invalido válido");
+                JOptionPane.showMessageDialog(null, "Correo con formato válido");
                 return;
             }
             
