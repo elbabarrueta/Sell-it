@@ -35,7 +35,9 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
+import BasesDeDatos.BDEventos;
 import BasesDeDatos.BaseDeDatos;
+import clases.EntradaReventa;
 import clases.Evento;
 import clases.JLabelGrafico;
 import clases.Usuario;
@@ -54,6 +56,9 @@ public class VentanaPrincipal extends JFrame{
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
 	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
+	    private Usuario usuario;
+	    
+	    
 
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 	    
@@ -113,6 +118,8 @@ public class VentanaPrincipal extends JFrame{
 	
 			JScrollPane scrollPane = new JScrollPane(pnlCentro);	
 			getContentPane().add(scrollPane, BorderLayout.CENTER);
+			new VentanaEntradasEnReventaTabla(usuario, this).setVisible(true);
+
 
 	        
 			searchField.addActionListener(new ActionListener() {
@@ -384,6 +391,12 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.repaint();
 		}
 		
+		void cargarDatosEntradas() {
+		    List<EntradaReventa> entradasReventa = BDEventos.obtenerEntradasReventa(usuario.getCorreoUsuario());
+		    modeloTabla.setDatos(entradasReventa);
+		}
+
+		
 //		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
 
 		private class Mipanel extends JPanel {
@@ -465,6 +478,8 @@ public class VentanaPrincipal extends JFrame{
 		        return new ImageIcon("Sell_it/src/imagenes/default.png");
 		    }
 		}
+		
+		
 		
 		private static  void fotoPerfil(ImageIcon imagenPerfil) {
 	        int maxWidth = 350; // Tamaño máximo de ancho

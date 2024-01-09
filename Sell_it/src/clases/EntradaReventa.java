@@ -25,6 +25,8 @@ public class EntradaReventa {
 
 
 	    // Métodos getter y setter
+		
+		
 	    
 
 }
