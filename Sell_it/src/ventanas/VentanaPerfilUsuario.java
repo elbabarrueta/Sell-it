@@ -41,7 +41,7 @@ public class VentanaPerfilUsuario extends JFrame{
 		
 		this.entradasCompradas = entradasCompradas;
 		this.usuario = usuario;
-		ultimoCambioContrasena = LocalDate.now(); //para provar ahora, que sea la fecha actual
+		ultimoCambioContrasena = LocalDate.now(); 
 		
 		BaseDeDatos base = new BaseDeDatos();
 
@@ -121,18 +121,16 @@ public class VentanaPerfilUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				VentanaPerfilUsuario.this.dispose();
+//				VentanaPerfilUsuario.this.dispose();
 				VentanaTablaValoraciones vv = new VentanaTablaValoraciones(null, usuario);
 				vv.setVisible(true);
-//				QUEDA POR AÑADIR LA VENTANA DONDE SALEN LAS VALORACIONES QUE HEMOS RECIBIDO
 			}
 		});
 	    
 	    botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilUsuario.this.dispose();
+//				VentanaPerfilUsuario.this.dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
 				v.setVisible(true);
 			}
@@ -140,7 +138,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    btnMisCompras.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilUsuario.this.dispose();
+//				VentanaPerfilUsuario.this.dispose();
 				VentanaMisCompras v1 = new VentanaMisCompras(usuario);
 				v1.setVisible(true);
 			}
@@ -150,7 +148,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilUsuario.this.dispose();
+//				VentanaPerfilUsuario.this.dispose();
 				VentanaEntradasEnReventaTabla v2 = new VentanaEntradasEnReventaTabla(usuario);
 				v2.setVisible(true);				
 			}

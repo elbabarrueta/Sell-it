@@ -56,7 +56,7 @@ public class VentanaPrincipal extends JFrame{
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
 	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
-	    private Usuario usuario;
+//	    private Usuario usuario;
 	    
 	    
 
@@ -118,7 +118,7 @@ public class VentanaPrincipal extends JFrame{
 	
 			JScrollPane scrollPane = new JScrollPane(pnlCentro);	
 			getContentPane().add(scrollPane, BorderLayout.CENTER);
-			new VentanaEntradasEnReventaTabla(usuario, this).setVisible(true);
+//			new VentanaEntradasEnReventaTabla(usuario, this).setVisible(true);
 
 
 	        
@@ -391,10 +391,10 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.repaint();
 		}
 		
-		void cargarDatosEntradas() {
-		    List<EntradaReventa> entradasReventa = BDEventos.obtenerEntradasReventa(usuario.getCorreoUsuario());
-		    modeloTabla.setDatos(entradasReventa);
-		}
+//		void cargarDatosEntradas() {
+//		    List<EntradaReventa> entradasReventa = BDEventos.obtenerEntradasReventa(usuario.getCorreoUsuario());
+//		    modeloTabla.setDatos(entradasReventa);
+//		}
 
 		
 //		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado

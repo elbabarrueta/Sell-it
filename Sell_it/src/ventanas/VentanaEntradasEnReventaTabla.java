@@ -18,16 +18,16 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
     private ModeloEntradasReventa modeloTabla;
     private Usuario usuario;
     private List<String> entradas;
-    private VentanaPrincipal ventanaPrincipa;
+//    private VentanaPrincipal ventanaPrincipa;
     
 
-    public VentanaEntradasEnReventaTabla(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
+    public VentanaEntradasEnReventaTabla(Usuario usuario) {
         setTitle("Entradas en Reventa");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         this.usuario = usuario;
-        this.ventanaPrincipa = ventanaPrincipal;
+//        this.ventanaPrincipa = ventanaPrincipal;
 
         modeloTabla = new ModeloEntradasReventa();
         tablaEntradas = new JTable(modeloTabla);
@@ -67,7 +67,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
     private void cargarDatosEntradas() {
         List<EntradaReventa> entradasReventa = BDEventos.obtenerEntradasReventa(usuario.getCorreoUsuario()); // Ajusta este método para obtener solo las entradas del usuario
         modeloTabla.setDatos(entradasReventa);
-        ventanaPrincipa.cargarDatosEntradas();
+//        ventanaPrincipa.cargarDatosEntradas();
     }
 
     private void borrarEntradaReventa() {
@@ -78,7 +78,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
             if (confirmacion == JOptionPane.YES_OPTION) {
                 BDEventos.borrarEntradaReventa(codigoEntrada); // Implementa este método en tu clase de conexión a la base de datos
                 modeloTabla.removeRow(filaSeleccionada);
-                ventanaPrincipa.cargarDatosEntradas();
+//                ventanaPrincipa.cargarDatosEntradas();
             }
         }
     }

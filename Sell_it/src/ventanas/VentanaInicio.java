@@ -99,13 +99,6 @@ public class VentanaInicio extends JFrame {
 		JLabel etiquetaUsuario = new JLabel("Correo:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
-//		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
-//		mostrarContra.addMouseListener(new MouseAdapter() {
-//	            @Override
-//	            public void mouseClicked(MouseEvent e) {
-//	                mostrarOcultarContraseña();
-//	            }
-//	    });
 		
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
 		JButton botonRegistroUsuario = new JButton("Registro Usuario");
@@ -122,7 +115,6 @@ public class VentanaInicio extends JFrame {
 		panelSur.add(etiquetaPregunta);
 		panelSur.add(botonRegistroEntidad);
 		panelSur.add(botonRegistroUsuario);
-	//	panelSur.add(botonIniciarSesion);
 		
 		panelCentro.add(etiquetaUsuario);
 		panelCentro.add(txtUsuario);
@@ -132,7 +124,6 @@ public class VentanaInicio extends JFrame {
 		JPanel panel = new JPanel();
 		panelCentro.add(panel);
 		panel.add(botonIniciarSesion);
-		//panel.add(mostrarContra);		
 //		
 		JLabel politicaEnlace = new JLabel("Política de Privacidad");
         politicaEnlace.setForeground(Color.BLUE); // Color azul para indicar un enlace
@@ -185,6 +176,9 @@ public class VentanaInicio extends JFrame {
 					JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 					VentanaPrincipal v = new VentanaPrincipal();
 					dispose();
+//					VentanaLogoPrincipal ventanaLogo = new VentanaLogoPrincipal();
+//					ventanaLogo.dispose();
+					v.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					v.setVisible(true);
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 				 }
@@ -198,7 +192,6 @@ public class VentanaInicio extends JFrame {
 		try {
 			BaseDeDatos.main(null);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		base = new BaseDeDatos();
@@ -247,15 +240,28 @@ public class VentanaInicio extends JFrame {
          	JTextArea textArea = new JTextArea(
 
                      "Política de Privacidad para la Aplicación Sell-it!\n\n"+
-                     	"Fecha de entrada en vigencia: [Fecha]\n\n"+
+                     	"Fecha de entrada en vigencia: 1 de enero de 2024 \n\n"+
                      	"¡Bienvenido a Sell-it! Agradecemos tu interés y confianza en nuestra aplicación. Esta Política de Privacidad tiene como objetivo explicar cómo recopilamos, utilizamos y protegemos la información personal que puedas proporcionar durante el uso de nuestra aplicación.\n\n"+
                      		
-                     		"1. Información que Recopilamos:\n\n"+
-                     		"Al utilizar nuestra aplicación, podemos recopilar la siguiente información:\n"+
+                     		"1. Información que Recopilamos:\n"+
+                     		"Al utilizar nuestra aplicación, podemos recopilar la siguiente información:\n\n"+
                      		"1.1 Información del Usuario:\n"+
-
-                             "\n\nAl hacer clic en Aceptar, confirmas que has leído y aceptas estos términos."
-             );
+                     			"Nombres, direcciones de correo electrónico y otros datos proporcionados voluntariamente por los usuarios.\n\n"+
+                            "2. Propósito de la Recopilación:\n"+ 
+                     			"La información del usuario se recopila con fines específicos, tales como procesar transacciones, personalizar la experiencia del usuario y enviar notificaciones relevantes.\n\n"+
+                     		"3. Consentimiento:\n"+
+                     			"Al hacer clic en Aceptar, confirmas que has leído y aceptas estos términos.\n\n"+
+                     		"4. Seguridad:\n"+
+                     			"Implementamos medidas de seguridad, incluido el cifrado de datos, para proteger la información del usuario contra accesos no autorizados y garantizar su confidencialidad.\n\n"+
+                     		"5. Derechos del Usuario:\n"+
+                     			"Los usuarios tienen derechos sobre sus datos personales, incluido el acceso, corrección, eliminación y portabilidad de los mismos. Para ejercer estos derechos, por favor, contáctanos.\n\n"+
+                     		"6. Contacto:\n"+
+                     			"Para consultas relacionadas con la privacidad, puedes comunicarte con nosotros a través de sellitcontac@gmail.es .\n\n"+
+                     		"7. Políticas Futuras:\n"+
+                     			"Esta política puede actualizarse. Te notificaremos sobre cambios importantes. Al continuar usando la aplicación después de dichas modificaciones, aceptas los términos actualizados.\n\n"+
+                     		
+                     		"Gracias por confiar en Sell-it! Si tienes alguna pregunta o inquietud sobre nuestra política de privacidad, no dudes en contactarnos."
+         	);
              textArea.setEditable(false);
 
              JScrollPane scrollPane = new JScrollPane(textArea);

@@ -37,10 +37,8 @@ public class Main {
 			Thread.sleep(5000);
 			ventana1 = new VentanaInicio();
 			ventana1.setVisible(true);
-			ventanaLogo.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			ventana1.toFront();
-//		cargaUsuarios();
-		//VentanaInicio.cargarUsuariosInicio(dataset);
+
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error en el main.", e);
 			JOptionPane.showMessageDialog(ventana1, "Error grave: contacta con los informáticos.", "ERROR", JOptionPane.ERROR_MESSAGE);

@@ -109,7 +109,7 @@ public class VentanaPerfilEntidad extends JFrame{
 		botonCompras.setBounds(382, 78, 167, 28);
 		contentPane.add(botonCompras);
 		
-		JButton botonVentanaP = new JButton("Volver");
+		JButton botonVentanaP = new JButton("Volver atras");
 		botonVentanaP.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		botonVentanaP.setBounds(464, 399, 140, 28);
 		contentPane.add(botonVentanaP);
