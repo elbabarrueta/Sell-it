@@ -129,20 +129,21 @@ public class VentanaReventaUsuario extends JFrame{
 		        }
 				
 		        String entradaInfo = (String) cbEntradas.getSelectedItem();
-		        
+		        String[] campos = entradaInfo.split(",");
+		        int idEntrada = Integer.parseInt(campos[2].trim());
+
 		        try {
 		        	System.out.println(tfPrecio.getText());
 		            double precioReventa = Double.parseDouble(tfPrecio.getText());
 		            
 		            // Obtener la entrada seleccionada
 		            // Suponemos que la entrada tiene un atributo "precioOriginal"
-		            double precioEntidad = obtenerPrecioEntrada();
-		            System.out.println("algo");
+		            double precioEntidad = BaseDeDatos.obtenerPrecioEntrada(idEntrada);
 		            // Validar que el precio de reventa sea mayor que el precio original
-		            if (precioEntidad >= precioReventa) {
+		            if (precioReventa >= precioEntidad) {
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
 		            } else {
-		            	BaseDeDatos.insertarEntradaReventa(entradaInfo, usuario, precioReventa);
+		            	BaseDeDatos.insertarEntradaReventa(entradaInfo, usuario, precioReventa, idEntrada);
 		            	JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
 		            }
 		        } catch (NumberFormatException ex) {
@@ -166,16 +167,16 @@ public class VentanaReventaUsuario extends JFrame{
 	    cbEntradas.removeAllItems();
 	    for (Entrada entrada : entradasCompradasList) {
 	        // Aquí puedes decidir qué información de la entrada quieres mostrar en el JComboBox
-	        String entradaInfo = entrada.getEventoAsociado().getNombre() + " - " + entrada.getEventoAsociado().getFecha();
+	        String entradaInfo = entrada.getEventoAsociado().getNombre() + ", " + entrada.getEventoAsociado().getFecha() + ", " + entrada.getCod();
 	        cbEntradas.addItem(entradaInfo);
 	    }
 	}
 
 	
-	private double obtenerPrecioEntrada() {
-        VentanaVentaEntidad v1 = new VentanaVentaEntidad(usuario);
-        return v1.obtenerPrecioEntrada();
-    }
+//	private double obtenerPrecioEntrada() {
+//        VentanaVentaEntidad v1 = new VentanaVentaEntidad(usuario);
+//        return v1.obtenerPrecioEntrada();
+//    }
 	
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();

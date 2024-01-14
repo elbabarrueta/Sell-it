@@ -112,13 +112,10 @@ public class BaseDeDatos {
     
     public static void crearTablaEntradasReventa() {
         String comentarioSQL = "CREATE TABLE IF NOT EXISTS entradas_reventa (" +
-                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                     "nombre_evento TEXT NOT NULL," +
-                     "fecha_evento TEXT NOT NULL," +
+                     "id INTEGER PRIMARY KEY," +
                      "precio REAL NOT NULL," +
-                     "asiento TEXT," +
-                     "usuario_id INTEGER," +
-                     "FOREIGN KEY(usuario_id) REFERENCES usuario(id)" +
+                     "usuario_vendedor TEXT," +
+                     "FOREIGN KEY(usuario_vendedor) REFERENCES usuario(correoUsuario)" +
                      ");";
         ejecutarSQL(comentarioSQL, Level.INFO);
     }
@@ -604,15 +601,15 @@ public class BaseDeDatos {
 	    }
 	}
 
-	public static void insertarEntradaReventa(String entradaInfo, Usuario usuario, double precioReventa) {
+	public static void insertarEntradaReventa(String entradaInfo, Usuario usuario, double precioReventa, int codigoEntrada) {
 	    // Obtener el código de la entrada a partir del String entradaInfo
 	    // Esto depende de cómo esté formateado tu String entradaInfo
-	    int codigoEntrada = obtenerCodigoEntradaDesdeInfo(entradaInfo);
-
+//	    int codigoEntrada = obtenerCodigoEntradaDesdeInfo(entradaInfo);
+		
 	    // Aquí va tu código para conectarte a la base de datos
-	    String sql = "INSERT INTO entradas_reventa (codigoEntrada, precioReventa, correoUsuario) VALUES (?, ?, ?)";
+	    String sql = "INSERT INTO entradas_reventa (id, precio, usuario_vendedor) VALUES (?, ?, ?)";
 	    
-	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 	        
 	        // Establecer los valores para la consulta
@@ -627,13 +624,13 @@ public class BaseDeDatos {
 	    }
 	}
 
-	private static int obtenerCodigoEntradaDesdeInfo(String entradaInfo) {
-	    // Implementar la lógica para extraer el código de la entrada del String entradaInfo
-	    // Esto dependerá de cómo esté formateado tu String entradaInfo
-	    // Por ejemplo, si entradaInfo contiene el código al principio seguido de un guion, podrías hacer algo como esto:
-	    int codigo = Integer.parseInt(entradaInfo.split("-")[0].trim());
-	    return codigo;
-	}
+//	private static int obtenerCodigoEntradaDesdeInfo(String entradaInfo) {
+//	    // Implementar la lógica para extraer el código de la entrada del String entradaInfo
+//	    // Esto dependerá de cómo esté formateado tu String entradaInfo
+//	    // Por ejemplo, si entradaInfo contiene el código al principio seguido de un guion, podrías hacer algo como esto:
+//	    int codigo = Integer.parseInt(entradaInfo.split("-")[0].trim());
+//	    return codigo;
+//	}
 
 
 	/**
