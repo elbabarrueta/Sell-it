@@ -54,7 +54,7 @@ public class BaseDeDatos {
             // Crear la tabla 'Usuario' si no existe.
             crearTablaUsuario();
             // Crea la tabla de las entradas en revent
-            borrarTablaEntradasReventa();
+//            borrarTablaEntradasReventa();
             crearTablaEntradasReventa();
             // Añadir columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
             agregarColumnaUltimoCambioContrasena();
@@ -624,11 +624,9 @@ public class BaseDeDatos {
 //	    int codigoEntrada = obtenerCodigoEntradaDesdeInfo(entradaInfo);
 		
 	    // Aquí va tu código para conectarte a la base de datos
-	    String sql = "INSERT INTO entradas_reventa (id, precio, usuario_vendedor) VALUES (?, ?, ?, ?)";
+	    String sql = "INSERT INTO entradas_reventa (id, precio, usuario_vendedor, entradaInfo) VALUES (?, ?, ?, ?)";
 	    
-	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	        
+	    try (PreparedStatement pstmt = con.prepareStatement(sql)){
 	        // Establecer los valores para la consulta
 	        pstmt.setInt(1, codigoEntrada);
 	        pstmt.setDouble(2, precioReventa);
@@ -856,7 +854,7 @@ public void verUsuarios() {
 	 * @param codigoEntrada Código de la entrada a marcar como comprada.
 	 * @param correoComprador Correo del comprador.
 	 */
-	public void marcarEntradaComoComprada(Integer codigoEntrada, String correoComprador) {
+	public static void marcarEntradaComoComprada(Integer codigoEntrada, String correoComprador) {
 	    String com = "UPDATE Entrada SET propietario_correo = ? WHERE codigo = ?";
 	    logger.log(Level.INFO, "BD: " + com);
 

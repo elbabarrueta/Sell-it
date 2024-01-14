@@ -343,6 +343,9 @@ public class VentanaCompra extends JFrame{
 		}
 	}
 	
+	private void pararTemporizador() {
+		timer.stop();
+	}
 	private void confirmarCompra() {
 		
 //		if(tfNombre.getText().equals("")|| tfCorreo.getText().equals("") || tfTfno.getText().equals("") || tfNtarjeta.getText().equals("") || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
@@ -438,6 +441,7 @@ public class VentanaCompra extends JFrame{
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+	        pararTemporizador();
 	        dispose();
 	        vPrincipal = new VentanaPrincipal();
 	        vPrincipal.setVisible(true);

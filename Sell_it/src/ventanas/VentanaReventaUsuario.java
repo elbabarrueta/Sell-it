@@ -133,7 +133,6 @@ public class VentanaReventaUsuario extends JFrame{
 		        int idEntrada = Integer.parseInt(campos[2].trim());
 
 		        try {
-		        	System.out.println(tfPrecio.getText());
 		            double precioReventa = Double.parseDouble(tfPrecio.getText());
 		            
 		            // Obtener la entrada seleccionada
@@ -144,9 +143,13 @@ public class VentanaReventaUsuario extends JFrame{
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
 		            } else {
 		            	BaseDeDatos.insertarEntradaReventa(idEntrada, precioReventa, usuario, entradaInfo);
-		                BaseDeDatos.eliminarEntrada(idEntrada);  // Eliminar la entrada original
+		            	BaseDeDatos.marcarEntradaComoComprada(idEntrada, null); //Marcar el propietario de la entrada null
+//		                BaseDeDatos.eliminarEntrada(idEntrada);  // Eliminar la entrada original
 		                cargarEntradasCompradas();  // Recargar el JComboBox
 		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+		                dispose();
+		                VentanaPrincipal v = new VentanaPrincipal();
+		                v.setVisible(true);
 		            }
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio de reventa", "Error", JOptionPane.ERROR_MESSAGE);
