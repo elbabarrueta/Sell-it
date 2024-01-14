@@ -121,7 +121,6 @@ public class BaseDeDatos {
                      "precio int," +
                      "usuario_vendedor string," +
                      "entradaInfo string" +
-                     "FOREIGN KEY(usuario_vendedor) REFERENCES usuario(correoUsuario)" +
                      ");";
         ejecutarSQL(comentarioSQL, Level.INFO);
     }
