@@ -45,7 +45,6 @@ import clases.Usuario;
 public class VentanaPrincipal extends JFrame{
 
 		private JXTable tablaEventos;
-//		private DataSetUsuario dataSetUsuario;
 		private VentanaInicio vent;
 		private List<VentanaEvento> listaEventos;
 		private JPanel pnlCentro = new JPanel();
@@ -58,8 +57,6 @@ public class VentanaPrincipal extends JFrame{
 	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
 //	    private Usuario usuario;
 	    
-	    
-
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 	    
 	    public VentanaPrincipal(){
