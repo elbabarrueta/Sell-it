@@ -88,7 +88,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
     private class ModeloEntradasReventa extends AbstractTableModel {
         private List<EntradaReventa> datos;
-        private final String[] columnNames = {"Código Entrada", "Precio Reventa", "Correo del Vendedor"};
+        private final String[] columnNames = {"Código Entrada", "Precio Reventa", "Correo del Vendedor", "Informacion entrada"};
 
         public void setDatos(List<EntradaReventa> datos) {
             this.datos = datos;
@@ -123,6 +123,8 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
                     return entrada.getPrecioReventa();
                 case 2:
                     return entrada.getCorreoUsuario();
+                case 3: 
+                	return entrada.getInfo();
                 default:
                     return null;
             }
