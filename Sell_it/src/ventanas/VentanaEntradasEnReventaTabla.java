@@ -55,7 +55,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				VentanaPerfilUsuario v = new VentanaPerfilUsuario(usuario, null);
+				VentanaReventaUsuario v = new VentanaReventaUsuario(usuario);
 				v.setVisible(true);
 			}
 		});

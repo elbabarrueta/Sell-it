@@ -144,7 +144,9 @@ public class VentanaReventaUsuario extends JFrame{
 		                JOptionPane.showMessageDialog(null, "El precio de reventa debe ser menor que el precio original", "Error", JOptionPane.ERROR_MESSAGE);
 		            } else {
 		            	BaseDeDatos.insertarEntradaReventa(entradaInfo, usuario, precioReventa, idEntrada);
-		            	JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+		                BaseDeDatos.eliminarEntrada(idEntrada);  // Eliminar la entrada original
+		                cargarEntradasCompradas();  // Recargar el JComboBox
+		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
 		            }
 		        } catch (NumberFormatException ex) {
 		            JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio de reventa", "Error", JOptionPane.ERROR_MESSAGE);
