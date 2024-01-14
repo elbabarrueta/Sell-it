@@ -260,7 +260,7 @@ public void cerrarConexiones() {
 	
 	public static List<EntradaReventa> obtenerEntradasReventa(String correoUsuario) {
 	    List<EntradaReventa> entradasReventa = new ArrayList<>();
-	    String sql = "SELECT * FROM entradas_reventa WHERE correoUsuario = ?";
+	    String sql = "SELECT * FROM entradas_reventa WHERE usuario_vendedor = ?";
 
 	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -269,9 +269,9 @@ public void cerrarConexiones() {
 	        ResultSet rs = pstmt.executeQuery();
 
 	        while (rs.next()) {
-	            int codigoEntrada = rs.getInt("codigoEntrada");
-	            double precioReventa = rs.getDouble("precioReventa");
-	            String correoVendedor = rs.getString("correoUsuario");
+	            int codigoEntrada = rs.getInt("id");
+	            double precioReventa = rs.getDouble("precio");
+	            String correoVendedor = rs.getString("usuario_vendedor");
 
 	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor);
 	            entradasReventa.add(entrada);
@@ -283,7 +283,7 @@ public void cerrarConexiones() {
 	}
 
 	public static void borrarEntradaReventa(int codigoEntrada) {
-	    String sql = "DELETE FROM entradas_reventa WHERE codigoEntrada = ?";
+	    String sql = "DELETE FROM entradas_reventa WHERE id = ?";
 
 	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {

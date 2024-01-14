@@ -53,7 +53,8 @@ public class BaseDeDatos {
             establecerConexion();
             // Crear la tabla 'Usuario' si no existe.
             crearTablaUsuario();
-            // Crea la tabla de las entradas en reventa
+            // Crea la tabla de las entradas en revent
+            borrarTablaEntradasReventa();
             crearTablaEntradasReventa();
             // Añadir columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
             agregarColumnaUltimoCambioContrasena();
@@ -63,7 +64,6 @@ public class BaseDeDatos {
             actualizarUltimoCambioContrasena();			
             // Verificar y agregar el usuario administrador si no existe.
             verificarYAgregarAdmin();
-            		
 		} catch (SQLException | ClassNotFoundException e) {
             // Manejar excepciones e imprimir traza de error.
 			manejarExcepcion(e);
@@ -110,11 +110,17 @@ public class BaseDeDatos {
         ejecutarSQL(comentarioSQL, Level.INFO);
     }
     
+    public static void borrarTablaEntradasReventa() {
+        String comentarioSQL = "DROP TABLE entradas_reventa";
+        ejecutarSQL(comentarioSQL, Level.INFO);
+    }
+    
     public static void crearTablaEntradasReventa() {
         String comentarioSQL = "CREATE TABLE IF NOT EXISTS entradas_reventa (" +
-                     "id INTEGER PRIMARY KEY," +
-                     "precio REAL NOT NULL," +
-                     "usuario_vendedor TEXT," +
+                     "id int PRIMARY KEY," +
+                     "precio int," +
+                     "usuario_vendedor string," +
+                     "entradaInfo string" +
                      "FOREIGN KEY(usuario_vendedor) REFERENCES usuario(correoUsuario)" +
                      ");";
         ejecutarSQL(comentarioSQL, Level.INFO);
@@ -124,7 +130,6 @@ public class BaseDeDatos {
         String sql = "DELETE FROM Entrada WHERE id = ?";
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
             pstmt.setInt(1, idEntrada);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -613,13 +618,13 @@ public class BaseDeDatos {
 	    }
 	}
 
-	public static void insertarEntradaReventa(String entradaInfo, Usuario usuario, double precioReventa, int codigoEntrada) {
+	public static void insertarEntradaReventa(int codigoEntrada, double precioReventa, Usuario usuario, String entradaInfo) {
 	    // Obtener el código de la entrada a partir del String entradaInfo
 	    // Esto depende de cómo esté formateado tu String entradaInfo
 //	    int codigoEntrada = obtenerCodigoEntradaDesdeInfo(entradaInfo);
 		
 	    // Aquí va tu código para conectarte a la base de datos
-	    String sql = "INSERT INTO entradas_reventa (id, precio, usuario_vendedor) VALUES (?, ?, ?)";
+	    String sql = "INSERT INTO entradas_reventa (id, precio, usuario_vendedor) VALUES (?, ?, ?, ?)";
 	    
 	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -628,6 +633,7 @@ public class BaseDeDatos {
 	        pstmt.setInt(1, codigoEntrada);
 	        pstmt.setDouble(2, precioReventa);
 	        pstmt.setString(3, usuario.getCorreoUsuario());
+	        pstmt.setString(4, entradaInfo);
 
 	        // Ejecutar la consulta
 	        pstmt.executeUpdate();
