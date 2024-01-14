@@ -1,8 +1,11 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,8 +23,14 @@ public class VentanaLogoPrincipal extends JFrame {
         setTitle("Sell It");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ImageIcon icono = new ImageIcon("Sell_it/src/imagenes/sell_it.png");
-        JLabel imagen = new JLabel(icono);
+        ImageIcon icono = new ImageIcon("Sell_it/src/imagenes/SEll-itt (1).png");
+        
+     // Escalar la imagen al tamaño de la pantalla
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Image image = icono.getImage().getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
+        ImageIcon iconoEscalado = new ImageIcon(image);
+        
+        JLabel imagen = new JLabel(iconoEscalado);
         JLabel mensaje = new JLabel("Cargando Sell It...");
         mensaje.setFont(new Font("Arial", Font.PLAIN, 20));
 
@@ -71,10 +80,9 @@ public class VentanaLogoPrincipal extends JFrame {
                 progressBar.setValue(progreso);
             }
 
-            mensaje.setText("Cargando Sell It... ¡Disfruta de tu estancia!");
+            mensaje.setText("¡Disfruta de tu estancia!");
             progressBar.setValue(100); // Asegura que la barra de progreso alcance el 100% al final
         });
-
         hiloCuentaRegresiva.start();
     }
 

@@ -43,6 +43,8 @@ public class VentanaPerfilEntidad extends JFrame{
 		contentPane.setBorder(new EmptyBorder(6, 5, 5, 5));
 		contentPane.setLayout(null);
         this.setContentPane(contentPane);
+     // Añadir esta línea para centrar la ventana
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
 //        // Parte superior: nombre, correo y botones de información

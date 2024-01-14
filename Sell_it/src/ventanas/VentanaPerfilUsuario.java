@@ -48,6 +48,7 @@ public class VentanaPerfilUsuario extends JFrame{
 		this.setTitle("Perfil Usuario");
 	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    this.setLayout(new BorderLayout());
+        this.setSize(500, 700); // Ancho y alto personalizados
 
 	    // Parte superior: nombre, correo y botones de información
 	    JPanel topPanel = new JPanel(new FlowLayout());
@@ -84,7 +85,6 @@ public class VentanaPerfilUsuario extends JFrame{
 	    topPanel.add(btnNotificaciones);
 
 	    // Parte central: descripción del usuario
-//	    descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
 	    descriptionArea = new JTextArea(usuario.getDescripcion());
 	    descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
@@ -285,17 +285,7 @@ public class VentanaPerfilUsuario extends JFrame{
 //				base.modificarDescripcionUsuario(usuarioActualizado, nuevaDescripcion);
 				base.modificarDescripcionUsuario(usuarioActualizado);
 				
-/*				
-// hacer algo asi pero con el MAPA de USUARIOS				
-				 // Buscar al usuario en la lista y actualizar sus datos
-                for (Usuario usuarioEnLista : usuariosBase) {
-                    if (usuarioEnLista.getNombreUsuario().equals(usuario.getNombreUsuario())) {
-                        usuarioEnLista.setNombreUsuario(nuevoNombre);
-                        usuarioEnLista.setCorreoUsuario(nuevoCorreo);
-                        break; // Terminar la búsqueda una vez que se haya encontrado el usuario
-                    }
-                }
-*/				
+				
 				nameField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
 				botonCambiarFoto.setVisible(false);
@@ -327,21 +317,13 @@ public class VentanaPerfilUsuario extends JFrame{
 	    
 
 	    this.pack();
-	    setLocationRelativeTo(null);
+	    setLocationRelativeTo(null); // Centra la ventana
 	    this.setVisible(true);
 	}	
 	private void setEditableDescripcion(boolean editable) {
 		descriptionArea.setEditable(editable);
 	}
 	
-//	private List<String> obtenerNotificaciones() {
-//	   
-//	    List<String> notificaciones = new ArrayList<>();
-//	    notificaciones.add("Nueva oferta para tu producto.");
-//	    notificaciones.add("¡Has vendido un artículo!");
-//	    notificaciones.add("Nuevo mensaje de un comprador interesado.");
-//	    return notificaciones;
-//	}
 	private void mostrarNotificaciones() {
     	usuario.cargarNotificacionesDesdeBD();
         List<Notificacion> notificaciones = usuario.getNotificaciones();
@@ -382,15 +364,8 @@ public class VentanaPerfilUsuario extends JFrame{
         lblFotoPerfil.setIcon(imagenPerfil);
 	}
 	
-//	public static void main(String[] args) {
+	public static void main(String[] args) {
 		
-//		List<String> entradasCompradas = new ArrayList<>();
-//		VentanaInicio ventanaI = Main.getVentanaInicio();
-//		Usuario usuActual = ventanaI.getUsuarioActual();
-//    	Usuario usuarioNormal = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
-//		
-//    	VentanaPerfilUsuario vent = new VentanaPerfilUsuario(usuarioNormal, entradasCompradas);
-
-//	}
+	}
 
 }
