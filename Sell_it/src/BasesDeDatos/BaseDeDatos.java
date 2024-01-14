@@ -119,6 +119,18 @@ public class BaseDeDatos {
                      ");";
         ejecutarSQL(comentarioSQL, Level.INFO);
     }
+    
+    public static void eliminarEntrada(int idEntrada) {
+        String sql = "DELETE FROM Entrada WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, idEntrada);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /**
      * Agrega la columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
