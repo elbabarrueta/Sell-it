@@ -69,7 +69,8 @@ public class BaseDeDatos {
 			manejarExcepcion(e);
 		} finally {
 //            // Cerrar la conexión con la base de datos.
-//            cerrarConexiones();
+			//NO ES EL SITIO ADECUADO 
+//			cerrarConexiones();
         }
 	}
 		
@@ -651,7 +652,7 @@ public class BaseDeDatos {
 	/**
      * Cierra la conexión, el statement y el resultado si están abiertos.
      */
-	public void cerrarConexiones() {
+	public static void cerrarConexiones() {
 		try {
             if (rs != null) rs.close();
             if (s != null) s.close();

@@ -257,6 +257,30 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
+
+//igual sirve para recuperar las entadas de reventa
+	public static List<EntradaReventa> obtenerListaEntradasReventa(){
+		String sql = "SELECT * FROM entradas_reventa";
+		List<EntradaReventa> listaReventa = new ArrayList<>();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			 while (rs.next()) {
+		            int codigoEntrada = rs.getInt("id");
+		            double precioReventa = rs.getDouble("precio");
+		            String correoVendedor = rs.getString("usuario_vendedor");
+		            String inform = rs.getString("entradaInfo");
+		            
+		            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor, inform);
+				listaReventa.add(entrada);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+		}
+		return listaReventa;
+	}
+//
 	
 	public static List<EntradaReventa> obtenerEntradasReventa(String correoUsuario) {
 	    List<EntradaReventa> entradasReventa = new ArrayList<>();
