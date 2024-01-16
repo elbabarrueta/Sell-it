@@ -934,7 +934,7 @@ public void verUsuarios() {
 	            double precio = rs.getDouble("precio");
 
 	            // Esta función devuelve un evento dado su código.
-	            Evento evento = BDEventos.obtenerEventoPorCodigo(evento_cod);
+	            Evento evento = obtenerEventoPorCodigo(evento_cod);
 	            
 	            if (evento != null) {
 	                Entrada entrada = new Entrada(codigo, evento, usuario, precio);
@@ -1231,6 +1231,47 @@ public void verUsuarios() {
         }
         return valoraciones;
     }
+ 
+//
+    public static List<EntradaReventa> obtenerEntradasReventa(String correoUsuario) {
+	    List<EntradaReventa> entradasReventa = new ArrayList<>();
+	    String sql = "SELECT * FROM entradas_reventa WHERE usuario_vendedor = ?";
+
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, correoUsuario); // Establece el correo del usuario en la consulta
+	        ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            int codigoEntrada = rs.getInt("id");
+	            double precioReventa = rs.getDouble("precio");
+	            String correoVendedor = rs.getString("usuario_vendedor");
+	            String inform = rs.getString("entradaInfo");
+	            
+	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor, inform);
+	            entradasReventa.add(entrada);
+	        }
+	        conn.close();
+	    } catch (SQLException e) {
+	        System.out.println(e.getMessage());
+	    }
+	    return entradasReventa;
+	}
+
+	public static void borrarEntradaReventa(int codigoEntrada) {    
+	    String url = "jdbc:sqlite:usuarios.db";
+
+	    try (Connection connection = DriverManager.getConnection(url);
+	         Statement statement = connection.createStatement()) {
+
+	        String query = "DELETE FROM entradas_reventa WHERE id = " + codigoEntrada;
+	        statement.executeUpdate(query);
+	        connection.close();
+	    } catch (SQLException e) {
+	        handleException(e, "Error al borrar la entrada de reventa con código " + codigoEntrada);
+	    }
+	}
 	
 // Esto seria para marcar la entrada como comprada
 //	String codigoEntrada = "tu_codigo_de_entrada";

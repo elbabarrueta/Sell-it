@@ -177,7 +177,7 @@ public class VentanaInicio extends JFrame {
 					dispose();
 //					VentanaLogoPrincipal ventanaLogo = new VentanaLogoPrincipal();
 //					ventanaLogo.dispose();
-					v.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//					v.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					v.setVisible(true);
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 				 }

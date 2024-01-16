@@ -65,7 +65,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
     }
 
     private void cargarDatosEntradas() {
-        List<EntradaReventa> entradasReventa = BDEventos.obtenerEntradasReventa(usuario.getCorreoUsuario()); // Ajusta este método para obtener solo las entradas del usuario
+        List<EntradaReventa> entradasReventa = BaseDeDatos.obtenerEntradasReventa(usuario.getCorreoUsuario()); // Ajusta este método para obtener solo las entradas del usuario
         modeloTabla.setDatos(entradasReventa);
 //        ventanaPrincipa.cargarDatosEntradas();
     }
@@ -77,7 +77,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
             int codigoEntrada = (int) tablaEntradas.getValueAt(filaSeleccionada, 0);
             int confirmacion = JOptionPane.showConfirmDialog(this, "¿Deseas borrar esta entrada de la reventa?\n Volveras a ser el propietario", "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
-                BDEventos.borrarEntradaReventa(codigoEntrada); 
+            	BaseDeDatos.borrarEntradaReventa(codigoEntrada); 
                 
             	BaseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario()); //propietario otra vez el usuario que la puso en reventa
 

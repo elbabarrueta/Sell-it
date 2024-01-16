@@ -56,9 +56,7 @@ public class VentanaPrincipal extends JFrame{
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
 	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
-	    
-//	    private Usuario usuario;
-	    
+	    	    
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
 	    
 	    public VentanaPrincipal(){
@@ -186,6 +184,9 @@ public class VentanaPrincipal extends JFrame{
 			this.setBounds(55, 50, 1200, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setTitle("Menu Principal");
+			
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 			this.setVisible(true);
 			vPrincipal = this;
 			

@@ -139,19 +139,15 @@ public class VentanaVentaEntidad extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String nombre = tfNombre.getText();
-				String desc = tfDesc.getText();
-//				String fecha = tfFecha.getText();
-				
+				String desc = tfDesc.getText();				
 				Date selectedDate = datePicker.getDate();
 				// Format the date as a string (adjust the format as needed)
 		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		        String fecha = dateFormat.format(selectedDate);
 				
 		        String ubicacion = tfUbicacion.getText();
-				//ArrayList<Entrada> entradas = new ArrayList<Entrada>();
 				String cantText = tfCant.getText();
 		        String precioText = tfPrecio.getText();
-//		        String imagenE = rutaImg;
 		        String imagenE = (rutaImg != null) ? rutaImg : obtenerRutaImagenPorDefecto();
 
 				String correo = usuario.getCorreoUsuario();
@@ -187,6 +183,7 @@ public class VentanaVentaEntidad extends JFrame{
 				}catch(NumberFormatException ex) {
 					JOptionPane.showMessageDialog(null, "Ingresa valores válidos para la cantidad y el precio", "Error", JOptionPane.ERROR_MESSAGE);
 				}
+				VentanaPrincipal vP = new VentanaPrincipal();
 				dispose();				
 			}
 		});
