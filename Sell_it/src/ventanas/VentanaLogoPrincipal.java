@@ -23,7 +23,7 @@ public class VentanaLogoPrincipal extends JFrame {
         setTitle("Sell It");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ImageIcon icono = new ImageIcon("Sell_it/src/imagenes/SEll-itt (1).png");
+        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/SEll-itt (1).png"));
         
      // Escalar la imagen al tamaño de la pantalla
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
