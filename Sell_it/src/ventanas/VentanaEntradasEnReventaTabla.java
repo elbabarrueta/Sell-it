@@ -72,11 +72,15 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
     private void borrarEntradaReventa() {
         int filaSeleccionada = tablaEntradas.getSelectedRow();
+                
         if (filaSeleccionada >= 0) {
-            int codigoEntrada = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Deseas borrar esta entrada de la reventa?", "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
+            int codigoEntrada = (int) tablaEntradas.getValueAt(filaSeleccionada, 0);
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Deseas borrar esta entrada de la reventa?\n Volveras a ser el propietario", "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
             if (confirmacion == JOptionPane.YES_OPTION) {
-                BDEventos.borrarEntradaReventa(codigoEntrada); // Implementa este método en tu clase de conexión a la base de datos
+                BDEventos.borrarEntradaReventa(codigoEntrada); 
+                
+            	BaseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario()); //propietario otra vez el usuario que la puso en reventa
+
                 modeloTabla.removeRow(filaSeleccionada);
 //                ventanaPrincipa.cargarDatosEntradas();
             }
@@ -88,7 +92,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
     private class ModeloEntradasReventa extends AbstractTableModel {
         private List<EntradaReventa> datos;
-        private final String[] columnNames = {"Código Entrada", "Precio Reventa", "Correo del Vendedor"};
+        private final String[] columnNames = {"Código Entrada", "Precio Reventa", "Correo del Vendedor", "Informacion entrada"};
 
         public void setDatos(List<EntradaReventa> datos) {
             this.datos = datos;
@@ -123,6 +127,8 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
                     return entrada.getPrecioReventa();
                 case 2:
                     return entrada.getCorreoUsuario();
+                case 3: 
+                	return entrada.getInfo();
                 default:
                     return null;
             }

@@ -37,6 +37,7 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import BasesDeDatos.BDEventos;
 import BasesDeDatos.BaseDeDatos;
+import clases.Entrada;
 import clases.EntradaReventa;
 import clases.Evento;
 import clases.JLabelGrafico;
@@ -55,6 +56,7 @@ public class VentanaPrincipal extends JFrame{
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
 	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
+	    
 //	    private Usuario usuario;
 	    
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
@@ -174,10 +176,12 @@ public class VentanaPrincipal extends JFrame{
 //			}
 			List<Evento> todosLosEventos = BaseDeDatos.obtenerListaEventos();
 	    	List<Evento> destacados = getEventosDestacados(5);
-	    	List<Evento> enentosReventa = null;
+	    	List<Evento> eventosReventa = getEventosDeReventa();
+	    	
+	    	
 	    	visualizarEventos(destacados, pEventosDestacados);
 	    	visualizarEventos(todosLosEventos, pTodosEventos);
-	    	visualizarEventos(enentosReventa, pEventosReventa);
+	    	visualizarEventos(eventosReventa, pEventosReventa);
 	    	
 			this.setBounds(55, 50, 1200, 600);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -237,8 +241,13 @@ public class VentanaPrincipal extends JFrame{
 	    	panel.removeAll();
 	    	if(eventos != null) {
 	    		for(Evento evento: eventos) {
-		    		Mipanel pnlActual = new Mipanel(evento);
-		    		panel.add(pnlActual);
+	    			if(panel.equals(pEventosReventa)) {
+			    		Mipanel pnlActual = new Mipanel(evento, true);
+			    		panel.add(pnlActual);
+	    			}else {
+			    		Mipanel pnlActual = new Mipanel(evento, false);
+			    		panel.add(pnlActual);
+	    			}
 		    	}
 	    	}
 	    	panel.revalidate(); 
@@ -318,7 +327,14 @@ public class VentanaPrincipal extends JFrame{
 	    
 	    //Hay que hacer el metodo
 		private List<Evento> getEventosDeReventa() {
-			return null;
+			List<Evento> eventosReventa = new ArrayList<>();
+			List<Entrada> entradasReventa = BaseDeDatos.obtenerListaEntradasReventa();
+	    	for(Entrada e : entradasReventa) {
+	    		Evento eventoAsociado = e.getEventoAsociado();
+	    		eventoAsociado.setNombre(eventoAsociado.getNombre() + "-" + e.getCod());
+	    		eventosReventa.add(eventoAsociado);
+	    	}
+			return eventosReventa;
 		}
 
 		private String obtenerTipoUsuario(String nom) {
@@ -366,23 +382,23 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.removeAll(); 
 		}
 		
-		 public void aniadirEventoDesdeBD(List<Evento> eventos) {
-			 for (Evento evento : eventos) {
-			        if (numCol == NUM_COLS || pnlActual == null) {
-			            numCol = 0;
-			            pnlActual = new JPanel();
-			            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-			            pnlCentro.add(pnlActual);
-			        }
-			        
-			        if (pnlActual != null) {
-			        	Mipanel panel = new Mipanel(evento);
-			        	panel.setPreferredSize(new Dimension(350, 300));
-			            pnlActual.add(panel);
-			            numCol++;
-			        }
-			    }
-		    }
+//		 public void aniadirEventoDesdeBD(List<Evento> eventos) {
+//			 for (Evento evento : eventos) {
+//			        if (numCol == NUM_COLS || pnlActual == null) {
+//			            numCol = 0;
+//			            pnlActual = new JPanel();
+//			            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
+//			            pnlCentro.add(pnlActual);
+//			        }
+//			        
+//			        if (pnlActual != null) {
+//			        	Mipanel panel = new Mipanel(evento);
+//			        	panel.setPreferredSize(new Dimension(350, 300));
+//			            pnlActual.add(panel);
+//			            numCol++;
+//			        }
+//			    }
+//		    }
 		public void acabarPanel() {
 			pnlCentro.revalidate();
 			pnlCentro.repaint();
@@ -397,7 +413,7 @@ public class VentanaPrincipal extends JFrame{
 //		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
 
 		private class Mipanel extends JPanel {
-			public Mipanel(Evento evento) {
+			public Mipanel(Evento evento, boolean esReventa) {
 		        setLayout(null);
 		        setPreferredSize(new Dimension(350, 250)); // Establece el tamaño preferido del panel principal
 		        addMouseListener(new MouseAdapter() {
@@ -409,13 +425,21 @@ public class VentanaPrincipal extends JFrame{
 		        			eventosBuscados.put(evento, 1);
 		        		}
 //		        		System.out.println(eventosBuscados);
-						VentanaEvento v = new VentanaEvento(evento, vPrincipal);
-						v.setVisible(true);
-						vPrincipal.dispose();
+		        		if(esReventa) {
+		        			String[] partes = evento.getNombre().split("-");
+		        			int entrada_cod = Integer.parseInt(partes[1]);
+		        			
+		        			Entrada entradaReventa = BaseDeDatos.obtenerEntradaPorCodigo(entrada_cod);
+		        			System.out.println("Crear ventana para entrada de reventa " + entrada_cod);
+		        		}else {
+							VentanaEvento v = new VentanaEvento(evento, vPrincipal);
+							v.setVisible(true);
+							vPrincipal.dispose();	
+		        		}
 					}
 				});
-		        
-		        String titulo = evento.getNombre();
+    			String[] partes = evento.getNombre().split("-");
+		        String titulo = partes[0];
 		        String fecha = evento.getFecha();
 		        String rutaImagen = evento.getRutaImg();
 		        

@@ -257,12 +257,36 @@ public void cerrarConexiones() {
         e.printStackTrace();
     }
 }
+
+//igual sirve para recuperar las entadas de reventa
+	public static List<EntradaReventa> obtenerListaEntradasReventa(){
+		String sql = "SELECT * FROM entradas_reventa";
+		List<EntradaReventa> listaReventa = new ArrayList<>();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			 while (rs.next()) {
+		            int codigoEntrada = rs.getInt("id");
+		            double precioReventa = rs.getDouble("precio");
+		            String correoVendedor = rs.getString("usuario_vendedor");
+		            String inform = rs.getString("entradaInfo");
+		            
+		            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor, inform);
+				listaReventa.add(entrada);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+		}
+		return listaReventa;
+	}
+//
 	
 	public static List<EntradaReventa> obtenerEntradasReventa(String correoUsuario) {
 	    List<EntradaReventa> entradasReventa = new ArrayList<>();
 	    String sql = "SELECT * FROM entradas_reventa WHERE usuario_vendedor = ?";
 
-	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 	        
 	        pstmt.setString(1, correoUsuario); // Establece el correo del usuario en la consulta
@@ -272,8 +296,9 @@ public void cerrarConexiones() {
 	            int codigoEntrada = rs.getInt("id");
 	            double precioReventa = rs.getDouble("precio");
 	            String correoVendedor = rs.getString("usuario_vendedor");
-
-	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor);
+	            String inform = rs.getString("entradaInfo");
+	            
+	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor, inform);
 	            entradasReventa.add(entrada);
 	        }
 	    } catch (SQLException e) {
@@ -285,7 +310,7 @@ public void cerrarConexiones() {
 	public static void borrarEntradaReventa(int codigoEntrada) {
 	    String sql = "DELETE FROM entradas_reventa WHERE id = ?";
 
-	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tuBaseDeDatos.db");
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
 	        pstmt.setInt(1, codigoEntrada);

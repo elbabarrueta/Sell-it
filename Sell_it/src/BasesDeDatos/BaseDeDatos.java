@@ -70,7 +70,8 @@ public class BaseDeDatos {
 			manejarExcepcion(e);
 		} finally {
 //            // Cerrar la conexión con la base de datos.
-//            cerrarConexiones();
+			//NO ES EL SITIO ADECUADO 
+//			cerrarConexiones();
         }
 	}
 		
@@ -122,7 +123,6 @@ public class BaseDeDatos {
                      "precio int," +
                      "usuario_vendedor string," +
                      "entradaInfo string" +
-                     "FOREIGN KEY(usuario_vendedor) REFERENCES usuario(correoUsuario)" +
                      ");";
         ejecutarSQL(comentarioSQL, Level.INFO);
     }
@@ -653,7 +653,7 @@ public class BaseDeDatos {
 	/**
      * Cierra la conexión, el statement y el resultado si están abiertos.
      */
-	public void cerrarConexiones() {
+	public static void cerrarConexiones() {
 		try {
             if (rs != null) rs.close();
             if (s != null) s.close();
@@ -946,6 +946,67 @@ public void verUsuarios() {
 	        e.printStackTrace();
 	    }
 	    return entradasCompradas;
+	}
+	
+	/**
+	 * Obtiene una entrada por su código desde la base de datos.
+	 * @param entrada_cod Código de la entrada a buscar.
+	 * @return Objeto Entrada correspondiente al código o null si no se encuentra.
+	 */
+	public static Entrada obtenerEntradaPorCodigo(int entrada_cod) {
+	    String com = "SELECT * FROM Entrada WHERE codigo = ?";
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setInt(1, entrada_cod);
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        if (rs.next()) {
+	        	int codigo = rs.getInt("codigo");
+	            int evento_cod = rs.getInt("evento_cod");
+	            String propietario_correo = rs.getString("propietario_correo");
+	            double precio = rs.getDouble("precio");
+	            Evento evento = obtenerEventoPorCodigo(evento_cod);
+	            Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+	            
+	           Entrada e = new Entrada(codigo, evento, propietario, precio);
+	           return e;
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	    System.out.println("No se encontró la entrada con el código: " + entrada_cod);
+	    return null;  // Devuelve null si no se encuentra la entrada
+	}
+	
+	/**
+	 * Obtiene una lista de todos las entradas de reventa almacenados en la base de datos.
+	 * @return Lista de objetos Entrada.
+	 */	
+	public static List<Entrada> obtenerListaEntradasReventa(){
+		String sql = "SELECT * FROM entradas_reventa";
+		List<Entrada> listaEntradas = new ArrayList<>();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()) {
+				//Código para obtener los datos del ResultSet y crear objetos Evento
+				int idEntrada = rs.getInt("id");
+				int precio = rs.getInt("precio");
+				String vendedor = rs.getString("usuario_vendedor");
+				String info = rs.getString("entradaInfo");
+				
+				Entrada entradaReventa = obtenerEntradaPorCodigo(idEntrada);
+				entradaReventa.setPrecio(precio);
+				listaEntradas.add(entradaReventa);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			// Manejar excepciones e imprimir información de error.
+	        handleException(e, "Último comando: " + sql);
+		}
+		return listaEntradas;
 	}
 
 	/**
