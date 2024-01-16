@@ -56,8 +56,7 @@ public class VentanaPrincipal extends JFrame{
 	    private static JLabel lblImagen;
 	    private static VentanaPrincipal vPrincipal;
 	    private HashMap<Evento, Integer> eventosBuscados = new HashMap<>();
-	    private List<Evento> eventosReventa = new ArrayList<>();
-
+	    
 //	    private Usuario usuario;
 	    
 	    private static BaseDeDatos baseDeDatos; // Nueva referencia a la clase BaseDeDatos
@@ -177,12 +176,9 @@ public class VentanaPrincipal extends JFrame{
 //			}
 			List<Evento> todosLosEventos = BaseDeDatos.obtenerListaEventos();
 	    	List<Evento> destacados = getEventosDestacados(5);
-	    	List<Entrada> entradasReventa = BaseDeDatos.obtenerListaEntradasReventa();
-	    	for(Entrada e : entradasReventa) {
-	    		Evento eventoAsociado = e.getEventoAsociado();
-	    		eventoAsociado.setNombre(eventoAsociado.getNombre() + "-" + e.getCod());
-	    		eventosReventa.add(eventoAsociado);
-	    	}
+	    	List<Evento> eventosReventa = getEventosDeReventa();
+	    	
+	    	
 	    	visualizarEventos(destacados, pEventosDestacados);
 	    	visualizarEventos(todosLosEventos, pTodosEventos);
 	    	visualizarEventos(eventosReventa, pEventosReventa);
@@ -331,7 +327,14 @@ public class VentanaPrincipal extends JFrame{
 	    
 	    //Hay que hacer el metodo
 		private List<Evento> getEventosDeReventa() {
-			return null;
+			List<Evento> eventosReventa = new ArrayList<>();
+			List<Entrada> entradasReventa = BaseDeDatos.obtenerListaEntradasReventa();
+	    	for(Entrada e : entradasReventa) {
+	    		Evento eventoAsociado = e.getEventoAsociado();
+	    		eventoAsociado.setNombre(eventoAsociado.getNombre() + "-" + e.getCod());
+	    		eventosReventa.add(eventoAsociado);
+	    	}
+			return eventosReventa;
 		}
 
 		private String obtenerTipoUsuario(String nom) {
