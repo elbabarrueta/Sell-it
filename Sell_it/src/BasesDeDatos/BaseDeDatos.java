@@ -53,8 +53,9 @@ public class BaseDeDatos {
             establecerConexion();
             // Crear la tabla 'Usuario' si no existe.
             crearTablaUsuario();
-            // Crea la tabla de las entradas en revent
-//            borrarTablaEntradasReventa();
+
+//            borrarTablaEntradasReventa();           
+            // Crea la tabla de las entradas en reventa
             crearTablaEntradasReventa();
             // Añadir columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
             agregarColumnaUltimoCambioContrasena();
