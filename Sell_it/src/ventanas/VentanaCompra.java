@@ -149,7 +149,7 @@ public class VentanaCompra extends JFrame{
 		pCCV.add(lCCV);
 		pCCV.add(tfCCV);
 		pPago.add(pCCV);
-//		
+		
 		JPanel pBotonD = new JPanel();
 		JButton botonVerificar = new JButton("Verificar Tarjeta");
 		pBotonD.add(botonVerificar);
@@ -171,8 +171,7 @@ public class VentanaCompra extends JFrame{
 				    JOptionPane.showMessageDialog(null, "Campos Correctos" + " " + checkSymbol, "Éxito", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-		});
-//		
+		});	
 		
 		this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -184,7 +183,7 @@ public class VentanaCompra extends JFrame{
 		JPanel pFC = new JPanel(new GridLayout(1,1));
 		String[] meses = {"MES", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 		cbMes = new JComboBox<>(meses);
-		String[] anyos = {"AÑO", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031"};
+		String[] anyos = {"AÑO", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031"};
 		cbAnyo = new JComboBox<>(anyos);
 
  		pFC.add(cbMes);
@@ -251,7 +250,6 @@ public class VentanaCompra extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				 busyLabel.setBusy(false);
 				 VentanaCompra.this.dispose();
 				 VentanaEvento ve = new VentanaEvento(eventoActual, vPrincipal);
@@ -375,37 +373,13 @@ public class VentanaCompra extends JFrame{
 	    	mostrarError(errorPane, "Correo incorrecto. Vuelve a provar");
 	    }
 	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
-//	    	vPrincipal = new VentanaPrincipal();
-//	    	
-//	    	Connection connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db", "usuario", "contraseña");
-//	    	Statement statement = connection.createStatement();
-//	    	ResultSet resultSet = statement.executeQuery("SELECT nEntradas FROM Evento ");
-//
-//	    	int valorBD = 0;
-//
-//	    	if (resultSet.next()) {
-//	    	    valorBD = resultSet.getInt("columna");
-//	    	}
-//	    	VentanaEvento instancia = new VentanaEvento(evento);
-//			int nEntradasCompradas = instancia.entradasCompradas();
-//			int nEntradasDisponibles = valorBD - nEntradasCompradas;
-//			String updateQuery = "UPDATE Evento SET nEntradas = ? ";
-//			try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-//			    preparedStatement.setInt(1, nEntradasDisponibles);
-//			    preparedStatement.executeUpdate();
-//			} catch (SQLException e) {
-//			    e.printStackTrace(); 
-//			}
-//			connection.close();
 	    	
 	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
     		int codigoEventoActual = vEvento.getEvento().getCodigo();
 //    		System.out.println("Codigo evento actual " + codigoEventoActual);
 //    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
     		Evento evento = vEvento.getEvento();
-//    		System.out.println("Evento actual " + evento);
 	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
-//	    	System.out.println("Entradas en BD " + entradasEnBD);
 	    	
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
 	    	int entradasMarcadasComoCompradas = 0;
@@ -423,19 +397,6 @@ public class VentanaCompra extends JFrame{
 	    	        break;
 	    	    }
 	    	}
-//	    	System.out.println("Entradas compradas: " + BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual));
-//    		for(Entrada e: entradasEnBD) {
-//	    		for(int i=0; i<cantidadCompra; i++) {
-//	    			if(e.getEventoAsociado().getCodigo() == eventoActual.getCodigo()) {
-//	    				if(e.getPropietario() == null) {
-//	    					int codigoEntrada = e.getCod();
-////	    					System.out.println(codigoEntrada + " y...... " + usuario);
-//	    					baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
-////	    			    	usuario.getEntradasCompradas().add(e);
-//	    				}
-//	    			}
-//	    		}
-//    		}
 	    	baseDeDatos.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
 //	    	System.out.println("Entradas de usuario " + usuario.getEntradasCompradas());
 	    	tfTfno.setBackground(new Color(240, 255, 240));
@@ -461,7 +422,6 @@ public class VentanaCompra extends JFrame{
 	private void agregarCheck(JTextField textField) {
 		String textoCampo = textField.getText();
 	   
-//		textField.setText(textoCampo + " " + checkSymbol);
 		textField.setText(textoCampo);
 	    textField.setEditable(false);
 	    textField.setBackground(new Color(240, 255, 240)); // Cambiar el fondo a verde claro si se cumple la condición   

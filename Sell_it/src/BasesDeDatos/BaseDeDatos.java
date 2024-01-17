@@ -129,10 +129,12 @@ public class BaseDeDatos {
     
     public static void eliminarEntrada(int idEntrada) {
         String sql = "DELETE FROM Entrada WHERE id = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (
+//        		Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, idEntrada);
             pstmt.executeUpdate();
+//            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -606,14 +608,15 @@ public class BaseDeDatos {
 	 * @param codigo Código del evento a borrar.
 	 */
 	public void borrarEvento(int codigo) {
-	    String url = "jdbc:sqlite:usuarios.db";
+//	    String url = "jdbc:sqlite:usuarios.db";
 
-	    try (Connection connection = DriverManager.getConnection(url);
-	         Statement statement = connection.createStatement()) {
+	    try (
+//	    		Connection connection = DriverManager.getConnection(url);
+	         Statement statement = con.createStatement()) {
 
 	        String query = "DELETE FROM Evento WHERE codigo = " + codigo;
 	        statement.executeUpdate(query);
-
+//	        connection.close();
 	    } catch (SQLException e) {
 	        handleException(e, "Error al borrar el evento con código " + codigo);
 	    }
@@ -1237,8 +1240,7 @@ public void verUsuarios() {
 	    List<EntradaReventa> entradasReventa = new ArrayList<>();
 	    String sql = "SELECT * FROM entradas_reventa WHERE usuario_vendedor = ?";
 
-	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	    try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 	        
 	        pstmt.setString(1, correoUsuario); // Establece el correo del usuario en la consulta
 	        ResultSet rs = pstmt.executeQuery();
@@ -1252,7 +1254,6 @@ public void verUsuarios() {
 	            EntradaReventa entrada = new EntradaReventa(codigoEntrada, precioReventa, correoVendedor, inform);
 	            entradasReventa.add(entrada);
 	        }
-	        conn.close();
 	    } catch (SQLException e) {
 	        System.out.println(e.getMessage());
 	    }
@@ -1260,14 +1261,11 @@ public void verUsuarios() {
 	}
 
 	public static void borrarEntradaReventa(int codigoEntrada) {    
-	    String url = "jdbc:sqlite:usuarios.db";
-
-	    try (Connection connection = DriverManager.getConnection(url);
-	         Statement statement = connection.createStatement()) {
+	    try (Statement statement = con.createStatement()) {
 
 	        String query = "DELETE FROM entradas_reventa WHERE id = " + codigoEntrada;
 	        statement.executeUpdate(query);
-	        connection.close();
+	       
 	    } catch (SQLException e) {
 	        handleException(e, "Error al borrar la entrada de reventa con código " + codigoEntrada);
 	    }

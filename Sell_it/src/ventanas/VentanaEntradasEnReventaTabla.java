@@ -37,23 +37,22 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
         JPanel pInferior = new JPanel();
         JButton bAnyadir = new JButton( "Añadir" );
-        JButton bActualizar = new JButton("Actualizar Datos");
+//        JButton bActualizar = new JButton("Actualizar Datos");
         JButton bBorrar = new JButton("Borrar");
         pInferior.add(bAnyadir);
         pInferior.add(bBorrar);
-        pInferior.add(bActualizar);
+//        pInferior.add(bActualizar);
         
 
         panelPrincipal.add(pInferior, BorderLayout.SOUTH);
         add(panelPrincipal, BorderLayout.CENTER);
 
-        bActualizar.addActionListener(e -> cargarDatosEntradas());
+//        bActualizar.addActionListener(e -> cargarDatosEntradas());
         bBorrar.addActionListener(e -> borrarEntradaReventa());
         bAnyadir.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				VentanaReventaUsuario v = new VentanaReventaUsuario(usuario);
 				v.setVisible(true);
