@@ -1,6 +1,8 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,14 +19,15 @@ public class VentanaCompraEntradasReventa extends JFrame{
 	private JButton btnCompra;
 	private JButton btnVolver;
 	private JButton btnValorar;
-	private JTextField txtDetallesEvento;
-	private JLabel lblDetalesEvento;
+	private JLabel lblDetallesEvento;
+	private JLabel lblTituloDetalesEvento;
 	private JLabel lblNombre;
 	private JLabel lblFecha;
 	private JLabel lblUbicacion;
 	private JLabel lblPrecioEntrada;
 	
 	private EntradaReventa entradaReventaActual;
+	private EntradaReventa entradaInformacion;
 	
 	//Añadir al darle a comprar un mensaje recordadndo que ha comprado una entrada
 	//Falta la foto
@@ -40,6 +43,7 @@ public class VentanaCompraEntradasReventa extends JFrame{
 		this.add(panelPrincipal);
 		
 		lblPrecioEntrada = new JLabel("El precio de la entrada es:");
+		lblTituloDetalesEvento = new JLabel("Detalles del evento:");
 		
 		
 		new JButton("Comprar");
@@ -49,17 +53,37 @@ public class VentanaCompraEntradasReventa extends JFrame{
 		
 		
 		
-		
+		btnVolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	VentanaEntradasEnReventaTabla ventanaEntradasEnReventaTabla = new VentanaEntradasEnReventaTabla(null);
+                dispose();  
+                ventanaEntradasEnReventaTabla.setVisible(true);
+                
+            }
+        });
 		
 	}
 	public void setEntradaReventaActual(EntradaReventa entradaReventaActual) {
         this.entradaReventaActual = entradaReventaActual;
-        actualizar(); 
+        actualizarPrecio(); 
     }
-	private void actualizar() {
+	private void actualizarPrecio() {
         
         if (entradaReventaActual != null) {
             lblPrecioEntrada.setText("El precio de la entrada es: " + entradaReventaActual.getPrecioReventa());
+            
+        }
+    }
+	
+	public void setEntradaInformacion(EntradaReventa entradaInformacion) {
+        this.entradaInformacion = entradaInformacion;
+        actualizarInformacion(); 
+    }
+	private void actualizarInformacion() {
+        
+        if (entradaInformacion != null) {
+        	lblDetallesEvento.setText( entradaInformacion.getInfo());
             
         }
     }
