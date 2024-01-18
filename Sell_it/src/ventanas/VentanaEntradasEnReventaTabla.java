@@ -50,6 +50,17 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
 //        bActualizar.addActionListener(e -> cargarDatosEntradas());
         bBorrar.addActionListener(e -> borrarEntradaReventa());
+        bVolver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+				VentanaPerfilUsuario vpu = new VentanaPerfilUsuario(usuario, entradas);
+				vpu.setVisible(true);
+			}
+		});
+        
         bAnyadir.addActionListener(new ActionListener() {
 			
 			@Override
