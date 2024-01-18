@@ -39,10 +39,11 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
         JButton bAnyadir = new JButton( "Añadir" );
         JButton bActualizar = new JButton("Actualizar Datos");
         JButton bBorrar = new JButton("Borrar");
+        JButton bVolver = new JButton("Volver");
         pInferior.add(bAnyadir);
         pInferior.add(bBorrar);
         pInferior.add(bActualizar);
-        
+		pInferior.add(bVolver);
 
         panelPrincipal.add(pInferior, BorderLayout.SOUTH);
         add(panelPrincipal, BorderLayout.CENTER);
