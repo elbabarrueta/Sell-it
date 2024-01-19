@@ -32,7 +32,7 @@ public class VentanaEvento extends JFrame{
 		VentanaInicio ventanaI = Main.getVentanaInicio();
 		Usuario usuActual = ventanaI.getUsuarioActual();
 		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(ev.getCodigo());
-		ent = new Entrada(ev.getCodigo(), ev, usuActual, precioEntrada);
+		ent = BaseDeDatos.obtenerEntradaDeEvento(ev.getCodigo());
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
@@ -83,8 +83,8 @@ public class VentanaEvento extends JFrame{
 		pnlCentral.add(pDesc);
 //		
 		// Agrega un JLabel para mostrar el correo del usuario
-	    JLabel lCorreoUsuario = new JLabel("Usuario: " + ev.getCreador());
-	    pEvento.add(lCorreoUsuario); 
+//	    JLabel lCorreoUsuario = new JLabel("Usuario: " + ev.getCreador());
+//	    pEvento.add(lCorreoUsuario); 
 	    JButton botonVal  = new JButton("Valora el creador");
 		pEvento.add(botonVal);
         pEvento.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Añade espacio debajo del botón

@@ -518,6 +518,40 @@ public class BaseDeDatos {
 	    }
 	    return listaEntrada;
 	}
+	
+	/**
+	 * Obtiene una entrada de un evento específico.
+	 * @param evento_cod Código del evento.
+	 * @return Entrada.
+	 */
+	public static Entrada obtenerEntradaDeEvento(int evento_cod) {
+	    String sql = "SELECT * FROM Entrada WHERE evento_cod = ?";
+	    try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+	        preparedStatement.setInt(1, evento_cod);
+	        ResultSet rs = preparedStatement.executeQuery();
+            Evento evento = obtenerEventoPorCodigo(evento_cod);
+
+	        while (rs.next()) {
+	            int codigo = rs.getInt("codigo");
+	            String propietario_correo = rs.getString("propietario_correo");
+	            double precio = rs.getDouble("precio");
+	            Usuario propietario = getUsuarioPorCorreo(propietario_correo);
+	            if (evento != null) {
+	            	if(propietario == null) {
+		                Entrada entrada = new Entrada(codigo, evento, propietario, precio);
+		                return entrada;
+	            	}
+	            } else {
+	                // Manejar el caso en que no se encuentre el evento 
+	                System.out.println("No se encontró el evento con el código: " + evento_cod);
+	            }
+	        }
+	    } catch (SQLException e) {
+	    	// Manejar la excepción y mostrar mensaje de error
+	        handleException(e, "Error al obtener entradas sin comprar para el evento " + evento_cod);
+	    }
+        return null;
+	}
 
 	/**
 	 * Modifica la contraseña de un usuario registrado.
