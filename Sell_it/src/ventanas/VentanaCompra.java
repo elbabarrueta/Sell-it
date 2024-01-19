@@ -378,11 +378,11 @@ public class VentanaCompra extends JFrame{
 	    	List<Entrada> reventas = BaseDeDatos.obtenerListaEntradasReventa();
 	    	for (Entrada e : entradasEnBD) {
 	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
-	    	    	if(!reventas.contains(e)) {
-	    	    		int codigoEntrada = e.getCod();
-	    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
-	    	            entradasMarcadasComoCompradas++;
-	    	    	}
+	    	    	 int codigoEntrada = e.getCod();
+	    	         if (!existeCodigoEntradaEnReventas(codigoEntrada, reventas)) {
+	    	             baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+	    	             entradasMarcadasComoCompradas++;
+	    	         }
 	    	    } else {
 	    	        // Si ya se han marcado la cantidad necesaria de entradas, salir del bucle
 	    	        break;
@@ -396,7 +396,9 @@ public class VentanaCompra extends JFrame{
 	        
 	        Notificacion notificacion = new Notificacion("Has vendido " + cantidadCompra + " entradas del evento: " + eventoActual.getNombre(), false);
 	        Usuario vendedor = BaseDeDatos.getUsuarioPorCorreo(eventoActual.getCreador());
-	        vendedor.agregarNotificacion(notificacion);
+	        if(vendedor != null) {
+	        	vendedor.agregarNotificacion(notificacion);	
+	        }
 	        
 	        pararTemporizador();
 	        dispose();
@@ -406,6 +408,14 @@ public class VentanaCompra extends JFrame{
 	        JOptionPane.showMessageDialog(null, "Comprueba que los datos introcudicos son los correctos", "Error", JOptionPane.INFORMATION_MESSAGE);
 	    }
 
+	}
+	private static boolean existeCodigoEntradaEnReventas(int codigoEntrada, List<Entrada> reventas) {
+	    for (Entrada entrada : reventas) {
+	        if (entrada.getCod() == codigoEntrada) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 	private boolean verificarCampoTelefono() {
 	    String telefono = tfTfno.getText();
