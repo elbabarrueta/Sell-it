@@ -383,15 +383,16 @@ public class VentanaCompra extends JFrame{
 	    	
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
 	    	int entradasMarcadasComoCompradas = 0;
+	    	
+	    	List<Entrada> reventas = BaseDeDatos.obtenerListaEntradasReventa();
 
 	    	for (Entrada e : entradasEnBD) {
 	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
-	    	    	// Obtener el correo del propietario desde la base de datos
-//	    	        String propietarioCorreo = baseDeDatos.obtenerPropietarioCorreoEntrada(e.getCod());
-    	            int codigoEntrada = e.getCod();
-//    	            System.out.println("Entrada a comprar: " + e);
-    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
-    	            entradasMarcadasComoCompradas++;	
+	    	    	if(!reventas.contains(e)) {
+	    	    		int codigoEntrada = e.getCod();
+	    	            baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+	    	            entradasMarcadasComoCompradas++;
+	    	    	}
 	    	    } else {
 	    	        // Si ya se han marcado la cantidad necesaria de entradas, salir del bucle
 	    	        break;
