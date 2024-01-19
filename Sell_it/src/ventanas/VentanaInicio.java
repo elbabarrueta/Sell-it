@@ -204,13 +204,40 @@ public class VentanaInicio extends JFrame {
  	private boolean mostrarCondicionesDeUso() {
          JTextArea textArea = new JTextArea(
                  "¡Bienvenido a Sell-it!\n\n" +
-                         "Por favor, lea y acepte los siguientes términos y condiciones antes de continuar:\n\n" +
-                         "1. Al utilizar esta aplicación, usted acepta cumplir con los términos y condiciones establecidos.\n" +
-                         "2. Sell-it no se hace responsable por pérdidas o daños derivados del uso de la aplicación.\n" +
-                         "3. Los usuarios deben proporcionar información precisa durante el registro.\n" +
+                         "1.Por favor, lea y acepte los siguientes términos y condiciones antes de continuar:\n\n" +"Política de Privacidad \r\n"
+                         		+ "Fecha de entrada en vigor: [19/01/2024]\r\n"
+                         		+ "La privacidad de nuestros usuarios es de suma importancia para nosotros. Esta política de privacidad describe cómo recopilamos, utilizamos y protegemos la información que usted proporciona al utilizar nuestra aplicación de eventos musicales y discotecas Sell-It Lea esta política detenidamente para comprender nuestras prácticas con respecto a su información y cómo la manejamos.\r\n"
+                         		+ "1. Información que Recopilamos:\r\n"
+                         		+ "•	Información del Usuario: Al crear una cuenta en la aplicación, recopilamos información personal como su nombre, dirección de correo electrónico y detalles de contacto.\r\n"
+                         		+ "•	Información de Pago: Si decide realizar compras dentro de la aplicación, recopilaremos información de pago, como detalles de tarjetas de crédito o cualquier otra información necesaria para procesar transacciones.\r\n"
+                         		+ "•	Información de Eventos y Entradas: Al crear eventos o comprar y revender entradas, recopilamos información relacionada con estos procesos, incluidos detalles del evento, ubicación y precios de las entradas.\r\n"
+                         		+ "2. Uso de la Información:\r\n"
+                         		+ "•	Personalización de la Experiencia del Usuario: Utilizamos la información recopilada para personalizar su experiencia en la aplicación, proporcionándole contenido relevante, recomendaciones de eventos y características adaptadas a sus preferencias.\r\n"
+                         		+ "•	Procesamiento de Transacciones: La información de pago se utiliza exclusivamente para procesar las transacciones que realice dentro de la aplicación, asegurando una compra segura y eficiente de entradas.\r\n"
+                         		+ "•	Mejora Continua: Analizamos datos de uso y patrones de comportamiento para mejorar constantemente la funcionalidad de la aplicación, corregir errores y ofrecer nuevas características.\r\n"
+                         		+ "3. Compartir Información:\r\n"
+                         		+ "•	Usuarios y Empresas: En algunos casos, cierta información puede ser compartida entre usuarios y empresas dentro de la aplicación para facilitar la compra y venta de entradas, así como la gestión de eventos.\r\n"
+                         		+ "•	Terceros de Confianza: Podemos compartir información con terceros de confianza, como procesadores de pago, para garantizar transacciones seguras y eficientes.\r\n"
+                         		+ "4. Seguridad de la Información:\r\n"
+                         		+ "Implementamos medidas de seguridad sólidas para proteger la información contra accesos no autorizados, pérdida, uso indebido o alteración. Sin embargo, ninguna transmisión de datos por internet o almacenamiento electrónico es completamente segura, y no podemos garantizar la seguridad absoluta de la información.\r\n"
+                         		+ "5. Acceso y Control de la Información:\r\n"
+                         		+ "Los usuarios tienen el derecho de acceder, corregir o eliminar la información personal proporcionada en la aplicación. Puede realizar estas acciones directamente a través de la configuración de su cuenta o contactando con nuestro equipo de soporte.\r\n"
+                         		+ "6. Cambios en la Política de Privacidad:\r\n"
+                         		+ "Nos reservamos el derecho de modificar esta política en cualquier momento. Se le notificará sobre cambios significativos mediante notificaciones dentro de la aplicación o por otros medios.\r\n"
+                         		+ "7. Consentimiento:\r\n"
+                         		+ "Al utilizar nuestra aplicación, usted acepta los términos y condiciones de esta política de privacidad.\r\n"
+                         		+ "Si tiene preguntas o inquietudes sobre esta política de privacidad, por favor, contáctenos a través de Sell-It@gmail.com\r\n"
+                         		+ "Gracias por confiar en nosotros para gestionar su experiencia en eventos musicales y discotecas.\r\n"
+                         		+ "Atentamente,\r\n"
+                         		+ "\r\n"
+                         		+ "Sell-It\r\n"
+                         		+
+                         "2. Al utilizar esta aplicación, usted acepta cumplir con los términos y condiciones establecidos.\n" +
+                         "3. Sell-it no se hace responsable por pérdidas o daños derivados del uso de la aplicación.\n" +
+                        // "3. Los usuarios deben proporcionar información precisa durante el registro.\n" +
                          "4. La venta de entradas está sujeta a disponibilidad y términos específicos de los eventos.\n" +
                          "5. La información del usuario se utilizará de acuerdo con nuestra política de privacidad.\n\n" +
-                         "Al hacer clic en Aceptar, confirma que ha leído y acepta estos términos y condiciones."
+                         "6.Al hacer clic en Aceptar, confirma que ha leído y acepta estos términos y condiciones."
          );
          textArea.setEditable(false);
 
