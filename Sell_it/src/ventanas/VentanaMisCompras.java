@@ -38,7 +38,7 @@ public class VentanaMisCompras extends JFrame {
         JPanel panelPrincipal = new JPanel(new BorderLayout());
         panelPrincipal.add(new JScrollPane(tablaInfo), BorderLayout.CENTER);
         
-        JButton bMiPerfil = new JButton("Volver atras");
+        JButton bMiPerfil = new JButton("Volver");
         panelPrincipal.add(bMiPerfil, BorderLayout.SOUTH);
         // ... (configuración de otros paneles y botones si es necesario)
 
@@ -53,8 +53,8 @@ public class VentanaMisCompras extends JFrame {
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			dispose();
-//    			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
-//    			vPerfilUsuario.setVisible(true);
+    			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
+    			vPerfilUsuario.setVisible(true);
     		}
     	});
     }

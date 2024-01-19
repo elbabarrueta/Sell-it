@@ -49,7 +49,7 @@ public class VentanaTablaValoraciones extends JFrame{
         panelPrincipal.add(new JScrollPane(tablaInfo), BorderLayout.CENTER);
 
         JPanel pInferior = new JPanel();
-        JButton boton = new JButton("Volver atras");
+        JButton boton = new JButton("Volver");
         pInferior.add(boton);
 
         cambiarColorBoton = new JButton("Cambiar Color");
@@ -69,8 +69,14 @@ public class VentanaTablaValoraciones extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				 // Cerrar la ventana actual
 		        dispose();
-//		        VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
-//		        v.setVisible(true);
+		        if(usuario.getTipoUsuario().equals("Entidad")) {
+		            VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
+			        v.setVisible(true);
+		        } else {
+		            VentanaPerfilUsuario vpu = new VentanaPerfilUsuario(usuario, null);
+			        vpu.setVisible(true);
+		        }
+		    
 				
 			}
 		});
