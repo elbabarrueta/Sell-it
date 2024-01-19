@@ -1,9 +1,9 @@
 package ventanas;
 
 import javax.swing.*;
+
 import javax.swing.table.AbstractTableModel;
 
-import BasesDeDatos.BDEventos;
 import BasesDeDatos.BaseDeDatos; // Importa tu clase de conexión a la base de datos
 import clases.EntradaReventa;
 import clases.Usuario;
@@ -17,17 +17,14 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
     private JTable tablaEntradas;
     private ModeloEntradasReventa modeloTabla;
     private Usuario usuario;
-    private List<String> entradas;
-//    private VentanaPrincipal ventanaPrincipa;
-    
+    private List<String> entradas;    
 
     public VentanaEntradasEnReventaTabla(Usuario usuario) {
         setTitle("Entradas en Reventa");
-        setSize(800, 600);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         this.usuario = usuario;
-//        this.ventanaPrincipa = ventanaPrincipal;
 
         modeloTabla = new ModeloEntradasReventa();
         tablaEntradas = new JTable(modeloTabla);
@@ -54,7 +51,6 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				VentanaPerfilUsuario vpu = new VentanaPerfilUsuario(usuario, entradas);
 				vpu.setVisible(true);

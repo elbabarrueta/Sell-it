@@ -56,9 +56,6 @@ public class VentanaTablaInformacion extends JFrame {
 				if(usuario.getTipoUsuario().equals("Usuario entidad")) {
     				VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
     			}else {
-//    				List<Entrada> entradas = BaseDeDatos.obtenerEntradasCompradas(usuario);
-//        			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradas);
-//        			vPerfilUsuario.setVisible(true);
     			}
 			}
 		});
@@ -92,6 +89,7 @@ public class VentanaTablaInformacion extends JFrame {
 		        VentanaInicio ventanaI = Main.getVentanaInicio();
 		        Usuario usuActual = ventanaI.getUsuarioActual();
 
+		        dispose();
 				VentanaVentaEntidad ventanaVentaEntidad = new VentanaVentaEntidad(usuActual);
 	            ventanaVentaEntidad.setVisible(true);
 				

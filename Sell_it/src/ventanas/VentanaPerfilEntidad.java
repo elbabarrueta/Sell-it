@@ -138,46 +138,6 @@ public class VentanaPerfilEntidad extends JFrame{
 		btnValoraciones.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnValoraciones.setBounds(382, 155, 167, 28);
 		contentPane.add(btnValoraciones);
-	    
-//        JButton botonEnVenta = new JButton("En venta");
-//        JButton infoButton2 = new JButton("Valoraciones");
-//        JButton infoButton3 = new JButton("Notificaciones");
-//        topPanel.add(lblFotoPerfil);
-//        topPanel.add(nameLabel);
-//        topPanel.add(nameField);
-//        topPanel.add(emailLabel);
-//        topPanel.add(emailField);
-//        topPanel.add(botonEnVenta);
-//        topPanel.add(infoButton2);
-//        topPanel.add(infoButton3);
-//
-//        // Parte central: descripción del usuario
-//        descriptionArea = new JTextArea("Ingresa información util sobre ti para completar tu perfil en la aplicación...", 5, 10);
-//        descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
-//        JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
-//	    descriptionArea.setLineWrap(true);
-//	    descriptionArea.setWrapStyleWord(true);
-//	    descriptionArea.setEditable(true);
-//
-//        // Parte inferior: más botones
-//        JPanel bottomPanel = new JPanel();
-//        JButton botonContrasena = new JButton("Cambiar Contraseña");
-//        JButton botonEditar = new JButton("Editar Perfil");
-//        JButton botonCompras = new JButton("Compras");
-//        JButton botonVentanaP = new JButton("Ventana Principal");
-//        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
-//        //Personalizar la letra del boton
-//        Font font = new Font("Montserrat", Font.BOLD, 14);
-//        botonVentanaP.setFont(font);
-//        
-//        bottomPanel.add(botonContrasena);
-//        bottomPanel.add(botonEditar);
-//        bottomPanel.add(botonCompras);
-//        bottomPanel.add(botonVentanaP);
-//
-//        frame.add(topPanel, BorderLayout.NORTH);
-//        frame.add(descriptionScrollPane, BorderLayout.CENTER);
-//        frame.add(bottomPanel, BorderLayout.SOUTH);
 		
 		btnValoraciones.addActionListener(new ActionListener() {
 			

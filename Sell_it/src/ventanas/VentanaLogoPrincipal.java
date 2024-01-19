@@ -13,11 +13,15 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
+
+import BasesDeDatos.BaseDeDatos;
 
 public class VentanaLogoPrincipal extends JFrame {
 
@@ -41,12 +45,23 @@ public class VentanaLogoPrincipal extends JFrame {
         JProgressBar progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
 
+        JButton botonCerrarSesion = new JButton("Cerrar Sesión");
+        botonCerrarSesion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(VentanaLogoPrincipal.this, "Sesión cerrada");
+                BaseDeDatos.cerrarConexiones();
+                System.exit(0); // Cierra toda la aplicación
+            }
+        });
+        
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(imagen, BorderLayout.CENTER);
 
         JPanel panelSur = new JPanel(new GridBagLayout());
         panelSur.add(mensaje);
         panelSur.add(progressBar);
+        panelSur.add(botonCerrarSesion);
 
         panel.add(panelSur, BorderLayout.SOUTH);
 

@@ -53,7 +53,6 @@ public class VentanaTablaValoraciones extends JFrame{
         pInferior.add(boton);
 
         cambiarColorBoton = new JButton("Cambiar Color");
-//        pInferior.add(cambiarColorBoton);
         ordenarPuntuacionBoton = new JButton("Ordenar por Puntuación");
         pInferior.add(ordenarPuntuacionBoton);
 
@@ -67,17 +66,14 @@ public class VentanaTablaValoraciones extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 // Cerrar la ventana actual
 		        dispose();
-		        if(usuario.getTipoUsuario().equals("Entidad")) {
+		        if(usuario.getTipoUsuario().equals("Usuario entidad")) {
 		            VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
 			        v.setVisible(true);
 		        } else {
 		            VentanaPerfilUsuario vpu = new VentanaPerfilUsuario(usuario, null);
 			        vpu.setVisible(true);
-		        }
-		    
-				
+		        }	
 			}
 		});
         add(panelPrincipal, BorderLayout.CENTER);

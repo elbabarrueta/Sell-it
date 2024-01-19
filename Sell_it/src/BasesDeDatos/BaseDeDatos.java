@@ -213,42 +213,42 @@ public class BaseDeDatos {
         	Entrada entrada = new Entrada(cod+i, e1, null, 25);
         	anadirEntradaNueva(entrada);
         }
-		Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg",null);
+		Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e2);
 		int cod2 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e2.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod2+i, e2, null, 20.5);
         	anadirEntradaNueva(entrada);
         }
-		Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png",null);
+		Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png", "moma@gmail.com");
 		anadirEventoNuevo(e3);
 		int cod3 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e3.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod3+i, e3, null, 10.2);
         	anadirEntradaNueva(entrada);
         }
-		Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg",null);
+		Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg", "moma@gmail.com");
 		anadirEventoNuevo(e4);
 		int cod4 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e4.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod4+i, e4, null, 15);
         	anadirEntradaNueva(entrada);
         }
-		Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg",null);
+		Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e5);
 		int cod5 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e5.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod5+i, e5, null, 30);
         	anadirEntradaNueva(entrada);
         }
-		Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", null);
+		Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e6);
 		int cod6 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e6.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod6+i, e6, null, 12);
         	anadirEntradaNueva(entrada);
         }
-		Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", null);
+		Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e7);
 		int cod7 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e7.getnEntradas(); i++) {
@@ -695,6 +695,8 @@ public class BaseDeDatos {
             if (rs != null) rs.close();
             if (s != null) s.close();
             if (con != null) con.close();
+            logger.log(Level.INFO, "Cerrada la conexion a la BD");
+
         } catch (SQLException e) {
             manejarExcepcion(e);
         }
