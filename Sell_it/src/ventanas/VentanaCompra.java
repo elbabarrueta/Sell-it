@@ -383,9 +383,7 @@ public class VentanaCompra extends JFrame{
 	    	
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
 	    	int entradasMarcadasComoCompradas = 0;
-	    	
 	    	List<Entrada> reventas = BaseDeDatos.obtenerListaEntradasReventa();
-
 	    	for (Entrada e : entradasEnBD) {
 	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
 	    	    	if(!reventas.contains(e)) {
