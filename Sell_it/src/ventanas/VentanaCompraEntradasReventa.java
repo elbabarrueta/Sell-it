@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,20 +17,21 @@ import clases.Usuario;
 public class VentanaCompraEntradasReventa extends JFrame{
 	private JPanel panelPrincipal;
 	private JPanel panelSur;
+	private JPanel panelEste;
+	private JPanel panelOeste;
 	private JButton btnCompra;
 	private JButton btnVolver;
 	private JButton btnValorar;
 	private JLabel lblDetallesEvento;
-	private JLabel lblTituloDetalesEvento;
-	private JLabel lblNombre;
-	private JLabel lblFecha;
-	private JLabel lblUbicacion;
+	private JLabel lblTituloDetallesEvento;
+	private JLabel lblCodigoEntrada;
+	private JLabel lblCorreoUsuario;
 	private JLabel lblPrecioEntrada;
 	
 	private EntradaReventa entradaReventaActual;
-	private EntradaReventa entradaInformacion;
 	
-	//Añadir al darle a comprar un mensaje recordadndo que ha comprado una entrada
+	
+	
 	//Falta la foto
 	public VentanaCompraEntradasReventa() {
 		this.setBounds(900,300,400,400);
@@ -38,17 +40,33 @@ public class VentanaCompraEntradasReventa extends JFrame{
 		
 		panelPrincipal = new JPanel(new BorderLayout());
 		panelSur = new JPanel(new BorderLayout());
+		panelEste = new JPanel(new BorderLayout());
+		panelOeste = new JPanel(new BorderLayout());
+		panelOeste.setLayout(new BoxLayout(panelOeste, BoxLayout.Y_AXIS));
+		panelEste.setLayout(new BoxLayout(panelEste, BoxLayout.Y_AXIS));
+
 		
 		panelPrincipal.add(panelSur,BorderLayout.SOUTH);
+		panelPrincipal.add(panelEste,BorderLayout.EAST);
+		panelPrincipal.add(panelOeste,BorderLayout.WEST);
 		this.add(panelPrincipal);
 		
-		lblPrecioEntrada = new JLabel("El precio de la entrada es:");
-		lblTituloDetalesEvento = new JLabel("Detalles del evento:");
+		lblPrecioEntrada = new JLabel("El precio de la entrada es:" + entradaReventaActual.getPrecioReventa());
+		lblTituloDetallesEvento = new JLabel("Detalles del evento:");
+		lblCodigoEntrada = new JLabel("Codigo Entrada:" + entradaReventaActual.getCodigoEntrada());
+		lblCorreoUsuario = new JLabel("Correo Electronico: " + entradaReventaActual.getCorreoUsuario());
+		lblDetallesEvento = new JLabel(entradaReventaActual.getInfo());
 		
-		
-		new JButton("Comprar");
+		btnVolver = new JButton("Volver");
+		btnCompra = new JButton("Comprar");
 		panelSur.add(btnCompra);
 		panelSur.add(btnVolver);
+		
+		panelEste.add(lblTituloDetallesEvento);
+		panelEste.add(lblDetallesEvento);
+		panelOeste.add(lblCodigoEntrada);
+		panelOeste.add(lblCorreoUsuario);
+		panelOeste.add(lblPrecioEntrada);
 		
 		
 		
@@ -64,29 +82,7 @@ public class VentanaCompraEntradasReventa extends JFrame{
         });
 		
 	}
-	public void setEntradaReventaActual(EntradaReventa entradaReventaActual) {
-        this.entradaReventaActual = entradaReventaActual;
-        actualizarPrecio(); 
-    }
-	private void actualizarPrecio() {
-        
-        if (entradaReventaActual != null) {
-            lblPrecioEntrada.setText("El precio de la entrada es: " + entradaReventaActual.getPrecioReventa());
-            
-        }
-    }
 	
-	public void setEntradaInformacion(EntradaReventa entradaInformacion) {
-        this.entradaInformacion = entradaInformacion;
-        actualizarInformacion(); 
-    }
-	private void actualizarInformacion() {
-        
-        if (entradaInformacion != null) {
-        	lblDetallesEvento.setText( entradaInformacion.getInfo());
-            
-        }
-    }
 	
 	public static void main(String[] args) {
 		VentanaCompraEntradasReventa v1 = new VentanaCompraEntradasReventa();
