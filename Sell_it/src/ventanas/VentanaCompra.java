@@ -30,6 +30,7 @@ import org.jdesktop.swingx.JXLabel;
 import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
+import clases.Notificacion;
 import clases.Usuario;
 
 public class VentanaCompra extends JFrame{
@@ -345,16 +346,7 @@ public class VentanaCompra extends JFrame{
 		timer.stop();
 	}
 	private void confirmarCompra() {
-		
-//		if(tfNombre.getText().equals("")|| tfCorreo.getText().equals("") || tfTfno.getText().equals("") || tfNtarjeta.getText().equals("") || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
-//            JOptionPane.showMessageDialog(null, "Para confirmar la comra debe introducir todos los datos.");
-//            return;
-//		}else {
-//			JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-//			dispose();
-//		}
-		
-		
+
 		if (tfNombre.getText().isEmpty() || tfCorreo.getText().isEmpty() || tfTfno.getText().isEmpty() ||
 	            tfNtarjeta.getText().isEmpty() || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
 	        JOptionPane.showMessageDialog(null, "Para confirmar la compra debe introducir todos los datos.");
@@ -401,6 +393,11 @@ public class VentanaCompra extends JFrame{
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+	        
+	        Notificacion notificacion = new Notificacion("Has vendido " + cantidadCompra + " entradas del evento: " + eventoActual.getNombre(), false);
+	        Usuario vendedor = BaseDeDatos.getUsuarioPorCorreo(eventoActual.getCreador());
+	        vendedor.agregarNotificacion(notificacion);
+	        
 	        pararTemporizador();
 	        dispose();
 	        vPrincipal = new VentanaPrincipal();

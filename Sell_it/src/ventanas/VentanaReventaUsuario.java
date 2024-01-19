@@ -18,6 +18,7 @@ import org.jdesktop.swingx.painter.MattePainter;
 import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.Evento;
+import clases.Notificacion;
 import clases.Usuario;
 
 
@@ -131,6 +132,7 @@ public class VentanaReventaUsuario extends JFrame{
 		        String entradaInfo = (String) cbEntradas.getSelectedItem();
 		        String[] campos = entradaInfo.split(",");
 		        int idEntrada = Integer.parseInt(campos[2].trim());
+		        String nombreEvento = campos[0];
 
 		        try {
 		            double precioReventa = Double.parseDouble(tfPrecio.getText());
@@ -147,6 +149,10 @@ public class VentanaReventaUsuario extends JFrame{
 //		                BaseDeDatos.eliminarEntrada(idEntrada);  // Eliminar la entrada original
 		                cargarEntradasCompradas();  // Recargar el JComboBox
 		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
+		               
+		                Notificacion notificacion = new Notificacion("Nueva entrada de reventa: " + nombreEvento, false);
+		                Usuario.distribuirNotificacion(notificacion, usuario);
+		                
 		                dispose();
 		                VentanaPrincipal v = new VentanaPrincipal();
 		                v.setVisible(true);
