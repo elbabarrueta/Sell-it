@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -51,11 +52,23 @@ public class VentanaRegistroEntidad extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public VentanaRegistroEntidad() {
-		
-		this.setBounds(300,400,400,300);
+
 		this.setTitle("Registro Entidad");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		// Tamaño de la pantalla
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Tamaño de la ventana
+        int ventanaAncho = 400;
+        int ventanaAlto = 300;
+
+        // Calcular la posición para centrar la ventana
+        int posX = (screenSize.width - ventanaAncho) / 2;
+        int posY = (screenSize.height - ventanaAlto) / 2;
+
+        // Establecer la posición de la ventana
+        this.setBounds(posX, posY, ventanaAncho, ventanaAlto);
 		
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());

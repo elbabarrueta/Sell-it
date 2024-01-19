@@ -1,11 +1,14 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.Timer;
 
 public class VentanaLogoPrincipal extends JFrame {
 
@@ -79,9 +83,18 @@ public class VentanaLogoPrincipal extends JFrame {
 
                 progressBar.setValue(progreso);
             }
-
             mensaje.setText("¡Disfruta de tu estancia!");
             progressBar.setValue(100); // Asegura que la barra de progreso alcance el 100% al final
+        
+            // Oculta la barra de progreso después de un breve retraso
+            Timer timer = new Timer(1000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    progressBar.setVisible(false);
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        
         });
         hiloCuentaRegresiva.start();
     }

@@ -183,7 +183,7 @@ public class VentanaPerfilEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				dispose();
+				dispose();
 				
 				// Obtén valoraciones del usuario
 			    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(usuario);
@@ -196,16 +196,15 @@ public class VentanaPerfilEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				VentanaPerfilEntidad.this.dispose();
+				dispose();
 				VentanaMisCompras vc = new VentanaMisCompras(usuario);
 				vc.setVisible(true);
 			}
 		});
-        // Agregar acción al botón de información 1
         botonEnVenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(frame, "En estos momentos no tienes ningún artículo en venta");
+            	dispose();
                 mostrarEventosEnVentaDelUsuario(usuario);
             }
         });
@@ -213,7 +212,7 @@ public class VentanaPerfilEntidad extends JFrame{
         botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaPerfilEntidad.this.dispose();
+				dispose();
 				VentanaPrincipal v = new VentanaPrincipal();
 			}
 		});
@@ -221,7 +220,6 @@ public class VentanaPerfilEntidad extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	    		// 	QUE SALGAN LAS NOTIFICACIONES DE QUE LE HAN COMPRADO ENTRADAS Y QUE HAN SUBIDO NUEVAS ENTRADAS
 				obtenerNotificaciones();
 			}
 		});
@@ -355,17 +353,7 @@ public class VentanaPerfilEntidad extends JFrame{
 //				base.modificarUsuarioYaRegistrado(usuario);
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
 				base.modificarDescripcionUsuario(usuarioActualizado);
-/*				
-// hacer algo asi pero con el MAPA de USUARIOS				
-				 // Buscar al usuario en la lista y actualizar sus datos
-                for (Usuario usuarioEnLista : usuariosBase) {
-                    if (usuarioEnLista.getNombreUsuario().equals(usuario.getNombreUsuario())) {
-                        usuarioEnLista.setNombreUsuario(nuevoNombre);
-                        usuarioEnLista.setCorreoUsuario(nuevoCorreo);
-                        break; // Terminar la búsqueda una vez que se haya encontrado el usuario
-                    }
-                }
-*/				
+			
 				nameField.setEditable(false);
 				botonGuardarCambios.setVisible(false);
 				botonCambiarFoto.setVisible(false);
@@ -430,14 +418,6 @@ public class VentanaPerfilEntidad extends JFrame{
         VentanaTablaInformacion ventanaTabla = new VentanaTablaInformacion(eventosEnVentaDelUsuario, usuario);
         ventanaTabla.setVisible(true);
     }
-	
-//	public static void mostrarValoraciones(Usuario usuario) {
-//		// Obtén valoraciones del usuario
-//	    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(usuario);
-//	 // Crear la nueva ventana con la tabla de valoraciones
-//	    VentanaTablaValoraciones ventanaValoraciones = new VentanaTablaValoraciones(valoracionesUsuario, usuario);
-//	    ventanaValoraciones.setVisible(true);
-//	}
 	
     public static void main(String[] args) {
 //    	VentanaInicio ventanaI = Main.getVentanaInicio();

@@ -4,6 +4,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 import BasesDeDatos.BaseDeDatos;
+import clases.Entrada;
 import clases.Evento;
 import clases.Usuario;
 
@@ -19,6 +20,7 @@ public class VentanaTablaInformacion extends JFrame {
     private MiTableModel modeloInfo;
     private BaseDeDatos bdatos;
 	private Usuario usuario;
+	private List<String> entradas;
 
 
     public VentanaTablaInformacion(List<Evento> eventos, Usuario usuario) {
@@ -39,11 +41,28 @@ public class VentanaTablaInformacion extends JFrame {
         JButton boton = new JButton("Actualizar Datos");
         JButton bAnyadir = new JButton( "Añadir" );
 		JButton bBorrar = new JButton( "Borrar" );
+		JButton bvolver = new JButton("Volver");
+		pInferior.add(bvolver);
 		pInferior.add( bAnyadir );
 		pInferior.add( bBorrar );
         boton.addActionListener(e -> setDatos());
         pInferior.add(boton);
 
+        bvolver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				if(usuario.getTipoUsuario().equals("Usuario entidad")) {
+    				VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
+    			}else {
+//    				List<Entrada> entradas = BaseDeDatos.obtenerEntradasCompradas(usuario);
+//        			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradas);
+//        			vPerfilUsuario.setVisible(true);
+    			}
+			}
+		});
+        
         bBorrar.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

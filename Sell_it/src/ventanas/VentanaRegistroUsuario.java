@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -53,9 +54,23 @@ public class VentanaRegistroUsuario extends JFrame {
 
 	
 	public VentanaRegistroUsuario() {
-		this.setBounds(900,300,400,400);
+
 		this.setTitle("Registro de Usuario");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		// Tamaño de la pantalla
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Tamaño de la ventana
+        int ventanaAncho = 400;
+        int ventanaAlto = 300;
+
+        // Calcular la posición para centrar la ventana
+        int posX = (screenSize.width - ventanaAncho) / 2;
+        int posY = (screenSize.height - ventanaAlto) / 2;
+
+        // Establecer la posición de la ventana
+        this.setBounds(posX, posY, ventanaAncho, ventanaAlto);
 		
 		JPanel panelRegistroUsuario = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());

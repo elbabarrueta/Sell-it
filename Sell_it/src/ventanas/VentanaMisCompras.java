@@ -53,8 +53,13 @@ public class VentanaMisCompras extends JFrame {
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			dispose();
-    			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
-    			vPerfilUsuario.setVisible(true);
+    			
+    			if(usuario.getTipoUsuario().equals("Usuario entidad")) {
+    				VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
+    			}else {
+        			VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
+        			vPerfilUsuario.setVisible(true);
+    			}
     		}
     	});
     }
