@@ -44,13 +44,11 @@ public class VentanaRegistroEntidad extends JFrame{
 	
 	private JPasswordField txtContrasenia, txtConfirmar;
 	private JTextField txtNombre,txtCorreo;
-//	private JComboBox comboTipo;
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+     * Constructor de la clase VentanaRegistroEntidad.
+     */
 	public VentanaRegistroEntidad() {
 
 		this.setTitle("Registro Entidad");
@@ -85,19 +83,16 @@ public class VentanaRegistroEntidad extends JFrame{
 		JLabel lblPanelNorte = new JLabel("Rellene las siguientes casillas:");
 		panelNorte.add(lblPanelNorte, BorderLayout.NORTH);
 
-		//JLabel lblNombre = new JLabel("Nombre de la Empresa:");
         JPanel pNom = new JPanel();
 		txtNombre = new JTextField();
 		aplicarEstiloCampo(txtNombre, "Nombre de la empresa");
         pNom.add(txtNombre);
 
-		//JLabel lblCorreo = new JLabel("Direccion de correo:");
         JPanel pCorreo = new JPanel();
         txtCorreo = new JTextField();
         aplicarEstiloCampo(txtCorreo, "Correo de empresa");
         pCorreo.add(txtCorreo);
 
-		//JLabel lblContrasenia = new JLabel("Contraseña:");
         JPanel pContr = new JPanel();
         txtContrasenia = new CustomPasswordField();
         aplicarEstiloCampo(txtContrasenia, "Contraseña");
@@ -117,17 +112,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		txtTipo.setEditable(false);
 		pTipo.add(lblTipo);
 		pTipo.add(txtTipo);
-//		String[] tipoUsu = {"Usuario entidad", "Usuario corriente"};
-//		comboTipo = new JComboBox<>(tipoUsu);
-//		
-//		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
-//		mostrarContra.addMouseListener(new MouseAdapter() {
-//	            @Override
-//	            public void mouseClicked(MouseEvent e) {
-//	                mostrarOcultarContraseña();
-//	            }
-//	    });
-//		
+
 		panelCentro.add(pNom);
 		panelCentro.add(pCorreo);
 		panelCentro.add(pContr);
@@ -138,7 +123,7 @@ public class VentanaRegistroEntidad extends JFrame{
 		panelSur.add(btnRegistro);
 		JButton btnVolver = new JButton("Volver");
         panelSur.add(btnVolver);
-//
+
 		//Eventos
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -212,27 +197,18 @@ public class VentanaRegistroEntidad extends JFrame{
     			dispose();
     	        v.setVisible(true);
     	        Main.setVentanaInicio(v);
-    	        
-//    			if( DataSetUsuario.buscarUsu(correo)== null) {
-//    				DataSetUsuario.anyadirUsuario(u);
-//    				JOptionPane.showMessageDialog(null, "Bienvenido a Sell-IT");
-//    				System.out.println("\t" + u);
-//    				// Cerrar la ventana actual
-//    				VentanaInicio v = new VentanaInicio();
-//    				dispose();
-//    		        v.setVisible(true);
-//    		        Main.setVentanaInicio(v);
-//    			}
-//    			else {
-//    				JOptionPane.showMessageDialog(null, "Usuario existente, introduce otro correo y nombre");
-//    			}
-//    		//	System.out.println("\t" + u);
-//    			limpiarCampos();
             }
 		});
 		
 	}
 	
+	/**
+     * Método para comprobar si la contraseña cumple con un requisito específico.
+     * 
+     * @param regex      Expresión regular que representa el requisito.
+     * @param contrasenia Contraseña a verificar.
+     * @return true si la contraseña cumple con el requisito, false de lo contrario.
+     */
 	private boolean contraseniaCumpleRequisito(String regex, String contrasenia) {
         return Pattern.compile(regex).matcher(contrasenia).find();
     }
@@ -249,13 +225,22 @@ public class VentanaRegistroEntidad extends JFrame{
         }
         txtContrasenia.setText(new String(contraseña));
     }
+	
+	/**
+     * Método para limpiar los campos de entrada.
+     */
 	private void limpiarCampos() {
 		txtNombre.setText("");
 		txtCorreo.setText("");	
 		txtContrasenia.setText("");
 		txtConfirmar.setText("");
 	}
-		
+	
+	/**
+     * Método para aplicar un estilo visual a los campos de texto.
+     * @param textField Campo de texto al que se aplicará el estilo.
+     * @param texto     Texto de ejemplo para el campo.
+     */
 	private void aplicarEstiloCampo(JTextComponent textField, String texto) {
         textField.setForeground(new Color(169, 169, 169));
         textField.setPreferredSize(new Dimension(350, 30));
@@ -285,6 +270,12 @@ public class VentanaRegistroEntidad extends JFrame{
         });
         textField.setBorder(new RoundBorder(new Color(51, 255, 233), 20));
     }
+	
+	/**
+     * Método para ajustar el tamaño de un icono.
+     * @param icon Icono a ajustar.
+     * @return ImageIcon ajustado.
+     */
 	private static ImageIcon ajustarIcon(ImageIcon icon) {
         int maxWidth = 20; // Tamaño máximo de ancho
         int maxHeight = 20; // Tamaño máximo de alto
@@ -303,10 +294,18 @@ public class VentanaRegistroEntidad extends JFrame{
         return icon;
     }
 	
+	/**
+     * Clase interna para representar un borde redondeado.
+     */
 	private static class RoundBorder extends AbstractBorder {
         private final Color borderColor;
         private final int roundRadius;
 
+        /**
+         * Constructor de la clase RoundBorder.
+         * @param borderColor Color del borde.
+         * @param roundRadius Radio de redondeo.
+         */
         public RoundBorder(Color borderColor, int roundRadius) {
             this.borderColor = borderColor;
             this.roundRadius = roundRadius;
@@ -321,9 +320,15 @@ public class VentanaRegistroEntidad extends JFrame{
         }
  }
  
+	/**
+     * Clase interna para representar un campo de contraseña personalizado.
+     */
  private static class CustomPasswordField extends JPasswordField {
     private JButton button;
 
+    /**
+     * Constructor de la clase CustomPasswordField.
+     */
     public CustomPasswordField() {
         super();
         button = new JButton();
@@ -351,6 +356,10 @@ public class VentanaRegistroEntidad extends JFrame{
         });
     }
 
+    /**
+     * Método para obtener el botón asociado al campo de contraseña.
+     * @return JButton asociado al campo de contraseña.
+     */
     public JButton getButton() {
         return button;
     }

@@ -1,20 +1,11 @@
 package clases;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 public class Entrada{
 	//Atributos
-	private int cod; //codigo unico
-//	private String desc;
-//	private String fecha; 
+	private int cod; //codigo unico 
 	private Evento eventoAsociado;
 	private Usuario propietario;
 	private double precio;
-	
 	
 	//Getters y Setters
 	public int getCod() {
@@ -22,18 +13,6 @@ public class Entrada{
 	}
 //	public void setCod(String cod) {
 //		this.cod = cod;
-//	}
-//	public String getDesc() {
-//		return desc;
-//	}
-//	public void setDesc(String desc) {
-//		this.desc = desc;
-//	}
-//	public String getFecha() {
-//		return fecha;
-//	}
-//	public void setFecha(String fecha) {
-//		this.fecha = fecha;
 //	}
 	public Evento getEventoAsociado() {
 		return eventoAsociado;
@@ -55,24 +34,31 @@ public class Entrada{
 	}
 	
 	//Constructores
+	/**
+     * Constructor de la clase Entrada.
+     * @param cod Código único de la entrada.
+     * @param eventoAsociado Evento al que está asociada la entrada.
+     * @param propietario Propietario de la entrada.
+     * @param precio Precio de la entrada.
+     */
 	public Entrada(int cod, Evento eventoAsociado, Usuario propietario, double precio) {
 		super();
 		this.cod = cod;
-//		this.desc = desc;
-//		this.fecha = fecha;
 		this.eventoAsociado = eventoAsociado;
 		this.propietario = propietario;
 		this.precio = precio;
 	}
 	
+	/**
+     * Constructor por defecto de la clase Entrada.
+     */
 	public Entrada() {
         super();
-        this.cod = 0; // Puedes establecer el valor predeterminado que desees
-        this.eventoAsociado = null; // Puedes establecer el valor predeterminado que desees
-        this.propietario = null; // Puedes establecer el valor predeterminado que desees
-        this.precio = 0.0; // Puedes establecer el valor predeterminado que desees
+        this.cod = 0; 
+        this.eventoAsociado = null; 
+        this.propietario = null; 
+        this.precio = 0.0; 
     }
-	
 	
 	@Override
 	public String toString() {

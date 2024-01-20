@@ -29,6 +29,11 @@ public class VentanaValoracion extends JFrame {
     private String correoUsuarioCreador;
     private Map<Integer, String> calificacionesMap;
 
+    /**
+     * Constructor de la clase VentanaValoracion.
+     * @param correoUsuarioCreador Correo del usuario creador del evento.
+     * @param nombreEvento Nombre del evento a valorar.
+     */
     public VentanaValoracion(String correoUsuarioCreador, String nombreEvento) {
     	this.correoUsuarioCreador = correoUsuarioCreador;
         this.nombreEvento = nombreEvento;

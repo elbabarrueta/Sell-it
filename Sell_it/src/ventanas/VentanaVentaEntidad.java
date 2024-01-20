@@ -28,8 +28,8 @@ import clases.Evento;
 import clases.Usuario;
 
 public class VentanaVentaEntidad extends JFrame{
+	// Variables
 	private Usuario usuario = Main.getVentanaInicio().getUsuarioActual();
-	
 	private JTextField tfNombre = new JTextField();
 	private JTextField tfDesc = new JTextField();
 	private JXDatePicker datePicker = new JXDatePicker();
@@ -39,13 +39,14 @@ public class VentanaVentaEntidad extends JFrame{
 	private JButton bFoto = new JButton("Subir foto");
 	private String rutaImg;
 	
+    // Constructor de la ventana
 	public VentanaVentaEntidad(Usuario usu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
 		setLocationRelativeTo(null);
 		setTitle("Venta Entidad");
 		
-		//Creamos los paneles
+        // Inicialización de paneles
 		JPanel pSuperior = new JPanel(new BorderLayout());
 		this.add(pSuperior, BorderLayout.NORTH);
 		
@@ -98,9 +99,8 @@ public class VentanaVentaEntidad extends JFrame{
 		JButton bVprincipal = new JButton("Ventana Principal");
 		pInferior.add(bVprincipal, BorderLayout.WEST);
 		
-		
+		// Acción del boton para subir una foto
 		bFoto.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
@@ -116,8 +116,8 @@ public class VentanaVentaEntidad extends JFrame{
 			}
 		});
 		
+		// Acción del botón para abrir la ventana de perfil
 		bMiperfil.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -125,8 +125,8 @@ public class VentanaVentaEntidad extends JFrame{
 			}
 		});
 		
+		// Acción para volver a la ventana principal
 		bVprincipal.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal vPrincipal = new VentanaPrincipal();
@@ -134,14 +134,13 @@ public class VentanaVentaEntidad extends JFrame{
 			}
 		});
 		
+		// Lógica para subir un evento
 		bSubir.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String nombre = tfNombre.getText();
 				String desc = tfDesc.getText();				
 				Date selectedDate = datePicker.getDate();
-				// Format the date as a string (adjust the format as needed)
 		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		        String fecha = dateFormat.format(selectedDate);
 				
@@ -190,21 +189,24 @@ public class VentanaVentaEntidad extends JFrame{
 		
 			
 	}
+	
 	// Método para obtener la ruta de la imagen por defecto
 	private String obtenerRutaImagenPorDefecto() {
-	    // Coloca la ruta correcta de tu imagen por defecto
 	    return "Sell_it/src/imagenes/default.png";
 	}
+	
+    // Método para verificar si la fecha es en el futuro
 	private boolean isDateInFuture(Date date) {
 	    try {
 	        Date currentDate = new Date();
 	        return date.after(currentDate);
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return false; // Handle the exception as needed
+	        return false;
 	    }
 	}
 	
+    // Método para obtener el precio de la entrada
 	public double obtenerPrecioEntrada() {
 	    String precioEntrada = tfPrecio.getText();
 	    System.out.println(tfPrecio.getText());
@@ -214,6 +216,8 @@ public class VentanaVentaEntidad extends JFrame{
 	        return -1; 
 	    }
 	}
+	
+    // Método para obtener el código
 	public static int obtenerCod() {
 		int ultimoCodigo = 0;
 

@@ -2,9 +2,6 @@ package ventanas;
 
 import java.awt.*;
 
-
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -40,7 +37,6 @@ import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
 import clases.EntradaReventa;
 import clases.Evento;
-import clases.JLabelGrafico;
 import clases.Usuario;
 
 public class VentanaPrincipal extends JFrame{
@@ -94,10 +90,6 @@ public class VentanaPrincipal extends JFrame{
 	        add(new JScrollPane(tablaEventos), BorderLayout.CENTER);
 			//JTable tbl_buscar = new JTable();
 			
-			
-//			pnlCentro.setLayout(new BoxLayout(pnlCentro, BoxLayout.Y_AXIS));
-//			add( new JScrollPane( pnlCentro ), BorderLayout.CENTER );
-			//this.add(tbl_buscar);
 
 	        // Crear paneles para cada sección de eventos
 			JPanel pDestacado = crearPanelEventos("Lo más buscado", pEventosDestacados);
@@ -118,11 +110,9 @@ public class VentanaPrincipal extends JFrame{
 //			new VentanaEntradasEnReventaTabla(usuario, this).setVisible(true);
 
 
-	        
 			searchField.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-//	                String textoBusqueda = tfBuscador.getText().toLowerCase();
 	                String textoBusqueda = searchField.getText().toLowerCase();
 	            	List<Evento> eventosFiltrados = filtrarEventosPorPalabrasClave(textoBusqueda);
 	                actualizarVisualizacionEventos(eventosFiltrados);
@@ -130,7 +120,6 @@ public class VentanaPrincipal extends JFrame{
 	        });
 			
 			bPerfil.addActionListener(new ActionListener() {
-				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					VentanaInicio ventanaI = Main.getVentanaInicio();
@@ -168,14 +157,9 @@ public class VentanaPrincipal extends JFrame{
 			    }
 			});
 			
-//			List<Evento> eventosBD = BaseDeDatos.obtenerListaEventos();
-//			for(Evento e: eventosBD) {
-//				aniadirEvento(e);
-//			}
 			List<Evento> todosLosEventos = BaseDeDatos.obtenerListaEventos();
 	    	List<Evento> destacados = getEventosDestacados(5);
 	    	List<Evento> eventosReventa = getEventosDeReventa();
-	    	
 	    	
 	    	visualizarEventos(destacados, pEventosDestacados);
 	    	visualizarEventos(todosLosEventos, pTodosEventos);
@@ -307,11 +291,9 @@ public class VentanaPrincipal extends JFrame{
 	    		for(Evento e: destacados) {
 		    		if(eventos.contains(e)) {
 		    			filtradosDes.add(e);
-//		    			System.out.println(e);
 		    		}
 		    	}
 	    	}
-//	    	System.out.println(eventos);
 	        visualizarEventos(filtradosDes, pEventosDestacados);
 	    	visualizarEventos(eventos, pTodosEventos);
 	    	List<Evento> reventa = getEventosDeReventa();
@@ -339,17 +321,6 @@ public class VentanaPrincipal extends JFrame{
 		}
 
 		private String obtenerTipoUsuario(String nom) {
-//		    HashMap<String, Usuario> usuarioT = dataSetUsuario.getUsuariosGuardados();
-//		    Set<String> nombresUsuarios = usuarioT.keySet();
-//
-//		    for(String nombreUsuario : nombresUsuarios) {
-//		        Usuario usu = usuarioT.get(nombreUsuario);
-//		        if(usu.getNombreUsuario().equals(nom)) {
-//		            return usu.getTipoUsuario();
-//		        }
-//		    }
-//		    return JOptionPane.showInputDialog("Usuario no encontrado"); // si no esta en la lista
-//		
 			Usuario usuario = baseDeDatos.getUsuarioPorCorreo(nom);
 			if(usuario != null) {
 				return usuario.getTipoUsuario();
@@ -411,8 +382,6 @@ public class VentanaPrincipal extends JFrame{
 //		}
 
 		
-//		private static String[] fotos = new String[] {  };//TEngo ue poner unas fotos que me he descargado
-
 		private class Mipanel extends JPanel {
 			public Mipanel(Evento evento, boolean esReventa) {
 		        setLayout(null);
@@ -425,7 +394,6 @@ public class VentanaPrincipal extends JFrame{
 		        		}else {
 		        			eventosBuscados.put(evento, 1);
 		        		}
-//		        		System.out.println(eventosBuscados);
 		        		if(esReventa) {
 		        			String[] partes = evento.getNombre().split("-");
 		        			int entrada_cod = Integer.parseInt(partes[1]);
@@ -480,18 +448,15 @@ public class VentanaPrincipal extends JFrame{
 		            try {
 		                imagen = new ImageIcon(rutaImagen);
 		                fotoPerfil(imagen);
-//		                System.out.println("Imagen cargada correctamente: " + rutaImagen);
 		            } catch (Exception e) {
 		                System.err.println("Error al cargar la imagen: " + rutaImagen);
 		                e.printStackTrace();
 		                imagen = obtenerImagenPorDefecto();
-
 		            }
 		        } else {
 		            // No hay ruta de imagen válida, usar imagen por defecto
 		            System.out.println("No hay ruta de imagen válida proporcionada. Usando imagen por defecto.");
 	                imagen = obtenerImagenPorDefecto();
-
 		        }
 		        fotoPerfil(imagen);
 
@@ -500,8 +465,6 @@ public class VentanaPrincipal extends JFrame{
 		        return new ImageIcon("Sell_it/src/imagenes/default.png");
 		    }
 		}
-		
-		
 		
 		private static  void fotoPerfil(ImageIcon imagenPerfil) {
 	        int maxWidth = 350; // Tamaño máximo de ancho
@@ -521,33 +484,6 @@ public class VentanaPrincipal extends JFrame{
 	        lblImagen.setIcon(imagenPerfil);
 		}
 		
-		/*public static List<Evento> obtenerListaEvento(Connection con){
-			String sql = "SELECT * FROM Evento";
-			List<Evento> l = new ArrayList<>();
-			try {
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				while(rs.next()) {
-					String codigo = rs.getString("codigo");
-					String nombre = rs.getString("nombre");
-					String desc = rs.getString("desc");
-					String fecha = rs.getString("fecha");
-					String ubicacion = rs.getString("ubicacion");
-					int nEntradas = rs.getInt("nEntradas");
-					double precio = rs.getDouble("precio");
-					String rutaImg = rs.getString("rutaImg");
-					Evento e = new Evento(codigo, nombre,desc,fecha,ubicacion,nEntradas,precio,rutaImg);
-					l.add(e);
-				}
-				rs.close();
-				st.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return l;
-		}*/
-
 		public static void main(String[] args) throws IOException {
 		}
 

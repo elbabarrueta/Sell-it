@@ -46,13 +46,11 @@ public class VentanaRegistroUsuario extends JFrame {
 	
 	private JTextField txtNombre,txtCorreo;
 	private static CustomPasswordField txtContrasenia, txtConfirmar;	
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	
+	/**
+     * Constructor de la clase VentanaRegistroUsuario.
+     */
 	public VentanaRegistroUsuario() {
 
 		this.setTitle("Registro de Usuario");
@@ -84,31 +82,19 @@ public class VentanaRegistroUsuario extends JFrame {
 		
 		this.add(panelRegistroUsuario);
 		
-//		JLabel mostrarContra = new JLabel("Mostrar Contraseña");		
-//		mostrarContra.addMouseListener(new MouseAdapter() {
-//	            @Override
-//	            public void mouseClicked(MouseEvent e) {
-//	                mostrarOcultarContraseña();
-//	            }
-//	    });
-		//panelSur.add(mostrarContra);
-		
 		JLabel lblPanelNorte = new JLabel("Rellene las siguientes casillas:");
 		panelNorte.add(lblPanelNorte,BorderLayout.NORTH);
 		
-		//JLabel lblNombre = new JLabel("Nombre:");
         JPanel pNom = new JPanel();
 		txtNombre = new JTextField();
 		aplicarEstiloCampo(txtNombre, "Nombre");
         pNom.add(txtNombre);
 
-		//JLabel lblCorreo = new JLabel("Direccion de correo:");
         JPanel pCorreo = new JPanel();
         txtCorreo = new JTextField();
         aplicarEstiloCampo(txtCorreo, "Correo");
         pCorreo.add(txtCorreo);
 
-		//JLabel lblContrasenia = new JLabel("Contraseña:");
         JPanel pContr = new JPanel();
         txtContrasenia = new CustomPasswordField();
         aplicarEstiloCampo(txtContrasenia, "Contraseña");
@@ -126,21 +112,14 @@ public class VentanaRegistroUsuario extends JFrame {
 		JTextField txtTipo = new JTextField();
 		txtTipo.setText("Usuario corriente");
 		txtTipo.setEditable(false);
-//		String[] tipoU = {"Usuario corriente", "Usuario entidad"};
-//        comboTipoU = new JComboBox<>(tipoU);
 		pTipo.add(lblTipo);
 		pTipo.add(txtTipo);
 		
-		
-		//panelCentro.add(lblNombre);
 		panelCentro.add(pNom);
-		//panelCentro.add(lblContrasenia);
 		panelCentro.add(pCorreo);
-		//panelCentro.add(lblCorreo);
 		panelCentro.add(pContr);
 		panelCentro.add(pConf);
 		panelCentro.add(pTipo);
-		
 		
 		JButton btnRegistro = new JButton("Registrarse");
 		panelSur.add(btnRegistro);
@@ -158,6 +137,7 @@ public class VentanaRegistroUsuario extends JFrame {
             }
         });
       
+        // Validar la contraseña ingresada por el usuario.
 		btnRegistro.addActionListener((e)->{
 			Pattern patronContrasenia = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
             char[] contrasenia = txtContrasenia.getPassword();
@@ -208,34 +188,27 @@ public class VentanaRegistroUsuario extends JFrame {
                 // Establecer la fecha actual como último cambio de contraseña
                 u.cambiarContrasena(cont);
 
+                // Añadir usuario a la base de datos
                 BaseDeDatos.anadirUsuarioNuevo(u);
                 JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
                 limpiarCampos();
+                
+                // Mostrar la ventana de inicio
                 VentanaInicio ventanaInicio = new VentanaInicio();
                 dispose();  // Cierra la ventana actual
                 ventanaInicio.setVisible(true);
                 Main.setVentanaInicio(ventanaInicio);
     			
-//    			if( DataSetUsuario.buscarUsu(correo)== null) {
-//    				DataSetUsuario.anyadirUsuario(u);
-//    				JOptionPane.showMessageDialog(null,"Bienvenido a Sell-IT");
-//    				System.out.println("\t" + u);
-//    				
-//    				//dataSetUsuario.anyadirUsuario(u);  hay que elegir una clase Usuario
-//    				VentanaInicio v = new VentanaInicio();
-//    				dispose();
-//    		        v.setVisible(true);
-//    		        Main.setVentanaInicio(v);
-//    			}else {
-//    				JOptionPane.showMessageDialog(null,"Usuario existente, compruebe los datos");
-//    				
-//    			}
-//    			limpiarCampos();
             }
 		});
-	
 	}
 	
+	/**
+     * Método para comprobar si la contraseña cumple con un requisito específico.
+     * @param regex Expresión regular que representa el requisito.
+     * @param contrasenia Contraseña a verificar.
+     * @return true si la contraseña cumple con el requisito, false de lo contrario.
+     */
 	private boolean contraseniaCumpleRequisito(String regex, String contrasenia) {
         return Pattern.compile(regex).matcher(contrasenia).find();
     }
@@ -253,6 +226,10 @@ public class VentanaRegistroUsuario extends JFrame {
         }
         txtContrasenia.setText(new String(contraseña));
     }
+	
+	/**
+     * Método para limpiar los campos de entrada.
+     */
 	private void limpiarCampos() {
 		txtNombre.setText("");
 		txtCorreo.setText("");		
@@ -260,6 +237,11 @@ public class VentanaRegistroUsuario extends JFrame {
 		txtConfirmar.setText("");
 	}
 	
+	/**
+     * Método para aplicar un estilo visual a los campos de texto.
+     * @param textField Campo de texto al que se aplicará el estilo.
+     * @param texto Texto de ejemplo para el campo.
+     */
 	private void aplicarEstiloCampo(JTextComponent textField, String texto) {
         textField.setForeground(new Color(169, 169, 169));
         textField.setPreferredSize(new Dimension(350, 30));
@@ -290,6 +272,11 @@ public class VentanaRegistroUsuario extends JFrame {
         textField.setBorder(new RoundBorder(new Color(51, 255, 233), 20));
     }
 	
+	/**
+     * Método para ajustar el tamaño de un icono.
+     * @param icon Icono a ajustar.
+     * @return ImageIcon ajustado.
+     */
 	 private static ImageIcon ajustarIcon(ImageIcon icon) {
 	        int maxWidth = 20; // Tamaño máximo de ancho
 	        int maxHeight = 20; // Tamaño máximo de alto
@@ -308,10 +295,18 @@ public class VentanaRegistroUsuario extends JFrame {
 	        return icon;
 	    }
 
+	 /**
+	  * Clase interna para representar un borde redondeado.
+	  */
 	 private static class RoundBorder extends AbstractBorder {
 	        private final Color borderColor;
 	        private final int roundRadius;
 
+	        /**
+	         * Constructor de la clase RoundBorder.
+	         * @param borderColor Color del borde.
+	         * @param roundRadius Radio de redondeo.
+	         */
 	        public RoundBorder(Color borderColor, int roundRadius) {
 	            this.borderColor = borderColor;
 	            this.roundRadius = roundRadius;
@@ -326,9 +321,15 @@ public class VentanaRegistroUsuario extends JFrame {
 	        }
 	 }
 	 
+	 /**
+	  * Clase interna para representar un campo de contraseña personalizado.
+	  */
      private static class CustomPasswordField extends JPasswordField {
         private JButton button;
 
+        /**
+         * Constructor de la clase CustomPasswordField.
+         */
         public CustomPasswordField() {
             super();
             button = new JButton();
@@ -356,6 +357,10 @@ public class VentanaRegistroUsuario extends JFrame {
             });
         }
 
+        /**
+         * Método para obtener el botón asociado al campo de contraseña.
+         * @return JButton asociado al campo de contraseña.
+         */
         public JButton getButton() {
             return button;
         }

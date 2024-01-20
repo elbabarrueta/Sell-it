@@ -130,11 +130,9 @@ public class BaseDeDatos {
     public static void eliminarEntrada(int idEntrada) {
         String sql = "DELETE FROM Entrada WHERE id = ?";
         try (
-//        		Connection conn = DriverManager.getConnection("jdbc:sqlite:usuarios.db");
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, idEntrada);
             pstmt.executeUpdate();
-//            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -206,49 +204,49 @@ public class BaseDeDatos {
 		Usuario laura = new Usuario("Laura Lopez", "laura.lopez@gmail.com", "Usuario corriente", "abcABC33", "Sell_it/src/imagenes/perfil.png", "null");
 		anadirUsuarioNuevo(laura);
 		
-		Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","10-11-2023","Bilbao",300, "Sell_it/src/imagenes/melendi.png", "moma@gmail.com");
+		Evento e1 = new Evento("Concierto Melendi","Concierto del cantante Melendi. Gira de sus canciones mas miticas!","2024-02-02","Bilbao",300, "Sell_it/src/imagenes/melendi.png", "moma@gmail.com");
 		anadirEventoNuevo(e1);
 		int cod = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e1.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod+i, e1, null, 25);
         	anadirEntradaNueva(entrada);
         }
-		Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","30-12-2022","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg", "moma@gmail.com");
+		Evento e2 = new Evento("Concierto Alejandro Sanz","Concierto del cantante Alejandro Sanz. Gira de su nuevo album!","2024-06-20","Logroño",250, "Sell_it/src/imagenes/alejandroSanz.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e2);
 		int cod2 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e2.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod2+i, e2, null, 20.5);
         	anadirEntradaNueva(entrada);
         }
-		Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","15-03-2023","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png", "moma@gmail.com");
+		Evento e3 = new Evento("Exposición de Fotografía Urbana","Explora la belleza de la fotografía urbana con esta exposición única.","2024-03-22","Madrid",100, "Sell_it/src/imagenes/arteUrbano.png", "moma@gmail.com");
 		anadirEventoNuevo(e3);
 		int cod3 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e3.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod3+i, e3, null, 10.2);
         	anadirEntradaNueva(entrada);
         }
-		Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","05-05-2023","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg", "moma@gmail.com");
+		Evento e4 = new Evento("Festival de Jazz en el Parque","Disfruta de una tarde de música jazz al aire libre en nuestro hermoso parque.","2024-05-10","Barcelona",150, "Sell_it/src/imagenes/jazzParque.jpeg", "moma@gmail.com");
 		anadirEventoNuevo(e4);
 		int cod4 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e4.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod4+i, e4, null, 15);
         	anadirEntradaNueva(entrada);
         }
-		Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","20-06-2023","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg", "moma@gmail.com");
+		Evento e5 = new Evento("Conferencia de Ciencia y Tecnología","Únete a expertos de la industria para explorar las últimas tendencias en ciencia y tecnología.","2024-10-10","Valencia",30, "Sell_it/src/imagenes/cienciaTec.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e5);
 		int cod5 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e5.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod5+i, e5, null, 30);
         	anadirEntradaNueva(entrada);
         }
-		Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","08-09-2023","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", "moma@gmail.com");
+		Evento e6 = new Evento("Carrera Solidaria por la Naturaleza","Participa en esta carrera para apoyar la conservación del medio ambiente.","2024-04-01","Sevilla",100,"Sell_it/src/imagenes/naturaleza.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e6);
 		int cod6 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e6.getnEntradas(); i++) {
         	Entrada entrada = new Entrada(cod6+i, e6, null, 12);
         	anadirEntradaNueva(entrada);
         }
-		Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","12-11-2023","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", "moma@gmail.com");
+		Evento e7 = new Evento("Noche de Comedia con Ricky Gervais","Una noche llena de risas con el famoso comediante Ricky Gervais. ¡Prepárate para reír a carcajadas!","2024-11-03","Málaga",60,"Sell_it/src/imagenes/comedia.jpg", "moma@gmail.com");
 		anadirEventoNuevo(e7);
 		int cod7 = VentanaVentaEntidad.obtenerCod();
         for(int i=0; i<e7.getnEntradas(); i++) {
