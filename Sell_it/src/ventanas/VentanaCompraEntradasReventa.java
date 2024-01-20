@@ -93,7 +93,7 @@ public class VentanaCompraEntradasReventa extends JFrame{
 	        ImageIcon imagen = new ImageIcon("Sell_it/src/imagenes/default.png"); 
 	    	setImagen(imagen);
 	    }else {
-	    	String rutaImg = ev.getRutaImg();
+	    	String rutaImg = eventoActual.getRutaImg();
             ImageIcon imagen = new ImageIcon(rutaImg);
             setImagen(imagen);}
 		
