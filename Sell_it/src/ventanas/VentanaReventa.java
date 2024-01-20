@@ -12,6 +12,7 @@ import javax.swing.*;
 
 import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
+import clases.EntradaReventa;
 import clases.Evento;
 import clases.Usuario;
 
@@ -22,7 +23,7 @@ public class VentanaReventa extends JFrame{
 	private JLabel lNombre;//Telmo(lo he puesto aqui para obtener el no)
 //	private VentanaCompra ventanaCompra;
 	private Evento eventoActual;
-	private Entrada ent;
+	private EntradaReventa entR;
 	public static VentanaPrincipal vPrincipal;
 	
 	public VentanaReventa(Evento ev, VentanaPrincipal vPrincipal) {
@@ -32,7 +33,7 @@ public class VentanaReventa extends JFrame{
 		VentanaInicio ventanaI = Main.getVentanaInicio();
 		Usuario usuActual = ventanaI.getUsuarioActual();
 		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(ev.getCodigo());
-		ent = BaseDeDatos.obtenerEntradaDeEvento(ev.getCodigo());
+		entR = BaseDeDatos.obtenerEntradaDeEvento(ev.getCodigo());
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
@@ -67,7 +68,7 @@ public class VentanaReventa extends JFrame{
 		pEvento.add(lFecha);
 		JLabel lUbicacion = new JLabel("Ubicacion: " +ev.getUbicacion());
 		pEvento.add(lUbicacion);
-		JLabel lNumEntradas = new JLabel("Entradas disponibles: " +String.valueOf(ev.getnEntradas()));
+		JLabel lNumEntradas = new JLabel("Entradas disponibles: 1" );
 		pEvento.add(lNumEntradas);
 		pnlCentral.add(pEvento);
 		
@@ -99,10 +100,7 @@ public class VentanaReventa extends JFrame{
 		JPanel pCantidad = new JPanel(new GridLayout(5,1));
 		JLabel lCompra = new JLabel("<html>Para comprar entradas,"+ "<br/>"+"agrega la cantidad que quieres comprar"+"<br/>"+"y pulsa el boton comprar."+ "</html>");
 		pCantidad.add(lCompra);
-		JLabel lCantidad = new JLabel("Cantidad:");
-		pCantidad.add(lCantidad);
-		pCantidad.add(tfCantidad);
-		JLabel lPrecio = new JLabel("Precio por cada entrada: " + ent.getPrecio() + "€");
+		JLabel lPrecio = new JLabel("Precio por cada entrada: " + entR.getPrecioReventa() + "€");
 		pCantidad.add(lPrecio);
 		JLabel lTotal = new JLabel();
 		pCantidad.add(lTotal);
@@ -135,7 +133,7 @@ public class VentanaReventa extends JFrame{
 		    	VentanaInicio ventanaI = Main.getVentanaInicio();
 				Usuario usuActual = ventanaI.getUsuarioActual();
 				VentanaReventa.this.dispose();
-				VentanaCompraReventa vc = new VentanaCompraReventa(usuActual, VentanaReventa.this, ent);
+				VentanaCompraReventa vc = new VentanaCompraReventa(usuActual, VentanaReventa.this, entR);
 				vc.setVisible(true);
 		    }
 		});
