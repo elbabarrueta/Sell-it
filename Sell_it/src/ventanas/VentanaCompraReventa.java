@@ -29,7 +29,6 @@ import org.jdesktop.swingx.JXLabel;
 
 import BasesDeDatos.BaseDeDatos;
 import clases.Entrada;
-import clases.EntradaReventa;
 import clases.Evento;
 import clases.Notificacion;
 import clases.Usuario;
@@ -37,7 +36,7 @@ import clases.Usuario;
 public class VentanaCompraReventa extends JFrame{
 	
 	private Usuario usuario;
-	private EntradaReventa entR;
+	private Entrada ent;
 
 	private Evento evento;
 	private Evento eventoActual;
@@ -58,26 +57,27 @@ public class VentanaCompraReventa extends JFrame{
     private int tiempoRestante;
     private JXBusyLabel busyLabel;
     private JXErrorPane errorPane;
-    private VentanaEvento vEvento;
-	private int cantidadCompra;
+    private VentanaReventa vReventa;
 	private List<Entrada> entradasEnBD;
-    private static BaseDeDatos baseDeDatos;
+    private static BaseDeDatos bd;
     private static VentanaPrincipal vPrincipal;
+    private int idReventa;
+    
 	
-	public VentanaCompraReventa(Usuario usuario, VentanaReventa vReventa, EntradaReventa entradaReventa) {
-    	this.baseDeDatos = new BaseDeDatos();
-	    this.vEvento = vEvento;
+	public VentanaCompraReventa(Usuario usuario, VentanaReventa vReventa, Entrada entrada, int idReventa) {
+    	this.bd = new BaseDeDatos();
+	    this.vReventa = vReventa;
 		this.usuario = usuario;
-		this.cantidadCompra = 1;
-		this.entR = entradaReventa;
-		vPrincipal = vEvento.vPrincipal;
+		this.ent = entrada;
+		this.idReventa = idReventa;
+		vPrincipal = vReventa.vPrincipal;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(800, 500);
 		setLocationRelativeTo(null);
 		setTitle("Compra de entrada");
 		
 		//Obtenemos el evento al que hacemos referencia
-		this.eventoActual = vEvento.getEvento();
+		this.eventoActual = vReventa.getEvento();
 		
 		//Creamos los paneles principales
 		JPanel pCentral = new JPanel(new GridLayout(2,1));
@@ -234,7 +234,8 @@ public class VentanaCompraReventa extends JFrame{
 		});
 		
 		JXLabel lTotal = new JXLabel();
-		int precioTotal = (int) (cantidadCompra*entR.getPrecioReventa());
+		double precioTotal = bd.obtenerPrecioEntradaReventa(idReventa);
+//		double precioTotal = precioReventa;
         lTotal.setText("<html><h2>TOTAL: "+ precioTotal + "€</h2></html>");
         pTiempo.add(lTotal);
 		
@@ -254,8 +255,8 @@ public class VentanaCompraReventa extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				 busyLabel.setBusy(false);
 				 VentanaCompraReventa.this.dispose();
-				 VentanaEvento ve = new VentanaEvento(eventoActual, vPrincipal);
-				 ve.setVisible(true);
+				 VentanaReventa vre = new VentanaReventa(eventoActual, vPrincipal);
+				 vre.setVisible(true);
 			}
 		});
 		
@@ -337,7 +338,7 @@ public class VentanaCompraReventa extends JFrame{
 			timer.stop();
 			JOptionPane.showMessageDialog(null, "Límite de tiempo excedido. Por favor, inténtalo de nuevo", "Tiempo agotado", JOptionPane.ERROR_MESSAGE);
 			VentanaCompraReventa.this.dispose();
-			Evento eventoActual = vEvento.getEvento();
+			Evento eventoActual = vReventa.getEvento();
 			VentanaEvento ve = new VentanaEvento(eventoActual, vPrincipal);
 			ve.setVisible(true);
 		}
@@ -367,48 +368,36 @@ public class VentanaCompraReventa extends JFrame{
 	    }
 	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
 	    	
-	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
-    		int codigoEventoActual = vEvento.getEvento().getCodigo();
-//    		System.out.println("Codigo evento actual " + codigoEventoActual);
-//    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
-    		Evento evento = vEvento.getEvento();
-	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
+//    		int codigoEventoActual = vEvento.getEvento().getCodigo();
+////    		System.out.println("Codigo evento actual " + codigoEventoActual);
+////    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
+//    		Evento evento = vEvento.getEvento();
+//	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
 	    	
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
-	    	int entradasMarcadasComoCompradas = 0;
 	    	List<Entrada> reventas = BaseDeDatos.obtenerListaEntradasReventa();
-	    	for (Entrada e : entradasEnBD) {
-	    	    if (entradasMarcadasComoCompradas < cantidadCompra) {
-	    	    	 int codigoEntrada = e.getCod();
-	    	         if (!existeCodigoEntradaEnReventas(codigoEntrada, reventas)) {
-	    	             baseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
-	    	             entradasMarcadasComoCompradas++;
-	    	         }
-	    	    } else {
-	    	        // Si ya se han marcado la cantidad necesaria de entradas, salir del bucle
-	    	        break;
-	    	    }
-	    	}
-	    	baseDeDatos.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
+			int codigoEntrada = idReventa;
+	         if (existeCodigoEntradaEnReventas(codigoEntrada, reventas)) {
+	        	 bd.borrarEntradaReventa(codigoEntrada);
+	             bd.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+	         }
+//	    	bd.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
 //	    	System.out.println("Entradas de usuario " + usuario.getEntradasCompradas());
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        
-	        Notificacion notificacion = new Notificacion("Has vendido " + cantidadCompra + " entradas del evento: " + eventoActual.getNombre(), false);
-	        Usuario vendedor = BaseDeDatos.getUsuarioPorCorreo(eventoActual.getCreador());
+	        Notificacion notificacion = new Notificacion("Has vendido 1 entradas del evento: " + eventoActual.getNombre(), false);
+	        Usuario vendedor = BaseDeDatos.getUsuarioPorCorreo(reventas.get(idReventa).getPropietario().getCorreoUsuario());
 	        if(vendedor != null) {
-	        	vendedor.agregarNotificacion(notificacion);	
+	        	vendedor.agregarNotificacion(notificacion);
 	        }
 	        
 	        pararTemporizador();
 	        dispose();
 	        vPrincipal = new VentanaPrincipal();
 	        vPrincipal.setVisible(true);
-	    }else {
-	        JOptionPane.showMessageDialog(null, "Comprueba que los datos introcudicos son los correctos", "Error", JOptionPane.INFORMATION_MESSAGE);
 	    }
-
 	}
 	private static boolean existeCodigoEntradaEnReventas(int codigoEntrada, List<Entrada> reventas) {
 	    for (Entrada entrada : reventas) {
@@ -465,10 +454,10 @@ public class VentanaCompraReventa extends JFrame{
         }
     }
 	
-//	public static void main(String[] args) {
-//		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
-//		VentanaCompraReventa v = new VentanaCompraReventa(u, 0, null, null);
-//		v.setVisible(true);
-//	}
+	public static void main(String[] args) {
+		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
+		VentanaCompraReventa v = new VentanaCompraReventa(u, null, null, 0);
+		v.setVisible(true);
+	}
 
 }

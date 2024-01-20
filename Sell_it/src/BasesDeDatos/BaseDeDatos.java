@@ -675,6 +675,40 @@ public class BaseDeDatos {
 	        System.out.println(e.getMessage());
 	    }
 	}
+	
+	public static double obtenerPrecioEntradaReventa(int idReventa) {
+        String sql = "SELECT precio FROM entradas_reventa WHERE id = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, idReventa);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getDouble("precio");
+            }
+        } catch (SQLException e) {
+            manejarExcepcion(e);
+        }
+
+        return -1; // Retorna -1 si no se encuentra la entrada de reventa
+    }
+	
+	public static String obtenerCorreoEntradaReventa(int idReventa) {
+        String sql = "SELECT usuario_vendedor FROM entradas_reventa WHERE id = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, idReventa);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("usuario_vendedor");
+            }
+        } catch (SQLException e) {
+            manejarExcepcion(e);
+        }
+
+        return "No se encuentra al usuario vendedor"; // Retorna -1 si no se encuentra la entrada de reventa
+    }
 
 //	private static int obtenerCodigoEntradaDesdeInfo(String entradaInfo) {
 //	    // Implementar la lógica para extraer el código de la entrada del String entradaInfo

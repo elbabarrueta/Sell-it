@@ -23,8 +23,9 @@ public class VentanaReventa extends JFrame{
 	private JLabel lNombre;//Telmo(lo he puesto aqui para obtener el no)
 //	private VentanaCompra ventanaCompra;
 	private Evento eventoActual;
-	private EntradaReventa entR;
+	private Entrada ent;
 	public static VentanaPrincipal vPrincipal;
+	private static BaseDeDatos bd;
 	
 	public VentanaReventa(Evento ev, VentanaPrincipal vPrincipal) {
 		this.vPrincipal = vPrincipal;
@@ -33,7 +34,7 @@ public class VentanaReventa extends JFrame{
 		VentanaInicio ventanaI = Main.getVentanaInicio();
 		Usuario usuActual = ventanaI.getUsuarioActual();
 		double precioEntrada = BaseDeDatos.obtenerPrecioEntrada(ev.getCodigo());
-		entR = BaseDeDatos.obtenerEntradaDeEvento(ev.getCodigo());
+		ent = BaseDeDatos.obtenerEntradaDeEvento(ev.getCodigo());
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(600, 500);
@@ -44,7 +45,7 @@ public class VentanaReventa extends JFrame{
 
 		
 		JPanel pnlCentral = new JPanel();
-		pnlCentral.setLayout(new GridLayout(2,2));
+		pnlCentral.setLayout(new GridLayout(2, 2));
 		this.add(pnlCentral, BorderLayout.CENTER);
 		
 		JPanel pImagen = new JPanel();
@@ -59,11 +60,17 @@ public class VentanaReventa extends JFrame{
 	    } 
 		pImagen.add(lImagen);
         pnlCentral.add(pImagen);
-		
+        
+        //conseguir el precio reventa, primer paso
+		String[] partes = ev.getNombre().split("-");
+        int idReventa = Integer.parseInt(partes[1]);
+        double precioReventa = bd.obtenerPrecioEntradaReventa(idReventa);
+        
         JButton btnComprar = new JButton("Comprar");
 		JPanel pEvento = new JPanel(new GridLayout(6,1));
-		lNombre = new JLabel("Nombre: " +ev.getNombre());
+		lNombre = new JLabel("Nombre: " + partes[0]);
 		pEvento.add(lNombre);
+
 		JLabel lFecha = new JLabel("Fecha: " +ev.getFecha());
 		pEvento.add(lFecha);
 		JLabel lUbicacion = new JLabel("Ubicacion: " +ev.getUbicacion());
@@ -89,7 +96,7 @@ public class VentanaReventa extends JFrame{
         botonVal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	 String correoCreador = eventoActual.getCreador(); // Obtén el correo del creador del evento actual
+            	String correoCreador  = bd.obtenerCorreoEntradaReventa(idReventa);
                  String nombreEvento = eventoActual.getNombre(); // Obtén el nombre del evento actual
                 
                  VentanaValoracion ventanaValoracion = new VentanaValoracion(correoCreador, nombreEvento);
@@ -97,10 +104,8 @@ public class VentanaReventa extends JFrame{
             }
         });
 		
-		JPanel pCantidad = new JPanel(new GridLayout(5,1));
-		JLabel lCompra = new JLabel("<html>Para comprar entradas,"+ "<br/>"+"agrega la cantidad que quieres comprar"+"<br/>"+"y pulsa el boton comprar."+ "</html>");
-		pCantidad.add(lCompra);
-		JLabel lPrecio = new JLabel("Precio por cada entrada: " + entR.getPrecioReventa() + "€");
+		JPanel pCantidad = new JPanel(new GridLayout(4,1));
+		JLabel lPrecio = new JLabel("Precio por entrada: " + precioReventa + "€");
 		pCantidad.add(lPrecio);
 		JLabel lTotal = new JLabel();
 		pCantidad.add(lTotal);
@@ -133,7 +138,7 @@ public class VentanaReventa extends JFrame{
 		    	VentanaInicio ventanaI = Main.getVentanaInicio();
 				Usuario usuActual = ventanaI.getUsuarioActual();
 				VentanaReventa.this.dispose();
-				VentanaCompraReventa vc = new VentanaCompraReventa(usuActual, VentanaReventa.this, entR);
+				VentanaCompraReventa vc = new VentanaCompraReventa(usuActual, VentanaReventa.this, ent, idReventa);
 				vc.setVisible(true);
 		    }
 		});
