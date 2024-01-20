@@ -11,9 +11,9 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import BasesDeDatos.BaseDeDatos;
 import ventanas.Main;
-//Vamos a añadir un usuario admin
+
 public class Usuario {
-	//Hay que cambiar los atributos
+    // Atributos
 	public String nombreUsuario;
 	public String correoUsuario;
 	public String tipoUsuario;
@@ -22,25 +22,10 @@ public class Usuario {
 	public String descripcion;
 	private List<Notificacion> notificaciones;
 	private List<Entrada> entradasCompradas;
-
-	
-//	private String rutaImagenPerfil;
-	
-	// Fecha de registro
 	private LocalDate fechaRegistro;
     private LocalDate ultimaCambioContrasena;
-	
-	//
-    
-//    public String getRutaImagenPerfil() {
-//        return rutaImagenPerfil;
-//    }
-//
-//    public void setRutaImagenPerfil(String rutaImagenPerfil) {
-//        this.rutaImagenPerfil = rutaImagenPerfil;
-//    }
-    
-    
+	    
+    // Getters y Setters
 	public final String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -71,7 +56,6 @@ public class Usuario {
 	public final void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
-	//
 	public final LocalDate getUltimaCambioContrasena() {
 		return ultimaCambioContrasena;
 	}
@@ -91,7 +75,7 @@ public class Usuario {
         return entradasCompradas;
     }
 	
-	//
+    // Constructor
 	public Usuario() {
 		super();
 		this.nombreUsuario = " ";
@@ -121,7 +105,10 @@ public class Usuario {
 				+ correoUsuario + ", tipoUsuario=" + tipoUsuario +", contraseña:"+ contrasena+ ",  descripción: " + descripcion + "]";
 	}
 	
-	//Metodos
+	/**
+     * Cambia la contraseña del usuario.
+     * @param nuevaContrasena Nueva contraseña a establecer.
+     */
 	public void cambiarContrasena(String nuevaContrasena) {
         // Código para cambiar la contraseña
         ultimaCambioContrasena = LocalDate.now();
@@ -131,13 +118,24 @@ public class Usuario {
 		this.contrasena = hashNuevaContrasena;
     }
 	
+	/**
+     * Agrega una notificación al usuario y la guarda en la base de datos.
+     * @param notificacion Notificación a agregar.
+     */
 	public void agregarNotificacion(Notificacion notificacion) {
         notificaciones.add(notificacion);
         BaseDeDatos.guardarNotificacion(this, notificacion);
     }
+	
 	public static HashMap<String, Usuario> getMapaUsuarios() {
     	return Main.getVentanaInicio().mapaUsu;
     }
+	
+	/**
+     * Distribuye una notificación a todos los usuarios, excepto al usuario actual.
+     * @param notificacion Notificación a distribuir.
+     * @param usuarioActual Usuario actual que no recibirá la notificación.
+     */
 	public static void distribuirNotificacion(Notificacion notificacion, Usuario usuarioActual) {
         HashMap<String, Usuario> mapaUsuarios = getMapaUsuarios();
         for (Usuario usuario : mapaUsuarios.values()) {
@@ -146,11 +144,19 @@ public class Usuario {
             }
         }
     }
+	
+	/**
+     * Carga las notificaciones del usuario desde la base de datos.
+     */
     public void cargarNotificacionesDesdeBD() {
         // Lógica para cargar notificaciones desde la base de datos
         List<Notificacion> notificacionesDesdeBD = BaseDeDatos.obtenerNotificacionesPorUsuario(this);
         notificaciones.addAll(notificacionesDesdeBD);
     }
+    
+    /**
+     * Carga las entradas compradas del usuario desde la base de datos.
+     */
     public void cargarEntradasCompradasDesdeBD() {
         // Lógica para cargar notificaciones desde la base de datos
         List<Entrada> entradasCompradas = BaseDeDatos.obtenerEntradasDeUsuario(this);

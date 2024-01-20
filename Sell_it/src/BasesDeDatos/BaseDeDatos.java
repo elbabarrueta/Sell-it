@@ -1271,7 +1271,11 @@ public void verUsuarios() {
         return valoraciones;
     }
  
-//
+    /**
+     * Obtiene la lista de entradas de reventa asociadas a un usuario.
+     * @param correoUsuario Correo del usuario vendedor.
+     * @return Lista de objetos EntradaReventa asociadas al usuario.
+     */
     public static List<EntradaReventa> obtenerEntradasReventa(String correoUsuario) {
 	    List<EntradaReventa> entradasReventa = new ArrayList<>();
 	    String sql = "SELECT * FROM entradas_reventa WHERE usuario_vendedor = ?";
@@ -1296,6 +1300,10 @@ public void verUsuarios() {
 	    return entradasReventa;
 	}
 
+    /**
+     * Borra una entrada de reventa según su código.
+     * @param codigoEntrada Código de la entrada de reventa a borrar.
+     */
 	public static void borrarEntradaReventa(int codigoEntrada) {    
 	    try (Statement statement = con.createStatement()) {
 
@@ -1306,11 +1314,5 @@ public void verUsuarios() {
 	        handleException(e, "Error al borrar la entrada de reventa con código " + codigoEntrada);
 	    }
 	}
-	
-// Esto seria para marcar la entrada como comprada
-//	String codigoEntrada = "tu_codigo_de_entrada";
-//	String correoComprador = "correo_del_comprador";
-//
-//	baseDatos.marcarEntradaComoComprada(codigoEntrada, correoComprador);
 
 }

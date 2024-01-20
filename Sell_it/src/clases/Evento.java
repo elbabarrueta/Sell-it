@@ -15,15 +15,12 @@ import java.sql.Statement;
 
 public class Evento implements Serializable{
 	//Atributos
-//	public int codigo;
-//	public static int codigo = obtenerCod();
 	private int codigo;
 	private String nombre;
 	private String desc;
 	private String fecha;
 	private String ubicacion;
 	private int nEntradas;
-//	private double precio;
 	private String rutaImg;
 	private String creador;
 	
@@ -56,12 +53,6 @@ public class Evento implements Serializable{
 	public void setUbicacion(String ubicacion) {
 		this.ubicacion = ubicacion;
 	}
-//	public double getPrecio() {
-//		return precio;
-//	}
-//	public void setPrecio(double precio) {
-//		this.precio = precio;
-//	}
 	public int getnEntradas() {
 		return nEntradas;
 	}
@@ -81,7 +72,11 @@ public class Evento implements Serializable{
 		this.creador = creador;
 	}
 	
-	//Constructores
+	// Constructores
+	
+	/**
+     * Constructor con parámetros para inicializar un evento.
+     */
 	public Evento(String nombre, String desc, String fecha, String ubicacion, int nEntradas, String rutaImg, String creador) {
 		super();
 		this.codigo = obtenerCod();
@@ -93,6 +88,9 @@ public class Evento implements Serializable{
 		this.rutaImg = rutaImg;
 		this.creador = creador;
 	}
+	/**
+     * Constructor con parámetros para inicializar un evento con un código específico.
+     */
 	public Evento(int codigo, String nombre, String desc, String fecha, String ubicacion, int nEntradas, String rutaImg, String creador) {
 		super();
 		this.codigo = codigo;
@@ -104,6 +102,9 @@ public class Evento implements Serializable{
 		this.rutaImg = rutaImg;
 		this.creador = creador;
 	}
+	/**
+     * Constructor sin parámetros para inicializar un evento con valores predeterminados.
+     */
 	public Evento() {
 		super();
 		this.codigo = obtenerCod();
@@ -121,7 +122,12 @@ public class Evento implements Serializable{
 		return "Evento [codigo=" + codigo + ", nombre=" + nombre + ", desc=" + desc + ", fecha=" + fecha + ", ubicacion=" + ubicacion
 				+ ", nEntradas=" + nEntradas + ", creador=" + creador;
 	}
-	
+
+    /**
+     * Compara dos eventos para determinar si son iguales basándose en el código.
+     * @param obj Objeto a comparar con el evento actual.
+     * @return true si los eventos son iguales, false en caso contrario.
+     */
 	@Override
 	public boolean equals(Object obj) {
 	    if (this == obj) return true;
@@ -129,12 +135,20 @@ public class Evento implements Serializable{
 	    Evento evento = (Evento) obj;
 	    return codigo == evento.codigo;
 	}
-
+	
+	/**
+     * Genera un código hash único para el evento basándose en su código.
+     * @return Código hash del evento.
+     */
 	@Override
 	public int hashCode() {
 	    return Objects.hash(codigo);
 	}
 	
+	/**
+     * Método privado para obtener el código para un nuevo evento desde la base de datos.
+     * @return Nuevo código para un evento.
+     */
 	private static int obtenerCod() {
 		int ultimoCodigo = 0;
 
@@ -143,9 +157,11 @@ public class Evento implements Serializable{
         try (Connection connection = DriverManager.getConnection(url);
              Statement statement = connection.createStatement()) {
 
+            // Consulta para obtener el último código de evento registrado en la base de datos
             String query = "SELECT MAX(codigo) AS ultimoCodigo FROM Evento";
             ResultSet resultSet = statement.executeQuery(query);
 
+            // Si hay un resultado, obtener el último código
             if (resultSet.next()) {
                 ultimoCodigo = resultSet.getInt("ultimoCodigo");
             }
@@ -153,28 +169,8 @@ public class Evento implements Serializable{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        // Incrementar el último código para el nuevo evento
         return ultimoCodigo + 1;
     }
-//	public int obtenerCodFromDB(Evento evento) {
-//	    int codigoFromDB = 0;
-//
-//	    String url = "jdbc:sqlite:usuarios.db";
-//
-//	    try (Connection connection = DriverManager.getConnection(url);
-//	    	PreparedStatement preparedStatement = connection.prepareStatement("SELECT codigo FROM Evento WHERE tu_columna_clave = ?")) {
-//
-//	    	// Suponiendo que tu_columna_clave es el nombre de la columna que identifica de manera única tus eventos.
-//	        preparedStatement.setInt(1, evento.getCodigo());
-//
-//	        ResultSet resultSet = preparedStatement.executeQuery();
-//
-//	        if (resultSet.next()) {
-//	            codigoFromDB = resultSet.getInt("codigo");
-//	        }
-//
-//	    } catch (SQLException e) {
-//	        e.printStackTrace();
-//	    }
-//	    return codigoFromDB;
-//	}
+
 }
