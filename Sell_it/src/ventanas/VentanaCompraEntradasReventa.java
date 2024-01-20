@@ -1,17 +1,23 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import BasesDeDatos.BaseDeDatos;
+import clases.Entrada;
 import clases.EntradaReventa;
+import clases.Evento;
 import clases.Usuario;
 
 public class VentanaCompraEntradasReventa extends JFrame{
@@ -27,8 +33,12 @@ public class VentanaCompraEntradasReventa extends JFrame{
 	private JLabel lblCodigoEntrada;
 	private JLabel lblCorreoUsuario;
 	private JLabel lblPrecioEntrada;
-	
+	private JLabel lImagen;
+	private static BaseDeDatos baseDeDatos;
 	private EntradaReventa entradaReventaActual;
+	private List<EntradaReventa> entradasReventaEnBD;
+	private VentanaEvento ventanaEvento;
+	private Evento eventoActual;
 	
 	
 	
@@ -37,6 +47,10 @@ public class VentanaCompraEntradasReventa extends JFrame{
 		this.setBounds(900,300,400,400);
 		this.setTitle("Entrada Reventa");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.baseDeDatos = new BaseDeDatos();
+		this.ventanaEvento = ventanaEvento;
+		this.eventoActual= ventanaEvento.getEvento();
+		
 		
 		panelPrincipal = new JPanel(new BorderLayout());
 		panelSur = new JPanel(new BorderLayout());
@@ -51,11 +65,6 @@ public class VentanaCompraEntradasReventa extends JFrame{
 		panelPrincipal.add(panelOeste,BorderLayout.WEST);
 		this.add(panelPrincipal);
 		
-		lblPrecioEntrada = new JLabel("El precio de la entrada es:" + entradaReventaActual.getPrecioReventa());
-		lblTituloDetallesEvento = new JLabel("Detalles del evento:");
-		lblCodigoEntrada = new JLabel("Codigo Entrada:" + entradaReventaActual.getCodigoEntrada());
-		lblCorreoUsuario = new JLabel("Correo Electronico: " + entradaReventaActual.getCorreoUsuario());
-		lblDetallesEvento = new JLabel(entradaReventaActual.getInfo());
 		
 		btnVolver = new JButton("Volver");
 		btnCompra = new JButton("Comprar");
@@ -67,6 +76,26 @@ public class VentanaCompraEntradasReventa extends JFrame{
 		panelOeste.add(lblCodigoEntrada);
 		panelOeste.add(lblCorreoUsuario);
 		panelOeste.add(lblPrecioEntrada);
+		
+		
+		lblPrecioEntrada = new JLabel("El precio de la entrada es:" + entradaReventaActual.getPrecioReventa());
+		lblTituloDetallesEvento = new JLabel("Detalles del evento:");
+		lblCodigoEntrada = new JLabel("Codigo Entrada:" + entradaReventaActual.getCodigoEntrada());
+		lblCorreoUsuario = new JLabel("Correo Electronico: " + entradaReventaActual.getCorreoUsuario());
+		lblDetallesEvento = new JLabel(entradaReventaActual.getInfo());
+		lImagen = new JLabel();
+		
+		
+		
+		
+		
+		if(eventoActual.getRutaImg() == null) {
+	        ImageIcon imagen = new ImageIcon("Sell_it/src/imagenes/default.png"); 
+	    	setImagen(imagen);
+	    }else {
+	    	String rutaImg = ev.getRutaImg();
+            ImageIcon imagen = new ImageIcon(rutaImg);
+            setImagen(imagen);}
 		
 		
 		
@@ -81,6 +110,25 @@ public class VentanaCompraEntradasReventa extends JFrame{
             }
         });
 		
+		
+		
+	}
+	public void setImagen(ImageIcon imagen) {
+		int maxWidth = 200; // Tamaño máximo de ancho
+        int maxHeight = 200; // Tamaño máximo de alto
+        int newWidth, newHeight;
+        Image img = imagen.getImage();
+        if (imagen.getIconWidth() > imagen.getIconHeight()) {
+            newWidth = maxWidth;
+            newHeight = (maxWidth * imagen.getIconHeight()) / imagen.getIconWidth();
+        } else {
+            newHeight = maxHeight;
+            newWidth = (maxHeight * imagen.getIconWidth()) / imagen.getIconHeight();
+        }
+        // Redimensiona la imagen
+        Image newImg = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        imagen = new ImageIcon(newImg);
+        lImagen.setIcon(imagen);
 	}
 	
 	
