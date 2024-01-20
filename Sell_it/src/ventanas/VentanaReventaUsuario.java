@@ -194,7 +194,5 @@ public class VentanaReventaUsuario extends JFrame{
 		VentanaReventaUsuario v = new VentanaReventaUsuario(usu);
 		v.setVisible(true);
 	}
-	
-	
-	
+
 }

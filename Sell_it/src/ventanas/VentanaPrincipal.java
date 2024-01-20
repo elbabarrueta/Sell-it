@@ -395,11 +395,15 @@ public class VentanaPrincipal extends JFrame{
 		        			eventosBuscados.put(evento, 1);
 		        		}
 		        		if(esReventa) {
-		        			String[] partes = evento.getNombre().split("-");
-		        			int entrada_cod = Integer.parseInt(partes[1]);
 		        			
-		        			Entrada entradaReventa = BaseDeDatos.obtenerEntradaPorCodigo(entrada_cod);
-		        			System.out.println("Crear ventana para entrada de reventa " + entrada_cod);
+		        			VentanaReventa vcer = new VentanaReventa(evento, vPrincipal);
+		        			vcer.setVisible(true);
+		        			vPrincipal.dispose();
+//		        			String[] partes = evento.getNombre().split("-");
+//		        			int entrada_cod = Integer.parseInt(partes[1]);
+//		        			
+//		        			Entrada entradaReventa = BaseDeDatos.obtenerEntradaPorCodigo(entrada_cod);
+//		        			System.out.println("Crear ventana para entrada de reventa " + entrada_cod);
 		        		}else {
 							VentanaEvento v = new VentanaEvento(evento, vPrincipal);
 							v.setVisible(true);
