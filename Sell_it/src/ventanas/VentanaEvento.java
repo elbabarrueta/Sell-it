@@ -81,10 +81,7 @@ public class VentanaEvento extends JFrame{
 		pDesc.add(lDesc);
 		pDesc.add(taDesc);
 		pnlCentral.add(pDesc);
-//		
-		// Agrega un JLabel para mostrar el correo del usuario
-//	    JLabel lCorreoUsuario = new JLabel("Usuario: " + ev.getCreador());
-//	    pEvento.add(lCorreoUsuario); 
+
 	    JButton botonVal  = new JButton("Valora el creador");
 		pEvento.add(botonVal);
         pEvento.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Añade espacio debajo del botón
@@ -98,9 +95,9 @@ public class VentanaEvento extends JFrame{
                  ventanaValoracion.setVisible(true);
             }
         });
-//		
+		
 		JPanel pCantidad = new JPanel(new GridLayout(5,1));
-		JLabel lCompra = new JLabel("<html>Para comprar entradas,"+ "<br/>"+"agrega la cantidad que quieres comprar"+"<br/>"+"y pulsa el boton compra."+ "</html>");
+		JLabel lCompra = new JLabel("<html>Para comprar entradas,"+ "<br/>"+"agrega la cantidad que quieres comprar"+"<br/>"+"y pulsa el boton comprar."+ "</html>");
 		pCantidad.add(lCompra);
 		JLabel lCantidad = new JLabel("Cantidad:");
 		pCantidad.add(lCantidad);
@@ -126,7 +123,6 @@ public class VentanaEvento extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaEvento.this.dispose();
-//					VentanaPrincipal v = new VentanaPrincipal();
 				vPrincipal.setVisible(true);
 			}
 		});

@@ -28,6 +28,7 @@ import clases.Usuario;
 import clases.Valoracion;
 
 public class VentanaTablaValoraciones extends JFrame{
+		// Declaracion de variables
 	 	private JTable tablaInfo;
 	    private MiTableModel modeloInfor;
 	    private Usuario usuario;
@@ -41,7 +42,8 @@ public class VentanaTablaValoraciones extends JFrame{
         setSize(800, 400);
         setLocationRelativeTo(null);
 		this.usuario = usuario;
-
+		
+        // Creación de la tabla y el modelo de la tabla
         modeloInfor = new MiTableModel();
         tablaInfo = new JTable(modeloInfor);
         
@@ -56,16 +58,18 @@ public class VentanaTablaValoraciones extends JFrame{
         ordenarPuntuacionBoton = new JButton("Ordenar por Puntuación");
         pInferior.add(ordenarPuntuacionBoton);
 
+        // Configuración de listeners para los botones
         ordenarPuntuacionBoton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ordenarPorPuntuacion();
             }
         });
+        
         boton.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+                // Cierre de la ventana actual y apertura de otra ventana según el tipo de usuario
 		        dispose();
 		        if(usuario.getTipoUsuario().equals("Usuario entidad")) {
 		            VentanaPerfilEntidad v = new VentanaPerfilEntidad(usuario);
@@ -76,14 +80,18 @@ public class VentanaTablaValoraciones extends JFrame{
 		        }	
 			}
 		});
+        
+        // Agregar componentes a la ventana
         add(panelPrincipal, BorderLayout.CENTER);
         add(pInferior, BorderLayout.SOUTH);
         
         this.setVisible(true);
         
-        // Configuración inicial con las valoraciones proporcionados
+        // Configuración inicial con las valoraciones proporcionadas
         modeloInfor.setDatos(val);
         
+        // Configuración de renderizado de celdas en la tabla
+        // Centrar el texto y cambiar el color de fondo según la puntuación
         tablaInfo.setDefaultRenderer(Integer.class, new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -103,9 +111,10 @@ public class VentanaTablaValoraciones extends JFrame{
                 return component;
             }
         });
-     // Establecer el fondo predeterminado para todo el modelo
+        // Establecer el fondo predeterminado para todo el modelo
         tablaInfo.setBackground(tablaInfo.getBackground());
         
+        // Configuración de tooltips para la tabla
         tablaInfo.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -123,13 +132,15 @@ public class VentanaTablaValoraciones extends JFrame{
                 }
             }
         });
-       
+    
 	}
 
+    // Método para ordenar las valoraciones por puntuación de manera descendente
 	private void ordenarPorPuntuacion() {
         modeloInfor.ordenarPorPuntuacion();
     }
 	
+    // Clase interna que extiende AbstractTableModel para personalizar el modelo de la tabla
     private static class MiTableModel extends AbstractTableModel {
         private List<Valoracion> datos;
         private final String[] cabeceras = { "usuario_revisor", "puntuacion", "comentario"};
@@ -152,7 +163,7 @@ public class VentanaTablaValoraciones extends JFrame{
 
         @Override
         public int getColumnCount() {
-            return cabeceras.length; // Ajusta esto según la cantidad de columnas en tu modelo de Evento
+            return cabeceras.length; 
         }
 		@Override
 		public String getColumnName(int columnIndex) {
@@ -185,10 +196,6 @@ public class VentanaTablaValoraciones extends JFrame{
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return false;
         }
-    }
-    
-    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> new VentanaTablaInformacion(null).setVisible(true));
     }
 	
 }

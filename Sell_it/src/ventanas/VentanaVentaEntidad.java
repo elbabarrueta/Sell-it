@@ -88,7 +88,7 @@ public class VentanaVentaEntidad extends JFrame{
 		pCentral.add(lFoto);
 		pCentral.add(bFoto);
 		rutaImg = null;
-		JLabel lFotoDefault = new JLabel( "Si no añades ninguna imagen, aparecera una por defecto");
+		JLabel lFotoDefault = new JLabel( "Si no añades una imagen, aparecera una por defecto");
 		lFotoDefault.setForeground(Color.BLUE);
 		pCentral.add(lFotoDefault);		
 		

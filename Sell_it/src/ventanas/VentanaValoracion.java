@@ -24,7 +24,7 @@ public class VentanaValoracion extends JFrame {
 
     private JTextField tfComentario;
     private JComboBox<Integer> cbCalificacion;
-    private JCheckBox chkAnonimo;  // Checkbox para la opción de ser anónimo
+    private JCheckBox chkAnonimo;  
     private String nombreEvento;
     private String correoUsuarioCreador;
     private Map<Integer, String> calificacionesMap;
@@ -38,17 +38,21 @@ public class VentanaValoracion extends JFrame {
         setLocationRelativeTo(null);
         setTitle("Valoración");
 
+        // Crear y configurar el panel principal
         JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
+        // Creación de etiquetas informativas
         JLabel labelInfoEvento = new JLabel("Evento: " + nombreEvento);
         JLabel labelInfoUsuario = new JLabel("Creador del evento: " + correoUsuarioCreador);
-
         JLabel labelCrea = new JLabel("<html>Valora a <font color='blue'>" + correoUsuarioCreador + "</font> del 1 al 5</html>");
+        
+        // Componentes de entrada
         JLabel labelComentario = new JLabel("Comentario:");
         tfComentario = new JTextField();
         JLabel labelCalificacion = new JLabel("Calificación:");
-     // Mapa para almacenar calificaciones y sus descripciones
+        
+        // Configuración del mapa de calificaciones
         calificacionesMap = new HashMap<>();
         calificacionesMap.put(1, "1 - Descontento");
         calificacionesMap.put(2, "2 - Neutral");
@@ -60,6 +64,7 @@ public class VentanaValoracion extends JFrame {
         cbCalificacion = new JComboBox<>(calificaciones);
         chkAnonimo = new JCheckBox("Anónimo");  
         
+        // Agregar componentes al panel
         panel.add(labelInfoEvento);
         panel.add(labelInfoUsuario);
         panel.add(labelCrea);
@@ -70,29 +75,23 @@ public class VentanaValoracion extends JFrame {
         panel.add(cbCalificacion);
         panel.add(chkAnonimo);
         
+        // Botón para guardar la valoración
         JButton btnGuardar = new JButton("Guardar");
-        btnGuardar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guardarValoracion();
-            }
-        });
+        btnGuardar.addActionListener(e -> guardarValoracion());
         panel.add(new JLabel()); // Espacio en blanco
         panel.add(btnGuardar);
-        add(panel);
         
+        // Botón para mostrar información de valoraciones
         JButton btnMostrarInfo = new JButton("Método de valoración");
-        btnMostrarInfo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarInfoValoraciones();
-            }
-        });
+        btnMostrarInfo.addActionListener(e -> mostrarInfoValoraciones());
         panel.add(btnMostrarInfo);
+        
+        add(panel);
     }
 
+    // Método para mostrar información detallada sobre las valoraciones
     private void mostrarInfoValoraciones() {
-        // Crea un StringBuilder para construir el mensaje con la información
+        // Mensaje con la información de las valoraciones
         StringBuilder infoValoraciones = new StringBuilder("Información de Valoraciones:\n");
 
         // Itera sobre el mapa de valoraciones y agrega la información al StringBuilder
@@ -106,23 +105,24 @@ public class VentanaValoracion extends JFrame {
         JOptionPane.showMessageDialog(this, infoValoraciones.toString(), "Información de Valoraciones", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    // Método para guardar la valoración
     private void guardarValoracion() {
         String comentario = tfComentario.getText();
         int calificacion = (int) cbCalificacion.getSelectedItem();
 
-     // Obtén el usuario revisor desde la instancia de VentanaInicio
+        // Obtención del usuario revisor desde la instancia de VentanaInicio
         VentanaInicio ventanaInicio = Main.getVentanaInicio();
-     // Comprueba si la opción de ser anónimo está seleccionada
+        // Comprobacion de si la opción de ser anónimo está seleccionada
         String correoUsuarioRevisor = chkAnonimo.isSelected() ? "Anónimo" : ventanaInicio.getUsuarioActual().getCorreoUsuario();
 
-        // Obtén el usuario valorado desde el correo almacenado en correoUsuarioCreador
+        // Obtención del usuario valorado desde el correo almacenado en correoUsuarioCreador
         Usuario usuarioValorado = BaseDeDatos.getUsuarioPorCorreo(correoUsuarioCreador); 
 
         int id = Valoracion.obtenerId();
-        // Guarda la valoracion
+        // Guarda la valoracion en la base de datos
         BaseDeDatos.insertarValoracion(id, correoUsuarioRevisor, usuarioValorado.getCorreoUsuario(), calificacion, comentario);
 
-        // Cerrar la ventana después de guardar la valoración
+        // Cierra la ventana después de guardar la valoración
         dispose();
     }
 }

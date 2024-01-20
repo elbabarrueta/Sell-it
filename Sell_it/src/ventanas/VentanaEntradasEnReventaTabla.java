@@ -21,8 +21,22 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
     public VentanaEntradasEnReventaTabla(Usuario usuario) {
         setTitle("Entradas en Reventa");
-        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+    	// Tamaño de la pantalla
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Tamaño de la ventana
+        int ventanaAncho = 700;
+        int ventanaAlto = 400;
+
+        // Calcular la posición para centrar la ventana
+        int posX = (screenSize.width - ventanaAncho) / 2;
+        int posY = (screenSize.height - ventanaAlto) / 2;
+
+        // Establecer la posición de la ventana
+        this.setBounds(posX, posY, ventanaAncho, ventanaAlto);
+        
         setLayout(new BorderLayout());
         this.usuario = usuario;
 
