@@ -336,7 +336,7 @@ public class VentanaRegistroUsuario extends JFrame {
             setLayout(new BorderLayout());
             add(button, BorderLayout.EAST);
             button.setPreferredSize(new Dimension(30, 10));
-            ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+            ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_closed_icon.png"));
     		button.setIcon((ajustarIcon(imagenOjo)));
     		button.setBackground(Color.WHITE);
     		
@@ -346,10 +346,10 @@ public class VentanaRegistroUsuario extends JFrame {
                     char echoChar = getEchoChar();
                     if (echoChar == 0) {
                         setEchoChar('\u2022'); // Ocultar contraseña (punto negro)
-                		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_closed_icon.png");
+                		ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_closed_icon.png"));
                 		button.setIcon((ajustarIcon(imagenOjo)));
                     } else {
-                		ImageIcon imagenOjo = new ImageIcon("Sell_it/src/imagenes/eye_opened_icon.png");
+                		ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_opened_icon.png"));
                 		button.setIcon((ajustarIcon(imagenOjo)));
                         setEchoChar((char) 0); // Mostrar contraseña
                     }

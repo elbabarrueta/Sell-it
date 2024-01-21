@@ -412,10 +412,10 @@ public class VentanaInicio extends JFrame {
                     char echoChar = getEchoChar();
                     if (echoChar == 0) {
                         setEchoChar('\u2022'); // Ocultar contraseña (punto negro)
-                		ImageIcon imagenOjo = new ImageIcon("src/imagenes/eye_closed_icon.png");
+                		ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_closed_icon.png"));
                 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
                     } else {
-                		ImageIcon imagenOjo = new ImageIcon("src/imagenes/eye_opened_icon.png");
+                		ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_opened_icon.png"));
                 		txtContrasenia.getButton().setIcon(fotoBoton(imagenOjo));
                         setEchoChar((char) 0); // Mostrar contraseña
                     }

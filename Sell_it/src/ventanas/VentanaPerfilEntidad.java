@@ -53,7 +53,7 @@ public class VentanaPerfilEntidad extends JFrame{
 	    lblFotoPerfil.setBounds(38, 10, 119, 95);
 		contentPane.add(lblFotoPerfil);
 	    if(usuario.getImgPerfil() == null) {
-	        ImageIcon imagenPerfil = new ImageIcon("Sell_it/src/imagenes/perfilE.png"); // Ruta de la imagen de perfil
+	        ImageIcon imagenPerfil = new ImageIcon(getClass().getResource("/imagenes/perfilE.png")); // Ruta de la imagen de perfil
 	    	fotoPerfil(imagenPerfil);
 	    }else {
 	    	String rutaImg = usuario.getImgPerfil();

@@ -55,7 +55,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    
 		lblFotoPerfil = new JLabel();
 	    if(usuario.getImgPerfil() == null) {
-	    	imagenPerfil = new ImageIcon("Sell_it/src/imagenes/perfil.png"); // Ruta de la imagen de perfil
+	    	imagenPerfil = new ImageIcon(getClass().getResource("/imagenes/perfil.png")); // Ruta de la imagen de perfil
 	    	fotoPerfil(imagenPerfil);
 	    }else {
 	    	String rutaImg = usuario.getImgPerfil();

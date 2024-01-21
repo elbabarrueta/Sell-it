@@ -415,7 +415,7 @@ public class VentanaPrincipal extends JFrame{
 
 		    }
 		    private ImageIcon obtenerImagenPorDefecto() {
-		        return new ImageIcon("Sell_it/src/imagenes/default.png");
+		        return new ImageIcon(getClass().getResource("/imagenes/default.png"));
 		    }
 		}
 		
