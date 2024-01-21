@@ -111,7 +111,7 @@ public class VentanaPerfilEntidad extends JFrame{
 		descriptionArea.setEditable(false);
 		descriptionArea.setWrapStyleWord(true);
 		descriptionArea.setLineWrap(true);
-		descriptionArea.setText(usuario.getDescripcion());
+		descriptionArea.setText(BaseDeDatos.getDescripcionUsu(usuario));
 		descriptionArea.setBounds(232, 210, 372, 179);
 		contentPane.add(descriptionArea);
 		
@@ -257,6 +257,8 @@ public class VentanaPerfilEntidad extends JFrame{
 	            buttonContrasena.setVisible(false);
 	            botonEditar.setVisible(false);
 	            botonCompras.setVisible(false);
+	            botonEnVenta.setVisible(false);
+	            btnValoraciones.setVisible(false);
 	            // Después de editar, habilitamos el botón "Guardar Cambios"
 	            botonGuardarCambios.setVisible(true);
 			}
