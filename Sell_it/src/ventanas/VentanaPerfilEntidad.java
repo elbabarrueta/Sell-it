@@ -256,9 +256,6 @@ public class VentanaPerfilEntidad extends JFrame{
 	            botonVentanaP.setVisible(false);
 	            buttonContrasena.setVisible(false);
 	            botonEditar.setVisible(false);
-	            botonCompras.setVisible(false);
-	            botonEnVenta.setVisible(false);
-	            btnValoraciones.setVisible(false);
 	            // Después de editar, habilitamos el botón "Guardar Cambios"
 	            botonGuardarCambios.setVisible(true);
 			}
