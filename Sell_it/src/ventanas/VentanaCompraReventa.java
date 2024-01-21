@@ -388,7 +388,8 @@ public class VentanaCompraReventa extends JFrame{
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        
 	        Notificacion notificacion = new Notificacion("Has vendido 1 entradas del evento: " + eventoActual.getNombre(), false);
-	        Usuario vendedor = BaseDeDatos.getUsuarioPorCorreo(reventas.get(idReventa).getPropietario().getCorreoUsuario());
+	        String correo_vendedor = BaseDeDatos.obtenerCorreoEntradaReventa(codigoEntrada);
+	        Usuario vendedor = BaseDeDatos.getUsuarioPorCorreo(correo_vendedor);
 	        if(vendedor != null) {
 	        	vendedor.agregarNotificacion(notificacion);
 	        }
