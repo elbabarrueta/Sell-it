@@ -300,15 +300,49 @@ public class VentanaCompra extends JFrame{
 	    // Crear un JTextArea para mostrar los términos y condiciones
 	    JTextArea textArea = new JTextArea(
 	            "Términos y Condiciones:\n\n" +
-	                    "1. Al utilizar esta aplicación, aceptas cumplir con estos términos y condiciones.\n" +
-	                    "2. Utiliza esta aplicación de acuerdo con las leyes y regulaciones locales.\n" +
-	                    "3. La información proporcionada en esta aplicación es solo para fines informativos.\n" +
-	                    "4. Nos reservamos el derecho de modificar, suspender o descontinuar la aplicación en cualquier momento.\n" +
-	                    "5. Protege tu información de inicio de sesión y no compartas tus credenciales con otros usuarios.\n" +
-	                    "6. No realices acciones que puedan dañar la integridad o el rendimiento de la aplicación.\n" +
-	                    "7. El incumplimiento de estos términos puede resultar en la suspensión o eliminación de tu cuenta.\n" +
-	                    "8. Estos términos y condiciones están sujetos a cambios sin previo aviso.\n" +
-	                    "9. Para obtener más información, contacta con nuestro servicio de soporte."
+	            		"1.Aceptación de Términos:\r\n"
+	                    + "\r\n"
+	                    + "Al utilizar esta aplicación, aceptas todos los términos y condiciones establecidos en este documento.\r\n"
+	                    + "2.Registro de Usuario:\r\n"
+	                    + "\r\n"
+	                    + "Debes proporcionar información precisa y actualizada durante el proceso de registro.\r\n"
+	                    + "Eres responsable de mantener la confidencialidad de tu cuenta y contraseña.\r\n"
+	                    + "3.Eventos y Entradas:\r\n"
+	                    + "\r\n"
+	                    + "Las empresas son responsables de la precisión de la información sobre eventos y entradas que publican en la plataforma.\r\n"
+	                    + "La aplicación no garantiza la disponibilidad de entradas y no es responsable de cambios en eventos o cancelaciones.\r\n"
+	                    + "4.Compra y Venta de Entradas:\r\n"
+	                    + "\r\n"
+	                    + "Los usuarios pueden comprar y vender entradas a través de la plataforma.\r\n"
+	                    + "El precio de reventa no debe exceder un límite establecido por la aplicación.\r\n"
+	                    + "5.Política de Devoluciones y Reembolsos:\r\n"
+	                    + "\r\n"
+	                    + "Las políticas de devolución y reembolso son determinadas por las empresas organizadoras de eventos.\r\n"
+	                    + "La aplicación puede tener políticas específicas para ciertos casos.\r\n"
+	                    + "6.Comisiones y Tarifas:\r\n"
+	                    + "\r\n"
+	                    + "La aplicación puede cobrar comisiones por transacciones exitosas.\r\n"
+	                    + "Las tarifas asociadas con la compra y venta de entradas deben ser transparentes para los usuarios.\r\n"
+	                    + "7.Responsabilidad:\r\n"
+	                    + "\r\n"
+	                    + "La aplicación no se hace responsable de la calidad del evento, la conducta de los asistentes o cualquier problema relacionado con el lugar del evento.\r\n"
+	                    + "8.Uso Adecuado:\r\n"
+	                    + "\r\n"
+	                    + "Los usuarios deben utilizar la aplicación de manera legal y ética.\r\n"
+	                    + "No se permite el uso de la aplicación para actividades ilegales o fraudulentas.\r\n"
+	                    + "9.Contenido Generado por Usuarios:\r\n"
+	                    + "\r\n"
+	                    + "Los usuarios son responsables de cualquier contenido que publiquen en la plataforma.\r\n"
+	                    + "La aplicación se reserva el derecho de eliminar contenido que viole los términos y condiciones.\r\n"
+	                    + "10.Modificaciones de Términos:\r\n"
+	                    + "\r\n"
+	                    + "La aplicación se reserva el derecho de modificar estos términos y condiciones en cualquier momento.\r\n"
+	                    + "11.Terminación de Cuenta:\r\n"
+	                    + "\r\n"
+	                    + "La aplicación puede suspender o cerrar cuentas que violen los términos y condiciones.\r\n"
+	                    + "12.Ley Aplicable:\r\n"
+	                    + "\r\n"
+	                    + "Estos términos están sujetos a las leyes de España."
 	    );
 
 	    // Configurar el JTextArea
