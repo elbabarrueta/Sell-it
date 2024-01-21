@@ -261,15 +261,16 @@ public class VentanaCompra extends JFrame{
 		bConfirmar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				confirmarCompra();
 			}
 		});
-		
 		ajustarComponentes();
 	}
 	
-	
+	/**
+     * Verifica que el numero de la tajeta es correcto.
+     * @return true si el campo es válido, false en caso contrario.
+     */
 	private boolean verificarCampoTarjeta() {
 	    // Verificar longitud y si son solo números
 	    String numeroTarjeta = tfNtarjeta.getText();
@@ -281,6 +282,11 @@ public class VentanaCompra extends JFrame{
 	    }
 	    return true;
 	}
+	
+	/**
+	 * Verifica la validez del campo de código de seguridad (CCV) de una tarjeta de crédito.
+	 * @return true si el campo CCV es válido, false en caso contrario.
+	 */
 	private boolean verificarCampoCCV() {
 		// Verificar longitud y si son solo números
 	    String numeroTarjeta = tfNtarjeta.getText();
@@ -291,11 +297,20 @@ public class VentanaCompra extends JFrame{
 	    }
 	    return true;
 	}
+	
+	/**
+	 * Verifica si una cadena consiste únicamente en caracteres numéricos.
+	 * @param str La cadena a verificar.
+	 * @return true si la cadena contiene solo números, false en caso contrario.
+	 */
 	private boolean esNumero(String str) {
 	    // Verificar si una cadena contiene solo números
 	    return str.matches("\\d+");
 	}
 
+	/**
+	 * Muestra los términos y condiciones en un cuadro de diálogo.
+	 */
 	private void mostrarTerminos() {
 	    // Crear un JTextArea para mostrar los términos y condiciones
 	    JTextArea textArea = new JTextArea(
@@ -358,6 +373,10 @@ public class VentanaCompra extends JFrame{
 	    JOptionPane.showMessageDialog(this, scrollPane, "Términos y Condiciones", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Actualiza el tiempo restante en la cuenta regresiva.
+	 * Si el tiempo restante es igual o menor a cero, detiene el temporizador y muestra un mensaje de error.
+	 */
 	private void actualizarTiempo() {
 		tiempoRestante--;
 		if(tiempoRestante >= 0) {
@@ -376,17 +395,22 @@ public class VentanaCompra extends JFrame{
 		}
 	}
 	
+	/**
+	 * Detiene el temporizador.
+	 */
 	private void pararTemporizador() {
 		timer.stop();
 	}
+	
+	/**
+	 * Confirma la compra de entradas, valida los datos y realiza las actualizaciones necesarias en la base de datos.
+	 */
 	private void confirmarCompra() {
-
 		if (tfNombre.getText().isEmpty() || tfCorreo.getText().isEmpty() || tfTfno.getText().isEmpty() ||
 	            tfNtarjeta.getText().isEmpty() || cbMes.getSelectedIndex() == 0 || cbAnyo.getSelectedIndex() == 0) {
 	        JOptionPane.showMessageDialog(null, "Para confirmar la compra debe introducir todos los datos.");
 	        return;
 	    }
-		
 		String numeroTarjeta = tfNtarjeta.getText();
 		String ccv = tfCCV.getText();
 	    boolean esNumeroTarjetaValido = numeroTarjeta.length() == 16;
@@ -394,12 +418,13 @@ public class VentanaCompra extends JFrame{
 
 	    if (!esNumeroTarjetaValido || !esCCVValido) {
 	        mostrarError(errorPane, "Error al confirmar la compra.\nInténtalo de nuevo.\nRecuerda que el número de TARJETA debe tener 16 dígitos y el CCV debe tener 3 dígitos.");
+	        return;
 	    }
 	    if(!validarCorreo(tfCorreo.getText())) {
 	    	mostrarError(errorPane, "Correo incorrecto. Vuelve a provar");
+	    	return;
 	    }
 	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
-	    	
 	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
     		int codigoEventoActual = vEvento.getEvento().getCodigo();
 
@@ -422,7 +447,6 @@ public class VentanaCompra extends JFrame{
 	    	    }
 	    	}
 	    	baseDeDatos.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
-//	    	System.out.println("Entradas de usuario " + usuario.getEntradasCompradas());
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
@@ -432,7 +456,6 @@ public class VentanaCompra extends JFrame{
 	        if(vendedor != null) {
 	        	vendedor.agregarNotificacion(notificacion);	
 	        }
-	        
 	        pararTemporizador();
 	        dispose();
 	        vPrincipal = new VentanaPrincipal();
@@ -440,8 +463,14 @@ public class VentanaCompra extends JFrame{
 	    }else {
 	        JOptionPane.showMessageDialog(null, "Comprueba que los datos introcudicos son los correctos", "Error", JOptionPane.INFORMATION_MESSAGE);
 	    }
-
 	}
+	
+	/**
+	 * Verifica si un código de entrada ya existe en la lista de entradas en reventa.
+	 * @param codigoEntrada El código de la entrada a verificar.
+	 * @param reventas Lista de entradas en reventa.
+	 * @return true si el código de entrada existe en la lista de reventas, false en caso contrario.
+	 */
 	private static boolean existeCodigoEntradaEnReventas(int codigoEntrada, List<Entrada> reventas) {
 	    for (Entrada entrada : reventas) {
 	        if (entrada.getCod() == codigoEntrada) {
@@ -450,6 +479,11 @@ public class VentanaCompra extends JFrame{
 	    }
 	    return false;
 	}
+	
+	/**
+	 * Verifica la validez del campo de teléfono.
+	 * @return true si el campo de teléfono es válido, false en caso contrario.
+	 */
 	private boolean verificarCampoTelefono() {
 	    String telefono = tfTfno.getText();
 	    if (telefono.length() != 9 || !esNumero(telefono)) {
@@ -458,6 +492,11 @@ public class VentanaCompra extends JFrame{
 	    }
 	    return true;
 	}
+	
+	/**
+	 * Agrega un check visual a un JTextField al cumplir una condición.
+	 * @param textField El JTextField al que se le agregará el check visual.
+	 */
 	private void agregarCheck(JTextField textField) {
 		String textoCampo = textField.getText();
 	   
@@ -466,10 +505,18 @@ public class VentanaCompra extends JFrame{
 	    textField.setBackground(new Color(240, 255, 240)); // Cambiar el fondo a verde claro si se cumple la condición   
 	}
 	
+	/**
+	 * Muestra un mensaje de error en un cuadro de diálogo.
+	 * @param parent El componente padre del cuadro de diálogo.
+	 * @param mensaje El mensaje de error a mostrar.
+	 */
 	private void mostrarError(Component parent, String mensaje) {
 	    JOptionPane.showMessageDialog(parent, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/**
+	 * Ajusta las dimensiones de los componentes en la ventana.
+	 */
 	private void ajustarComponentes() {
 	    tfNombre.setPreferredSize(new Dimension(200, 40));
 	    tfCorreo.setPreferredSize(new Dimension(200, 40));
@@ -480,12 +527,16 @@ public class VentanaCompra extends JFrame{
 	    repaint();
 	}
 
+	/**
+	 * Valida la sintaxis de un correo electrónico utilizando expresiones regulares.
+	 * @param correo El correo electrónico a validar.
+	 * @return true si el correo electrónico es válido, false en caso contrario.
+	 */
 	private boolean validarCorreo(String correo) {
         if (correo == null || correo.isEmpty()) {
         	tfCorreo.setBackground(Color.RED);
             return false; // Correo nulo o vacío es inválido
         }
-
         // Expresión regular para validar un correo electrónico
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         
@@ -496,11 +547,4 @@ public class VentanaCompra extends JFrame{
         	return false;
         }
     }
-	
-	public static void main(String[] args) {
-		Usuario u = new Usuario("Laura Lopez","laura.lopez@gmail.com","Usuario corriente","abcABC33", "", "");
-		VentanaCompra v = new VentanaCompra(u, 0, null, null);
-		v.setVisible(true);
-	}
-
 }

@@ -164,20 +164,26 @@ public class VentanaEvento extends JFrame{
 		        }
 		    }
 		});
-
 	}
+	
+	/**
+	 * Obtiene la cantidad de entradas a comprar desde el campo de texto.
+	 * @return La cantidad de entradas a comprar, o 0 si no se puede convertir a un número válido.
+	 */
 	public int entradasCompradas() {
 		try {
 	        int cantidadComprar = Integer.parseInt(tfCantidad.getText());
 	        return cantidadComprar;
-		} catch (NumberFormatException e) {
-	        
+		} catch (NumberFormatException e) {   
 	        System.err.println("Error: Ingresa un número válido");
 	        return 0; 
 	    }
-        
     };
 	
+    /**
+     * Establece y redimensiona la imagen en un JLabel.
+     * @param imagen La imagen a establecer.
+     */
 	public void setImagen(ImageIcon imagen) {
 		int maxWidth = 200; // Tamaño máximo de ancho
         int maxHeight = 200; // Tamaño máximo de alto

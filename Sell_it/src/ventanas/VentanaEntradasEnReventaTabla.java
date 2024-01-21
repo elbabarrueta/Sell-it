@@ -80,13 +80,17 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
         setVisible(true);
     }
 
-    // Método para cargar datos de entradas en reventa desde la base de datos
+    /**
+     * Carga los datos de las entradas en la tabla de la ventana.
+     */
     private void cargarDatosEntradas() {
         List<EntradaReventa> entradasReventa = BaseDeDatos.obtenerEntradasReventa(usuario.getCorreoUsuario()); // Ajusta este método para obtener solo las entradas del usuario
         modeloTabla.setDatos(entradasReventa);
     }
 
-    // Método para borrar una entrada de reventa seleccionada
+    /**
+     * Borra una entrada de la lista de reventa y la marca como comprada por el propietario.
+     */
     private void borrarEntradaReventa() {
         int filaSeleccionada = tablaEntradas.getSelectedRow();
                 
@@ -154,10 +158,5 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
                 fireTableRowsDeleted(rowIndex, rowIndex);
             }
         }
-    }
-    
-    // Método main para probar la ventana
-    public static void main(String[] args) {
-        new VentanaEntradasEnReventaTabla(new Usuario()).setVisible(true);
     }
 }
