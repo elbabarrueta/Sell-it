@@ -81,8 +81,7 @@ public class VentanaPrincipal extends JFrame{
 			DefaultTableModel modelo = new DefaultTableModel();
 			modelo.addColumn("Código");
 			modelo.addColumn("Nombre");
-//			tablaEventos = new JTable();
-//			add( new JScrollPane( tablaEventos ), BorderLayout.CENTER );
+
 	        // Configuración de la tabla con SwingX
 			tablaEventos = new JXTable();
 	        tablaEventos.setHighlighters(HighlighterFactory.createSimpleStriping());
@@ -107,7 +106,7 @@ public class VentanaPrincipal extends JFrame{
 	
 			JScrollPane scrollPane = new JScrollPane(pnlCentro);	
 			getContentPane().add(scrollPane, BorderLayout.CENTER);
-//			new VentanaEntradasEnReventaTabla(usuario, this).setVisible(true);
+
 
 
 			searchField.addActionListener(new ActionListener() {
@@ -239,12 +238,11 @@ public class VentanaPrincipal extends JFrame{
 	        panel.repaint();
 	    }
 	    public List<Evento> cargarEventosDesdeBD() {
-//	    	empezarPanel();
+
 	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos();
-//	        System.out.println("Número de eventos recuperados: " + listaEventos.size());
+
 	        return listaEventos;
-//	        aniadirEventoDesdeBD(listaEventos);
-//	        acabarPanel();
+
 	    }
 	    
 	    private List<Evento> getEventosDestacados(int cantidad) {
@@ -280,11 +278,7 @@ public class VentanaPrincipal extends JFrame{
 	    
 	 // Método para actualizar la visualización de eventos en la ventana
 	    private void actualizarVisualizacionEventos(List<Evento> eventos) {
-//	    	pnlActual = null;
-//	    	empezarPanel();
-//	        aniadirEventoDesdeBD(eventos);
-//	        acabarPanel();
-//	        pnlCentro.repaint();
+
 	    	List<Evento> destacados = getEventosDestacados(5);
 	    	ArrayList<Evento> filtradosDes = new ArrayList<>();
 	    	if(destacados != null) {
@@ -329,22 +323,7 @@ public class VentanaPrincipal extends JFrame{
 			}
 		}
 			
-		/*
-		private void mostrarTabla() {
-			DefaultTableModel modelo = new DefaultTableModel();
-			modelo.addColumn("Código");
-			modelo.addColumn("Nombre");
-			
-			tbl_buscar.setModel(modelo);
-			
-			tbl_buscar.getColumnModel().getColumn(0).setPreferredWidth(3);
-			tbl_buscar.getColumnModel().getColumn(1).setPreferredWidth(150);
-			
-			String sqlEventosDisponibles = "";
-			
-			String datos[] = new String[2];
-		}
-		*/
+		
 		
 		private int numCol;  
 		private final int NUM_COLS = 3;  
@@ -354,32 +333,13 @@ public class VentanaPrincipal extends JFrame{
 			pnlCentro.removeAll(); 
 		}
 		
-//		 public void aniadirEventoDesdeBD(List<Evento> eventos) {
-//			 for (Evento evento : eventos) {
-//			        if (numCol == NUM_COLS || pnlActual == null) {
-//			            numCol = 0;
-//			            pnlActual = new JPanel();
-//			            pnlActual.setLayout(new BoxLayout(pnlActual, BoxLayout.X_AXIS));
-//			            pnlCentro.add(pnlActual);
-//			        }
-//			        
-//			        if (pnlActual != null) {
-//			        	Mipanel panel = new Mipanel(evento);
-//			        	panel.setPreferredSize(new Dimension(350, 300));
-//			            pnlActual.add(panel);
-//			            numCol++;
-//			        }
-//			    }
-//		    }
+
 		public void acabarPanel() {
 			pnlCentro.revalidate();
 			pnlCentro.repaint();
 		}
 		
-//		void cargarDatosEntradas() {
-//		    List<EntradaReventa> entradasReventa = BDEventos.obtenerEntradasReventa(usuario.getCorreoUsuario());
-//		    modeloTabla.setDatos(entradasReventa);
-//		}
+
 
 		
 		private class Mipanel extends JPanel {
@@ -399,11 +359,7 @@ public class VentanaPrincipal extends JFrame{
 		        			VentanaReventa vcer = new VentanaReventa(evento, vPrincipal);
 		        			vcer.setVisible(true);
 		        			vPrincipal.dispose();
-//		        			String[] partes = evento.getNombre().split("-");
-//		        			int entrada_cod = Integer.parseInt(partes[1]);
-//		        			
-//		        			Entrada entradaReventa = BaseDeDatos.obtenerEntradaPorCodigo(entrada_cod);
-//		        			System.out.println("Crear ventana para entrada de reventa " + entrada_cod);
+
 		        		}else {
 							VentanaEvento v = new VentanaEvento(evento, vPrincipal);
 							v.setVisible(true);
@@ -429,14 +385,7 @@ public class VentanaPrincipal extends JFrame{
 				add(lblFecha);
 				
 		        
-//		        JLabel lblTitulo = new JLabel(titulo, JLabel.CENTER);
-//		        add(lblTitulo, BorderLayout.NORTH);
-//		        JTextArea taDescripcion = new JTextArea(descripcion, 2, 3);
-//		        taDescripcion.setEditable(false);
-//		        taDescripcion.setRows(1);  // Establece el número de filas deseado
-//		        taDescripcion.setColumns(10);  // Establece el número de columnas deseado
-//		        add(taDescripcion, BorderLayout.CENTER);
-//		        add(new JScrollPane(taDescripcion), BorderLayout.CENTER);
+
 
 		        // Mostrar imagen a la derecha
 		        lblImagen = new JLabel();

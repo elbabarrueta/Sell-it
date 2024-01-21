@@ -368,11 +368,7 @@ public class VentanaCompraReventa extends JFrame{
 	    }
 	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
 	    	
-//    		int codigoEventoActual = vEvento.getEvento().getCodigo();
-////    		System.out.println("Codigo evento actual " + codigoEventoActual);
-////    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
-//    		Evento evento = vEvento.getEvento();
-//	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
+
 	    	
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
 	    	List<Entrada> reventas = BaseDeDatos.obtenerListaEntradasReventa();
@@ -381,8 +377,7 @@ public class VentanaCompraReventa extends JFrame{
 	        	 bd.borrarEntradaReventa(codigoEntrada);
 	             bd.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
 	         }
-//	    	bd.updateNEntradas(nEntradasActualizado, eventoActual.getCodigo());
-//	    	System.out.println("Entradas de usuario " + usuario.getEntradasCompradas());
+
 	    	tfTfno.setBackground(new Color(240, 255, 240));
 	        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 	        JOptionPane.showMessageDialog(null, "¡Compra confirmada!", "Confirmación", JOptionPane.INFORMATION_MESSAGE);

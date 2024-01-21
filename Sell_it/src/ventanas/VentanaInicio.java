@@ -124,7 +124,7 @@ public class VentanaInicio extends JFrame {
 		JPanel panel = new JPanel();
 		panelCentro.add(panel);
 		panel.add(botonIniciarSesion);
-//		
+
 		JLabel politicaEnlace = new JLabel("Política de Privacidad");
         politicaEnlace.setForeground(Color.BLUE); // Color azul para indicar un enlace
         politicaEnlace.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -134,14 +134,14 @@ public class VentanaInicio extends JFrame {
             }
         });
         panel.add(politicaEnlace, BorderLayout.SOUTH);
-//
+
 		//Eventos
 	
 		botonRegistroUsuario.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				registrarUsuario();
+
 				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
 				dispose();
 				VEntanaRegistroUsuario.setVisible(true);	
@@ -175,9 +175,7 @@ public class VentanaInicio extends JFrame {
 					JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 					VentanaPrincipal v = new VentanaPrincipal();
 					dispose();
-//					VentanaLogoPrincipal ventanaLogo = new VentanaLogoPrincipal();
-//					ventanaLogo.dispose();
-//					v.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 					v.setVisible(true);
 			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 				 }
@@ -260,7 +258,7 @@ public class VentanaInicio extends JFrame {
 
          return option == 0; // Devuelve true si el usuario hizo clic en "Aceptar"
      }
- //	
+ 
  	private void mostrarPoliticaPrivacidad() {
          try {
          	JTextArea textArea = new JTextArea(
@@ -311,7 +309,7 @@ public class VentanaInicio extends JFrame {
          }
  		
      }
- //
+ 
 
     
 	public static boolean validarCorreo(String correo) {
@@ -342,10 +340,7 @@ public class VentanaInicio extends JFrame {
         txtContrasenia.setText(new String(contraseña));
     }
 	
-//	private boolean verificarUsuarioEsCorrecto(String correo, String contrasenia) {
-//		if(bd)
-//	}
-//	
+	
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
 		 if (mapaUsu.containsKey(correo)) {
             Usuario u = base.getUsuarioPorCorreo(correo);
@@ -379,18 +374,7 @@ public class VentanaInicio extends JFrame {
 
 	public static void cargarUsuariosInicio() {		
 		
-//		try { 
-//			// Cargar usuarios directamente desde la base de datos 
-//			List<Usuario> usuarios = bd.verUsuarios(); 
-//			// Convertir la lista de usuarios a un DataSetUsuario si es necesario 
-//			DataSetUsuario dataset = new DataSetUsuario(); 
-//			dataset.setUsuarios(usuarios); 
-//			// Actualizar la referencia en VentanaInicio si es necesario 
-//			VentanaInicio.cargarUsuariosInicio(dataset); 
-//		} catch (Exception e) { 
-//			logger.log(Level.SEVERE, "Error al cargar usuarios desde la base de datos", e); 
-//			JOptionPane.showMessageDialog(null, "Error al cargar usuarios desde la base de datos", "ERROR", JOptionPane.ERROR_MESSAGE); 
-//		} 
+
 	}
 	
 	private static ImageIcon fotoBoton(ImageIcon imagenOjo) {

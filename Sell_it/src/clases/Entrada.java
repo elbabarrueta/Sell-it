@@ -11,9 +11,7 @@ public class Entrada{
 	public int getCod() {
 		return cod;
 	}
-//	public void setCod(String cod) {
-//		this.cod = cod;
-//	}
+
 	public Evento getEventoAsociado() {
 		return eventoAsociado;
 	}

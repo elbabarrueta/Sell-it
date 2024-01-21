@@ -98,15 +98,12 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JButton buttonEditar = new JButton("Editar Perfil");
 	    JButton btnMisCompras = new JButton("Mis compras");
         JButton botonVentanaP = new JButton("Ventana Principal");
-//        btnMisCompras = new JButton("Mis Compras");
+
         JButton btnEnVenta = new JButton("En Venta");
         
 	    topPanel.add(btnEnVenta);
         
-//        botonVentanaP.setBackground(Color.LIGHT_GRAY);        
-//        //Personalizar la letra del boton
-//        Font font = new Font("Montserrat", Font.BOLD, 14);
-//        botonVentanaP.setFont(font);
+
         
 	    bottomPanel.add(buttonContrasena);
 	    bottomPanel.add(buttonEditar);
@@ -282,7 +279,7 @@ public class VentanaPerfilUsuario extends JFrame{
 //			    // Llama al método para modificar el usuario en la base de datos
 				BaseDeDatos base = new BaseDeDatos();
 				base.modificarUsuarioYaRegistrado(usuarioActualizado);
-//				base.modificarDescripcionUsuario(usuarioActualizado, nuevaDescripcion);
+
 				base.modificarDescripcionUsuario(usuarioActualizado);
 				
 				
@@ -302,15 +299,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    btnNotificaciones.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
-//	    		// Simulemos que aquí se obtienen notificaciones del sistema o de otros usuarios.
-//	    		List<String> notificaciones = obtenerNotificaciones();
-//
-//	    		// Construir un mensaje de notificación a partir de las notificaciones.
-//	    		StringBuilder notificacionMessage = new StringBuilder();
-//	    		notificacionMessage.append("Notificaciones:\n");
-//	    		for (String notificacion : notificaciones) {
-//	    			notificacionMessage.append("- ").append(notificacion).append("\n");
-//	    		}
+
 	    		mostrarNotificaciones();
 	    	}
 	    });

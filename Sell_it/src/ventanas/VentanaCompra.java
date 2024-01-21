@@ -368,8 +368,7 @@ public class VentanaCompra extends JFrame{
 	    	
 	    	int nEntradasActualizado = vEvento.getEvento().getnEntradas() - cantidadCompra;
     		int codigoEventoActual = vEvento.getEvento().getCodigo();
-//    		System.out.println("Codigo evento actual " + codigoEventoActual);
-//    		Evento evento = BaseDeDatos.obtenerEventoPorCodigo(codigoEventoActual);
+
     		Evento evento = vEvento.getEvento();
 	    	entradasEnBD = BaseDeDatos.obtenerListaEntradasSinComprarPorEvento(codigoEventoActual);
 	    	

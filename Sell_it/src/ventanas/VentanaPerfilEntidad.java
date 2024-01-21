@@ -47,16 +47,7 @@ public class VentanaPerfilEntidad extends JFrame{
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-//        // Parte superior: nombre, correo y botones de información
-//        JPanel topPanel = new JPanel(new FlowLayout());
-//        JLabel nameLabel = new JLabel("Nombre:");
-//        JTextField nameField = new JTextField(20);
-//        JLabel emailLabel = new JLabel("Correo:");
-//        JTextField emailField = new JTextField(20);
-//        nameField.setText(usuario.getNombreUsuario());
-//		emailField.setText(usuario.getCorreoUsuario());
-//		nameField.setEditable(false);
-//	    emailField.setEditable(false);
+
         
 	    lblFotoPerfil = new JLabel();
 	    lblFotoPerfil.setBounds(38, 10, 119, 95);
@@ -380,10 +371,7 @@ public class VentanaPerfilEntidad extends JFrame{
     }
 	
     public static void main(String[] args) {
-//    	VentanaInicio ventanaI = Main.getVentanaInicio();
-//		Usuario usuActual = ventanaI.getUsuarioActual();
-//    	Usuario usuarioEntidad = new Usuario(usuActual.getNombreUsuario(), usuActual.getCorreoUsuario(), usuActual.getTipoUsuario(), usuActual.getContrasena());
-//    	VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuarioEntidad);
+
     }
 }
 

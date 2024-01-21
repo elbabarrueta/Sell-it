@@ -60,19 +60,7 @@ public class Main {
 		}
 		
 	}
-//	private static void cargaUsuarios() {
-//		try {
-//			dataset = new DataSetUsuario( "usuariosBase.txt" );
-//			System.out.println( "Cargados usuarios:" );
-//			for (Map.Entry<String, Usuario> entry : dataset.getMapaUsu().entrySet()) {
-//	            Usuario usu = entry.getValue();
-//	            System.out.println( " \t" + usu);
-//	        }	
-//			
-//		} catch (IOException e) {
-//			System.err.println( "Error en carga de usuarios" );
-//		}
-//	}
+
 	
 	public static void setVentanaInicio(VentanaInicio v) {
 		ventana1 = v;

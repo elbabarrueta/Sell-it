@@ -54,7 +54,7 @@ public class BaseDeDatos {
             // Crear la tabla 'Usuario' si no existe.
             crearTablaUsuario();
 
-//            borrarTablaEntradasReventa();           
+          
             // Crea la tabla de las entradas en reventa
             crearTablaEntradasReventa();
             // Añadir columna 'ultimoCambioContrasena' a la tabla 'Usuario' si no existe.
@@ -70,8 +70,7 @@ public class BaseDeDatos {
 			manejarExcepcion(e);
 		} finally {
 //            // Cerrar la conexión con la base de datos.
-			//NO ES EL SITIO ADECUADO 
-//			cerrarConexiones();
+
         }
 	}
 		
@@ -500,9 +499,9 @@ public class BaseDeDatos {
 
 	            if (evento != null) {
 	            	if(propietario == null) {
-//		                System.out.println(evento);
+
 		                Entrada entrada = new Entrada(codigo, evento, propietario, precio);
-//		                System.out.println(entrada);
+
 		                listaEntrada.add(entrada);
 	            	}
 	            } else {
@@ -640,15 +639,15 @@ public class BaseDeDatos {
 	 * @param codigo Código del evento a borrar.
 	 */
 	public void borrarEvento(int codigo) {
-//	    String url = "jdbc:sqlite:usuarios.db";
+
 
 	    try (
-//	    		Connection connection = DriverManager.getConnection(url);
+
 	         Statement statement = con.createStatement()) {
 
 	        String query = "DELETE FROM Evento WHERE codigo = " + codigo;
 	        statement.executeUpdate(query);
-//	        connection.close();
+
 	    } catch (SQLException e) {
 	        handleException(e, "Error al borrar el evento con código " + codigo);
 	    }
@@ -657,7 +656,7 @@ public class BaseDeDatos {
 	public static void insertarEntradaReventa(int codigoEntrada, double precioReventa, Usuario usuario, String entradaInfo) {
 	    // Obtener el código de la entrada a partir del String entradaInfo
 	    // Esto depende de cómo esté formateado tu String entradaInfo
-//	    int codigoEntrada = obtenerCodigoEntradaDesdeInfo(entradaInfo);
+
 		
 	    // Aquí va tu código para conectarte a la base de datos
 	    String sql = "INSERT INTO entradas_reventa (id, precio, usuario_vendedor, entradaInfo) VALUES (?, ?, ?, ?)";
@@ -710,13 +709,7 @@ public class BaseDeDatos {
         return "No se encuentra al usuario vendedor"; // Retorna -1 si no se encuentra la entrada de reventa
     }
 
-//	private static int obtenerCodigoEntradaDesdeInfo(String entradaInfo) {
-//	    // Implementar la lógica para extraer el código de la entrada del String entradaInfo
-//	    // Esto dependerá de cómo esté formateado tu String entradaInfo
-//	    // Por ejemplo, si entradaInfo contiene el código al principio seguido de un guion, podrías hacer algo como esto:
-//	    int codigo = Integer.parseInt(entradaInfo.split("-")[0].trim());
-//	    return codigo;
-//	}
+
 
 
 	/**
@@ -737,8 +730,8 @@ public class BaseDeDatos {
 // Posible función de "securización" para evitar errores o ataques
 	private static String secu( String sqlInicial ) {
 		return sqlInicial;
-		// Si lo reemplazamos por esto, es mucho más seguro:
-		// return sqlInicial.replaceAll( "'", "''" );
+		
+		
 	}
 
 	

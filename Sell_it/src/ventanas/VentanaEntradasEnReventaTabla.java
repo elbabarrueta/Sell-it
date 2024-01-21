@@ -48,18 +48,18 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
 
         JPanel pInferior = new JPanel();
         JButton bAnyadir = new JButton( "Añadir" );
-//        JButton bActualizar = new JButton("Actualizar Datos");
+
         JButton bBorrar = new JButton("Borrar");
         JButton bVolver = new JButton("Volver");
         pInferior.add(bAnyadir);
         pInferior.add(bBorrar);
-//        pInferior.add(bActualizar);
+
 		pInferior.add(bVolver);
 
         panelPrincipal.add(pInferior, BorderLayout.SOUTH);
         add(panelPrincipal, BorderLayout.CENTER);
 
-//        bActualizar.addActionListener(e -> cargarDatosEntradas());
+
         bBorrar.addActionListener(e -> borrarEntradaReventa());
         bVolver.addActionListener(new ActionListener() {
 			
@@ -88,7 +88,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
     private void cargarDatosEntradas() {
         List<EntradaReventa> entradasReventa = BaseDeDatos.obtenerEntradasReventa(usuario.getCorreoUsuario()); // Ajusta este método para obtener solo las entradas del usuario
         modeloTabla.setDatos(entradasReventa);
-//        ventanaPrincipa.cargarDatosEntradas();
+
     }
 
     private void borrarEntradaReventa() {
@@ -103,7 +103,7 @@ public class VentanaEntradasEnReventaTabla extends JFrame {
             	BaseDeDatos.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario()); //propietario otra vez el usuario que la puso en reventa
 
                 modeloTabla.removeRow(filaSeleccionada);
-//                ventanaPrincipa.cargarDatosEntradas();
+
             }
         }
     }

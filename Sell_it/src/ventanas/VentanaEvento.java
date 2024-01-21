@@ -17,11 +17,10 @@ import clases.Usuario;
 
 public class VentanaEvento extends JFrame{
 	
-	private JTextField tfCantidad = new JTextField(); //Se puede cambiar por un JComboBox 
+	private JTextField tfCantidad = new JTextField(); 
 	private JLabel lImagen;
-	private JLabel lNombre;//Telmo(lo he puesto aqui para obtener el no)
-//	private VentanaCompra ventanaCompra;
-	private Evento eventoActual;
+	private JLabel lNombre;
+    private Evento eventoActual;
 	private Entrada ent;
 	public static VentanaPrincipal vPrincipal;
 	
@@ -39,7 +38,7 @@ public class VentanaEvento extends JFrame{
 		setLocationRelativeTo(null);
 		setTitle("Entrada");
 		setLayout(new BorderLayout());
-		//setLayout(new GridLayout(2,2));
+		
 
 		
 		JPanel pnlCentral = new JPanel();
@@ -197,7 +196,7 @@ public class VentanaEvento extends JFrame{
         lImagen.setIcon(imagen);
 	}
 	
-	public JLabel getNombreEvento() { //Telmo
+	public JLabel getNombreEvento() { 
 		return lNombre;
 	}
 	

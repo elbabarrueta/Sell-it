@@ -90,9 +90,9 @@ public class VentanaReventaUsuario extends JFrame{
 		JButton bSubir = new JButton("Subir entrada");
 		bSubir.setBackground(new Color(230, 230, 250)); // Lavanda
         pInferior.add(bSubir);
-//		pInferior.add(bSubir, BorderLayout.EAST);
+
 		JButton bVprincipal = new JButton("Ventana Principal");
-//		pInferior.add(bVprincipal, BorderLayout.WEST);
+
 		bVprincipal.setForeground(new Color(255, 69, 0)); // Rojo anaranjado
         bVprincipal.setBackground(new Color(255, 228, 181)); // Melocotón claro
         pInferior.add(bVprincipal);
@@ -106,7 +106,7 @@ public class VentanaReventaUsuario extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				VentanaReventaUsuario.this.dispose();
 				VentanaPerfilUsuario vPerfilUsuario = new VentanaPerfilUsuario(usuario, entradasCompradas);
-//				vPerfilEntidad.setVisible(true);
+
 			}
 		});
 		
@@ -146,7 +146,7 @@ public class VentanaReventaUsuario extends JFrame{
 		            } else {
 		            	BaseDeDatos.insertarEntradaReventa(idEntrada, precioReventa, usuario, entradaInfo);
 		            	BaseDeDatos.marcarEntradaComoComprada(idEntrada, "null"); //Marcar el propietario de la entrada null
-//		                BaseDeDatos.eliminarEntrada(idEntrada);  // Eliminar la entrada original
+
 		                cargarEntradasCompradas();  // Recargar el JComboBox
 		                JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
 		               
@@ -161,12 +161,7 @@ public class VentanaReventaUsuario extends JFrame{
 		            JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio de reventa", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		        
-		    /*    try {
-			        double precio = Double.parseDouble(precioText);			            
-			        JOptionPane.showMessageDialog(null, "Entrada subida exitosamente");
-		        }catch(NumberFormatException ex) {
-		        	JOptionPane.showMessageDialog(null, "Ingresa un valor válido para el precio", "Error", JOptionPane.ERROR_MESSAGE);
-		        }*/
+		 
 								
 			}
 		});
@@ -184,10 +179,7 @@ public class VentanaReventaUsuario extends JFrame{
 	}
 
 	
-//	private double obtenerPrecioEntrada() {
-//        VentanaVentaEntidad v1 = new VentanaVentaEntidad(usuario);
-//        return v1.obtenerPrecioEntrada();
-//    }
+
 	
 	public static void main(String[] args) {
 		Usuario usu = new Usuario();
