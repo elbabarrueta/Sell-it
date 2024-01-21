@@ -612,6 +612,23 @@ public class BaseDeDatos {
 	        handleException(e, "Error al modificar la descripción del usuario " + usu.getCorreoUsuario());
 	    }
 	}
+	
+	/**
+	 * Devuelve la descripción de un usuario registrado.
+	 * @param usu Objeto Usuario con la nueva descripción.
+	 */
+	public static String getDescripcionUsu(Usuario usu) {
+		String sent = "select descripcion from usuario where correoUsuario = '" + usu.getCorreoUsuario() + "'";
+		try{
+			rs = s.executeQuery(sent);
+			if(rs.next()) {
+                return rs.getString("descripcion");
+			}
+		}catch (Exception e) {
+            manejarExcepcion(e);
+		}
+		return null;
+	}
 
 	/**
 	 * Borra un usuario registrado.
@@ -639,12 +656,8 @@ public class BaseDeDatos {
 	 * @param codigo Código del evento a borrar.
 	 */
 	public void borrarEvento(int codigo) {
-
-
 	    try (
-
-	         Statement statement = con.createStatement()) {
-
+	        Statement statement = con.createStatement()) {
 	        String query = "DELETE FROM Evento WHERE codigo = " + codigo;
 	        statement.executeUpdate(query);
 
@@ -926,6 +939,29 @@ public void verUsuarios() {
 	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
 	        preparedStatement.setString(1, correoComprador);
 	        preparedStatement.setInt(2, codigoEntrada);
+
+	        int rowsAffected = preparedStatement.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Entrada marcada como comprada exitosamente.");
+	        } else {
+	            System.out.println("No se pudo marcar la entrada como comprada.");
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void marcarEntradaComoCompradaPartiendoDeReventa(Integer codigoEntrada, String correoComprador, double precio) {
+	    String com = "UPDATE Entrada SET propietario_correo = ?, precio = ? WHERE codigo = ?";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setString(1, correoComprador);
+	        preparedStatement.setInt(3, codigoEntrada);
+	        preparedStatement.setDouble(2, precio);
 
 	        int rowsAffected = preparedStatement.executeUpdate();
 

@@ -8,6 +8,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import BasesDeDatos.BaseDeDatos;
 import clases.Usuario;
+import clases.Valoracion;
 import clases.Entrada;
 import clases.Notificacion;
 
@@ -85,7 +86,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    topPanel.add(btnNotificaciones);
 
 	    // Parte central: descripción del usuario
-	    descriptionArea = new JTextArea(usuario.getDescripcion());
+	    descriptionArea = new JTextArea(BaseDeDatos.getDescripcionUsu(usuario));
 	    descriptionArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
 	    JScrollPane descriptionScrollPane = new JScrollPane(descriptionArea);
 	    descriptionArea.setLineWrap(true);
@@ -119,7 +120,9 @@ public class VentanaPerfilUsuario extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaPerfilUsuario.this.dispose();
-				VentanaTablaValoraciones vv = new VentanaTablaValoraciones(null, usuario);
+				// Obtén valoraciones del usuario
+			    List<Valoracion> valoracionesUsuario = BaseDeDatos.obtenerValoracionesPorUsuario(usuario);
+				VentanaTablaValoraciones vv = new VentanaTablaValoraciones(valoracionesUsuario, usuario);
 				vv.setVisible(true);
 			}
 		});

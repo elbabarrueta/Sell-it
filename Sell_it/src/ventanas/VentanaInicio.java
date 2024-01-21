@@ -49,22 +49,21 @@ public class VentanaInicio extends JFrame {
 	static BaseDeDatos base;
 	public static HashMap<String, Usuario> mapaUsu;
 
-
-	//logger de prueba
+	// Logger de prueba para registrar infromación y errores
     private static Logger logger = Logger.getLogger(VentanaInicio.class.getName());
 	
+    // Constructor de la clase
     public VentanaInicio() {
 		super();
 		
 		try {
+            // Configuración del aspecto de la interfaz gráfica utilizando Nimbus Look and Feel
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-// logger de prueba
         	logger.log(Level.SEVERE, "Error al configurar el look and feel", e);
         	JOptionPane.showMessageDialog(null, "Error al cargar la ventana: contacta con los informaticos.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-
-// logger de prueba
+        // Registro de información al inicializar la ventana de inicio
         logger.log(Level.INFO, "Inicializando la ventana de inicio");
 		
 		//Características de la ventana principal
@@ -72,7 +71,7 @@ public class VentanaInicio extends JFrame {
 		this.setBounds(500,300, 500, 250);
 		this.setTitle("Sell-It");
 		
-		//Ceracion de paneles 
+        // Creación de paneles para organizar la interfaz gráfica
 		JPanel panelVentanaInicio = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel panelNorte = new JPanel(new BorderLayout());
@@ -85,11 +84,9 @@ public class VentanaInicio extends JFrame {
 		panelNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 		panelSur.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		
 		this.getContentPane().add(panelVentanaInicio);
 
-		//Creacion de los JTextFields, JLabels, JButtons y JPasswordField
-		
+        // Configuración de elementos gráficos como etiquetas, campos de texto y botones
 		JTextField txtUsuario = new JTextField();
 		txtContrasenia = new CustomPasswordField();
 		ImageIcon imagenOjo = new ImageIcon(getClass().getResource("/imagenes/eye_closed_icon.png"));
@@ -99,18 +96,15 @@ public class VentanaInicio extends JFrame {
 		JLabel etiquetaUsuario = new JLabel("Correo:");
 		JLabel etiquetaContrasenia = new JLabel("Contraseña:");
 
-		
+        // Creación de botones y etiquetas
 		JButton botonRegistroEntidad = new JButton("Registro Entidad");
 		JButton botonRegistroUsuario = new JButton("Registro Usuario");
 		JButton botonIniciarSesion = new JButton("Iniciar Sesion");
 		
 		JLabel etiquetaBienvenido = new JLabel("Bienvenido a Sell-It");
-		
 		JLabel etiquetaPregunta = new JLabel("¿No tienes cuenta?");
 		
-		
-		//Añadimos los elementos previamente creados a los paneles
-		
+		// Adicción de elementos a paneles
 		panelNorte.add(etiquetaBienvenido,BorderLayout.NORTH);
 		panelSur.add(etiquetaPregunta);
 		panelSur.add(botonRegistroEntidad);
@@ -125,6 +119,7 @@ public class VentanaInicio extends JFrame {
 		panelCentro.add(panel);
 		panel.add(botonIniciarSesion);
 
+        // Configuración de enlace para mostrar la política de privacidad
 		JLabel politicaEnlace = new JLabel("Política de Privacidad");
         politicaEnlace.setForeground(Color.BLUE); // Color azul para indicar un enlace
         politicaEnlace.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -135,13 +130,10 @@ public class VentanaInicio extends JFrame {
         });
         panel.add(politicaEnlace, BorderLayout.SOUTH);
 
-		//Eventos
-	
+        // Configuración de eventos para los botones
 		botonRegistroUsuario.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				VentanaRegistroUsuario VEntanaRegistroUsuario = new VentanaRegistroUsuario();
 				dispose();
 				VEntanaRegistroUsuario.setVisible(true);	
@@ -149,10 +141,8 @@ public class VentanaInicio extends JFrame {
 		});
 		
 		botonRegistroEntidad.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				VentanaRegistroEntidad ventanaRegistroEntidad = new VentanaRegistroEntidad();
 				dispose();
 				ventanaRegistroEntidad.setVisible(true);
@@ -175,9 +165,7 @@ public class VentanaInicio extends JFrame {
 					JOptionPane.showMessageDialog(null, "Bienvenido de nuevo " + obtenerNombreUsuario(correo));
 					VentanaPrincipal v = new VentanaPrincipal();
 					dispose();
-
 					v.setVisible(true);
-			        // Realiza acciones adicionales cuando el inicio de sesión sea exitoso
 				 }
 			}  else if (correo.isEmpty() || contrasenia.isEmpty()){
 				JOptionPane.showMessageDialog(null, "Alguno de los campos está vacío "); 
@@ -186,6 +174,7 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 		
+        // Configuración de la base de datos y carga de usuarios
 		try {
 			BaseDeDatos.main(null);
 		} catch (SQLException e1) {
@@ -198,44 +187,45 @@ public class VentanaInicio extends JFrame {
 		
 	}
 	
- // Condiciones de uso al iniciar sesion
+    // Condiciones de uso al iniciar sesion
  	private boolean mostrarCondicionesDeUso() {
          JTextArea textArea = new JTextArea(
                  "¡Bienvenido a Sell-it!\n\n" +
-                         "1.Por favor, lea y acepte los siguientes términos y condiciones antes de continuar:\n\n" +"Política de Privacidad \r\n"
-                         		+ "Fecha de entrada en vigor: [19/01/2024]\r\n"
-                         		+ "La privacidad de nuestros usuarios es de suma importancia para nosotros. Esta política de privacidad describe cómo recopilamos, utilizamos y protegemos la información que usted proporciona al utilizar nuestra aplicación de eventos musicales y discotecas Sell-It Lea esta política detenidamente para comprender nuestras prácticas con respecto a su información y cómo la manejamos.\r\n"
-                         		+ "1. Información que Recopilamos:\r\n"
-                         		+ "•	Información del Usuario: Al crear una cuenta en la aplicación, recopilamos información personal como su nombre, dirección de correo electrónico y detalles de contacto.\r\n"
-                         		+ "•	Información de Pago: Si decide realizar compras dentro de la aplicación, recopilaremos información de pago, como detalles de tarjetas de crédito o cualquier otra información necesaria para procesar transacciones.\r\n"
-                         		+ "•	Información de Eventos y Entradas: Al crear eventos o comprar y revender entradas, recopilamos información relacionada con estos procesos, incluidos detalles del evento, ubicación y precios de las entradas.\r\n"
-                         		+ "2. Uso de la Información:\r\n"
-                         		+ "•	Personalización de la Experiencia del Usuario: Utilizamos la información recopilada para personalizar su experiencia en la aplicación, proporcionándole contenido relevante, recomendaciones de eventos y características adaptadas a sus preferencias.\r\n"
-                         		+ "•	Procesamiento de Transacciones: La información de pago se utiliza exclusivamente para procesar las transacciones que realice dentro de la aplicación, asegurando una compra segura y eficiente de entradas.\r\n"
-                         		+ "•	Mejora Continua: Analizamos datos de uso y patrones de comportamiento para mejorar constantemente la funcionalidad de la aplicación, corregir errores y ofrecer nuevas características.\r\n"
-                         		+ "3. Compartir Información:\r\n"
-                         		+ "•	Usuarios y Empresas: En algunos casos, cierta información puede ser compartida entre usuarios y empresas dentro de la aplicación para facilitar la compra y venta de entradas, así como la gestión de eventos.\r\n"
-                         		+ "•	Terceros de Confianza: Podemos compartir información con terceros de confianza, como procesadores de pago, para garantizar transacciones seguras y eficientes.\r\n"
-                         		+ "4. Seguridad de la Información:\r\n"
-                         		+ "Implementamos medidas de seguridad sólidas para proteger la información contra accesos no autorizados, pérdida, uso indebido o alteración. Sin embargo, ninguna transmisión de datos por internet o almacenamiento electrónico es completamente segura, y no podemos garantizar la seguridad absoluta de la información.\r\n"
-                         		+ "5. Acceso y Control de la Información:\r\n"
-                         		+ "Los usuarios tienen el derecho de acceder, corregir o eliminar la información personal proporcionada en la aplicación. Puede realizar estas acciones directamente a través de la configuración de su cuenta o contactando con nuestro equipo de soporte.\r\n"
-                         		+ "6. Cambios en la Política de Privacidad:\r\n"
-                         		+ "Nos reservamos el derecho de modificar esta política en cualquier momento. Se le notificará sobre cambios significativos mediante notificaciones dentro de la aplicación o por otros medios.\r\n"
-                         		+ "7. Consentimiento:\r\n"
-                         		+ "Al utilizar nuestra aplicación, usted acepta los términos y condiciones de esta política de privacidad.\r\n"
-                         		+ "Si tiene preguntas o inquietudes sobre esta política de privacidad, por favor, contáctenos a través de Sell-It@gmail.com\r\n"
-                         		+ "Gracias por confiar en nosotros para gestionar su experiencia en eventos musicales y discotecas.\r\n"
-                         		+ "Atentamente,\r\n"
-                         		+ "\r\n"
-                         		+ "Sell-It\r\n"
-                         		+
-                         "2. Al utilizar esta aplicación, usted acepta cumplir con los términos y condiciones establecidos.\n" +
-                         "3. Sell-it no se hace responsable por pérdidas o daños derivados del uso de la aplicación.\n" +
-                        // "3. Los usuarios deben proporcionar información precisa durante el registro.\n" +
-                         "4. La venta de entradas está sujeta a disponibilidad y términos específicos de los eventos.\n" +
-                         "5. La información del usuario se utilizará de acuerdo con nuestra política de privacidad.\n\n" +
-                         "6.Al hacer clic en Aceptar, confirma que ha leído y acepta estos términos y condiciones."
+                		" Condiciones Generales:\n\n"+
+                			 "1 - Registro y Cuentas de Usuario:"+
+                			 "Los usuarios deben registrarse en la aplicación proporcionando información precisa y completa.\n"+
+                			 "Cada usuario puede tener un solo perfil, y la información del perfil debe mantenerse actualizada.\n\n"+
+                			 "2 - Categorías de Usuarios:\n\n"+
+                			 "La aplicación puede distinguir entre usuarios normales y entidades. Las entidades pueden ser organizadores de eventos, empresas u otros.\n\n"+
+                			 "3 - Compra y Venta de Entradas:\n\n"+
+                			 "Los usuarios normales pueden comprar y vender entradas para eventos.\n"+
+                			 "Las entidades pueden listar y gestionar eventos, así como vender entradas a través de la plataforma.\n\n"+
+                			 "4 - Información del Evento:\n\n"+
+                			 "Las entidades deben proporcionar información precisa y completa sobre los eventos que organizan.\n"+
+                			 "Los usuarios deben revisar cuidadosamente los detalles del evento antes de comprar las entradas.\n\n"+
+                			 "5 - Tarifas y Pagos:\n\n"+
+                			 "Pueden aplicarse tarifas por transacciones, ya sea al comprar o vender entradas.\n"+
+                			 "Los pagos deben procesarse de manera segura utilizando métodos de pago confiables.\n\n"+
+                			 "6 - Responsabilidad de la Plataforma:\n\n"+
+                			 "La aplicación actúa como un facilitador y no es responsable de la calidad del evento o la conducta de los usuarios y entidades.\n\n"+
+                			 "7 - Contenido Generado por el Usuario:\n\n"+
+                			 "Los usuarios y entidades son responsables del contenido que generan, incluyendo descripciones de eventos y comentarios.\n\n"+
+                			 "8 - Privacidad y Seguridad:\n\n"+
+                			 "La aplicación debe cumplir con normativas de privacidad y seguridad para proteger la información personal de los usuarios.\n\n"+
+                			 "9 - Uso Adecuado:\n\n"+
+                			 "Los usuarios deben utilizar la aplicación de manera ética y legal.\n"+
+                			 "Cualquier comportamiento abusivo, fraudulento o ilegal resultará en la suspensión o eliminación de la cuenta.\n\n"+
+                			 "10 - Modificaciones en los Términos:\n\n"+
+                			 "La aplicación se reserva el derecho de modificar los términos y condiciones, y los usuarios serán notificados de tales cambios.\n\n"+
+                			 "11 - Resolución de Disputas:\n\n"+
+                			 "Se debe establecer un proceso claro para la resolución de disputas entre usuarios y entidades, posiblemente a través de un servicio de atención al cliente.\n\n"+
+                			 "12 - Terminación de Cuenta:\n\n"+
+                			 "La aplicación puede suspender o terminar cuentas que violen los términos y condiciones.\n\n"+
+                			 "13 - Comunicaciones y Notificaciones:\n\n"+
+                			 "Los usuarios pueden recibir comunicaciones y notificaciones importantes a través de la aplicación.\n\n"+
+                			 "14 - Derechos de Propiedad Intelectual:\n\n"+
+                			 "Los usuarios y entidades deben respetar los derechos de propiedad intelectual relacionados con la aplicación y su contenido.\n\n"+
+                         "Al hacer clic en Aceptar, confirma que ha leído y acepta estos términos y condiciones."
          );
          textArea.setEditable(false);
 
@@ -255,10 +245,10 @@ public class VentanaInicio extends JFrame {
                  new Object[]{"Aceptar", "Cancelar"},
                  "Aceptar"
          );
-
-         return option == 0; // Devuelve true si el usuario hizo clic en "Aceptar"
+         return option == 0; 
      }
  
+ 	// Método para mostrar la política de privacidad
  	private void mostrarPoliticaPrivacidad() {
          try {
          	JTextArea textArea = new JTextArea(
@@ -310,23 +300,22 @@ public class VentanaInicio extends JFrame {
  		
      }
  
-
-    
+ 	// Método para validar la estructura de un correo electrónico
 	public static boolean validarCorreo(String correo) {
         if (correo == null || correo.isEmpty()) {
-            return false; // Correo nulo o vacío es inválido
+            return false; 
         }
-
         // Expresión regular para validar un correo electrónico
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
         return correo.matches(regex);
     }
 	
+	// Método para obtener el usuario actual
 	public Usuario getUsuarioActual() {
 		return usuarioActual;
 	}
 	
+	// Método para mostrar u ocultar la contraseña en un campo de texto
 	private void mostrarOcultarContraseña() {
         // Obtener la contraseña actual
         char[] contraseña = txtContrasenia.getPassword();
@@ -340,7 +329,7 @@ public class VentanaInicio extends JFrame {
         txtContrasenia.setText(new String(contraseña));
     }
 	
-	
+	// Método para verificar las credenciales de un usuario
 	private boolean  verificarCredenciales (String correo, String contrasenia) {
 		 if (mapaUsu.containsKey(correo)) {
             Usuario u = base.getUsuarioPorCorreo(correo);
@@ -351,7 +340,7 @@ public class VentanaInicio extends JFrame {
 		        } else {
 		            return false; // La contraseña es incorrecta
 		        }
-	        }else {			//Esta parte es paara comprobar con los usuarios de prueba
+	        }else {			
 	        	if (contrasenia.equals(hashAlmacenado)) {
 	                return true; // La contraseña sin encriptar es correcta
 	            } else {
@@ -363,6 +352,7 @@ public class VentanaInicio extends JFrame {
 		 }
 	}
 	
+	// Método para obtener el nombre de usuario a partir del correo
 	public String obtenerNombreUsuario(String correo) {
 		if (mapaUsu.containsKey(correo)) {
 	        Usuario usuario = mapaUsu.get(correo);
@@ -372,11 +362,7 @@ public class VentanaInicio extends JFrame {
 	    }
 	}
 
-	public static void cargarUsuariosInicio() {		
-		
-
-	}
-	
+	// Método para redimensionar una imagen para un botón
 	private static ImageIcon fotoBoton(ImageIcon imagenOjo) {
         int maxWidth = 20; // Tamaño máximo de ancho
         int maxHeight = 20; // Tamaño máximo de alto
@@ -395,10 +381,11 @@ public class VentanaInicio extends JFrame {
         return imagenOjo;
 	}
 	
-	
+    // Clase interna para el campo de contraseña personalizado con botón
 	private static class CustomPasswordField extends JPasswordField {
         private JButton button;
 
+        // Constructor de la clase interna
         public CustomPasswordField() {
             super();
             button = new JButton();
@@ -406,6 +393,7 @@ public class VentanaInicio extends JFrame {
             add(button, BorderLayout.EAST);
             button.setPreferredSize(new Dimension(30, 10));
 
+            // Evento del botón para mostrar/ocultar la contraseña
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -422,7 +410,7 @@ public class VentanaInicio extends JFrame {
                 }
             });
         }
-
+        // Método para obtener el botón asociado al campo de contraseña
         public JButton getButton() {
             return button;
         }
