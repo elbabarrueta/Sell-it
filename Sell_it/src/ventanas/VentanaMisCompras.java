@@ -48,6 +48,7 @@ public class VentanaMisCompras extends JFrame {
         cargarEntradasCompradas();
         this.setVisible(true);
         
+       //ActionListenner que  abre la ventanaPerfilEntidad o ventanaPerfilUsuario
         bMiPerfil.addActionListener(new ActionListener() {
     		
     		@Override
@@ -63,7 +64,7 @@ public class VentanaMisCompras extends JFrame {
     		}
     	});
     }
-
+//Metodo que carga en una lista las entradas comrpadas
     private void cargarEntradasCompradas() {
         List<Entrada> entradasCompradas = BaseDeDatos.obtenerEntradasCompradas(usuario);
         modeloInfo.setDatos(entradasCompradas);

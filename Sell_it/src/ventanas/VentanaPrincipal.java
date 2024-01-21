@@ -108,7 +108,7 @@ public class VentanaPrincipal extends JFrame{
 			getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 
-
+//SearchField que actualiza los eventos visualizados
 			searchField.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
@@ -118,6 +118,7 @@ public class VentanaPrincipal extends JFrame{
 	            }
 	        });
 			
+//ActionListenner que abre la ventanaPerfilUsuario o ventanaPrefilEntidad
 			bPerfil.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -127,14 +128,16 @@ public class VentanaPrincipal extends JFrame{
 					if("Usuario corriente".equals(tipoUsu)) {
 						dispose();
 						VentanaPerfilUsuario ventanaPerfilUsuario = new VentanaPerfilUsuario(usuActual, null);
-						//ventanaPerfilUsuario.setVisible(true);
+						
 					}else {
 						dispose();
 						VentanaPerfilEntidad ventanaPerfilEntidad = new VentanaPerfilEntidad(usuActual);	
-						//ventanaPerfilEntidad.setVisible(true);
+						
 					}
 				}
 			});
+			
+			//ActionListenner que abre la ventanaVentaNormal o ventanaVentaEntidad
 			bVenta.addActionListener(new ActionListener() {
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
@@ -180,7 +183,9 @@ public class VentanaPrincipal extends JFrame{
 	            	guardarEventosBuscados();
 	            }
 	        });
-		}		
+		}	
+	    
+	    //Metodo que guarda los eventos buscados
 	    
 	    private void guardarEventosBuscados() {
 	    	try { 
@@ -195,6 +200,8 @@ public class VentanaPrincipal extends JFrame{
 	    		e.printStackTrace();
 	    	}
 	    }
+	    
+	    //Metodo que carga los eventos buscados
 	    private void cargarEventosBuscados() {
 	    	try {
 	    		FileInputStream fin = new FileInputStream("eventosBuscados.dat");
@@ -208,6 +215,7 @@ public class VentanaPrincipal extends JFrame{
     		}
 	    }
 	    
+	    //Metodo que crea el panelEventos y establece sus caracteristicas
 	    private JPanel crearPanelEventos(String titulo, JPanel panelEventos) {
 	        JPanel panel = new JPanel();
 	        panel.setLayout(new BorderLayout());
@@ -221,6 +229,7 @@ public class VentanaPrincipal extends JFrame{
 	        return panel;
 	    }
 	    
+	    //metodo que visualiza los eventos
 	    public void visualizarEventos(List<Evento> eventos, JPanel panel) {
 	    	panel.removeAll();
 	    	if(eventos != null) {
@@ -237,6 +246,8 @@ public class VentanaPrincipal extends JFrame{
 	    	panel.revalidate(); 
 	        panel.repaint();
 	    }
+	    
+	    //Metodo que carga los eventos de la base de datos
 	    public List<Evento> cargarEventosDesdeBD() {
 
 	        List<Evento> listaEventos = BaseDeDatos.obtenerListaEventos();
@@ -245,6 +256,7 @@ public class VentanaPrincipal extends JFrame{
 
 	    }
 	    
+	    //Metodo que devuelve los eventos destacados
 	    private List<Evento> getEventosDestacados(int cantidad) {
 	    	return eventosBuscados.entrySet()
 	                .stream()
@@ -261,7 +273,7 @@ public class VentanaPrincipal extends JFrame{
 	                .collect(Collectors.toList());
 		}
 
-	    
+	    //metodo que filtra los eventos por palabras
 	    private List<Evento> filtrarEventosPorPalabrasClave(String palabrasClave) {
 	        List<Evento> eventosFiltrados = new ArrayList<>();
 	        for (Evento evento : BaseDeDatos.obtenerListaEventos()) {
@@ -302,7 +314,7 @@ public class VentanaPrincipal extends JFrame{
 	    	visualizarEventos(filtradoRev, pEventosReventa);
 	    }
 	    
-	    //Hay que hacer el metodo
+	    //metodo que obtiene los eventos de reventa
 		private List<Evento> getEventosDeReventa() {
 			List<Evento> eventosReventa = new ArrayList<>();
 			List<Entrada> entradasReventa = BaseDeDatos.obtenerListaEntradasReventa();
@@ -313,7 +325,7 @@ public class VentanaPrincipal extends JFrame{
 	    	}
 			return eventosReventa;
 		}
-
+//Metodo que obtiene el tipo de usuario
 		private String obtenerTipoUsuario(String nom) {
 			Usuario usuario = baseDeDatos.getUsuarioPorCorreo(nom);
 			if(usuario != null) {
@@ -394,7 +406,7 @@ public class VentanaPrincipal extends JFrame{
 		        lblImagen.setBounds(10, 14, 331, 150);
 				add(lblImagen);
 		    }
-
+//Metodo que carga la imagen
 		    private void cargarImagen(String rutaImagen) {
 		    	ImageIcon imagen;
 		    	if (rutaImagen != null) {
@@ -414,11 +426,12 @@ public class VentanaPrincipal extends JFrame{
 		        fotoPerfil(imagen);
 
 		    }
+		    //Metodo que obtiene la imagen por defecto
 		    private ImageIcon obtenerImagenPorDefecto() {
 		        return new ImageIcon(getClass().getResource("/imagenes/default.png"));
 		    }
 		}
-		
+		//Metodo que establece la foto y sus caracteristicas
 		private static  void fotoPerfil(ImageIcon imagenPerfil) {
 	        int maxWidth = 350; // Tamaño máximo de ancho
 	        int maxHeight = 150; // Tamaño máximo de alto

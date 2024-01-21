@@ -93,6 +93,8 @@ public class VentanaReventa extends JFrame{
 	    JButton botonVal  = new JButton("Valora el creador");
 		pEvento.add(botonVal);
         pEvento.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // Añade espacio debajo del botón
+        
+        //ActionListenner que abre la ventanaValoracion
         botonVal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +124,7 @@ public class VentanaReventa extends JFrame{
 		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		pnlBotones.add(btnComprar);
 		
+		//actionListenner que abre la ventanaPrincipal
 		btnVolver.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -130,6 +133,7 @@ public class VentanaReventa extends JFrame{
 			}
 		});
 		
+		//ActionListenner que abre la ventanaCompraReventa
 		btnComprar.addActionListener(new ActionListener() {
 
 			@Override
@@ -144,6 +148,8 @@ public class VentanaReventa extends JFrame{
 		});
 
 	}
+	
+	//Metodo que devuelve devuelve la cantidad de entradas compradas
 	public int entradasCompradas() {
 		try {
 	        int cantidadComprar = Integer.parseInt(tfCantidad.getText());
@@ -156,6 +162,7 @@ public class VentanaReventa extends JFrame{
         
     };
 	
+    //Metodo que establace la fot y dimensiones de las entradas
 	public void setImagen(ImageIcon imagen) {
 		int maxWidth = 200; // Tamaño máximo de ancho
         int maxHeight = 200; // Tamaño máximo de alto

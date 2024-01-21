@@ -100,6 +100,7 @@ public class VentanaReventaUsuario extends JFrame{
         // Configuración adicional
         AutoCompleteDecorator.decorate(cbEntradas); // Añadir funcionalidad de autocompletado
 		
+        //ActionListenner que abre la ventanaPerfilUsuario
 		bMiperfil.addActionListener(new ActionListener() {
 			
 			@Override
@@ -110,6 +111,7 @@ public class VentanaReventaUsuario extends JFrame{
 			}
 		});
 		
+		//ActionListenner que abre la ventanaPrincipal
 		bVprincipal.addActionListener(new ActionListener() {
 			
 			@Override
@@ -119,7 +121,8 @@ public class VentanaReventaUsuario extends JFrame{
 				vPrincipal.setVisible(true);
 			}
 		});
-	
+		
+	//ActionListenner que sube entradas
 		bSubir.addActionListener(new ActionListener() {
 			
 			@Override
@@ -167,7 +170,7 @@ public class VentanaReventaUsuario extends JFrame{
 		});
 		setVisible(true);
 	}
-	
+	//Metodo que carga las entradas de la base de datos en una lista
 	private void cargarEntradasCompradas() {
 	    List<Entrada> entradasCompradasList = BaseDeDatos.obtenerEntradasCompradas(usuario);
 	    cbEntradas.removeAllItems();
