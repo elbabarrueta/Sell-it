@@ -46,6 +46,8 @@ public class VentanaLogoPrincipal extends JFrame {
         progressBar.setStringPainted(true);
 
         JButton botonCerrarSesion = new JButton("Cerrar Sesión");
+        
+        //ActionListenner que cierra la sesion
         botonCerrarSesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,7 +77,8 @@ public class VentanaLogoPrincipal extends JFrame {
         // Inicia el hilo de cuenta regresiva y progreso aleatorio
         contarRegresivamente(mensaje, progressBar);
     }
-
+    
+//Metodo que cuenta regresivamente 
     private void contarRegresivamente(JLabel mensaje, JProgressBar progressBar) {
         AtomicInteger segundosRestantes = new AtomicInteger(4);
 

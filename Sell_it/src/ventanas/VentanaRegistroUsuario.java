@@ -70,6 +70,7 @@ public class VentanaRegistroUsuario extends JFrame {
         // Establecer la posición de la ventana
         this.setBounds(posX, posY, ventanaAncho, ventanaAlto);
 		
+        //Declaración de los paneles, botones,etc.
 		JPanel panelRegistroUsuario = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
@@ -127,6 +128,8 @@ public class VentanaRegistroUsuario extends JFrame {
         panelSur.add(btnVolver);
 
 		//Eventos
+        
+      //ActionListenner que devuelve al usuario  a la ventanaInicio
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,7 +140,7 @@ public class VentanaRegistroUsuario extends JFrame {
             }
         });
       
-        // Validar la contraseña ingresada por el usuario.
+      //ActionListenner que raliza el registro de las entidades y la validación de los datos introducidos
 		btnRegistro.addActionListener((e)->{
 			Pattern patronContrasenia = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
             char[] contrasenia = txtContrasenia.getPassword();

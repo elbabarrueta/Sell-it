@@ -68,6 +68,7 @@ public class VentanaRegistroEntidad extends JFrame{
         // Establecer la posición de la ventana
         this.setBounds(posX, posY, ventanaAncho, ventanaAlto);
 		
+        //Declaración de paneles, botnes, etc.
 		JPanel panelRegistroEntidad = new JPanel(new BorderLayout());
 		JPanel panelNorte = new JPanel(new BorderLayout());
 		JPanel panelSur = new JPanel(new BorderLayout());
@@ -112,6 +113,8 @@ public class VentanaRegistroEntidad extends JFrame{
 		txtTipo.setEditable(false);
 		pTipo.add(lblTipo);
 		pTipo.add(txtTipo);
+		
+		//Añadir elementos al panelCentro
 
 		panelCentro.add(pNom);
 		panelCentro.add(pCorreo);
@@ -125,6 +128,8 @@ public class VentanaRegistroEntidad extends JFrame{
         panelSur.add(btnVolver);
 
 		//Eventos
+        
+        //ActionListenner que devuelve a la  entidad  a la ventanaInicio
         btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -135,6 +140,7 @@ public class VentanaRegistroEntidad extends JFrame{
             }
         });
 		
+        //ActionListenner que raliza el registro de las entidades y la validaion de los datos introducidos
 		btnRegistro.addActionListener((e)->{
 			Pattern patronContrasenia = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$");
             char[] contrasenia = txtContrasenia.getPassword();
