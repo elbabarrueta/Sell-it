@@ -940,6 +940,29 @@ public void verUsuarios() {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public static void marcarEntradaComoCompradaPartiendoDeReventa(Integer codigoEntrada, String correoComprador, double precio) {
+	    String com = "UPDATE Entrada SET propietario_correo = ?, precio = ? WHERE codigo = ?";
+	    logger.log(Level.INFO, "BD: " + com);
+
+	    try (PreparedStatement preparedStatement = con.prepareStatement(com)) {
+	        preparedStatement.setString(1, correoComprador);
+	        preparedStatement.setInt(3, codigoEntrada);
+	        preparedStatement.setDouble(2, precio);
+
+	        int rowsAffected = preparedStatement.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("Entrada marcada como comprada exitosamente.");
+	        } else {
+	            System.out.println("No se pudo marcar la entrada como comprada.");
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("Último comando: " + com);
+	        e.printStackTrace();
+	    }
+	}
 
 	/**
 	 * Obtiene el correo del propietario de una entrada en la base de datos.

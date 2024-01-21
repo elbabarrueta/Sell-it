@@ -403,13 +403,13 @@ public class VentanaCompraReventa extends JFrame{
 	    if(verificarCampoTelefono() == true && validarCorreo(tfCorreo.getText())) {
 	    	
 
-	    	
+	    	double precioTot = bd.obtenerPrecioEntradaReventa(idReventa);
 	    	// Contador para rastrear cuántas entradas se han marcado como compradas
 	    	List<Entrada> reventas = BaseDeDatos.obtenerListaEntradasReventa();
 			int codigoEntrada = idReventa;
 	         if (existeCodigoEntradaEnReventas(codigoEntrada, reventas)) {
 	        	 bd.borrarEntradaReventa(codigoEntrada);
-	             bd.marcarEntradaComoComprada(codigoEntrada, usuario.getCorreoUsuario());
+	        	 bd.marcarEntradaComoCompradaPartiendoDeReventa(codigoEntrada, usuario.getCorreoUsuario(), precioTot);
 	         }
 
 	    	tfTfno.setBackground(new Color(240, 255, 240));
