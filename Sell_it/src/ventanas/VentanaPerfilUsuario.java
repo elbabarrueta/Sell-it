@@ -75,6 +75,8 @@ public class VentanaPerfilUsuario extends JFrame{
 		nameField.setEditable(false);
 	    emailField.setEditable(false);
 	    
+	    //Adicion de botones y labels al panel topPanel
+	    
 	    JButton btnValoraciones = new JButton("Valoraciones");
 	    JButton btnNotificaciones = new JButton("Notificaciones");
 	    topPanel.add(lblFotoPerfil);
@@ -115,6 +117,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    this.add(descriptionScrollPane, BorderLayout.CENTER);
 	    this.add(bottomPanel, BorderLayout.SOUTH);
 	    
+	    //ActionListenner que abre una ventana para ver las valoraciones
 	    btnValoraciones.addActionListener(new ActionListener() {
 			
 			@Override
@@ -127,6 +130,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			}
 		});
 	    
+	    //ActionListenner que abre la ventanaPrincipal
 	    botonVentanaP.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -135,6 +139,8 @@ public class VentanaPerfilUsuario extends JFrame{
 				v.setVisible(true);
 			}
 		});
+	    
+	    //ActionListenner que abre la ventanaMisCompras
 	    btnMisCompras.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -144,6 +150,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			}
 		});
 	    
+	    //ActionListenner que abre la ventaanEntradasEnReventaTabla
 	    btnEnVenta.addActionListener(new ActionListener() {
 			
 			@Override
@@ -154,6 +161,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			}
 		});
 	    
+	    //ActionListenner que cambia la contraseña del usuario
 	    buttonContrasena.addActionListener(new ActionListener() {
 			
 			@Override
@@ -220,6 +228,7 @@ public class VentanaPerfilUsuario extends JFrame{
 	    JButton botonCambiarFoto = new JButton("Cambiar foto de perfil");
 	    botonCambiarFoto.setVisible(false);
 	    
+	    //ActionListenner que cambia la contraseña	    
 	    buttonEditar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -239,6 +248,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			}
 		});
 	    
+	    //ActionListenner que cambia la foto de perfil
 	    botonCambiarFoto.addActionListener(new ActionListener() {
 			
 			@Override
@@ -267,6 +277,7 @@ public class VentanaPerfilUsuario extends JFrame{
 			}
 		});
 	    
+	    //ActionListenner que guarda los cambios del peril del usuario
 	    botonGuardarCambios.addActionListener(new ActionListener() {
 			
 			@Override
@@ -298,7 +309,9 @@ public class VentanaPerfilUsuario extends JFrame{
 		});
 	    bottomPanel.add(botonGuardarCambios);
 	    bottomPanel.add(botonCambiarFoto);
-
+	    
+	    
+//ActionListenner que muestra las notificaciones
 	    btnNotificaciones.addActionListener(new ActionListener() {
 	    	@Override
 	    	public void actionPerformed(ActionEvent e) {
@@ -312,10 +325,12 @@ public class VentanaPerfilUsuario extends JFrame{
 	    setLocationRelativeTo(null); // Centra la ventana
 	    this.setVisible(true);
 	}	
+	
+	//Metodo que deja editar la descripcion
 	private void setEditableDescripcion(boolean editable) {
 		descriptionArea.setEditable(editable);
 	}
-	
+	//Metodo que muestra las notificaciones
 	private void mostrarNotificaciones() {
     	usuario.cargarNotificacionesDesdeBD();
         List<Notificacion> notificaciones = usuario.getNotificaciones();
@@ -337,6 +352,7 @@ public class VentanaPerfilUsuario extends JFrame{
        }
     }
 	
+	//Metodo que establece la foto de perfil y sus dimensiones
 	private void fotoPerfil(ImageIcon imagenPerfil) {
         int maxWidth = 100; // Tamaño máximo de ancho
         int maxHeight = 100; // Tamaño máximo de alto
